@@ -2,6 +2,8 @@ package com.lifegamer.fengmaster.lifegamer.model.randomreward;
 
 /**
  * Created by qianzise on 2017/10/5.
+ *
+ * 概率型成就奖励
  */
 
 public class AchievementReward extends AbsRandomReward {

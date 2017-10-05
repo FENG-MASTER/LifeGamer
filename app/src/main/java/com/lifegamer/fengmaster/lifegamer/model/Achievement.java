@@ -21,6 +21,11 @@ public class Achievement {
     private String name;
 
     /**
+     * 成就分类
+     */
+    private String type;
+
+    /**
      * 成就图标
      */
     private String icon;
@@ -112,5 +117,13 @@ public class Achievement {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

@@ -5,7 +5,7 @@ import java.util.Random;
 /**
  * Created by qianzise on 2017/10/5.
  *
- * 概率型奖励
+ * 概率型物品奖励
  */
 
 public class ItemReward extends AbsRandomReward{

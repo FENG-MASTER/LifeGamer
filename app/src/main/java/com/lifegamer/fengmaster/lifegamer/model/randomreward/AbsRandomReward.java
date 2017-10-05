@@ -4,6 +4,8 @@ import java.util.Random;
 
 /**
  * Created by qianzise on 2017/10/5.
+ *
+ * 概率型奖励抽象类
  */
 
 public abstract class AbsRandomReward {
