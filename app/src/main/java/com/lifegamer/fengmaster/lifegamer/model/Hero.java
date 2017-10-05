@@ -51,12 +51,40 @@ public class Hero {
     private String introduction;
     private String avatarUrl;
 
+    private int level;
+    private int xp;
+    private int upGradeXP;
+
     private Hero() {
 
     }
 
     public static Hero getInstance() {
         return instance;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getXp() {
+        return xp;
+    }
+
+    public void setXp(int xp) {
+        this.xp = xp;
+    }
+
+    public int getUpGradeXP() {
+        return upGradeXP;
+    }
+
+    public void setUpGradeXP(int upGradeXP) {
+        this.upGradeXP = upGradeXP;
     }
 
     public String getName() {

@@ -111,6 +111,8 @@ public class Task {
      * 任务失败后失去的物品列表
      * <p>
      * key-物品名称 val-物品个数
+     *
+     * TODO:需要提供转换到字符串的方法,用于数据库存储
      */
     private List<ItemReward> failureItems;
     /**
@@ -153,15 +155,28 @@ public class Task {
     /**
      * 完成任务的次数
      */
-    private int completeTime;
+    private int completeTimes;
     /**
      * 任务失败次数
      */
-    private int failureTime;
+    private int failureTimes;
     /**
      * 前置任务ID列表
      */
     private List<Integer> preTasks;
+
+    /**
+     * 笔记ID
+     */
+    private List<Integer> notes;
+
+    public List<Integer> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<Integer> notes) {
+        this.notes = notes;
+    }
 
     public boolean isAutoFail() {
         return isAutoFail;
@@ -339,20 +354,20 @@ public class Task {
         this.updateTime = updateTime;
     }
 
-    public int getCompleteTime() {
-        return completeTime;
+    public int getCompleteTimes() {
+        return completeTimes;
     }
 
-    public void setCompleteTime(int completeTime) {
-        this.completeTime = completeTime;
+    public void setCompleteTimes(int completeTimes) {
+        this.completeTimes = completeTimes;
     }
 
-    public int getFailureTime() {
-        return failureTime;
+    public int getFailureTimes() {
+        return failureTimes;
     }
 
-    public void setFailureTime(int failureTime) {
-        this.failureTime = failureTime;
+    public void setFailureTimes(int failureTimes) {
+        this.failureTimes = failureTimes;
     }
 
     public List<Integer> getPreTasks() {

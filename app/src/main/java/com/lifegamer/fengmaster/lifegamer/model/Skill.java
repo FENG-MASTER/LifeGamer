@@ -1,10 +1,11 @@
 package com.lifegamer.fengmaster.lifegamer.model;
 
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by qianzise on 2017/10/4.
- *
+ * <p>
  * 技能对象
  */
 public class Skill {
@@ -53,6 +54,33 @@ public class Skill {
      * 笔记ID
      */
     private List<Integer> notes;
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+
+    /**
+     * 更新时间
+     */
+    private Date updateTime;
+
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 
     public String getIcon() {
         return icon;
@@ -110,14 +138,6 @@ public class Skill {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getXP() {
         return XP;
     }
@@ -126,14 +146,21 @@ public class Skill {
         this.XP = XP;
     }
 
-
-    @Override
-    public boolean equals(Object obj) {
-        return name.equals(((Skill)obj).getName());
-    }
-
     @Override
     public int hashCode() {
         return name.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return name.equals(((Skill) obj).getName());
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -1,6 +1,7 @@
 package com.lifegamer.fengmaster.lifegamer.model;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by qianzise on 2017/10/4.
@@ -46,6 +47,11 @@ public class Achievement {
     private Date gainTime;
 
     /**
+     * 笔记ID
+     */
+    private List<Integer> notes;
+
+    /**
      * 创建时间
      */
     private Date createTime;
@@ -54,6 +60,14 @@ public class Achievement {
      * 更新时间
      */
     private Date updateTime;
+
+    public List<Integer> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<Integer> notes) {
+        this.notes = notes;
+    }
 
     public int getId() {
         return id;

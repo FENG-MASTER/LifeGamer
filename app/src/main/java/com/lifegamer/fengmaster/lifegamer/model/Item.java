@@ -1,6 +1,7 @@
 package com.lifegamer.fengmaster.lifegamer.model;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by qianzise on 2017/10/4.
@@ -48,6 +49,19 @@ public class Item {
      * 更新时间
      */
     private Date updateTime;
+
+    /**
+     * 笔记ID
+     */
+    private List<Integer> notes;
+
+    public List<Integer> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<Integer> notes) {
+        this.notes = notes;
+    }
 
     public int getId() {
         return id;
