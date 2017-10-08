@@ -1,0 +1,97 @@
+<layout>
+    <data>
+        <variable
+            name="hero"
+            type="com.lifegamer.fengmaster.lifegamer.model.Hero"/>
+
+    </data>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:tools="http://schemas.android.com/tools"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  xmlns:app="http://schemas.android.com/apk/res-auto"
+                  tools:context="com.lifegamer.fengmaster.lifegamer.fragment.TopInfoFragment"
+                  android:orientation="vertical">
+
+        <LinearLayout
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+            <com.lifegamer.fengmaster.lifegamer.wight.SqureImageView
+                android:layout_weight="2"
+                android:scaleType="fitCenter"
+                android:src="@drawable/test1"
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
+
+            <LinearLayout
+                android:layout_weight="5"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/tv_top_name"
+                    android:layout_weight="1"
+                    android:text="@{hero.name}"
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_weight="1"
+                    android:text="@{hero.title}"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_gravity="right"
+                    android:layout_weight="1"
+                    android:text="70"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_gravity="right"
+                    android:layout_weight="1"
+                    android:textColor="#fff000"
+                    android:text="2"
+                    android:textSize="20sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <com.lifegamer.fengmaster.lifegamer.wight.ProgressBar
+            android:layout_margin="2dp"
+            app:progress="20"
+            app:finishColor="@color/colorXP"
+            app:unFinishColor="@color/colorRemain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <com.lifegamer.fengmaster.lifegamer.wight.ProgressBar
+            app:progress="20"
+            android:layout_margin="2dp"
+            app:finishColor="@color/colorRemainTime"
+            app:unFinishColor="@color/colorRemain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </LinearLayout>
+
+</layout>

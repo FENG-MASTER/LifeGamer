@@ -2,6 +2,7 @@ package com.lifegamer.fengmaster.lifegamer;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.widget.Toast;
 
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
@@ -20,15 +21,10 @@ public class App extends Application {
         mContext=getApplicationContext();
     }
 
+
     public static Context getContext(){
         return mContext;
     }
 
-    public static void showToast(String message,int time){
-        Toast.makeText(mContext,message,time).show();
-    }
 
-    public static void showToast(String message){
-        Toast.makeText(mContext,message,Toast.LENGTH_SHORT).show();
-    }
 }

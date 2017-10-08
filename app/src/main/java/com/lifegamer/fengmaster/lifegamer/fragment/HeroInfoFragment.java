@@ -12,10 +12,10 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.lifegamer.fengmaster.lifegamer.App;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.model.Hero;
+import com.lifegamer.fengmaster.lifegamer.util.ViewUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,7 +60,7 @@ public class HeroInfoFragment extends Fragment implements CompoundButton.OnCheck
     @Override
     public void onResume() {
         super.onResume();
-        App.showToast("修改完后把复选框的勾勾去掉才能保存哦!");
+        ViewUtil.showSnack("修改完后把复选框的勾勾去掉才能保存哦!");
     }
 
     private void initView() {
