@@ -1,15 +1,33 @@
 package com.lifegamer.fengmaster.lifegamer.dao;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.lifegamer.fengmaster.lifegamer.App;
+import com.lifegamer.fengmaster.lifegamer.model.Hero;
+import com.lifegamer.fengmaster.lifegamer.model.Skill;
 
 /**
  * Created by qianzise on 2017/10/5.
  */
 
 public class DBHelper extends SQLiteOpenHelper {
+
+    private static DBHelper instance;
+
+    public static DBHelper getInstance(){
+        if (instance==null){
+            synchronized (DBHelper.class){
+                if (instance==null){
+                    instance=new DBHelper(App.getContext());
+                }
+            }
+        }
+        return instance;
+    }
 
     private static final String DB_NAME="lifeGamer.db";
 
@@ -21,11 +39,14 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TABLE_REWARD="Rewards";
     public static final String TABLE_SKILL="Skills";
 
+    private SQLiteDatabase writeDB;
+    private SQLiteDatabase readDB;
+
     /**
      * 创建 英雄 表
      */
     private static final String CREATE_TABLE_HERO="create table if not exists "+TABLE_HERO+
-            "( id integer primary key autoincrement," +
+            "( _id integer primary key autoincrement," +
             "name varchar," +
             "title varchar,"+
             "level integer," +
@@ -38,7 +59,7 @@ public class DBHelper extends SQLiteOpenHelper {
      * 创建 技能 表
      */
     private static final String CREATE_TABLE_SKILL="create table if not exists "+TABLE_SKILL+
-            "( id integer primary key autoincrement," +
+            "( _id integer primary key autoincrement," +
             "name varchar unique ," +
             "xp integer," +
             "level integer," +
@@ -47,28 +68,28 @@ public class DBHelper extends SQLiteOpenHelper {
             "upGradeXP integer," +
             "icon varchar," +
             "notes text," +
-            "integer createTime," +
-            "integer updateTime)";
+            "createTime integer," +
+            "updateTime integer)";
 
     /**
      * 创建 物品 表
      */
     private static final String CREATE_TABLE_ITEM="create table if not exists "+TABLE_ITEM+
-            "( id integer primary key autoincrement," +
+            "( _id integer primary key autoincrement," +
             "name varchar unique," +
             "desc varchar," +
             "quantity integer," +
             "icon varchar," +
             "expendable boolean," +
             "notes text," +
-            "integer createTime," +
-            "integer updateTime)";
+            "createTime integer," +
+            "updateTime integer)";
 
     /**
      * 创建 成就 表
      */
     private static final String CREATE_TABLE_ACHIEVEMENT="create table if not exists "+TABLE_ACHIEVEMENT+
-            "( id integer primary key autoincrement," +
+            "( _id integer primary key autoincrement," +
             "name varchar unique," +
             "type varchar," +
             "icon varchar," +
@@ -83,7 +104,7 @@ public class DBHelper extends SQLiteOpenHelper {
      * 创建 奖励 表
      */
     private static final String CREATE_TABLE_REWARD="create table if not exists "+TABLE_REWARD+
-            "( id integer primary key autoincrement," +
+            "( _id integer primary key autoincrement," +
             "name varchar unique," +
             "type varchar," +
             "icon varchar" +
@@ -93,19 +114,24 @@ public class DBHelper extends SQLiteOpenHelper {
             "notes text" +
             "costLP integer," +
             "quantityAvailable integer," +
-            "gainTime integer,createTime integer,updateTime integer)";
+            "gainTime integer," +
+            "createTime integer," +
+            "updateTime integer)";
 
     /**
      * 创建 笔记 表
      */
     private static final String CREATE_TABLE_NOTE="create table if not exists "+TABLE_NOTE+
-            "( id integer primary key autoincrement," +
+            "( _id integer primary key autoincrement," +
             "text text," +
             "crateTime integer," +
             "updateTime integer)";
 
+    /**
+     * 创建 任务 表
+     */
     private static final String CREATE_TABLE_TASK="create table if not exists "+TABLE_TASK+
-            "( id integer primary key autoincrement," +
+            "( _id integer primary key autoincrement," +
             "name varchar unique," +
             "desc varchar," +
             "isAutoFail boolean," +
@@ -134,17 +160,25 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
 
-    public DBHelper(Context context){
+    private DBHelper(Context context){
         super(context,DB_NAME,null,1);
+        init();
     }
 
 
-    public DBHelper(Context context, SQLiteDatabase.CursorFactory factory, int version) {
+    private DBHelper(Context context, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DB_NAME, factory, version);
+        init();
     }
 
-    public DBHelper(Context context, SQLiteDatabase.CursorFactory factory, int version, DatabaseErrorHandler errorHandler) {
+    private DBHelper(Context context, SQLiteDatabase.CursorFactory factory, int version, DatabaseErrorHandler errorHandler) {
         super(context, DB_NAME, factory, version, errorHandler);
+        init();
+    }
+
+    private void init(){
+        writeDB=getWritableDatabase();
+        readDB=getReadableDatabase();
     }
 
     @Override
@@ -152,11 +186,52 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_TABLE_HERO);
         sqLiteDatabase.execSQL(CREATE_TABLE_SKILL);
         sqLiteDatabase.execSQL(CREATE_TABLE_ITEM);
+        sqLiteDatabase.execSQL(CREATE_TABLE_ACHIEVEMENT);
+        sqLiteDatabase.execSQL(CREATE_TABLE_NOTE);
+        sqLiteDatabase.execSQL(CREATE_TABLE_REWARD);
+        sqLiteDatabase.execSQL(CREATE_TABLE_TASK);
+
 
     }
+
+
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
     }
+
+    public boolean addHero(Hero hero){
+        long l = hero.insert(writeDB);
+        return l!=0;
+    }
+
+    public boolean updateHero(Hero hero){
+        int i = hero.update(writeDB);
+        return i!=0;
+    }
+
+    public Hero getHero(int id){
+        
+        Cursor query = readDB.query(TABLE_HERO, null, "_id=?", new String[]{String.valueOf(id)}, null, null, null);
+        if (query==null||query.getCount()==0||!query.moveToNext()){
+            return null;
+        }
+        Hero hero=new Hero();
+
+        hero.setName(query.getString(query.getColumnIndex("name")));
+        hero.setAvatarUrl(query.getString(query.getColumnIndex("avatar")));
+        hero.setIntroduction(query.getString(query.getColumnIndex("introduction")));
+        hero.setLevel(query.getInt(query.getColumnIndex("level")));
+        hero.setTitle(query.getString(query.getColumnIndex("title")));
+        hero.setUpGradeXP(query.getInt(query.getColumnIndex("upGradeXP")));
+        hero.setXp(query.getInt(query.getColumnIndex("xp")));
+
+        query.close();
+
+        return hero;
+
+
+    }
+
 }

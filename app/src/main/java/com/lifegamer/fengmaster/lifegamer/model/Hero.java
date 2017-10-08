@@ -1,10 +1,13 @@
 package com.lifegamer.fengmaster.lifegamer.model;
 
-import com.lifegamer.fengmaster.lifegamer.manager.AchievementManager;
-import com.lifegamer.fengmaster.lifegamer.manager.ItemManager;
-import com.lifegamer.fengmaster.lifegamer.manager.SkillManager;
-import com.lifegamer.fengmaster.lifegamer.manager.TaskManager;
-import com.lifegamer.fengmaster.lifegamer.manager.WealthManager;
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.lifegamer.fengmaster.lifegamer.App;
+import com.lifegamer.fengmaster.lifegamer.R;
+import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
+import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
+import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IAchievementManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IItemManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.INoteManager;
@@ -16,37 +19,11 @@ import com.lifegamer.fengmaster.lifegamer.manager.itf.IWealthManager;
  * Created by qianzise on 2017/10/4.
  */
 
-public class Hero {
-    private static Hero instance = new Hero();
+public class Hero implements Insertable,Updateable{
 
-    /**
-     * 物品管理器
-     */
-    private IItemManager itemManager;
-    /**
-     * 成就管理器
-     */
-    private IAchievementManager achievementManager;
-    /**
-     * 技能管理器
-     */
-    private ISkillManager skillManager;
-    /**
-     * 财富管理器
-     */
-    private IWealthManager wealthManager;
-    /**
-     * 任务管理器
-     */
-    private ITaskManager taskManager;
-
-    /**
-     * 笔记管理器
-     */
-    private INoteManager noteManager;
 
     private String name;
-    private int id = 1;
+    private int id ;
     private String title;
     private String introduction;
     private String avatarUrl;
@@ -55,13 +32,6 @@ public class Hero {
     private int xp;
     private int upGradeXP;
 
-    private Hero() {
-
-    }
-
-    public static Hero getInstance() {
-        return instance;
-    }
 
     public int getLevel() {
         return level;
@@ -124,27 +94,43 @@ public class Hero {
         this.avatarUrl = avatarUrl;
     }
 
-    public IItemManager getItemManager() {
-        return itemManager;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public IAchievementManager getAchievementManager() {
-        return achievementManager;
+    @Override
+    public int update(SQLiteDatabase sqLiteDatabase) {
+        ContentValues cv=new ContentValues();
+        cv.put("name",getName());
+        cv.put("title",getTitle());
+        cv.put("introduction",getIntroduction());
+        cv.put("avatar",getAvatarUrl());
+        cv.put("level",getLevel());
+        cv.put("xp",getXp());
+        cv.put("upGradeXP",getUpGradeXP());
+        return sqLiteDatabase.update(DBHelper.TABLE_HERO,cv,"_id =?",new String[]{String.valueOf(getId())});
     }
 
-    public ISkillManager getSkillManager() {
-        return skillManager;
+    @Override
+    public long insert(SQLiteDatabase sqLiteDatabase) {
+        ContentValues cv=new ContentValues();
+        cv.put("name",getName());
+        cv.put("title",getTitle());
+        cv.put("introduction",getIntroduction());
+        cv.put("avatar",getAvatarUrl());
+        cv.put("level",getLevel());
+        cv.put("xp",getXp());
+        cv.put("upGradeXP",getUpGradeXP());
+        return sqLiteDatabase.insert(DBHelper.TABLE_HERO,null,cv);
     }
 
-    public IWealthManager getWealthManager() {
-        return wealthManager;
+    public static Hero emptyHero =new Hero();
+
+    static {
+        emptyHero.setTitle(App.getContext().getString(R.string.empty));
+        emptyHero.setName(App.getContext().getString(R.string.empty));
+        emptyHero.setIntroduction(App.getContext().getString(R.string.empty));
+        emptyHero.setAvatarUrl(App.getContext().getString(R.string.empty));
     }
 
-    public ITaskManager getTaskManager() {
-        return taskManager;
-    }
-
-    public INoteManager getNoteManager() {
-        return noteManager;
-    }
 }

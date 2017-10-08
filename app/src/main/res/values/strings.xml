@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">LifeGamer</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hero_name">英雄名</string>
+    <string name="hero_title">称号</string>
+    <string name="hero_desc">英雄简介</string>
+    <string name="empty">无</string>
 </resources>

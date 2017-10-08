@@ -1,5 +1,15 @@
 package com.lifegamer.fengmaster.lifegamer.model;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
+import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
+import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
+import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
+import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -9,7 +19,7 @@ import java.util.List;
  * 奖励实体类
  */
 
-public class Reward {
+public class Reward implements Insertable,Deleteable,Updateable{
 
     /**
      * 奖励ID
@@ -44,7 +54,7 @@ public class Reward {
     /**
      * 已经获得的次数
      */
-    private int gainTime;
+    private int gainTimes;
 
     /**
      * 创建时间
@@ -133,12 +143,12 @@ public class Reward {
         this.quantityAvailable = quantityAvailable;
     }
 
-    public int getGainTime() {
-        return gainTime;
+    public int getGainTimes() {
+        return gainTimes;
     }
 
-    public void setGainTime(int gainTime) {
-        this.gainTime = gainTime;
+    public void setGainTimes(int gainTimes) {
+        this.gainTimes = gainTimes;
     }
 
     public Date getCreateTime() {
@@ -187,5 +197,51 @@ public class Reward {
 
     public void setNotes(List<Integer> notes) {
         this.notes = notes;
+    }
+
+
+
+
+    @Override
+    public int delete(SQLiteDatabase sqLiteDatabase) {
+        return sqLiteDatabase.delete(DBHelper.TABLE_REWARD,"_id = ? ",new String[]{String.valueOf(getId())});
+    }
+
+    @Override
+    public int update(SQLiteDatabase sqLiteDatabase) {
+        ContentValues cv=new ContentValues();
+        cv.put("name",getName());
+        cv.put("type",getType());
+        cv.put("desc",getDesc());
+        cv.put("costLP",getCostLP());
+        cv.put("quantityAvailable",getQuantityAvailable());
+        cv.put("gainTimes", getGainTimes());
+        cv.put("icon",getIcon());
+        cv.put("costLPIncrement",getCostLPIncrement());
+        cv.put("addToItem",isAddToItem());
+        cv.put("notes", FormatUtil.list2Str(notes));
+        cv.put("createTime", SimpleDateFormat.getInstance().format(getCreateTime()));
+        cv.put("updateTime",SimpleDateFormat.getInstance().format(getUpdateTime()));
+        return sqLiteDatabase.update(DBHelper.TABLE_REWARD,cv," _id = ?",new String[]{String.valueOf(getId())});
+    }
+
+    @Override
+    public long insert(SQLiteDatabase sqLiteDatabase) {
+        ContentValues cv=new ContentValues();
+        cv.put("name",getName());
+        cv.put("type",getType());
+        cv.put("desc",getDesc());
+        cv.put("costLP",getCostLP());
+        cv.put("quantityAvailable",getQuantityAvailable());
+        cv.put("gainTimes", getGainTimes());
+        cv.put("icon",getIcon());
+        cv.put("costLPIncrement",getCostLPIncrement());
+        cv.put("addToItem",isAddToItem());
+        cv.put("notes", FormatUtil.list2Str(notes));
+        cv.put("createTime", SimpleDateFormat.getInstance().format(getCreateTime()));
+        cv.put("updateTime",SimpleDateFormat.getInstance().format(getUpdateTime()));
+
+
+        return sqLiteDatabase.insert(DBHelper.TABLE_REWARD,null,cv);
     }
 }

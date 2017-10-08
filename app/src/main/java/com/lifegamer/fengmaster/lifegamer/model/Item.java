@@ -1,5 +1,15 @@
 package com.lifegamer.fengmaster.lifegamer.model;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
+import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
+import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
+import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
+import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -8,7 +18,7 @@ import java.util.List;
  *
  * 物品对象
  */
-public class Item {
+public class Item implements Insertable,Deleteable,Updateable{
 
     /**
      * 物品ID
@@ -125,5 +135,40 @@ public class Item {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    @Override
+    public int delete(SQLiteDatabase sqLiteDatabase) {
+        return sqLiteDatabase.delete(DBHelper.TABLE_ITEM,"_id = ?",new String[]{String.valueOf(getId())});
+    }
+
+    @Override
+    public int update(SQLiteDatabase sqLiteDatabase) {
+        ContentValues cv=new ContentValues();
+        cv.put("name",getName());
+        cv.put("desc",getDesc());
+        cv.put("quantity",getQuantity());
+        cv.put("icon",getIcon());
+        cv.put("expendable",isExpendable());
+        cv.put("notes", FormatUtil.list2Str(getNotes()));
+        cv.put("createTime", SimpleDateFormat.getInstance().format(getCreateTime()));
+        cv.put("updateTime",SimpleDateFormat.getInstance().format(getUpdateTime()));
+
+        return sqLiteDatabase.update(DBHelper.TABLE_ITEM,cv,"_id =?",new String[]{String.valueOf(getId())});
+    }
+
+    @Override
+    public long insert(SQLiteDatabase sqLiteDatabase) {
+        ContentValues cv=new ContentValues();
+        cv.put("name",getName());
+        cv.put("desc",getDesc());
+        cv.put("quantity",getQuantity());
+        cv.put("icon",getIcon());
+        cv.put("expendable",isExpendable());
+        cv.put("notes", FormatUtil.list2Str(getNotes()));
+        cv.put("createTime", SimpleDateFormat.getInstance().format(getCreateTime()));
+        cv.put("updateTime",SimpleDateFormat.getInstance().format(getUpdateTime()));
+
+        return sqLiteDatabase.insert(DBHelper.TABLE_ITEM,null,cv);
     }
 }
