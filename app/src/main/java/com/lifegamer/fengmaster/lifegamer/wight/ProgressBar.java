@@ -36,6 +36,9 @@ public class ProgressBar extends RelativeLayout {
     private int leftTextColor;
     private int rightTextColor;
 
+    private String leftText;
+    private String rightText;
+
     private int progress = 0;
     private int max = 100;
 
@@ -69,7 +72,8 @@ public class ProgressBar extends RelativeLayout {
         textSize = typedArray.getDimension(R.styleable.ProgressBar_textSize, 15f);
         leftTextColor = typedArray.getColor(R.styleable.ProgressBar_leftTextColor, Color.BLACK);
         rightTextColor = typedArray.getColor(R.styleable.ProgressBar_rightTextColor, Color.BLACK);
-
+        leftText=typedArray.getString(R.styleable.ProgressBar_leftText);
+        rightText=typedArray.getString(R.styleable.ProgressBar_rightText);
         typedArray.recycle();
         typedArray = null;
 
@@ -122,10 +126,12 @@ public class ProgressBar extends RelativeLayout {
 
 
     public void setLeftText(String text) {
-        left.setText(text);
+        leftText=text;
+        left.setText(leftText);
     }
 
     public void setRightText(String text) {
-        right.setText(text);
+        rightText=text;
+        right.setText(rightText);
     }
 }

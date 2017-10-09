@@ -1,6 +1,9 @@
 package com.lifegamer.fengmaster.lifegamer.manager.itf;
 
+import android.databinding.Observable;
+
 import com.lifegamer.fengmaster.lifegamer.event.wealth.LPChangeEvent;
+import com.lifegamer.fengmaster.lifegamer.model.LifePoint;
 
 /**
  * Created by qianzise on 2017/10/4.
@@ -11,7 +14,7 @@ import com.lifegamer.fengmaster.lifegamer.event.wealth.LPChangeEvent;
  *
  */
 
-public interface IWealthManager {
+public interface IWealthManager{
 
     /**
      * 获得当前LP数
@@ -27,5 +30,7 @@ public interface IWealthManager {
      * @param lifePoint 增加的LP
      */
     void addLP(int lifePoint);
+
+    LifePoint getLPInstance();
 
 }

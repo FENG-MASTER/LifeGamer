@@ -2,7 +2,10 @@ package com.lifegamer.fengmaster.lifegamer.model;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 
+import com.lifegamer.fengmaster.lifegamer.BR;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
@@ -18,7 +21,7 @@ import java.util.List;
  *
  * 物品对象
  */
-public class Item implements Insertable,Deleteable,Updateable{
+public class Item extends BaseObservable implements Insertable,Deleteable,Updateable{
 
     /**
      * 物品ID
@@ -80,13 +83,14 @@ public class Item implements Insertable,Deleteable,Updateable{
     public void setId(int id) {
         this.id = id;
     }
-
+    @Bindable
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+        notifyPropertyChanged(BR.name);
     }
 
     public String getDesc() {
