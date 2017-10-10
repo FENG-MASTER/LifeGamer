@@ -201,37 +201,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean addHero(Hero hero){
-        long l = hero.insert(writeDB);
-        return l!=0;
-    }
-
-    public boolean updateHero(Hero hero){
-        int i = hero.update(writeDB);
-        return i!=0;
-    }
-
-    public Hero getHero(int id){
-        
-        Cursor query = readDB.query(TABLE_HERO, null, "_id=?", new String[]{String.valueOf(id)}, null, null, null);
-        if (query==null||query.getCount()==0||!query.moveToNext()){
-            return null;
-        }
-        Hero hero=new Hero();
-
-        hero.setName(query.getString(query.getColumnIndex("name")));
-        hero.setAvatarUrl(query.getString(query.getColumnIndex("avatar")));
-        hero.setIntroduction(query.getString(query.getColumnIndex("introduction")));
-        hero.setLevel(query.getInt(query.getColumnIndex("level")));
-        hero.setTitle(query.getString(query.getColumnIndex("title")));
-        hero.setUpGradeXP(query.getInt(query.getColumnIndex("upGradeXP")));
-        hero.setXp(query.getInt(query.getColumnIndex("xp")));
-
-        query.close();
-
-        return hero;
 
 
-    }
+
 
 }

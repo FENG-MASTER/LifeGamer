@@ -1,9 +1,13 @@
 package com.lifegamer.fengmaster.lifegamer.manager;
 
+import android.database.Cursor;
+
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IHeroManager;
 import com.lifegamer.fengmaster.lifegamer.model.Hero;
+
+import static com.lifegamer.fengmaster.lifegamer.dao.DBHelper.TABLE_HERO;
 
 /**
  * Created by qianzise on 2017/10/8.
@@ -17,7 +21,7 @@ public class HeroManger implements IHeroManager {
         if (hero==null){
             synchronized (this){
                 if (hero==null){
-                    Hero h = DBHelper.getInstance().getHero(1);
+                    Hero h = getHeroFromSQL(1);
                     if (h==null){
                         hero=Hero.emptyHero;
                     }else {
@@ -43,5 +47,32 @@ public class HeroManger implements IHeroManager {
             return l!=0;
         }
         return Game.update(hero);
+    }
+
+
+    /**
+     * 从数据库获取hero信息
+     * @param id 英雄id
+     * @return hero
+     */
+    private Hero getHeroFromSQL(int id){
+
+        Cursor query = DBHelper.getInstance().getReadableDatabase().query(TABLE_HERO, null, "_id=?", new String[]{String.valueOf(id)}, null, null, null);
+        if (query==null||query.getCount()==0||!query.moveToNext()){
+            return null;
+        }
+        Hero hero=new Hero();
+
+        hero.setName(query.getString(query.getColumnIndex("name")));
+        hero.setAvatarUrl(query.getString(query.getColumnIndex("avatar")));
+        hero.setIntroduction(query.getString(query.getColumnIndex("introduction")));
+        hero.setLevel(query.getInt(query.getColumnIndex("level")));
+        hero.setTitle(query.getString(query.getColumnIndex("title")));
+        hero.setUpGradeXP(query.getInt(query.getColumnIndex("upGradeXP")));
+        hero.setXp(query.getInt(query.getColumnIndex("xp")));
+
+        query.close();
+
+        return hero;
     }
 }

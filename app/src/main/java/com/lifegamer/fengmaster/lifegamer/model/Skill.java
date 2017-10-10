@@ -3,6 +3,7 @@ package com.lifegamer.fengmaster.lifegamer.model;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.lifegamer.fengmaster.lifegamer.base.ICopy;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
@@ -19,7 +20,7 @@ import java.util.List;
  * <p>
  * 技能对象
  */
-public class Skill implements Insertable,Updateable,Deleteable{
+public class Skill implements Insertable,Updateable,Deleteable,ICopy<Skill>{
 
     /**
      * 技能id
@@ -212,5 +213,19 @@ public class Skill implements Insertable,Updateable,Deleteable{
         cv.put("updateTime",SimpleDateFormat.getInstance().format(getUpdateTime()));
 
         return sqLiteDatabase.insert(DBHelper.TABLE_SKILL,null,cv);
+    }
+
+    @Override
+    public void copyFrom(Skill skill) {
+        setName(skill.getName());
+        setUpGradeXP(skill.getUpGradeXP());
+        setLevel(skill.getLevel());
+        setCreateTime(skill.getCreateTime());
+        setIcon(skill.getIcon());
+        setIntro(skill.getIntro());
+        setNotes(skill.getNotes());
+        setType(skill.getType());
+        setUpdateTime(skill.getUpdateTime());
+        setXP(skill.getXP());
     }
 }

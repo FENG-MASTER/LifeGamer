@@ -26,13 +26,16 @@ public class SqureImageView extends AppCompatImageView {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height=MeasureSpec.getSize(heightMeasureSpec);
-        int widthMode=MeasureSpec.getMode(widthMeasureSpec);
-        int heightMode=MeasureSpec.getMode(heightMeasureSpec);
-//        if (width>height){
-//            width=height;
-//        }else {
-//            height=width;
-//        }
-        super.onMeasure(MeasureSpec.makeMeasureSpec(width,widthMode), MeasureSpec.makeMeasureSpec(height,heightMode));
+        if (width>height){
+            width=height;
+        }else {
+            height=width;
+        }
+
+        int i = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
+        int j = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
+        setMeasuredDimension(i, j);
+
+
     }
 }

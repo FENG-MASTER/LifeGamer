@@ -22,7 +22,7 @@ public class AllSkillFragmentAdapter extends BaseRecyclerViewAdapter<AllSkillFra
 
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_test, parent, false);
+        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_all_skill, parent, false);
         return new Holder(inflate);
     }
 
@@ -38,7 +38,7 @@ public class AllSkillFragmentAdapter extends BaseRecyclerViewAdapter<AllSkillFra
 
     @Override
     public String getName() {
-        return "技能";
+        return "全部";
     }
 
     public static class Holder extends RecyclerView.ViewHolder{

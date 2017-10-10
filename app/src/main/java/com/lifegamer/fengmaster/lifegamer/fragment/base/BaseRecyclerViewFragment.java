@@ -1,6 +1,7 @@
 package com.lifegamer.fengmaster.lifegamer.fragment.base;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -13,6 +14,7 @@ import android.widget.FrameLayout;
 
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
+import com.lifegamer.fengmaster.lifegamer.wight.MyItemDecoration;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,8 +57,11 @@ public class BaseRecyclerViewFragment extends BaseFragment {
         if (adapter!=null){
             recyclerView.setAdapter(adapter);
         }
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        recyclerView.addItemDecoration(new MyItemDecoration(getContext(),LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.invalidateItemDecorations();
         return view;
     }
 
