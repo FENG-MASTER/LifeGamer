@@ -1,7 +1,7 @@
 package com.lifegamer.fengmaster.lifegamer.fragment;
 
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;

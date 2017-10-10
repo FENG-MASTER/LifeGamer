@@ -4,12 +4,21 @@
         <item>任务</item>
         <item>奖励</item>
         <item>物品</item>
-        <item>成就</item>
         <item>技能</item>
+        <item>成就</item>
         <item>统计</item>
         <item>个人简介</item>
-
     </string-array>
 
+    <integer-array name="main_sp_r">
+        <item>@id/nav_task</item>
+        <item>@id/nav_task</item>
+        <item>@id/nav_task</item>
+        <item>@id/nav_task</item>
+        <item>@id/nav_task</item>
+        <item>@id/nav_task</item>
+        <item>@id/nav_task</item>
+
+    </integer-array>
 
 </resources>

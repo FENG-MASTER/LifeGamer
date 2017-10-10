@@ -17,6 +17,10 @@ import java.util.List;
  * Created by qianzise on 2017/10/4.
  *
  * 奖励实体类
+ *
+ * 奖励的定位是:玩家<b>购买</b>得到的相应奖励
+ *
+ * 没有 是否拥有 状态
  */
 
 public class Reward implements Insertable,Deleteable,Updateable{
@@ -80,6 +84,10 @@ public class Reward implements Insertable,Deleteable,Updateable{
      * 是否添加到物品
      */
     private boolean addToItem;
+    /**
+     * 添加到物品后是否属于消耗品
+     */
+    private boolean expendable;
 
     /**
      * 笔记ID
@@ -93,6 +101,14 @@ public class Reward implements Insertable,Deleteable,Updateable{
         //TODO :转换成物品
         return new Item();
 
+    }
+
+    public boolean isExpendable() {
+        return expendable;
+    }
+
+    public void setExpendable(boolean expendable) {
+        this.expendable = expendable;
     }
 
     public int getId() {

@@ -11,6 +11,7 @@
         android:layout_gravity="bottom">
 
             <Spinner
+                android:id="@+id/sp_toolbar"
                 android:spinnerMode="dropdown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

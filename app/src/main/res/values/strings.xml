@@ -7,4 +7,13 @@
     <string name="hero_title">称号</string>
     <string name="hero_desc">英雄简介</string>
     <string name="empty">无</string>
+    <string name="nav_statistics">统计</string>
+    <string name="nav_achievement">成就</string>
+    <string name="nav_skill">技能</string>
+    <string name="nav_item">物品</string>
+    <string name="nav_reward">奖励</string>
+    <string name="nav_task">任务</string>
+    <string name="nav_info">个人简介</string>
+    <string name="nav_setting">设置</string>
+    <string name="nav_help">帮助</string>
 </resources>

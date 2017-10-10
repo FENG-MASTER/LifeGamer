@@ -3,19 +3,20 @@
 
 
     <group android:id="@+id/nav_group_1">
-        <item android:id="@+id/nav_task" android:title="任务"/>
-        <item android:id="@+id/nav_reward" android:title="奖励"/>
-        <item android:id="@+id/nav_item" android:title="物品"/>
-        <item android:id="@+id/nav_skill" android:title="技能"/>
-        <item android:id="@+id/nav_achievement" android:title="成就"/>
-        <item android:id="@+id/nav_hero" android:title="个人简介"/>
+        <item android:id="@+id/nav_task" android:title="@string/nav_task"/>
+        <item android:id="@+id/nav_reward" android:title="@string/nav_reward"/>
+        <item android:id="@+id/nav_item" android:title="@string/nav_item"/>
+        <item android:id="@+id/nav_skill" android:title="@string/nav_skill"/>
+        <item android:id="@+id/nav_achievement" android:title="@string/nav_achievement"/>
+        <item android:id="@+id/nav_statistics" android:title="@string/nav_statistics"/>
+        <item android:id="@+id/nav_hero" android:title="@string/nav_info"/>
 
     </group>
 
     <group android:id="@+id/nav_group_2">
 
-        <item android:id="@+id/nav_setting" android:title="设置"/>
-        <item android:id="@+id/nav_help" android:title="帮助"/>
+        <item android:id="@+id/nav_setting" android:title="@string/nav_setting"/>
+        <item android:id="@+id/nav_help" android:title="@string/nav_help"/>
 
     </group>
 
