@@ -46,7 +46,11 @@
             <com.lifegamer.fengmaster.lifegamer.wight.ProgressBar
                 app:leftText="@{String.valueOf(skill.XP)}"
                 app:rightText="@{String.valueOf(skill.upGradeXP)}"
+                app:progress="@{skill.XP}"
+                app:max="@{skill.upGradeXP}"
                 android:layout_weight="3"
+                app:finishColor="#f0cc00"
+                app:unFinishColor="#3f3f3f"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

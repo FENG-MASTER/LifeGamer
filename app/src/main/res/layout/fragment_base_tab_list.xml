@@ -5,6 +5,7 @@
               android:layout_height="match_parent">
 
    <android.support.design.widget.TabLayout
+       android:background="@color/colorDarkBackGround"
        android:id="@+id/tl_fragment_base_list"
        android:layout_width="match_parent"
        android:layout_height="wrap_content">
