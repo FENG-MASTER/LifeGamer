@@ -7,6 +7,8 @@ import android.widget.Toast;
 
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 
+import org.greenrobot.eventbus.EventBus;
+
 /**
  * Created by qianzise on 2017/10/6.
  */
@@ -19,6 +21,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         mContext=getApplicationContext();
+
     }
 
 

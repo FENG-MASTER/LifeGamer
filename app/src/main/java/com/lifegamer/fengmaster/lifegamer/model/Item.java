@@ -26,7 +26,7 @@ public class Item extends BaseObservable implements Insertable,Deleteable,Update
     /**
      * 物品ID
      */
-    private int id;
+    private long id;
 
     /**
      * 物品名称
@@ -76,11 +76,11 @@ public class Item extends BaseObservable implements Insertable,Deleteable,Update
         this.notes = notes;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
     @Bindable

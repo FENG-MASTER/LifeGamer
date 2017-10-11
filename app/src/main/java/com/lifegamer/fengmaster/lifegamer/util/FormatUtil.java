@@ -10,6 +10,9 @@ import java.util.List;
 public class FormatUtil {
 
     public static String list2Str(List<Integer> list){
+        if (list==null){
+            return "";
+        }
         StringBuilder sb=new StringBuilder();
         for (Integer integer : list) {
             sb.append(integer+",");

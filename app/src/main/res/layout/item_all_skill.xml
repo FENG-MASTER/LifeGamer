@@ -1,49 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:padding="5dp"
-              android:gravity="center"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="horizontal">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="skill"
+            type="com.lifegamer.fengmaster.lifegamer.model.Skill"/>
 
-    <com.lifegamer.fengmaster.lifegamer.wight.SqureImageView
-        android:src="@drawable/test1"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginRight="10dp"
-        android:layout_weight="1"/>
+    </data>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="5"
-        android:orientation="vertical">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:padding="5dp"
+                  android:gravity="center"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_item_all_skill_name"
-            android:layout_weight="2"
-            android:textSize="20sp"
-            android:text="厨艺"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/tv_item_all_skill_level"
-            android:layout_weight="2"
-            android:textSize="16sp"
-            android:text="等级 1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        <com.lifegamer.fengmaster.lifegamer.wight.SqureImageView
+            android:src="@drawable/test1"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"/>
 
-
-        <com.lifegamer.fengmaster.lifegamer.wight.ProgressBar
-
-            android:layout_weight="3"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:orientation="vertical">
 
-        </com.lifegamer.fengmaster.lifegamer.wight.ProgressBar>
+            <TextView
+                android:id="@+id/tv_item_all_skill_name"
+                android:layout_weight="2"
+                android:textSize="20sp"
+                android:text="@{skill.name}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/tv_item_all_skill_level"
+                android:layout_weight="2"
+                android:textSize="16sp"
+                android:text='@{"level "+skill.level}'
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+            <com.lifegamer.fengmaster.lifegamer.wight.ProgressBar
+                app:leftText="@{String.valueOf(skill.XP)}"
+                app:rightText="@{String.valueOf(skill.upGradeXP)}"
+                android:layout_weight="3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </com.lifegamer.fengmaster.lifegamer.wight.ProgressBar>
+
+        </LinearLayout>
+
 
     </LinearLayout>
 
-
-</LinearLayout>
+</layout>

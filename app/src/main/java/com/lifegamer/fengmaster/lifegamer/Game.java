@@ -5,6 +5,7 @@ import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
 import com.lifegamer.fengmaster.lifegamer.manager.HeroManger;
+import com.lifegamer.fengmaster.lifegamer.manager.SkillManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IAchievementManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IHeroManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IItemManager;
@@ -38,7 +39,7 @@ public class Game {
     /**
      * 技能管理器
      */
-    private ISkillManager skillManager;
+    private ISkillManager skillManager=new SkillManager();
     /**
      * 财富管理器
      */

@@ -28,7 +28,7 @@ public class Reward implements Insertable,Deleteable,Updateable{
     /**
      * 奖励ID
      */
-    private int id;
+    private long id;
 
     /**
      * 奖励名称
@@ -111,11 +111,11 @@ public class Reward implements Insertable,Deleteable,Updateable{
         this.expendable = expendable;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

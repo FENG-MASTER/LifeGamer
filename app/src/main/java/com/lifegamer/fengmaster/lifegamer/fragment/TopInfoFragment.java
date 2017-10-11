@@ -14,7 +14,10 @@ import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.databinding.FragmentTopInfoBinding;
 import com.lifegamer.fengmaster.lifegamer.model.Hero;
 import com.lifegamer.fengmaster.lifegamer.model.LifePoint;
+import com.lifegamer.fengmaster.lifegamer.model.Skill;
 import com.lifegamer.fengmaster.lifegamer.wight.SqureImageView;
+
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,8 +45,11 @@ public class TopInfoFragment extends Fragment {
         binding.tvTopName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Hero hero = Game.getInstance().getHeroManager().getHero();
-                hero.addXp(100);
+                Skill skill=new Skill();
+                skill.setName("厨艺"+ new Random().nextInt(20));
+                skill.setXP(10);
+                Game.getInstance().getSkillManager().addSkill(skill);
+
             }
         });
         return  binding.getRoot();

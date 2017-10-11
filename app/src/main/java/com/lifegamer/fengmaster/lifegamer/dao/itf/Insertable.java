@@ -11,6 +11,11 @@ import android.database.sqlite.SQLiteDatabase;
 
 public interface Insertable {
 
+    /**
+     * 插入
+     * @param sqLiteDatabase 可写数据库
+     * @return 插入后的ID
+     */
     long insert(SQLiteDatabase sqLiteDatabase);
 
 }

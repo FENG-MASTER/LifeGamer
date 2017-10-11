@@ -25,7 +25,7 @@ public class Skill implements Insertable,Updateable,Deleteable,ICopy<Skill>{
     /**
      * 技能id
      */
-    private int id;
+    private long id;
 
     /**
      * 技能名字
@@ -70,12 +70,12 @@ public class Skill implements Insertable,Updateable,Deleteable,ICopy<Skill>{
     /**
      * 创建时间
      */
-    private Date createTime;
+    private Date createTime=new Date();
 
     /**
      * 更新时间
      */
-    private Date updateTime;
+    private Date updateTime=new Date();
 
 
     public Date getCreateTime() {
@@ -142,11 +142,11 @@ public class Skill implements Insertable,Updateable,Deleteable,ICopy<Skill>{
         this.intro = intro;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

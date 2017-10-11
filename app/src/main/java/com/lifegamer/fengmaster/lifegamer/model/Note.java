@@ -19,7 +19,7 @@ import java.util.Date;
 
 public class Note implements Insertable,Deleteable,Updateable{
 
-    private int ID;
+    private long ID;
 
     private String text;
 
@@ -27,11 +27,11 @@ public class Note implements Insertable,Deleteable,Updateable{
 
     private Date updateTime;
 
-    public int getID() {
+    public long getID() {
         return ID;
     }
 
-    public void setID(int ID) {
+    public void setID(long ID) {
         this.ID = ID;
     }
 

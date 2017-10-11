@@ -3,9 +3,13 @@ package com.lifegamer.fengmaster.lifegamer.manager;
 import android.database.Cursor;
 
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
+import com.lifegamer.fengmaster.lifegamer.event.skill.NewSkillEvent;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ISkillManager;
 import com.lifegamer.fengmaster.lifegamer.model.Skill;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +35,13 @@ public class SkillManager implements ISkillManager{
 
     @Override
     public boolean addSkill(Skill skill) {
+        long id = skill.insert(helper.getWritableDatabase());
+        if (id!=0){
+            skill.setId(id);
+            skillMap.put(skill.getName(),skill);
+            EventBus.getDefault().post(new NewSkillEvent(skill));
+            return true;
+        }
         return false;
     }
 
@@ -49,7 +60,7 @@ public class SkillManager implements ISkillManager{
             Cursor cursor = helper.getReadableDatabase().query(DBHelper.TABLE_SKILL, null, "name = ?", new String[]{name}, null, null, null);
             if (cursor!=null&&cursor.moveToNext()&&cursor.getCount()!=0){
                 //有数据
-                Skill skill = getSkillFromCursor(cursor);
+                Skill skill = getSkillFromCursor(cursor,true);
                 cursor.close();
                 return skill;
             }
@@ -70,7 +81,8 @@ public class SkillManager implements ISkillManager{
 
     @Override
     public List<Skill> getAllSkill() {
-        return null;
+        getAllSkillFromSQL();
+        return new ArrayList<>(skillMap.values());
     }
 
     @Override
@@ -88,8 +100,9 @@ public class SkillManager implements ISkillManager{
      * @param cursor 游标
      * @return skill
      */
-    private Skill getSkillFromCursor(Cursor cursor){
+    private Skill getSkillFromCursor(Cursor cursor,boolean update){
         Skill skill=new Skill();
+        skill.setXP(cursor.getInt(cursor.getColumnIndex("xp")));
         skill.setName(cursor.getString(cursor.getColumnIndex("name")));
         skill.setLevel(cursor.getInt(cursor.getColumnIndex("level")));
         skill.setUpGradeXP(cursor.getInt(cursor.getColumnIndex("upGradeXP")));
@@ -97,7 +110,7 @@ public class SkillManager implements ISkillManager{
         skill.setName(cursor.getString(cursor.getColumnIndex("name")));
         skill.setName(cursor.getString(cursor.getColumnIndex("name")));
         skill.setName(cursor.getString(cursor.getColumnIndex("name")));
-        if (updateSkillFromSQL(skill)){
+        if (update&&updateSkillFromSQL(skill)){
             //如果是更新的内容
             skill=getSkill(skill.getName());
         }
@@ -120,6 +133,13 @@ public class SkillManager implements ISkillManager{
             //不存在,直接插入
             skillMap.put(skill.getName(),skill);
             return false;
+        }
+    }
+
+    private void getAllSkillFromSQL(){
+        Cursor cursor = helper.getReadableDatabase().query(DBHelper.TABLE_SKILL, null, null, null, null, null, null);
+        while (cursor.moveToNext()){
+            getSkillFromCursor(cursor,true);
         }
     }
 }
