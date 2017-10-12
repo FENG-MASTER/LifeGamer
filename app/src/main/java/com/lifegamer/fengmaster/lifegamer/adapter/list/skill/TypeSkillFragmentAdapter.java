@@ -33,6 +33,16 @@ public class TypeSkillFragmentAdapter extends BaseRecyclerViewAdapter<TypeSkillF
         return "厨艺";
     }
 
+    @Override
+    public void addItemSelectListener(OnItemSelectListener listener) {
+
+    }
+
+    @Override
+    public void removeItemSelectListener(OnItemSelectListener listener) {
+
+    }
+
     public static class Holder extends RecyclerView.ViewHolder{
 
         public Holder(View itemView) {

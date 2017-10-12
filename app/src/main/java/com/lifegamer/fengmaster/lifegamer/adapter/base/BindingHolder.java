@@ -10,7 +10,7 @@ import android.view.View;
  */
 
 public class BindingHolder extends RecyclerView.ViewHolder {
-    private ViewDataBinding binding;
+    protected ViewDataBinding binding;
 
     public BindingHolder(View itemView) {
         super(itemView);

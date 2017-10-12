@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @BindView(R.id.sp_toolbar)
     Spinner toolbarSpinner;
 
-    Fragment topInfoFragment;
+    TopInfoFragment topInfoFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar.setNavigationIcon(R.drawable.ic_input_add);
         toolbar.setSubtitle("任务");
         initNav();
-        showInfo();
+        //showInfo();
 
         ViewUtil.setCoopView(coordinatorLayout);
     }
@@ -89,11 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.menu_setting:
                 return true;
             case R.id.menu_show_info:
-                if (item.isChecked()){
-                    showInfo();
-                }else {
-                    hideInfo();
-                }
+                topInfoFragment.toggle();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -160,14 +156,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void initInfo(){
         topInfoFragment=new TopInfoFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_top,topInfoFragment).commit();
-    }
-
-    private void showInfo(){
-        getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).show(topInfoFragment).commit();
-    }
-
-    private void hideInfo(){
-        getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).hide(topInfoFragment).commit();
     }
 
 

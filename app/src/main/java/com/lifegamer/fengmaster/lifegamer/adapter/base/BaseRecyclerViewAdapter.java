@@ -3,6 +3,7 @@ package com.lifegamer.fengmaster.lifegamer.adapter.base;
 import android.support.v7.widget.RecyclerView;
 
 import com.lifegamer.fengmaster.lifegamer.base.IName;
+import com.lifegamer.fengmaster.lifegamer.wight.SelectDialog;
 
 /**
  * Created by qianzise on 2017/10/10.
@@ -13,4 +14,12 @@ import com.lifegamer.fengmaster.lifegamer.base.IName;
  */
 
 public abstract class BaseRecyclerViewAdapter<T extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<T> implements IName {
+
+    public abstract void addItemSelectListener(OnItemSelectListener listener);
+
+    public abstract void removeItemSelectListener(OnItemSelectListener listener);
+
+    public interface OnItemSelectListener<T> {
+        void onItemSelect(T t);
+    }
 }

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.databinding.FragmentTopInfoBinding;
@@ -28,7 +29,8 @@ import butterknife.ButterKnife;
  */
 public class TopInfoFragment extends Fragment {
 
-
+    @BindView(R.id.erl_top_info)
+    ExpandableRelativeLayout expandableRelativeLayout;
 
 
     public TopInfoFragment() {
@@ -40,6 +42,7 @@ public class TopInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         FragmentTopInfoBinding binding=FragmentTopInfoBinding.inflate(inflater);
+        ButterKnife.bind(this,binding.getRoot());
         binding.setHero(Game.getInstance().getHeroManager().getHero());
         binding.setLp(new LifePoint());
         binding.tvTopName.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +56,10 @@ public class TopInfoFragment extends Fragment {
             }
         });
         return  binding.getRoot();
+    }
+
+    public void toggle(){
+        expandableRelativeLayout.toggle();
     }
 
 }
