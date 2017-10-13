@@ -1,7 +1,12 @@
-package com.lifegamer.fengmaster.lifegamer.fragment;
+package com.lifegamer.fengmaster.lifegamer.fragment.skill;
 
 
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
@@ -23,7 +28,7 @@ import java.util.List;
  * 属于高层模块,负责整合所有技能相关适配器
  */
 public class SkillFragment extends BaseTabListFragment implements OnItemSelectListener {
-
+    private Skill selectSkill;
 
     public SkillFragment() {
         // Required empty public constructor
@@ -31,6 +36,13 @@ public class SkillFragment extends BaseTabListFragment implements OnItemSelectLi
         allSkillFragmentAdapter.addItemSelectListener(this);
         addAdapter(allSkillFragmentAdapter);
         addAdapter(new TypeSkillFragmentAdapter());
+
+    }
+
+    @Override
+    public void onActionButtonClick() {
+        EditSkillDialog dialog=new EditSkillDialog();
+        dialog.show(getFragmentManager(),"1");
     }
 
 
@@ -45,6 +57,7 @@ public class SkillFragment extends BaseTabListFragment implements OnItemSelectLi
 
     @SuppressWarnings("all")
     private void onSkillSelect(Skill skill){
+        selectSkill=skill;
 
         ViewUtil.showToast(skill.getName());
         SelectDialog selectDialog = new SelectDialog();
@@ -65,8 +78,16 @@ public class SkillFragment extends BaseTabListFragment implements OnItemSelectLi
         switch (item.getId()){
             case SelectItem.FINISH_ID:
                 //完成
-
                 break;
+            case SelectItem.EDIT_ID:
+                if (selectSkill!=null){
+                    EditSkillDialog dialog=new EditSkillDialog();
+                    dialog.setSkill(selectSkill);
+                    dialog.show(getFragmentManager(),"select");
+                }
+                break;
+            default:
+
         }
 
         ViewUtil.showToast(item.getName());

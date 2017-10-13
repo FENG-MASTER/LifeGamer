@@ -21,11 +21,11 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <android.support.design.widget.AppBarLayout
-                app:elevation="0dp"
                 android:id="@+id/bar_layout"
-                android:background="@color/colorDarkBackGround"
                 android:layout_width="match_parent"
-                android:layout_height="?actionBarSize">
+                android:layout_height="?actionBarSize"
+                android:background="@color/colorDarkBackGround"
+                app:elevation="0dp">
 
                 <include
                     layout="@layout/layout_toolbar"
@@ -49,6 +49,9 @@
         </LinearLayout>
 
 
+
+
+
         <android.support.design.widget.NavigationView
             android:id="@+id/nv_main"
             android:layout_width="wrap_content"
@@ -61,4 +64,8 @@
 
         </android.support.design.widget.NavigationView>
     </android.support.v4.widget.DrawerLayout>
+
+
+
+
 </android.support.design.widget.CoordinatorLayout>

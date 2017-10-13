@@ -1,5 +1,6 @@
 package com.lifegamer.fengmaster.lifegamer.fragment.base;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -22,12 +23,14 @@ import butterknife.ButterKnife;
  * Created by qianzise on 2017/10/10.
  */
 
-public class BaseTabListFragment extends Fragment{
+public abstract class BaseTabListFragment extends Fragment{
 
     @BindView(R.id.tl_fragment_base_list)
     TabLayout tabLayout;
     @BindView(R.id.vp_fragment_base_list)
     ViewPager viewPager;
+    @BindView(R.id.fab)
+    FloatingActionButton actionButton;
 
     List<BaseFragment> fragments =new ArrayList<>();
 
@@ -46,13 +49,20 @@ public class BaseTabListFragment extends Fragment{
 
         viewPager.setAdapter(new BaseViewPagerFragmentAdapter(getFragmentManager(), fragments));
         tabLayout.setupWithViewPager(viewPager);
-
+        actionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onActionButtonClick();
+            }
+        });
         return inflate;
     }
 
     public void addAdapter(BaseRecyclerViewAdapter adapter){
         fragments.add(new BaseRecyclerViewFragment().setAdapter(adapter));
     }
+
+    public abstract void onActionButtonClick();
 
 
 
