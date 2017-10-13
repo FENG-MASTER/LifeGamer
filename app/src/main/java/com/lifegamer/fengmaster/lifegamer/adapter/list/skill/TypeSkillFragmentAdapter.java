@@ -5,12 +5,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
+import com.lifegamer.fengmaster.lifegamer.model.Skill;
 
 /**
  * Created by qianzise on 2017/10/10.
  */
 
-public class TypeSkillFragmentAdapter extends BaseRecyclerViewAdapter<TypeSkillFragmentAdapter.Holder>{
+public class TypeSkillFragmentAdapter extends BaseRecyclerViewAdapter<TypeSkillFragmentAdapter.Holder,Skill>{
 
 
     @Override
@@ -34,12 +36,12 @@ public class TypeSkillFragmentAdapter extends BaseRecyclerViewAdapter<TypeSkillF
     }
 
     @Override
-    public void addItemSelectListener(OnItemSelectListener listener) {
+    public void addItemSelectListener(OnItemSelectListener<Skill> listener) {
 
     }
 
     @Override
-    public void removeItemSelectListener(OnItemSelectListener listener) {
+    public void removeItemSelectListener(OnItemSelectListener<Skill> listener) {
 
     }
 

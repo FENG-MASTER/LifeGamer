@@ -13,13 +13,8 @@ import com.lifegamer.fengmaster.lifegamer.wight.SelectDialog;
  *  因为我打算所有的显示内容全部交由适配器做,这里需要显示一个标题,所以必须实现{@link IName}接口
  */
 
-public abstract class BaseRecyclerViewAdapter<T extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<T> implements IName {
+public abstract class BaseRecyclerViewAdapter<T extends RecyclerView.ViewHolder,R> extends RecyclerView.Adapter<T> implements IName,ItemSelectObservable<R> {
 
-    public abstract void addItemSelectListener(OnItemSelectListener listener);
 
-    public abstract void removeItemSelectListener(OnItemSelectListener listener);
 
-    public interface OnItemSelectListener<T> {
-        void onItemSelect(T t);
-    }
 }

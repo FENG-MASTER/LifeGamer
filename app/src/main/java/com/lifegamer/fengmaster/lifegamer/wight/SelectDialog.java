@@ -9,9 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.lifegamer.fengmaster.lifegamer.R;
+import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.base.ItemSelectObservable;
+import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.adapter.dialog.SelectDialogItemAdapter;
+import com.lifegamer.fengmaster.lifegamer.wight.model.SelectItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,15 +25,17 @@ import java.util.List;
  * Created by qianzise on 2017/10/12.
  */
 
-public class SelectDialog extends AppCompatDialogFragment {
+public class SelectDialog extends AppCompatDialogFragment implements OnItemSelectListener<SelectItem>,ItemSelectObservable<SelectItem> {
     private List<SelectItem> itemList;
-    private List<OnItemSelectListener> listeners = new ArrayList<>();
+    private List<OnItemSelectListener<SelectItem>> listeners = new ArrayList<>();
 
     public SelectDialog setItems(List<SelectItem> items) {
         itemList = items;
+
         return this;
     }
     private RecyclerView recyclerView;
+
 
 
     @Nullable
@@ -44,43 +51,33 @@ public class SelectDialog extends AppCompatDialogFragment {
         }
         View inflate = inflater.inflate(R.layout.dialog_select_adapter, container, false);
         recyclerView= (RecyclerView) inflate;
+
+        SelectDialogItemAdapter selectDialogItemAdapter = new SelectDialogItemAdapter(itemList);
+
+        selectDialogItemAdapter.addItemSelectListener(this);
+
+        recyclerView.setAdapter(selectDialogItemAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
-        recyclerView.setAdapter(new SelectDialogItemAdapter(itemList));
         return inflate;
     }
 
-
-    public interface OnItemSelectListener {
-        void onItemSelect(int i, SelectItem item);
+    @Override
+    public void onItemSelect(SelectItem item) {
+        for (OnItemSelectListener<SelectItem> listener : listeners) {
+            listener.onItemSelect(item);
+        }
+        dismiss();
     }
 
-    public static class SelectItem {
 
-        private String name;
-        private int iconRes;
+    @Override
+    public void addItemSelectListener(OnItemSelectListener<SelectItem> listener) {
+        listeners.add(listener);
+    }
 
-        public SelectItem(String name, int iconRes) {
-            this.name = name;
-            this.iconRes = iconRes;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public int getIconRes() {
-            return iconRes;
-        }
-
-        public void setIconRes(int iconRes) {
-            this.iconRes = iconRes;
-        }
-
-
+    @Override
+    public void removeItemSelectListener(OnItemSelectListener<SelectItem> listener) {
+        listeners.remove(listener);
     }
 }

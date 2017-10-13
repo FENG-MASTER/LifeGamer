@@ -9,9 +9,12 @@ import android.widget.TextView;
 
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.wight.SelectDialog;
 import com.lifegamer.fengmaster.lifegamer.wight.SqureImageView;
+import com.lifegamer.fengmaster.lifegamer.wight.model.SelectItem;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -21,10 +24,12 @@ import butterknife.ButterKnife;
  * Created by qianzise on 2017/10/12.
  */
 
-public class SelectDialogItemAdapter extends RecyclerView.Adapter<SelectDialogItemAdapter.Holder> {
-    private List<SelectDialog.SelectItem> items;
+public class SelectDialogItemAdapter extends BaseRecyclerViewAdapter<SelectDialogItemAdapter.Holder,SelectItem> {
+    private List<SelectItem> items;
 
-    public SelectDialogItemAdapter(List<SelectDialog.SelectItem> items) {
+    private List<OnItemSelectListener<SelectItem>> listeners=new LinkedList<>();
+
+    public SelectDialogItemAdapter(List<SelectItem> items) {
         this.items = items;
     }
 
@@ -38,6 +43,7 @@ public class SelectDialogItemAdapter extends RecyclerView.Adapter<SelectDialogIt
     public void onBindViewHolder(Holder holder, int position) {
         holder.name.setText(items.get(position).getName());
         holder.icon.setImageResource(items.get(position).getIconRes());
+        holder.setItem(items.get(position));
     }
 
     @Override
@@ -45,16 +51,56 @@ public class SelectDialogItemAdapter extends RecyclerView.Adapter<SelectDialogIt
         return items.size();
     }
 
-    static class Holder extends RecyclerView.ViewHolder{
+    @Override
+    public String getName() {
+        return "选择框";
+    }
+
+    @Override
+    public void addItemSelectListener(OnItemSelectListener listener) {
+        listeners.add(listener);
+    }
+
+    @Override
+    public void removeItemSelectListener(OnItemSelectListener listener) {
+        listeners.remove(listener);
+    }
+
+    private void notifyListener(SelectItem item){
+        for (OnItemSelectListener<SelectItem> listener : listeners) {
+            listener.onItemSelect(item);
+        }
+    }
+
+
+
+    class Holder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.siv_item_select_icon)
         ImageView icon;
         @BindView(R.id.tv_item_select_name)
         TextView name;
 
+        private SelectItem item;
+
         public Holder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
+            icon.setOnClickListener(this);
+
+        }
+
+        public SelectItem getItem() {
+            return item;
+        }
+
+        public void setItem(SelectItem item) {
+            this.item = item;
+        }
+
+        @Override
+        public void onClick(View view) {
+            notifyListener(item);
         }
     }
 }
