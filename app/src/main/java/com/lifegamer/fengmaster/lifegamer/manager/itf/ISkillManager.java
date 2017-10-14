@@ -15,9 +15,9 @@ public interface ISkillManager {
     /**
      * 增加技能点
      * @param skillName 技能名字
-     * @param point 增加点数
+     * @param xp 增加点数
      */
-    void addSkillPoint(String skillName,int point);
+    void addSkillXp(String skillName, int xp);
 
     /**
      * 新增技能

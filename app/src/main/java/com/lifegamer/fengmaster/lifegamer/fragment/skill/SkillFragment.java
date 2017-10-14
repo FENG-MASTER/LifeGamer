@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * 技能fragment
  * <p>
- * 属于高层模块,负责整合所有技能相关适配器
+ * 属于高层模块,负责整合所有技能相关适配器和相关子fragment
  */
 public class SkillFragment extends BaseTabListFragment implements OnItemSelectListener {
     private Skill selectSkill;
@@ -36,7 +36,7 @@ public class SkillFragment extends BaseTabListFragment implements OnItemSelectLi
         AllSkillFragmentAdapter allSkillFragmentAdapter = new AllSkillFragmentAdapter();
         allSkillFragmentAdapter.addItemSelectListener(this);
         addAdapter(allSkillFragmentAdapter);
-        addAdapter(new TypeSkillFragmentAdapter());
+        addAdapter(new TypeSkillFragmentAdapter(""));
 
     }
 

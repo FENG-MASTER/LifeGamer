@@ -146,7 +146,7 @@ public class Skill extends BaseObservable implements Insertable, Updateable, Del
     }
 
     public void setName(String name) {
-        if (this.name.equals(name)){
+        if (name!=null&&name.equals(this.name)){
             return;
         }
         this.name = name;
@@ -200,7 +200,7 @@ public class Skill extends BaseObservable implements Insertable, Updateable, Del
     }
 
     public void setType(String type) {
-        if (this.type.equals(type)){
+        if (type!=null&&type.equals(this.type)){
             return;
         }
         this.type = type;
@@ -220,7 +220,7 @@ public class Skill extends BaseObservable implements Insertable, Updateable, Del
     }
 
     public void setIcon(String icon) {
-        if (this.icon.equals(icon)){
+        if (icon!=null&&icon.equals(this.icon)){
             return;
         }
         this.icon = icon;
@@ -265,7 +265,7 @@ public class Skill extends BaseObservable implements Insertable, Updateable, Del
     }
 
     public void setIntro(String intro) {
-        if (this.intro.equals(intro)){
+        if (intro!=null&&intro.equals(this.intro)){
             return;
         }
         this.intro = intro;
@@ -275,7 +275,7 @@ public class Skill extends BaseObservable implements Insertable, Updateable, Del
     }
 
     public void setXP(int XP) {
-        if (this.XP==XP){
+        if (XP==this.XP){
             return;
         }
         this.XP = XP;

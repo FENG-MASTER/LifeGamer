@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +15,19 @@ import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.databinding.DialogEditSkillBinding;
 import com.lifegamer.fengmaster.lifegamer.model.Skill;
 
+import java.util.function.Predicate;
+
 /**
  * Created by qianzise on 2017/10/13.
- *
+ * <p>
  * 技能编辑对话框
  */
 
 public class EditSkillDialog extends DialogFragment {
 
     private Skill skill = new Skill();
+
+    private boolean err = false;
 
     private NegativeButtonClickListener negativeButtonClickListener;
 
@@ -42,17 +48,41 @@ public class EditSkillDialog extends DialogFragment {
         DialogEditSkillBinding binding = DialogEditSkillBinding.inflate(inflater);
         binding.setSkill(skill);
 
+        binding.etDialogEditSkillName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (Game.getInstance().getSkillManager().getAllSkillName().stream().anyMatch(s -> s.equals(editable.toString()))) {
+                    //重名!!
+                    binding.etDialogEditSkillName.setError("技能重名!");
+                    err = true;
+                } else {
+                    err = false;
+                }
+            }
+        });
 
         binding.btDialogEditSkillOk.setOnClickListener(view -> {
-
+            if (err){
+                return;
+            }
 
             skill.setName(binding.etDialogEditSkillName.getText().toString());
             skill.setIntro(binding.etDialogEditSkillIntro.getText().toString());
             skill.setType(binding.etDialogEditSkillType.getText().toString());
-            if (skill.getId()==0){
+            if (skill.getId() == 0) {
                 //新建的skill
                 Game.getInstance().getSkillManager().addSkill(skill);
-            }else {
+            } else {
                 Game.getInstance().getSkillManager().updateSkill(skill);
             }
 

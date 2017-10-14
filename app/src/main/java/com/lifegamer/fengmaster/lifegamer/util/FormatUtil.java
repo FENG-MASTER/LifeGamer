@@ -5,6 +5,8 @@ import java.util.List;
 
 /**
  * Created by qianzise on 2017/10/7.
+ *
+ * 格式化相关工具类
  */
 
 public class FormatUtil {

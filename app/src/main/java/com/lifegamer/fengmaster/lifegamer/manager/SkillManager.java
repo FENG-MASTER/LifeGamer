@@ -1,8 +1,11 @@
 package com.lifegamer.fengmaster.lifegamer.manager;
 
 import android.database.Cursor;
+import android.databinding.Observable;
 import android.os.Build;
 
+import com.annimon.stream.Stream;
+import com.lifegamer.fengmaster.lifegamer.BR;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.event.skill.DelSkillEvent;
@@ -27,6 +30,10 @@ import java.util.stream.Collectors;
 
 /**
  * Created by qianzise on 2017/10/4.
+ *
+ * 本地技能管理模块
+ *
+ * 模块本身存储一份所有技能的备份{@link SkillManager#skillMap}
  */
 
 public class SkillManager implements ISkillManager {
@@ -40,8 +47,12 @@ public class SkillManager implements ISkillManager {
     }
 
     @Override
-    public void addSkillPoint(String skillName, int point) {
-
+    public void addSkillXp(String skillName, int xp) {
+        Skill skill = skillMap.get(skillName);
+        if (skill!=null){
+            skill.addXP(xp);
+            updateSkill(skill);
+        }
     }
 
     @Override
@@ -101,13 +112,13 @@ public class SkillManager implements ISkillManager {
     public List<String> getAllSkillName(String type) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             return skillMap.values().stream().
-                    filter(skill -> skill.getType().equals(type)).
+                    filter(skill -> type.equals(skill.getType())).
                     map(Skill::getName).
                     collect(Collectors.toList());
         }else {
             List<String> list = new LinkedList<>();
-            skillMap.values().stream().
-                    filter(skill -> skill.getType().equals(type)).
+            Stream.of(skillMap.values()).
+                    filter(skill -> type.equals(skill.getType())).
                     map(Skill::getName).
                     forEach(list::add);
             return list;
@@ -119,12 +130,12 @@ public class SkillManager implements ISkillManager {
     public List<Skill> getAllSkill(String type) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             return skillMap.values().stream().
-                    filter(skill -> skill.getType().equals(type)).
+                    filter(skill -> type.equals(skill.getType())).
                     collect(Collectors.toList());
         } else {
             List<Skill> list = new LinkedList<>();
-            skillMap.values().stream().
-                    filter(skill -> skill.getType().equals(type)).
+            Stream.of(skillMap.values()).
+                    filter(skill -> type.equals(skill.getType())).
                     forEach(list::add);
             return list;
         }
@@ -186,7 +197,15 @@ public class SkillManager implements ISkillManager {
     private void getAllSkillFromSQL() {
         Cursor cursor = helper.getReadableDatabase().query(DBHelper.TABLE_SKILL, null, null, null, null, null, null);
         while (cursor.moveToNext()) {
-            getSkillFromCursor(cursor, true);
+            Skill skill = getSkillFromCursor(cursor, true);
+            skill.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+                @Override
+                public void onPropertyChanged(Observable sender, int propertyId) {
+                    if (propertyId== BR.name){
+
+                    }
+                }
+            });
         }
     }
 }
