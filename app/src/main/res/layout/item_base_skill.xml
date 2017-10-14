@@ -2,7 +2,8 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <import type="com.lifegamer.fengmaster.lifegamer.util.FormatUtil"/>
+        <import type="com.lifegamer.fengmaster.lifegamer.Game"/>
         <variable
             name="skill"
             type="com.lifegamer.fengmaster.lifegamer.model.Skill"/>
@@ -24,7 +25,7 @@
             android:layout_height="80dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:src="@drawable/test1"/>
+            android:src="@{skill.icon == null? @drawable/ic_default :Game.instance.avatarManager.getAvatar(FormatUtil.avatarStrFormat(skill.icon)[1]).icon}"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,7 +59,6 @@
                         android:text='@{"level "+skill.level}'
                         android:textSize="16sp"/>
                 </LinearLayout>
-
 
 
             </RelativeLayout>

@@ -35,4 +35,8 @@ public class FormatUtil {
         }
         return list;
     }
+
+    public static String[] avatarStrFormat(String avatarStr){
+        return avatarStr.split("#");
+    }
 }

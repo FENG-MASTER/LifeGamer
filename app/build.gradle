@@ -28,7 +28,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -36,6 +36,9 @@ dependencies {
         exclude module: 'support-compat'
 //        解决依赖问题
     }
+
+
+    //stream兼容包
     compile 'com.annimon:stream:1.1.9'
     compile 'com.android.support:design:24.2.1'
     compile 'com.android.support:support-v4:24.2.1'
@@ -47,4 +50,5 @@ dependencies {
     compile 'com.github.aakira:expandable-layout:1.6.0@aar'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    compile files('libs/svg-android.jar')
 }

@@ -14,10 +14,18 @@ import android.view.ViewGroup;
 import com.annimon.stream.Stream;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
+import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.databinding.DialogEditSkillBinding;
+import com.lifegamer.fengmaster.lifegamer.manager.base.itf.IAvatarManager;
 import com.lifegamer.fengmaster.lifegamer.model.Skill;
+import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
+import com.lifegamer.fengmaster.lifegamer.wight.AvatarSelectDialog;
+import com.lifegamer.fengmaster.lifegamer.wight.SqureImageView;
 
 import java.util.function.Predicate;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by qianzise on 2017/10/13.
@@ -25,9 +33,14 @@ import java.util.function.Predicate;
  * 技能编辑对话框
  */
 
-public class EditSkillDialog extends DialogFragment {
+public class EditSkillDialog extends DialogFragment implements OnItemSelectListener<IAvatarManager.Avatar> {
 
     private Skill skill = new Skill();
+
+    /**
+     * 图标
+     */
+    private IAvatarManager.Avatar avatar;
 
     /**
      * 编辑内容 是否有错误
@@ -37,6 +50,9 @@ public class EditSkillDialog extends DialogFragment {
     private NegativeButtonClickListener negativeButtonClickListener;
 
     private PositiveButtonClickListener positiveButtonClickListener;
+
+    @BindView(R.id.siv_dialog_edit_skill_icon)
+    SqureImageView icon;
 
     public EditSkillDialog() {
         //不可点击外部取消对话框
@@ -52,7 +68,15 @@ public class EditSkillDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         DialogEditSkillBinding binding = DialogEditSkillBinding.inflate(inflater);
+
+        ButterKnife.bind(this,binding.getRoot());
+
         binding.setSkill(skill);
+        if (skill.getIcon()!=null){
+            binding.sivDialogEditSkillIcon.setImageDrawable(
+                    Game.getInstance().getAvatarManager().getDrawable(
+                            FormatUtil.avatarStrFormat(skill.getIcon())[1]));
+        }
 
         binding.etDialogEditSkillName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -87,6 +111,8 @@ public class EditSkillDialog extends DialogFragment {
             skill.setName(binding.etDialogEditSkillName.getText().toString());
             skill.setIntro(binding.etDialogEditSkillIntro.getText().toString());
             skill.setType(binding.etDialogEditSkillType.getText().toString());
+            skill.setIcon(avatar!=null?avatar.toString():null);
+
             if (skill.getId() == 0) {
                 //新建的skill
                 Game.getInstance().getSkillManager().addSkill(skill);
@@ -110,6 +136,11 @@ public class EditSkillDialog extends DialogFragment {
 
 
         });
+        binding.sivDialogEditSkillIcon.setOnClickListener(view -> {
+            AvatarSelectDialog dialog=new AvatarSelectDialog();
+            dialog.addItemSelectListener(EditSkillDialog.this);
+            dialog.show(getFragmentManager(),"avatarSelect");
+        });
 
         return binding.getRoot();
     }
@@ -127,6 +158,13 @@ public class EditSkillDialog extends DialogFragment {
         super.onDestroy();
         negativeButtonClickListener = null;
         positiveButtonClickListener = null;
+    }
+
+    @Override
+    public void onItemSelect(IAvatarManager.Avatar avatar) {
+        //选择头像
+        this.avatar=avatar;
+        icon.setImageDrawable(avatar.getIcon());
     }
 
     public interface NegativeButtonClickListener {

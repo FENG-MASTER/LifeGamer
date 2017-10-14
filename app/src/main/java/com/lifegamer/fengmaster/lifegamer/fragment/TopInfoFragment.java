@@ -2,21 +2,20 @@ package com.lifegamer.fengmaster.lifegamer.fragment;
 
 
 import android.support.v4.app.Fragment;
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
+
+
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.databinding.FragmentTopInfoBinding;
-import com.lifegamer.fengmaster.lifegamer.model.Hero;
 import com.lifegamer.fengmaster.lifegamer.model.LifePoint;
 import com.lifegamer.fengmaster.lifegamer.model.Skill;
-import com.lifegamer.fengmaster.lifegamer.wight.SqureImageView;
+
 
 import java.util.Random;
 

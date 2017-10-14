@@ -9,10 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
 import com.lifegamer.fengmaster.lifegamer.R;
-import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.ItemSelectObservable;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.adapter.dialog.SelectDialogItemAdapter;
@@ -49,7 +47,7 @@ public class SelectDialog extends AppCompatDialogFragment implements OnItemSelec
                 e.printStackTrace();
             }
         }
-        View inflate = inflater.inflate(R.layout.dialog_select_adapter, container, false);
+        View inflate = inflater.inflate(R.layout.dialog_select_operate, container, false);
         recyclerView= (RecyclerView) inflate;
 
         SelectDialogItemAdapter selectDialogItemAdapter = new SelectDialogItemAdapter(itemList);

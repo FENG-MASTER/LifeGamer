@@ -6,6 +6,8 @@ import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
 import com.lifegamer.fengmaster.lifegamer.manager.HeroManger;
 import com.lifegamer.fengmaster.lifegamer.manager.SkillManager;
+import com.lifegamer.fengmaster.lifegamer.manager.base.DefaultAvatarManager;
+import com.lifegamer.fengmaster.lifegamer.manager.base.itf.IAvatarManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IAchievementManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IHeroManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IItemManager;
@@ -58,10 +60,15 @@ public class Game {
      */
     private IHeroManager heroManager=new HeroManger();
 
+    private IAvatarManager avatarManager=new DefaultAvatarManager();
+
     private Game() {
 
     }
 
+    public IAvatarManager getAvatarManager() {
+        return avatarManager;
+    }
 
     public IHeroManager getHeroManager() {
         return heroManager;
