@@ -67,7 +67,7 @@ public class EditSkillDialog extends DialogFragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (Stream.of(Game.getInstance().getSkillManager().getAllSkillName()).anyMatch(s -> s.equals(editable.toString()))) {
+                if (Stream.of(Game.getInstance().getSkillManager().getAllSkillName()).anyMatch(s -> !s.equals(skill.getName())&&s.equals(editable.toString()))) {
                     //重名!!
                     binding.tilDialogEditSkillName.setErrorEnabled(true);
                     binding.tilDialogEditSkillName.setError("技能重名!");

@@ -70,6 +70,20 @@ public class SkillManager implements ISkillManager {
 
     @Override
     public boolean updateSkill(Skill skill) {
+        String oldName=null;
+        for (Map.Entry<String, Skill> entry : skillMap.entrySet()) {
+            if (entry.getValue()==skill){
+                if (!entry.getKey().equals(skill.getName())){
+                    //已经改名
+                    oldName=entry.getKey();
+                }
+            }
+        }
+        if (oldName!=null){
+            skillMap.remove(oldName);
+            skillMap.put(skill.getName(),skill);
+        }
+
         return Game.update(skill);
     }
 
