@@ -3,20 +3,20 @@
 
 
     <group android:id="@+id/nav_group_1">
-        <item android:id="@+id/nav_task" android:title="@string/nav_task"/>
-        <item android:id="@+id/nav_reward" android:title="@string/nav_reward"/>
-        <item android:id="@+id/nav_item" android:title="@string/nav_item"/>
-        <item android:id="@+id/nav_skill" android:title="@string/nav_skill"/>
-        <item android:id="@+id/nav_achievement" android:title="@string/nav_achievement"/>
-        <item android:id="@+id/nav_statistics" android:title="@string/nav_statistics"/>
-        <item android:id="@+id/nav_hero" android:title="@string/nav_info"/>
+        <item android:id="@+id/nav_task" android:icon="@drawable/ic_nav_task" android:title="@string/nav_task"/>
+        <item android:id="@+id/nav_reward" android:icon="@drawable/ic_nav_reward" android:title="@string/nav_reward"/>
+        <item android:id="@+id/nav_item" android:icon="@drawable/ic_nav_item" android:title="@string/nav_item"/>
+        <item android:id="@+id/nav_skill" android:icon="@drawable/ic_nav_skill" android:title="@string/nav_skill"/>
+        <item android:id="@+id/nav_achievement" android:icon="@drawable/ic_nav_achievement" android:title="@string/nav_achievement"/>
+        <item android:id="@+id/nav_statistics" android:icon="@drawable/ic_nav_statistics" android:title="@string/nav_statistics"/>
+        <item android:id="@+id/nav_hero" android:icon="@drawable/ic_nav_hero" android:title="@string/nav_info"/>
 
     </group>
 
     <group android:id="@+id/nav_group_2">
 
-        <item android:id="@+id/nav_setting" android:title="@string/nav_setting"/>
-        <item android:id="@+id/nav_help" android:title="@string/nav_help"/>
+        <item android:id="@+id/nav_setting" android:icon="@drawable/ic_nav_setting" android:title="@string/nav_setting"/>
+        <item android:id="@+id/nav_help" android:icon="@drawable/ic_nav_help" android:title="@string/nav_help"/>
 
     </group>
 
