@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
@@ -41,6 +42,7 @@ public class SkillFragment extends BaseTabListFragment implements OnItemSelectLi
 
     @Override
     public void onActionButtonClick() {
+        //新建技能
         EditSkillDialog dialog=new EditSkillDialog();
         dialog.show(getFragmentManager(),"1");
     }
@@ -80,11 +82,19 @@ public class SkillFragment extends BaseTabListFragment implements OnItemSelectLi
                 //完成
                 break;
             case SelectItem.EDIT_ID:
+                //编辑
                 if (selectSkill!=null){
                     EditSkillDialog dialog=new EditSkillDialog();
                     dialog.setSkill(selectSkill);
                     dialog.show(getFragmentManager(),"select");
                 }
+                break;
+            case SelectItem.DELETE_ID:
+                //删除
+                if (selectSkill!=null){
+                    Game.getInstance().getSkillManager().removeSkill(selectSkill.getName());
+                }
+
                 break;
             default:
 

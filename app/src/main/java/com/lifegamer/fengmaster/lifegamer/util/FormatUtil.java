@@ -10,7 +10,7 @@ import java.util.List;
 public class FormatUtil {
 
     public static String list2Str(List<Integer> list){
-        if (list==null){
+        if (list==null||list.size()==0){
             return "";
         }
         StringBuilder sb=new StringBuilder();

@@ -59,12 +59,6 @@
                         android:textSize="16sp"/>
                 </LinearLayout>
 
-                <ImageButton
-                    android:id="@+id/ib_item_all_skill_more"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:src="@android:drawable/arrow_down_float"/>
 
 
             </RelativeLayout>

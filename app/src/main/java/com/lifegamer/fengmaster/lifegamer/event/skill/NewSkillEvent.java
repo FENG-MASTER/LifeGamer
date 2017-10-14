@@ -4,6 +4,8 @@ import com.lifegamer.fengmaster.lifegamer.model.Skill;
 
 /**
  * Created by qianzise on 2017/10/11.
+ *
+ * 新增技能事件
  */
 
 public class NewSkillEvent {

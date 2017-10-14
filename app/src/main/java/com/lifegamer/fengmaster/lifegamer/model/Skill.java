@@ -90,6 +90,8 @@ public class Skill extends BaseObservable implements Insertable, Updateable, Del
             levelUp();
         }
         notifyPropertyChanged(BR.xp);
+        updateUpdateTime();
+
     }
 
     @Bindable
@@ -109,13 +111,23 @@ public class Skill extends BaseObservable implements Insertable, Updateable, Del
     }
 
     public void setLevel(int level) {
+        if (this.level==level){
+            return;
+        }
         this.level = level;
         notifyPropertyChanged(BR.level);
+        updateUpdateTime();
+
     }
 
     public void setUpGradeXP(int upGradeXP) {
+        if (this.upGradeXP==upGradeXP){
+            return;
+        }
         this.upGradeXP = upGradeXP;
         notifyPropertyChanged(BR.upGradeXP);
+        updateUpdateTime();
+
     }
 
     @Override
@@ -134,8 +146,13 @@ public class Skill extends BaseObservable implements Insertable, Updateable, Del
     }
 
     public void setName(String name) {
+        if (this.name.equals(name)){
+            return;
+        }
         this.name = name;
         notifyPropertyChanged(BR.name);
+        updateUpdateTime();
+
     }
 
     @Override
@@ -151,6 +168,8 @@ public class Skill extends BaseObservable implements Insertable, Updateable, Del
     public void setId(long id) {
         this.id = id;
         notifyPropertyChanged(BR.id);
+        updateUpdateTime();
+
     }
 
     @Override
@@ -181,8 +200,13 @@ public class Skill extends BaseObservable implements Insertable, Updateable, Del
     }
 
     public void setType(String type) {
+        if (this.type.equals(type)){
+            return;
+        }
         this.type = type;
         notifyPropertyChanged(BR.type);
+        updateUpdateTime();
+
     }
 
     @Bindable
@@ -196,8 +220,13 @@ public class Skill extends BaseObservable implements Insertable, Updateable, Del
     }
 
     public void setIcon(String icon) {
+        if (this.icon.equals(icon)){
+            return;
+        }
         this.icon = icon;
         notifyPropertyChanged(BR.icon);
+        updateUpdateTime();
+
     }
 
     @Bindable
@@ -225,19 +254,34 @@ public class Skill extends BaseObservable implements Insertable, Updateable, Del
         notifyPropertyChanged(BR.updateTime);
     }
 
+    private void updateUpdateTime(){
+        setUpdateTime(new Date());
+    }
+
     public void setNotes(List<Integer> notes) {
         this.notes = notes;
         notifyPropertyChanged(BR.notes);
+        updateUpdateTime();
     }
 
     public void setIntro(String intro) {
+        if (this.intro.equals(intro)){
+            return;
+        }
         this.intro = intro;
         notifyPropertyChanged(BR.intro);
+        updateUpdateTime();
+
     }
 
     public void setXP(int XP) {
+        if (this.XP==XP){
+            return;
+        }
         this.XP = XP;
         notifyPropertyChanged(BR.xp);
+        updateUpdateTime();
+
     }
 
     @Override

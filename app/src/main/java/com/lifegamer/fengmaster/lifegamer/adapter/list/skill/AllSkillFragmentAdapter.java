@@ -19,6 +19,7 @@ import com.lifegamer.fengmaster.lifegamer.adapter.base.BindingHolder;
 
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.databinding.ItemAllSkillBinding;
+import com.lifegamer.fengmaster.lifegamer.event.skill.DelSkillEvent;
 import com.lifegamer.fengmaster.lifegamer.event.skill.NewSkillEvent;
 import com.lifegamer.fengmaster.lifegamer.model.Skill;
 import com.lifegamer.fengmaster.lifegamer.util.ViewUtil;
@@ -99,6 +100,12 @@ public class AllSkillFragmentAdapter extends BaseRecyclerViewAdapter<AllSkillFra
         notifyDataSetChanged();
     }
 
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void delSkill(DelSkillEvent event){
+        list = Game.getInstance().getSkillManager().getAllSkill();
+        notifyDataSetChanged();
+    }
+
     @Override
     public String getName() {
         return "全部";
@@ -123,15 +130,13 @@ public class AllSkillFragmentAdapter extends BaseRecyclerViewAdapter<AllSkillFra
 
     public class Holder extends BindingHolder implements View.OnClickListener {
 
-        @BindView(R.id.ib_item_all_skill_more)
-        ImageButton more;
 
         private Skill skill;
 
         public Holder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            more.setOnClickListener(this);
+            itemView.setOnClickListener(this);
         }
 
         public Skill getSkill() {
