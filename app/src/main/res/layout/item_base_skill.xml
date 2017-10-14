@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="skill"
+            type="com.lifegamer.fengmaster.lifegamer.model.Skill"/>
+
+    </data>
+
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ll_item_all_skill_base"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <com.lifegamer.fengmaster.lifegamer.wight.SqureImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:src="@drawable/test1"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_item_all_skill_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@{skill.name}"
+                        android:textSize="20sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_item_all_skill_level"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text='@{"level "+skill.level}'
+                        android:textSize="16sp"/>
+                </LinearLayout>
+
+
+
+            </RelativeLayout>
+
+
+            <com.lifegamer.fengmaster.lifegamer.wight.ProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                app:finishColor="#f0cc00"
+                app:leftText="@{String.valueOf(skill.XP)}"
+                app:max="@{skill.upGradeXP}"
+                app:progress="@{skill.XP}"
+                app:rightText="@{String.valueOf(skill.upGradeXP)}"
+                app:unFinishColor="#3f3f3f">
+
+            </com.lifegamer.fengmaster.lifegamer.wight.ProgressBar>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</layout>

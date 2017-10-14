@@ -2,6 +2,7 @@ package com.lifegamer.fengmaster.lifegamer.fragment.skill;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.annimon.stream.Stream;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.databinding.DialogEditSkillBinding;
@@ -27,6 +29,9 @@ public class EditSkillDialog extends DialogFragment {
 
     private Skill skill = new Skill();
 
+    /**
+     * 编辑内容 是否有错误
+     */
     private boolean err = false;
 
     private NegativeButtonClickListener negativeButtonClickListener;
@@ -34,6 +39,7 @@ public class EditSkillDialog extends DialogFragment {
     private PositiveButtonClickListener positiveButtonClickListener;
 
     public EditSkillDialog() {
+        //不可点击外部取消对话框
         setCancelable(false);
     }
 
@@ -61,11 +67,13 @@ public class EditSkillDialog extends DialogFragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (Game.getInstance().getSkillManager().getAllSkillName().stream().anyMatch(s -> s.equals(editable.toString()))) {
+                if (Stream.of(Game.getInstance().getSkillManager().getAllSkillName()).anyMatch(s -> s.equals(editable.toString()))) {
                     //重名!!
-                    binding.etDialogEditSkillName.setError("技能重名!");
+                    binding.tilDialogEditSkillName.setErrorEnabled(true);
+                    binding.tilDialogEditSkillName.setError("技能重名!");
                     err = true;
                 } else {
+                    binding.tilDialogEditSkillName.setErrorEnabled(false);
                     err = false;
                 }
             }

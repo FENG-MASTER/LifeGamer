@@ -52,7 +52,7 @@ public class Skill extends BaseObservable implements Insertable, Updateable, Del
     /**
      * 技能所属种类
      */
-    private String type;
+    private String type="未分类";
     /**
      * 技能简介
      */

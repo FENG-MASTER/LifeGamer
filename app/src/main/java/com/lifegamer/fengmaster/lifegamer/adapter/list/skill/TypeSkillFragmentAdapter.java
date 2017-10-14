@@ -15,51 +15,22 @@ import java.util.List;
  * Created by qianzise on 2017/10/10.
  */
 
-public class TypeSkillFragmentAdapter extends BaseRecyclerViewAdapter<TypeSkillFragmentAdapter.Holder,Skill>{
+public class TypeSkillFragmentAdapter extends BaseSkillFragmentAdapter{
 
     private String type;
 
-    private List<Skill> typeSkillList;
-
     public TypeSkillFragmentAdapter(String type) {
+        super();
         this.type = type;
-        typeSkillList= Game.getInstance().getSkillManager().getAllSkill(this.type);
-    }
-
-    @Override
-    public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new Holder(parent);
-    }
-
-    @Override
-    public void onBindViewHolder(Holder holder, int position) {
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return 0;
     }
 
     @Override
     public String getName() {
-        return "厨艺";
+        return type;
     }
 
     @Override
-    public void addItemSelectListener(OnItemSelectListener<Skill> listener) {
-
-    }
-
-    @Override
-    public void removeItemSelectListener(OnItemSelectListener<Skill> listener) {
-
-    }
-
-    public static class Holder extends RecyclerView.ViewHolder{
-
-        public Holder(View itemView) {
-            super(itemView);
-        }
+    public void updateList() {
+        showSkillList=Game.getInstance().getSkillManager().getAllSkill(type);
     }
 }

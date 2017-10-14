@@ -71,4 +71,11 @@ public interface ISkillManager {
      * @return 列表
      */
     List<Skill> getAllSkill(String type);
+
+
+    /**
+     * 获取所有技能分类
+     * @return 分类列表
+     */
+    List<String> getAllSkillType();
 }

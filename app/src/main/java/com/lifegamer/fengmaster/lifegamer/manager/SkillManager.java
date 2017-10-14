@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.databinding.Observable;
 import android.os.Build;
 
+import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.lifegamer.fengmaster.lifegamer.BR;
 import com.lifegamer.fengmaster.lifegamer.Game;
@@ -26,13 +27,13 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
+
 
 /**
  * Created by qianzise on 2017/10/4.
- *
+ * <p>
  * 本地技能管理模块
- *
+ * <p>
  * 模块本身存储一份所有技能的备份{@link SkillManager#skillMap}
  */
 
@@ -49,7 +50,7 @@ public class SkillManager implements ISkillManager {
     @Override
     public void addSkillXp(String skillName, int xp) {
         Skill skill = skillMap.get(skillName);
-        if (skill!=null){
+        if (skill != null) {
             skill.addXP(xp);
             updateSkill(skill);
         }
@@ -110,35 +111,22 @@ public class SkillManager implements ISkillManager {
 
     @Override
     public List<String> getAllSkillName(String type) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return skillMap.values().stream().
-                    filter(skill -> type.equals(skill.getType())).
-                    map(Skill::getName).
-                    collect(Collectors.toList());
-        }else {
-            List<String> list = new LinkedList<>();
-            Stream.of(skillMap.values()).
-                    filter(skill -> type.equals(skill.getType())).
-                    map(Skill::getName).
-                    forEach(list::add);
-            return list;
-        }
-
+        return Stream.of(skillMap.values()).
+                filter(skill -> type.equals(skill.getType())).
+                map(Skill::getName).
+                collect(Collectors.toList());
     }
 
     @Override
     public List<Skill> getAllSkill(String type) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return skillMap.values().stream().
-                    filter(skill -> type.equals(skill.getType())).
-                    collect(Collectors.toList());
-        } else {
-            List<Skill> list = new LinkedList<>();
-            Stream.of(skillMap.values()).
-                    filter(skill -> type.equals(skill.getType())).
-                    forEach(list::add);
-            return list;
-        }
+        return Stream.of(skillMap.values()).
+                filter(skill -> type.equals(skill.getType())).
+                collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> getAllSkillType() {
+        return Stream.of(skillMap.values()).map(Skill::getType).distinct().collect(Collectors.toList());
     }
 
     /**
@@ -201,7 +189,7 @@ public class SkillManager implements ISkillManager {
             skill.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
                 @Override
                 public void onPropertyChanged(Observable sender, int propertyId) {
-                    if (propertyId== BR.name){
+                    if (propertyId == BR.name) {
 
                     }
                 }

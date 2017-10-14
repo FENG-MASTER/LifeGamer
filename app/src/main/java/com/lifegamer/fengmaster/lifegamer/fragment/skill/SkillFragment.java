@@ -36,7 +36,14 @@ public class SkillFragment extends BaseTabListFragment implements OnItemSelectLi
         AllSkillFragmentAdapter allSkillFragmentAdapter = new AllSkillFragmentAdapter();
         allSkillFragmentAdapter.addItemSelectListener(this);
         addAdapter(allSkillFragmentAdapter);
-        addAdapter(new TypeSkillFragmentAdapter(""));
+
+        List<String> skillType = Game.getInstance().getSkillManager().getAllSkillType();
+        for (String type : skillType) {
+            TypeSkillFragmentAdapter typeSkillFragmentAdapter = new TypeSkillFragmentAdapter(type);
+            typeSkillFragmentAdapter.addItemSelectListener(this);
+            addAdapter(typeSkillFragmentAdapter);
+        }
+
 
     }
 
