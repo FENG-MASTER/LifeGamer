@@ -21,7 +21,7 @@ import com.lifegamer.fengmaster.lifegamer.fragment.HeroInfoFragment;
 import com.lifegamer.fengmaster.lifegamer.fragment.ItemFragment;
 import com.lifegamer.fengmaster.lifegamer.fragment.skill.SkillFragment;
 import com.lifegamer.fengmaster.lifegamer.fragment.StatisticsFragment;
-import com.lifegamer.fengmaster.lifegamer.fragment.TaskFragment;
+import com.lifegamer.fengmaster.lifegamer.fragment.task.TaskFragment;
 import com.lifegamer.fengmaster.lifegamer.fragment.TopInfoFragment;
 import com.lifegamer.fengmaster.lifegamer.util.ViewUtil;
 

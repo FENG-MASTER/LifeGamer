@@ -16,4 +16,5 @@
     <string name="nav_info">个人简介</string>
     <string name="nav_setting">设置</string>
     <string name="nav_help">帮助</string>
+    <string name="level">等级</string>
 </resources>

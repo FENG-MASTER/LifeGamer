@@ -1,5 +1,9 @@
 package com.lifegamer.fengmaster.lifegamer.model;
 
+import android.database.sqlite.SQLiteDatabase;
+
+import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
+import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.ItemReward;
 
@@ -13,7 +17,7 @@ import java.util.Map;
  * 任务实体类
  */
 
-public class Task {
+public class Task implements Updateable,Insertable{
 
 
     /**
@@ -376,5 +380,15 @@ public class Task {
 
     public void setPreTasks(List<Integer> preTasks) {
         this.preTasks = preTasks;
+    }
+
+    @Override
+    public int update(SQLiteDatabase sqLiteDatabase) {
+        return 0;
+    }
+
+    @Override
+    public long insert(SQLiteDatabase sqLiteDatabase) {
+        return 0;
     }
 }
