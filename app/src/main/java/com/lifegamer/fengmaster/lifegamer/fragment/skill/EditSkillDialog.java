@@ -2,9 +2,7 @@ package com.lifegamer.fengmaster.lifegamer.fragment.skill;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -15,14 +13,14 @@ import com.annimon.stream.Stream;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
+import com.lifegamer.fengmaster.lifegamer.command.command.skill.AddSkillCommand;
+import com.lifegamer.fengmaster.lifegamer.command.command.skill.UpdateSkillCommand;
 import com.lifegamer.fengmaster.lifegamer.databinding.DialogEditSkillBinding;
 import com.lifegamer.fengmaster.lifegamer.manager.base.itf.IAvatarManager;
 import com.lifegamer.fengmaster.lifegamer.model.Skill;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 import com.lifegamer.fengmaster.lifegamer.wight.AvatarSelectDialog;
 import com.lifegamer.fengmaster.lifegamer.wight.SqureImageView;
-
-import java.util.function.Predicate;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -115,9 +113,9 @@ public class EditSkillDialog extends DialogFragment implements OnItemSelectListe
 
             if (skill.getId() == 0) {
                 //新建的skill
-                Game.getInstance().getSkillManager().addSkill(skill);
+                Game.getInstance().getCommandManager().executeCommand(new AddSkillCommand(skill));
             } else {
-                Game.getInstance().getSkillManager().updateSkill(skill);
+                Game.getInstance().getCommandManager().executeCommand(new UpdateSkillCommand(skill));
             }
 
 

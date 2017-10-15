@@ -1,5 +1,6 @@
 package com.lifegamer.fengmaster.lifegamer;
 
+import com.lifegamer.fengmaster.lifegamer.command.CommandManager;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
@@ -60,10 +61,23 @@ public class Game {
      */
     private IHeroManager heroManager=new HeroManger();
 
+    /**
+     * 图标管理器
+     */
     private IAvatarManager avatarManager=new DefaultAvatarManager();
+
+
+    /**
+     * 命令管理器
+     */
+    private CommandManager commandManager=new CommandManager();
 
     private Game() {
 
+    }
+
+    public CommandManager getCommandManager() {
+        return commandManager;
     }
 
     public IAvatarManager getAvatarManager() {

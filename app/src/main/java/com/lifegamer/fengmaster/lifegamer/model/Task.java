@@ -1,12 +1,16 @@
 package com.lifegamer.fengmaster.lifegamer.model;
 
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.ItemReward;
+import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +21,7 @@ import java.util.Map;
  * 任务实体类
  */
 
-public class Task implements Updateable,Insertable{
+public class Task implements Updateable, Insertable {
 
 
     /**
@@ -115,8 +119,6 @@ public class Task implements Updateable,Insertable{
      * 任务失败后失去的物品列表
      * <p>
      * key-物品名称 val-物品个数
-     *
-     * TODO:需要提供转换到字符串的方法,用于数据库存储
      */
     private List<ItemReward> failureItems;
     /**
@@ -384,11 +386,66 @@ public class Task implements Updateable,Insertable{
 
     @Override
     public int update(SQLiteDatabase sqLiteDatabase) {
-        return 0;
+        ContentValues cv = new ContentValues();
+        cv.put("name", getName());
+        cv.put("desc", getDesc());
+        cv.put("isAutoFail", isAutoFail());
+        cv.put("icon", getIcon());
+        cv.put("difficulty", getDifficulty());
+        cv.put("urgency", getUrgency());
+        cv.put("fear", getFear());
+        cv.put("successSkills", FormatUtil.skillMap2Str(getSuccessSkills()));
+        cv.put("successItems", FormatUtil.itemRewardList2Str(getSuccessItems()));
+        cv.put("successAchievements", FormatUtil.achievementRewardList2Str(getSuccessAchievements()));
+        cv.put("failureSkills", FormatUtil.skillMap2Str(getFailureSkills()));
+        cv.put("failureItems", FormatUtil.itemRewardList2Str(getFailureItems()));
+        cv.put("failureAchievements", FormatUtil.achievementRewardList2Str(getFailureAchievements()));
+        cv.put("earnLP", getEarnLP());
+        cv.put("lostLP", getLostLP());
+        cv.put("repeatType", getRepeatType());
+        cv.put("repeatInterval", getRepeatInterval());
+        cv.put("repeatAvailableTime", getRepeatAvailableTime());
+        cv.put("expirationTime", SimpleDateFormat.getInstance().format(getExpirationTime()));
+        cv.put("createTime", SimpleDateFormat.getInstance().format(getCreateTime()));
+        cv.put("updateTime", SimpleDateFormat.getInstance().format(getUpdateTime()));
+        cv.put("completeTimes", getCompleteTimes());
+        cv.put("failureTimes", getFailureTimes());
+        cv.put("preTasks", FormatUtil.list2Str(getPreTasks()));
+        cv.put("notes", FormatUtil.list2Str(getNotes()));
+
+        return sqLiteDatabase.update(DBHelper.TABLE_TASK, cv, "_id = ?", new String[]{String.valueOf(getId())});
+
     }
 
     @Override
     public long insert(SQLiteDatabase sqLiteDatabase) {
-        return 0;
+        ContentValues cv = new ContentValues();
+        cv.put("name", getName());
+        cv.put("desc", getDesc());
+        cv.put("isAutoFail", isAutoFail());
+        cv.put("icon", getIcon());
+        cv.put("difficulty", getDifficulty());
+        cv.put("urgency", getUrgency());
+        cv.put("fear", getFear());
+        cv.put("successSkills", FormatUtil.skillMap2Str(getSuccessSkills()));
+        cv.put("successItems", FormatUtil.itemRewardList2Str(getSuccessItems()));
+        cv.put("successAchievements", FormatUtil.achievementRewardList2Str(getSuccessAchievements()));
+        cv.put("failureSkills", FormatUtil.skillMap2Str(getFailureSkills()));
+        cv.put("failureItems", FormatUtil.itemRewardList2Str(getFailureItems()));
+        cv.put("failureAchievements", FormatUtil.achievementRewardList2Str(getFailureAchievements()));
+        cv.put("earnLP", getEarnLP());
+        cv.put("lostLP", getLostLP());
+        cv.put("repeatType", getRepeatType());
+        cv.put("repeatInterval", getRepeatInterval());
+        cv.put("repeatAvailableTime", getRepeatAvailableTime());
+        cv.put("expirationTime", SimpleDateFormat.getInstance().format(getExpirationTime()));
+        cv.put("createTime", SimpleDateFormat.getInstance().format(getCreateTime()));
+        cv.put("updateTime", SimpleDateFormat.getInstance().format(getUpdateTime()));
+        cv.put("completeTimes", getCompleteTimes());
+        cv.put("failureTimes", getFailureTimes());
+        cv.put("preTasks", FormatUtil.list2Str(getPreTasks()));
+        cv.put("notes", FormatUtil.list2Str(getNotes()));
+
+        return sqLiteDatabase.insert(DBHelper.TABLE_TASK,null,cv);
     }
 }

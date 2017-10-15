@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         initNav();
         //showInfo();
 
-        ViewUtil.setCoopView(coordinatorLayout);
+        ViewUtil.addCoopView(coordinatorLayout);
     }
 
     private void initNav(){
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ViewUtil.setCoopView(null);
+        ViewUtil.addCoopView(null);
     }
 
     private void initInfo(){

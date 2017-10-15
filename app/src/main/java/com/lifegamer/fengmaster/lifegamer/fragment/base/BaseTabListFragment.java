@@ -1,5 +1,6 @@
 package com.lifegamer.fengmaster.lifegamer.fragment.base;
 
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.adapter.BaseViewPagerFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
+import com.lifegamer.fengmaster.lifegamer.util.ViewUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,8 @@ public abstract class BaseTabListFragment extends Fragment{
     ViewPager viewPager;
     @BindView(R.id.fab)
     FloatingActionButton actionButton;
+    @BindView(R.id.coordinatorLayout_fragment)
+    CoordinatorLayout coordinatorLayout;
 
     List<BaseFragment> fragments =new ArrayList<>();
 
@@ -39,6 +43,17 @@ public abstract class BaseTabListFragment extends Fragment{
 
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        ViewUtil.removeCoopView(coordinatorLayout);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ViewUtil.addCoopView(coordinatorLayout);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -7,6 +7,10 @@ import android.widget.Toast;
 import com.lifegamer.fengmaster.lifegamer.App;
 
 import java.lang.ref.SoftReference;
+import java.util.Queue;
+import java.util.Stack;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.function.Predicate;
 
 /**
  * Created by qianzise on 2017/10/8.
@@ -15,11 +19,21 @@ import java.lang.ref.SoftReference;
  */
 
 public class ViewUtil {
+    private static Stack<SoftReference<View>> coopViews=new Stack<>();
 
-    private static SoftReference<View> coopView;
+    public static void addCoopView(View coopView) {
+        coopViews.add(new SoftReference<View>(coopView));
+    }
 
-    public static void setCoopView(View coopView) {
-        ViewUtil.coopView = new SoftReference<View>(coopView);
+    public static void removeCoopView(View coopView){
+        SoftReference<View> reference=null;
+        for (SoftReference<View> r : coopViews) {
+            if (r.get()==coopView){
+                reference=r;
+            }
+        }
+        coopViews.remove(reference);
+
     }
 
     /**
@@ -27,7 +41,7 @@ public class ViewUtil {
      * @param message 消息
      */
     public static void showSnack(String message){
-        Snackbar.make(coopView.get(),message,Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(coopViews.peek().get(),message,Snackbar.LENGTH_SHORT).show();
     }
 
     /**
@@ -36,7 +50,7 @@ public class ViewUtil {
      * @param time 显示时间
      */
     public static void showSnack(String message, int time){
-        Snackbar.make(coopView.get(),message,time).show();
+        Snackbar.make(coopViews.peek().get(),message,time).show();
     }
 
     /**
@@ -47,7 +61,7 @@ public class ViewUtil {
      * @param listener 动作回调
      */
     public static void showSnack(String message, int time, String actionName, View.OnClickListener listener){
-        Snackbar.make(coopView.get(),message,time).setAction(actionName,listener).show();
+        Snackbar.make(coopViews.peek().get(),message,time).setAction(actionName,listener).show();
     }
 
     /**
