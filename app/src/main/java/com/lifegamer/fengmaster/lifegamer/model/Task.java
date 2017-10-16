@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
+import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
@@ -21,7 +22,7 @@ import java.util.Map;
  * 任务实体类
  */
 
-public class Task implements Updateable, Insertable {
+public class Task implements Updateable, Insertable,Deleteable {
 
 
     /**
@@ -30,6 +31,11 @@ public class Task implements Updateable, Insertable {
     public static final int REP_ONCE = 1;
     /**
      * 可重复完成的
+     *
+     * 不存在时间间隔{@link Task#repeatInterval}无效
+     *
+     * 过期时间无效{@link Task#expirationTime}无效
+     *
      */
     public static final int REP_CONTINUOUS = 2;
     /**
@@ -52,10 +58,6 @@ public class Task implements Updateable, Insertable {
      * 每X年重复
      */
     public static final int REP_YEARLY = 7;
-    /**
-     * 没
-     */
-    public static final int REP_DAIIY = 8;
 
 
     /**
@@ -144,6 +146,8 @@ public class Task implements Updateable, Insertable {
     private int repeatInterval;
     /**
      * 可重复次数
+     *
+     * -1表示无限
      */
     private int repeatAvailableTime;
     /**
@@ -384,6 +388,8 @@ public class Task implements Updateable, Insertable {
         this.preTasks = preTasks;
     }
 
+
+
     @Override
     public int update(SQLiteDatabase sqLiteDatabase) {
         ContentValues cv = new ContentValues();
@@ -405,9 +411,25 @@ public class Task implements Updateable, Insertable {
         cv.put("repeatType", getRepeatType());
         cv.put("repeatInterval", getRepeatInterval());
         cv.put("repeatAvailableTime", getRepeatAvailableTime());
-        cv.put("expirationTime", SimpleDateFormat.getInstance().format(getExpirationTime()));
-        cv.put("createTime", SimpleDateFormat.getInstance().format(getCreateTime()));
-        cv.put("updateTime", SimpleDateFormat.getInstance().format(getUpdateTime()));
+
+        if (expirationTime!=null){
+            cv.put("expirationTime", SimpleDateFormat.getInstance().format(getExpirationTime()));
+        }else {
+            cv.put("expirationTime","");
+        }
+
+        if (createTime!=null){
+            cv.put("createTime", SimpleDateFormat.getInstance().format(getCreateTime()));
+        }else {
+            cv.put("createTime","");
+        }
+
+        if (updateTime!=null){
+            cv.put("updateTime", SimpleDateFormat.getInstance().format(getUpdateTime()));
+        }else {
+            cv.put("updateTime","");
+        }
+
         cv.put("completeTimes", getCompleteTimes());
         cv.put("failureTimes", getFailureTimes());
         cv.put("preTasks", FormatUtil.list2Str(getPreTasks()));
@@ -420,6 +442,9 @@ public class Task implements Updateable, Insertable {
     @Override
     public long insert(SQLiteDatabase sqLiteDatabase) {
         ContentValues cv = new ContentValues();
+        if (getId()!=0){
+            cv.put("_id",getId());
+        }
         cv.put("name", getName());
         cv.put("desc", getDesc());
         cv.put("isAutoFail", isAutoFail());
@@ -438,14 +463,34 @@ public class Task implements Updateable, Insertable {
         cv.put("repeatType", getRepeatType());
         cv.put("repeatInterval", getRepeatInterval());
         cv.put("repeatAvailableTime", getRepeatAvailableTime());
-        cv.put("expirationTime", SimpleDateFormat.getInstance().format(getExpirationTime()));
-        cv.put("createTime", SimpleDateFormat.getInstance().format(getCreateTime()));
-        cv.put("updateTime", SimpleDateFormat.getInstance().format(getUpdateTime()));
+        if (expirationTime!=null){
+            cv.put("expirationTime", SimpleDateFormat.getInstance().format(getExpirationTime()));
+        }else {
+            cv.put("expirationTime","");
+        }
+
+        if (createTime!=null){
+            cv.put("createTime", SimpleDateFormat.getInstance().format(getCreateTime()));
+        }else {
+            cv.put("createTime","");
+        }
+
+        if (updateTime!=null){
+            cv.put("updateTime", SimpleDateFormat.getInstance().format(getUpdateTime()));
+        }else {
+            cv.put("updateTime","");
+        }
+
         cv.put("completeTimes", getCompleteTimes());
         cv.put("failureTimes", getFailureTimes());
         cv.put("preTasks", FormatUtil.list2Str(getPreTasks()));
         cv.put("notes", FormatUtil.list2Str(getNotes()));
 
         return sqLiteDatabase.insert(DBHelper.TABLE_TASK,null,cv);
+    }
+
+    @Override
+    public int delete(SQLiteDatabase sqLiteDatabase) {
+        return sqLiteDatabase.delete(DBHelper.TABLE_TASK,"_id=?",new String[]{String.valueOf(getId())});
     }
 }

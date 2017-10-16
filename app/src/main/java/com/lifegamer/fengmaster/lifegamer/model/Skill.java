@@ -183,8 +183,18 @@ public class Skill extends BaseObservable implements Insertable, Updateable, Del
         cv.put("intro", getIntro());
         cv.put("icon", getIcon());
         cv.put("notes", FormatUtil.list2Str(getNotes()));
-        cv.put("createTime", SimpleDateFormat.getInstance().format(getCreateTime()));
-        cv.put("updateTime", SimpleDateFormat.getInstance().format(getUpdateTime()));
+
+        if (createTime!=null){
+            cv.put("createTime", SimpleDateFormat.getInstance().format(getCreateTime()));
+        }else {
+            cv.put("createTime","");
+        }
+
+        if (updateTime!=null){
+            cv.put("updateTime", SimpleDateFormat.getInstance().format(getUpdateTime()));
+        }else {
+            cv.put("updateTime","");
+        }
 
         return sqLiteDatabase.update(DBHelper.TABLE_SKILL, cv, "_id = ?", new String[]{String.valueOf(getId())});
     }
@@ -287,6 +297,9 @@ public class Skill extends BaseObservable implements Insertable, Updateable, Del
     @Override
     public long insert(SQLiteDatabase sqLiteDatabase) {
         ContentValues cv = new ContentValues();
+        if (getId()!=0){
+            cv.put("_id",getId());
+        }
         cv.put("name", getName());
         cv.put("level", getLevel());
         cv.put("xp", getXP());
@@ -295,8 +308,17 @@ public class Skill extends BaseObservable implements Insertable, Updateable, Del
         cv.put("intro", getIntro());
         cv.put("icon", getIcon());
         cv.put("notes", FormatUtil.list2Str(getNotes()));
-        cv.put("createTime", SimpleDateFormat.getInstance().format(getCreateTime()));
-        cv.put("updateTime", SimpleDateFormat.getInstance().format(getUpdateTime()));
+        if (createTime!=null){
+            cv.put("createTime", SimpleDateFormat.getInstance().format(getCreateTime()));
+        }else {
+            cv.put("createTime","");
+        }
+
+        if (updateTime!=null){
+            cv.put("updateTime", SimpleDateFormat.getInstance().format(getUpdateTime()));
+        }else {
+            cv.put("updateTime","");
+        }
 
         return sqLiteDatabase.insert(DBHelper.TABLE_SKILL, null, cv);
     }

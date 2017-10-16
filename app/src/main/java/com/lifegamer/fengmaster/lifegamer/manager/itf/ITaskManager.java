@@ -47,10 +47,22 @@ public interface ITaskManager {
     void finishTask(String task);
 
     /**
+     * 撤销完成任务
+     * @param task 任务名称
+     */
+    void undoFinishTask(String task);
+
+    /**
      * 任务失败
      * @param task 任务名称
      */
     void failTask(String task);
+
+    /**
+     * 撤销 任务失败
+     * @param task 任务名
+     */
+    void undoFailTask(String task);
 
     /**
      * 获得所有任务列表
@@ -82,4 +94,7 @@ public interface ITaskManager {
      * @return 任务列表
      */
     List<Task> getTodayUnFinishTask();
+
+
+
 }

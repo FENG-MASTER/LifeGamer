@@ -19,6 +19,9 @@ import java.util.function.Predicate;
  */
 
 public class ViewUtil {
+    /**
+     * 因为需要在多个CoordinatorLayout中实现Snack的显示,所以需要用个栈 原因自己想
+     */
     private static Stack<SoftReference<View>> coopViews=new Stack<>();
 
     public static void addCoopView(View coopView) {
