@@ -70,11 +70,6 @@ public class EditSkillDialog extends DialogFragment implements OnItemSelectListe
         ButterKnife.bind(this,binding.getRoot());
 
         binding.setSkill(skill);
-        if (skill.getIcon()!=null){
-            binding.sivDialogEditSkillIcon.setImageDrawable(
-                    Game.getInstance().getAvatarManager().getDrawable(
-                            FormatUtil.avatarStrFormat(skill.getIcon())[1]));
-        }
 
         binding.etDialogEditSkillName.addTextChangedListener(new TextWatcher() {
             @Override

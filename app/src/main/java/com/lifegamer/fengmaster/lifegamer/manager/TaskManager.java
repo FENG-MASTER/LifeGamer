@@ -1,5 +1,7 @@
 package com.lifegamer.fengmaster.lifegamer.manager;
 
+import android.util.SparseArray;
+
 import com.annimon.stream.Stream;
 import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
@@ -10,14 +12,22 @@ import com.lifegamer.fengmaster.lifegamer.model.Task;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by qianzise on 2017/10/4.
  */
 
 public class TaskManager implements ITaskManager {
+
+    /**
+     * 历史过期时间map
+     */
+    private SparseArray<Date> lastExpirationTimeMap=new SparseArray<>();
 
     /**
      * 缓存
@@ -59,7 +69,6 @@ public class TaskManager implements ITaskManager {
     @Override
     public void finishTask(String taskName) {
 
-
         Task task = Stream.of(taskList).filter(value -> value.getName().equals(taskName)).findFirst().get();
 
         if (task.getRepeatAvailableTime()==0){
@@ -76,12 +85,14 @@ public class TaskManager implements ITaskManager {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(task.getExpirationTime());
 
+        //记录历史过期时间
+        lastExpirationTimeMap.append((int)task.getId(),task.getExpirationTime());
+
         switch (task.getRepeatType()){
             case Task.REP_CONTINUOUS:
                 //重复的
                 task.setExpirationTime(null);
                 task.setRepeatInterval(0);
-                task.setRepeatAvailableTime(-1);
                 break;
             case Task.REP_DAILY:
                 //X天
@@ -124,10 +135,12 @@ public class TaskManager implements ITaskManager {
 
                 break;
             case Task.REP_ONCE:
-                //一次性
-
-
+                //默认也是一次性
             default:
+                //一次性
+                task.setExpirationTime(null);
+                task.setRepeatInterval(0);
+                task.setRepeatAvailableTime(0);
                 break;
 
         }
@@ -136,7 +149,17 @@ public class TaskManager implements ITaskManager {
     }
 
     @Override
-    public void undoFinishTask(String task) {
+    public void undoFinishTask(String taskName) {
+
+        Task task = Stream.of(taskList).filter(value -> value.getName().equals(taskName)).findFirst().get();
+        //完成次数-1
+        task.setCompleteTimes(task.getCompleteTimes()-1);
+        //过期时间恢复
+        task.setExpirationTime(lastExpirationTimeMap.get((int)task.getId()));
+        //可重复次数+1
+        task.setRepeatAvailableTime(task.getRepeatAvailableTime()+1);
+        //删除历史过期时间
+        lastExpirationTimeMap.remove((int)task.getId());
 
     }
 

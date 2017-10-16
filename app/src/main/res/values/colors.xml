@@ -5,6 +5,8 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="colorDarkBackGround">#202020</color>
+    <color name="colorLightDarkBackGround">#4c4c4c</color>
+
 
     <color name="colorXP">#1473e4</color>
     <color name="colorRemainTime">#f23d3d</color>

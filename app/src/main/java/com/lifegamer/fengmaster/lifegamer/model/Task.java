@@ -22,7 +22,7 @@ import java.util.Map;
  * 任务实体类
  */
 
-public class Task implements Updateable, Insertable,Deleteable {
+public class Task implements Updateable, Insertable, Deleteable {
 
 
     /**
@@ -31,11 +31,10 @@ public class Task implements Updateable, Insertable,Deleteable {
     public static final int REP_ONCE = 1;
     /**
      * 可重复完成的
-     *
+     * <p>
      * 不存在时间间隔{@link Task#repeatInterval}无效
-     *
+     * <p>
      * 过期时间无效{@link Task#expirationTime}无效
-     *
      */
     public static final int REP_CONTINUOUS = 2;
     /**
@@ -59,7 +58,7 @@ public class Task implements Updateable, Insertable,Deleteable {
      */
     public static final int REP_YEARLY = 7;
 
-
+/***********************S基础信息S**************************/
     /**
      * 任务ID
      */
@@ -76,13 +75,12 @@ public class Task implements Updateable, Insertable,Deleteable {
     private String desc;
 
     /**
-     * 任务过期后是否自动失败
-     */
-    private boolean isAutoFail;
-    /**
      * 任务图标
      */
     private String icon;
+/***********************E基础信息E**************************/
+
+/***********************S扩展信息S**************************/
     /**
      * 困难程度
      */
@@ -95,6 +93,14 @@ public class Task implements Updateable, Insertable,Deleteable {
      * 害怕程度
      */
     private int fear;
+    /**
+     * 前置任务ID列表
+     */
+    private List<Integer> preTasks;
+/***********************E扩展信息E**************************/
+
+/***********************S奖励信息S**************************/
+
     /**
      * 任务完成后增加相应技能
      * <p>
@@ -136,6 +142,10 @@ public class Task implements Updateable, Insertable,Deleteable {
      * 任务失败后扣除的LP
      */
     private int lostLP;
+/***********************E奖励信息E**************************/
+
+/***********************S时间信息S**************************/
+
     /**
      * 任务重复类型
      */
@@ -146,14 +156,14 @@ public class Task implements Updateable, Insertable,Deleteable {
     private int repeatInterval;
     /**
      * 可重复次数
-     *
+     * <p>
      * -1表示无限
      */
     private int repeatAvailableTime;
     /**
      * 任务到期时间
      */
-    private Date expirationTime;
+    private Date expirationTime=new Date();
     /**
      * 任务创建时间
      */
@@ -171,69 +181,64 @@ public class Task implements Updateable, Insertable,Deleteable {
      */
     private int failureTimes;
     /**
-     * 前置任务ID列表
+     * 任务过期后是否自动失败
      */
-    private List<Integer> preTasks;
+    private boolean isAutoFail;
+/***********************S时间信息S**************************/
+
 
     /**
      * 笔记ID
      */
     private List<Integer> notes;
 
-    public List<Integer> getNotes() {
-        return notes;
-    }
+    @Override
+    public int update(SQLiteDatabase sqLiteDatabase) {
+        ContentValues cv = new ContentValues();
+        cv.put("name", getName());
+        cv.put("desc", getDesc());
+        cv.put("isAutoFail", isAutoFail());
+        cv.put("icon", getIcon());
+        cv.put("difficulty", getDifficulty());
+        cv.put("urgency", getUrgency());
+        cv.put("fear", getFear());
+        cv.put("successSkills", FormatUtil.skillMap2Str(getSuccessSkills()));
+        cv.put("successItems", FormatUtil.itemRewardList2Str(getSuccessItems()));
+        cv.put("successAchievements", FormatUtil.achievementRewardList2Str(getSuccessAchievements()));
+        cv.put("failureSkills", FormatUtil.skillMap2Str(getFailureSkills()));
+        cv.put("failureItems", FormatUtil.itemRewardList2Str(getFailureItems()));
+        cv.put("failureAchievements", FormatUtil.achievementRewardList2Str(getFailureAchievements()));
+        cv.put("earnLP", getEarnLP());
+        cv.put("lostLP", getLostLP());
+        cv.put("repeatType", getRepeatType());
+        cv.put("repeatInterval", getRepeatInterval());
+        cv.put("repeatAvailableTime", getRepeatAvailableTime());
 
-    public void setNotes(List<Integer> notes) {
-        this.notes = notes;
-    }
+        if (expirationTime != null) {
+            cv.put("expirationTime", SimpleDateFormat.getInstance().format(getExpirationTime()));
+        } else {
+            cv.put("expirationTime", "");
+        }
 
-    public boolean isAutoFail() {
-        return isAutoFail;
-    }
+        if (createTime != null) {
+            cv.put("createTime", SimpleDateFormat.getInstance().format(getCreateTime()));
+        } else {
+            cv.put("createTime", "");
+        }
 
-    public void setAutoFail(boolean autoFail) {
-        isAutoFail = autoFail;
-    }
+        if (updateTime != null) {
+            cv.put("updateTime", SimpleDateFormat.getInstance().format(getUpdateTime()));
+        } else {
+            cv.put("updateTime", "");
+        }
 
-    public Map<String, Integer> getFailureSkills() {
-        return failureSkills;
-    }
+        cv.put("completeTimes", getCompleteTimes());
+        cv.put("failureTimes", getFailureTimes());
+        cv.put("preTasks", FormatUtil.list2Str(getPreTasks()));
+        cv.put("notes", FormatUtil.list2Str(getNotes()));
 
-    public void setFailureSkills(Map<String, Integer> failureSkills) {
-        this.failureSkills = failureSkills;
-    }
+        return sqLiteDatabase.update(DBHelper.TABLE_TASK, cv, "_id = ?", new String[]{String.valueOf(getId())});
 
-    public List<ItemReward> getFailureItems() {
-        return failureItems;
-    }
-
-    public void setFailureItems(List<ItemReward> failureItems) {
-        this.failureItems = failureItems;
-    }
-
-    public List<AchievementReward> getFailureAchievements() {
-        return failureAchievements;
-    }
-
-    public void setFailureAchievements(List<AchievementReward> failureAchievements) {
-        this.failureAchievements = failureAchievements;
-    }
-
-    public int getLostLP() {
-        return lostLP;
-    }
-
-    public void setLostLP(int lostLP) {
-        this.lostLP = lostLP;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -248,8 +253,12 @@ public class Task implements Updateable, Insertable,Deleteable {
         return desc;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public boolean isAutoFail() {
+        return isAutoFail;
+    }
+
+    public void setAutoFail(boolean autoFail) {
+        isAutoFail = autoFail;
     }
 
     public String getIcon() {
@@ -304,16 +313,40 @@ public class Task implements Updateable, Insertable,Deleteable {
         return successAchievements;
     }
 
-    public void setSuccessAchievements(List<AchievementReward> successAchievements) {
-        this.successAchievements = successAchievements;
+    public Map<String, Integer> getFailureSkills() {
+        return failureSkills;
+    }
+
+    public void setFailureSkills(Map<String, Integer> failureSkills) {
+        this.failureSkills = failureSkills;
+    }
+
+    public List<ItemReward> getFailureItems() {
+        return failureItems;
+    }
+
+    public void setFailureItems(List<ItemReward> failureItems) {
+        this.failureItems = failureItems;
+    }
+
+    public List<AchievementReward> getFailureAchievements() {
+        return failureAchievements;
+    }
+
+    public void setFailureAchievements(List<AchievementReward> failureAchievements) {
+        this.failureAchievements = failureAchievements;
     }
 
     public int getEarnLP() {
         return earnLP;
     }
 
-    public void setEarnLP(int earnLP) {
-        this.earnLP = earnLP;
+    public int getLostLP() {
+        return lostLP;
+    }
+
+    public void setLostLP(int lostLP) {
+        this.lostLP = lostLP;
     }
 
     public int getRepeatType() {
@@ -384,66 +417,43 @@ public class Task implements Updateable, Insertable,Deleteable {
         return preTasks;
     }
 
+    public List<Integer> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<Integer> notes) {
+        this.notes = notes;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public void setPreTasks(List<Integer> preTasks) {
         this.preTasks = preTasks;
     }
 
+    public void setEarnLP(int earnLP) {
+        this.earnLP = earnLP;
+    }
 
+    public void setSuccessAchievements(List<AchievementReward> successAchievements) {
+        this.successAchievements = successAchievements;
+    }
 
-    @Override
-    public int update(SQLiteDatabase sqLiteDatabase) {
-        ContentValues cv = new ContentValues();
-        cv.put("name", getName());
-        cv.put("desc", getDesc());
-        cv.put("isAutoFail", isAutoFail());
-        cv.put("icon", getIcon());
-        cv.put("difficulty", getDifficulty());
-        cv.put("urgency", getUrgency());
-        cv.put("fear", getFear());
-        cv.put("successSkills", FormatUtil.skillMap2Str(getSuccessSkills()));
-        cv.put("successItems", FormatUtil.itemRewardList2Str(getSuccessItems()));
-        cv.put("successAchievements", FormatUtil.achievementRewardList2Str(getSuccessAchievements()));
-        cv.put("failureSkills", FormatUtil.skillMap2Str(getFailureSkills()));
-        cv.put("failureItems", FormatUtil.itemRewardList2Str(getFailureItems()));
-        cv.put("failureAchievements", FormatUtil.achievementRewardList2Str(getFailureAchievements()));
-        cv.put("earnLP", getEarnLP());
-        cv.put("lostLP", getLostLP());
-        cv.put("repeatType", getRepeatType());
-        cv.put("repeatInterval", getRepeatInterval());
-        cv.put("repeatAvailableTime", getRepeatAvailableTime());
-
-        if (expirationTime!=null){
-            cv.put("expirationTime", SimpleDateFormat.getInstance().format(getExpirationTime()));
-        }else {
-            cv.put("expirationTime","");
-        }
-
-        if (createTime!=null){
-            cv.put("createTime", SimpleDateFormat.getInstance().format(getCreateTime()));
-        }else {
-            cv.put("createTime","");
-        }
-
-        if (updateTime!=null){
-            cv.put("updateTime", SimpleDateFormat.getInstance().format(getUpdateTime()));
-        }else {
-            cv.put("updateTime","");
-        }
-
-        cv.put("completeTimes", getCompleteTimes());
-        cv.put("failureTimes", getFailureTimes());
-        cv.put("preTasks", FormatUtil.list2Str(getPreTasks()));
-        cv.put("notes", FormatUtil.list2Str(getNotes()));
-
-        return sqLiteDatabase.update(DBHelper.TABLE_TASK, cv, "_id = ?", new String[]{String.valueOf(getId())});
-
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     @Override
     public long insert(SQLiteDatabase sqLiteDatabase) {
         ContentValues cv = new ContentValues();
-        if (getId()!=0){
-            cv.put("_id",getId());
+        if (getId() != 0) {
+            cv.put("_id", getId());
         }
         cv.put("name", getName());
         cv.put("desc", getDesc());
@@ -463,22 +473,22 @@ public class Task implements Updateable, Insertable,Deleteable {
         cv.put("repeatType", getRepeatType());
         cv.put("repeatInterval", getRepeatInterval());
         cv.put("repeatAvailableTime", getRepeatAvailableTime());
-        if (expirationTime!=null){
+        if (expirationTime != null) {
             cv.put("expirationTime", SimpleDateFormat.getInstance().format(getExpirationTime()));
-        }else {
-            cv.put("expirationTime","");
+        } else {
+            cv.put("expirationTime", "");
         }
 
-        if (createTime!=null){
+        if (createTime != null) {
             cv.put("createTime", SimpleDateFormat.getInstance().format(getCreateTime()));
-        }else {
-            cv.put("createTime","");
+        } else {
+            cv.put("createTime", "");
         }
 
-        if (updateTime!=null){
+        if (updateTime != null) {
             cv.put("updateTime", SimpleDateFormat.getInstance().format(getUpdateTime()));
-        }else {
-            cv.put("updateTime","");
+        } else {
+            cv.put("updateTime", "");
         }
 
         cv.put("completeTimes", getCompleteTimes());
@@ -486,11 +496,11 @@ public class Task implements Updateable, Insertable,Deleteable {
         cv.put("preTasks", FormatUtil.list2Str(getPreTasks()));
         cv.put("notes", FormatUtil.list2Str(getNotes()));
 
-        return sqLiteDatabase.insert(DBHelper.TABLE_TASK,null,cv);
+        return sqLiteDatabase.insert(DBHelper.TABLE_TASK, null, cv);
     }
 
     @Override
     public int delete(SQLiteDatabase sqLiteDatabase) {
-        return sqLiteDatabase.delete(DBHelper.TABLE_TASK,"_id=?",new String[]{String.valueOf(getId())});
+        return sqLiteDatabase.delete(DBHelper.TABLE_TASK, "_id=?", new String[]{String.valueOf(getId())});
     }
 }

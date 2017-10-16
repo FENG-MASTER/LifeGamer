@@ -21,4 +21,17 @@
 
     </integer-array>
 
+    <string-array name="task_req_type">
+        <item>单次任务</item>
+        <item>不限次数任务</item>
+        <item>小时任务</item>
+        <item>日任务</item>
+        <item>周任务</item>
+        <item>月任务</item>
+        <item>年任务</item>
+
+
+
+    </string-array>
+
 </resources>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <import type="com.lifegamer.fengmaster.lifegamer.util.FormatUtil"/>
+        <import type="com.lifegamer.fengmaster.lifegamer.Game"/>
+        <variable
+            name="task"
+            type="com.lifegamer.fengmaster.lifegamer.model.Task"/>
+
+
+    </data>
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:background="@color/colorDarkBackGround"
+                  android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <LinearLayout
+                android:background="@color/colorDarkBackGround"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.lifegamer.fengmaster.lifegamer.wight.SqureImageView
+                    android:id="@+id/siv_dialog_edit_task_icon"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@{task.icon == null? @drawable/ic_default :Game.instance.avatarManager.getAvatar(FormatUtil.avatarStrFormat(task.icon)[1]).icon}"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/til_dialog_edit_task_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <android.support.v7.widget.AppCompatEditText
+                            android:id="@+id/et_dialog_edit_task_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:hint="任务名称"
+                            android:text="@{task.name}"/>
+                    </android.support.design.widget.TextInputLayout>
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/til_dialog_edit_task_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <android.support.v7.widget.AppCompatEditText
+                            android:id="@+id/et_dialog_edit_task_type"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:hint="任务描述"
+                            android:text="@{task.desc}"/>
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+        <android.support.design.widget.TabLayout
+            android:background="@color/colorDarkBackGround"
+            android:id="@+id/tl_dialog_edit_task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.design.widget.TabLayout>
+
+
+        <android.support.v4.view.ViewPager
+            android:background="@color/colorLightDarkBackGround"
+            android:id="@+id/vp_dialog_edit_task_content"
+            android:layout_width="match_parent"
+            android:layout_height="280dp">
+
+        </android.support.v4.view.ViewPager>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <!--确认取消按钮-->
+
+            <ImageButton
+                android:id="@+id/bt_dialog_edit_task_ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/colorDarkBackGround"
+                android:padding="10dp"
+                android:src="@drawable/ic_check_circle_black_24dp"
+                />
+
+            <ImageButton
+                android:id="@+id/bt_dialog_edit_task_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/colorDarkBackGround"
+                android:padding="10dp"
+                android:src="@drawable/ic_cancel_black_24dp"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>
