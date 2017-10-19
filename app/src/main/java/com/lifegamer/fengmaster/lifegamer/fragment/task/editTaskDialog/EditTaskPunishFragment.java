@@ -6,27 +6,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseFragment;
 
 /**
- * Created by qianzise on 2017/10/16.
+ * Created by qianzise on 2017/10/19.
  */
 
-public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
-
-    public EditTaskRewardFragment() {
-    }
+public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.dialog_edit_task_reward,container,false);
+
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
     public String getName() {
-        return "奖励";
+        return "惩罚";
     }
 
     @Override

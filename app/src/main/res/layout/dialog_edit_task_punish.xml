@@ -6,7 +6,7 @@
 
 
     <TextView
-        android:text="胜利奖励"
+        android:text="失败惩罚"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <LinearLayout
@@ -18,7 +18,7 @@
 
         <TextView
             android:textSize="12sp"
-            android:text="增加技能点"
+            android:text="扣除技能点"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <Button
@@ -38,7 +38,7 @@
 
         <TextView
             android:textSize="12sp"
-            android:text="获得物品"
+            android:text="扣除物品"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <Button
@@ -59,7 +59,7 @@
 
         <TextView
             android:textSize="12sp"
-            android:text="获得成就"
+            android:text="失去成就"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <Button

@@ -7,6 +7,7 @@ import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
 import com.lifegamer.fengmaster.lifegamer.manager.HeroManger;
 import com.lifegamer.fengmaster.lifegamer.manager.SkillManager;
+import com.lifegamer.fengmaster.lifegamer.manager.TaskManager;
 import com.lifegamer.fengmaster.lifegamer.manager.base.DefaultAvatarManager;
 import com.lifegamer.fengmaster.lifegamer.manager.base.itf.IAvatarManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IAchievementManager;
@@ -50,7 +51,7 @@ public class Game {
     /**
      * 任务管理器
      */
-    private ITaskManager taskManager;
+    private ITaskManager taskManager=new TaskManager();
     /**
      * 笔记管理器
      */

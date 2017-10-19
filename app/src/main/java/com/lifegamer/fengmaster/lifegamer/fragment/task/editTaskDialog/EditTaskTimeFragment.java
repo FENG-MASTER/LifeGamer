@@ -15,7 +15,7 @@ import com.lifegamer.fengmaster.lifegamer.model.Task;
  * Created by qianzise on 2017/10/16.
  */
 
-public class EditTaskTimeFragment extends BaseFragment {
+public class EditTaskTimeFragment extends EditTaskDialog.SaveableFragment {
 
     @Nullable
     @Override
@@ -31,5 +31,10 @@ public class EditTaskTimeFragment extends BaseFragment {
     @Override
     public String getName() {
         return "时间";
+    }
+
+    @Override
+    void save() {
+
     }
 }

@@ -200,14 +200,7 @@ public class SkillManager implements ISkillManager {
         Cursor cursor = helper.getReadableDatabase().query(DBHelper.TABLE_SKILL, null, null, null, null, null, null);
         while (cursor.moveToNext()) {
             Skill skill = getSkillFromCursor(cursor, true);
-            skill.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
-                @Override
-                public void onPropertyChanged(Observable sender, int propertyId) {
-                    if (propertyId == BR.name) {
 
-                    }
-                }
-            });
         }
     }
 }

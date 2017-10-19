@@ -1,16 +1,22 @@
 package com.lifegamer.fengmaster.lifegamer.manager;
 
+import android.database.Cursor;
 import android.util.SparseArray;
 
+import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
+import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.event.task.NewTaskEvent;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ITaskManager;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
+import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,6 +30,8 @@ import java.util.Map;
 
 public class TaskManager implements ITaskManager {
 
+    private DBHelper helper=DBHelper.getInstance();
+
     /**
      * 历史过期时间map
      */
@@ -34,8 +42,13 @@ public class TaskManager implements ITaskManager {
      */
     private List<Task> taskList = new LinkedList<>();
 
+    public TaskManager() {
+        loadTaskFromSQL();
+    }
+
     @Override
     public boolean addTask(Task task) {
+
         long id = Game.insert(task);
         if (id != 0) {
             task.setId(id);
@@ -174,6 +187,16 @@ public class TaskManager implements ITaskManager {
     }
 
     @Override
+    public Task getTask(int id) {
+        return Stream.of(taskList).filter(value -> value.getId()==id).findFirst().get();
+    }
+
+    @Override
+    public Task getTask(String name) {
+        return null;
+    }
+
+    @Override
     public List<Task> getAllTask() {
         return null;
     }
@@ -190,12 +213,91 @@ public class TaskManager implements ITaskManager {
 
     @Override
     public List<Task> getAllUnFinishTask() {
-        return null;
+        return Stream.of(taskList).filter(value -> value.getRepeatAvailableTime()!=0).collect(Collectors.toList());
     }
 
     @Override
     public List<Task> getTodayUnFinishTask() {
         return null;
+    }
+
+    private void loadTaskFromSQL(){
+        Cursor cursor = helper.getReadableDatabase().query(DBHelper.TABLE_TASK, null, null, null, null, null, null);
+        while (cursor.moveToNext()) {
+            Task task=getTaskFromCursor(cursor);
+            taskList.add(task);
+        }
+
+
+    }
+
+    private Task getTaskFromCursor(Cursor cursor){
+        Task task=new Task();
+        task.setId(cursor.getInt(cursor.getColumnIndex("_id")));
+        task.setName(cursor.getString(cursor.getColumnIndex("name")));
+        task.setDesc(cursor.getString(cursor.getColumnIndex("desc")));
+        task.setAutoFail(cursor.getInt(cursor.getColumnIndex("isAutoFail"))==1);
+        task.setIcon(cursor.getString(cursor.getColumnIndex("icon")));
+
+        task.setDifficulty(cursor.getInt(cursor.getColumnIndex("difficulty")));
+        task.setFear(cursor.getInt(cursor.getColumnIndex("fear")));
+        task.setUrgency(cursor.getInt(cursor.getColumnIndex("urgency")));
+
+        task.setSuccessSkills(FormatUtil.str2SkillMap(cursor.getString(cursor.getColumnIndex("successSkills"))));
+        task.setSuccessItems(FormatUtil.str2ItemRewardList(cursor.getString(cursor.getColumnIndex("successItems"))));
+        task.setSuccessAchievements(FormatUtil.str2achievementRewardList(cursor.getString(cursor.getColumnIndex("successAchievements"))));
+
+        task.setFailureSkills(FormatUtil.str2SkillMap(cursor.getString(cursor.getColumnIndex("failureSkills"))));
+        task.setFailureItems(FormatUtil.str2ItemRewardList(cursor.getString(cursor.getColumnIndex("failureItems"))));
+        task.setFailureAchievements(FormatUtil.str2achievementRewardList(cursor.getString(cursor.getColumnIndex("failureAchievements"))));
+
+
+        task.setEarnLP(cursor.getInt(cursor.getColumnIndex("earnLP")));
+        task.setLostLP(cursor.getInt(cursor.getColumnIndex("lostLP")));
+
+        task.setRepeatType(cursor.getInt(cursor.getColumnIndex("repeatType")));
+        task.setRepeatInterval(cursor.getInt(cursor.getColumnIndex("repeatInterval")));
+        task.setRepeatAvailableTime(cursor.getInt(cursor.getColumnIndex("repeatAvailableTime")));
+
+        String expirationTime = cursor.getString(cursor.getColumnIndex("expirationTime"));
+        if (expirationTime!=null&&expirationTime.equals("")){
+            try {
+                task.setExpirationTime(SimpleDateFormat.getInstance().parse(expirationTime));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        String createTime = cursor.getString(cursor.getColumnIndex("createTime"));
+        if (createTime!=null&&createTime.equals("")){
+            try {
+                task.setCreateTime(SimpleDateFormat.getInstance().parse(createTime));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
+        String updateTime = cursor.getString(cursor.getColumnIndex("updateTime"));
+        if (updateTime!=null&&updateTime.equals("")){
+            try {
+                task.setUpdateTime(SimpleDateFormat.getInstance().parse(updateTime));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
+        task.setCompleteTimes(cursor.getInt(cursor.getColumnIndex("completeTimes")));
+        task.setFailureTimes(cursor.getInt(cursor.getColumnIndex("failureTimes")));
+        task.setPreTasks(FormatUtil.str2List(cursor.getString(cursor.getColumnIndex("preTasks"))));
+        task.setNotes(FormatUtil.str2List(cursor.getString(cursor.getColumnIndex("notes"))));
+
+        return task;
+
     }
 
 

@@ -64,6 +64,22 @@ public interface ITaskManager {
      */
     void undoFailTask(String task);
 
+
+    /**
+     * 获得任务信息
+     * @param id 任务ID
+     * @return 任务
+     */
+    Task getTask(int id);
+
+
+    /**
+     * 获得任务信息
+     * @param name 任务名
+     * @return 任务
+     */
+    Task getTask(String name);
+
     /**
      * 获得所有任务列表
      * @return 任务列表

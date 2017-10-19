@@ -1,95 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:padding="5dp"
-    android:layout_height="280dp">
+<layout>
 
-    <LinearLayout
+    <data>
+
+        <variable
+            name="task"
+            type="com.lifegamer.fengmaster.lifegamer.model.Task"/>
+
+    </data>
+
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_gravity="center"
-            android:drawableLeft="@drawable/ic_exp"
-            android:text="任务所得经验值:100"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
+        android:layout_height="280dp"
+        android:padding="5dp">
 
         <LinearLayout
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="5dp">
+            android:orientation="vertical">
 
-            <SeekBar
+            <TextView
+                android:id="@+id/tv_dialog_edit_task_extra_xp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="9"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/ic_exp"
+                android:text="任务所得经验值:100"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_nav_help"
+                android:text='@{"困难系数  "+task.difficulty}'
+                android:textSize="12sp"/>
+
+
+            <SeekBar
+                android:id="@+id/sb_dialog_edit_task_difficulty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:max="100"
-                android:progress="50"/>
+                android:progress="@{task.difficulty}"/>
+
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:drawableLeft="@drawable/ic_nav_help"
-                android:text="困难系数"/>
-        </LinearLayout>
+                android:text="恐惧系数"
+                android:textSize="12sp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="5dp">
 
             <SeekBar
-                android:layout_width="wrap_content"
+                android:id="@+id/sb_dialog_edit_task_fear"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="9"
-                android:max="100"/>
+                android:max="100"
+                android:progress="@{task.fear}"/>
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:drawableLeft="@drawable/ic_nav_help"
-                android:text="恐惧系数"/>
-        </LinearLayout>
+                android:text="紧急系数"
+                android:textSize="12sp"/>
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="5dp">
 
             <SeekBar
-                android:layout_width="wrap_content"
+                android:id="@+id/sb_dialog_edit_task_urgency"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="9"
-                android:max="100"/>
+                android:max="100"
+                android:progress="@{task.urgency}"/>
+
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableLeft="@drawable/ic_nav_help"
-                android:text="紧急系数"/>
+                android:text="前置任务"
+                android:textSize="12sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/ll_dialog_edit_task_extra_parent_task"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    </LinearLayout>
+                <Button
+                    android:id="@+id/bt_dialog_edit_task_add_pre_task"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/ic_add_black_24dp"
+                    android:text="添加前置任务"/>
+
+            </LinearLayout>
+
+
         </LinearLayout>
+    </ScrollView>
 
-        <!--TODO: 父任务相关UI-->
-        <TextView
-            android:text="父任务相关UI"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-
-
-    </LinearLayout>
-</ScrollView>
+</layout>

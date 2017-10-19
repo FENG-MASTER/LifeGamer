@@ -32,7 +32,7 @@ public class FormatUtil {
         for (Integer integer : list) {
             sb.append(integer + ",");
         }
-        sb.deleteCharAt(sb.length());
+        sb.deleteCharAt(sb.length()-1);
         return sb.toString();
     }
 
@@ -44,7 +44,7 @@ public class FormatUtil {
      * @return 整数list
      */
     public static List<Integer> str2List(String str) {
-        if (str == null || str.length() == 0) {
+        if (str == null || str.equals("")) {
             return new ArrayList<>();
         }
         String[] split = str.split(",");
@@ -62,7 +62,7 @@ public class FormatUtil {
      * @return 0号表示avatar管理器名, 1号表示avatar名称
      */
     public static String[] avatarStrFormat(String avatarStr) {
-        if (avatarStr == null) {
+        if (avatarStr == null||avatarStr.equals("")) {
             return new String[2];
         }
         return avatarStr.split("#");
@@ -75,7 +75,7 @@ public class FormatUtil {
      * @return string形式
      */
     public static String skillMap2Str(Map<String, Integer> skillMap) {
-        if (skillMap == null) {
+        if (skillMap == null||skillMap.isEmpty()) {
             return "";
         }
         StringBuilder stringBuilder = new StringBuilder();
@@ -92,7 +92,7 @@ public class FormatUtil {
      * @return skillmap key-技能名 val-技能增加xp
      */
     public static Map<String, Integer> str2SkillMap(String str) {
-        if (str == null) {
+        if (str == null||str.equals("")) {
             return new HashMap<>();
         }
         Map<String, Integer> map = new HashMap<>();
@@ -105,7 +105,7 @@ public class FormatUtil {
     }
 
     public static String itemRewardList2Str(List<ItemReward> rewardList) {
-        if (rewardList == null) {
+        if (rewardList == null||rewardList.isEmpty()) {
             return "";
         }
         StringBuilder stringBuilder = new StringBuilder();
@@ -120,7 +120,7 @@ public class FormatUtil {
     }
 
     public static List<ItemReward> str2ItemRewardList(String str) {
-        if (str == null) {
+        if (str == null||str.equals("")) {
             return new ArrayList<>();
         }
 
@@ -135,7 +135,7 @@ public class FormatUtil {
     }
 
     public static String achievementRewardList2Str(List<AchievementReward> list) {
-        if (list == null) {
+        if (list == null||list.isEmpty()) {
             return "";
         }
         StringBuilder stringBuilder = new StringBuilder();
@@ -148,7 +148,7 @@ public class FormatUtil {
     }
 
     public static List<AchievementReward> str2achievementRewardList(String str){
-        if (str==null){
+        if (str==null||str.equals("")){
             return new ArrayList<>();
         }
         List<AchievementReward> list=new ArrayList<>();

@@ -83,7 +83,19 @@
             </LinearLayout>
 
 
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="过期相关"
+                android:textSize="12sp"/>
+            <Switch
+                android:id="@+id/switch_dialog_edit_task_auto_fail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="@{task.autoFail}"
+                android:text="过期自动失败"/>
 
 
         </LinearLayout>

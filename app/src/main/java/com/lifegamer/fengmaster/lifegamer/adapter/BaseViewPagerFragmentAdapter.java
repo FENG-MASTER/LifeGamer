@@ -19,10 +19,10 @@ import java.util.List;
  */
 
 public class BaseViewPagerFragmentAdapter extends FragmentStatePagerAdapter {
-    private List<BaseFragment> fragmentList;
+    private List<? extends BaseFragment> fragmentList;
 
 
-    public BaseViewPagerFragmentAdapter(FragmentManager fm,List<BaseFragment> list) {
+    public BaseViewPagerFragmentAdapter(FragmentManager fm,List<? extends BaseFragment> list) {
         super(fm);
         fragmentList=list;
     }
