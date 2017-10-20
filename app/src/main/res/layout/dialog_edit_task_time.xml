@@ -2,7 +2,9 @@
 <layout>
 
     <data>
-        <import type="java.text.SimpleDateFormat"/>
+
+        <import type="com.lifegamer.fengmaster.lifegamer.util.FormatUtil"/>
+
         <variable
             name="task"
             type="com.lifegamer.fengmaster.lifegamer.model.Task"/>
@@ -29,6 +31,7 @@
                 android:textSize="12sp"/>
 
             <Spinner
+                android:id="@+id/sp_dialog_edit_task_rep_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:entries="@array/task_req_type"
@@ -45,9 +48,10 @@
                 android:textSize="12sp"/>
 
             <Button
+                android:id="@+id/bt_dialog_edit_task_expiration_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{SimpleDateFormat.getInstance().format(task.expirationTime)}"/>
+                android:text='@{FormatUtil.date2Str(task.expirationTime)}'/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -57,19 +61,20 @@
                 android:textSize="12sp"/>
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
 
                 <EditText
-                    android:id="@+id/et_dialog_edit_task_times"
-                    android:gravity="center"
-                    android:layout_weight="5"
-                    android:text="@{String.valueOf(task.repeatAvailableTime)}"
-                    android:inputType="number"
+                    android:id="@+id/et_dialog_edit_task_rep_times"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:enabled="@{task.repeatAvailableTime!=-1}"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:text="@{String.valueOf(task.repeatAvailableTime)}"/>
 
                 <Switch
                     android:id="@+id/switch_dialog_edit_task_infinite"
@@ -89,6 +94,7 @@
                 android:layout_gravity="left"
                 android:text="过期相关"
                 android:textSize="12sp"/>
+
             <Switch
                 android:id="@+id/switch_dialog_edit_task_auto_fail"
                 android:layout_width="match_parent"

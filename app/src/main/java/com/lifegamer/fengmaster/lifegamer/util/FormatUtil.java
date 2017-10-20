@@ -1,14 +1,17 @@
 package com.lifegamer.fengmaster.lifegamer.util;
 
+import android.text.format.DateFormat;
+
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.ItemReward;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiConsumer;
+
 
 /**
  * Created by qianzise on 2017/10/7.
@@ -158,6 +161,16 @@ public class FormatUtil {
             list.add(new AchievementReward(s[0],Integer.valueOf(s[1])));
         }
         return list;
+    }
+
+
+    /**
+     * 显示用string (非存储用格式)
+     * @param date
+     * @return
+     */
+    public static String date2Str(Date date){
+        return DateFormat.format("EEEE,yyyy年MM月dd日,kk:mm",date).toString();
     }
 
 }

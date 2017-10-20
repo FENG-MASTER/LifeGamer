@@ -61,7 +61,14 @@ public class TaskManager implements ITaskManager {
     @Override
     public boolean removeTask(String task) {
         //删除缓存
-        taskList.removeIf(task1 -> task1.getName().equals(task1));
+        Task rt=null;
+        for (Task t : taskList) {
+            if (t.getName().equals(task)){
+                rt=t;
+            }
+        }
+
+        taskList.remove(rt);
         //删除数据库
         return Game.delete(Stream.of(taskList).
                 filter(value -> value.getName().equals(task)).findFirst().get());
@@ -69,7 +76,14 @@ public class TaskManager implements ITaskManager {
 
     @Override
     public boolean removeTask(int taskID) {
-        taskList.removeIf(task -> task.getId() == taskID);
+        Task rt=null;
+        for (Task task : taskList) {
+            if (task.getId()==taskID){
+                rt=task;
+            }
+        }
+
+        taskList.remove(rt);
         return Game.delete(Stream.of(taskList).
                 filter(value -> value.getId() == taskID).findFirst().get());
     }
@@ -198,7 +212,7 @@ public class TaskManager implements ITaskManager {
 
     @Override
     public List<Task> getAllTask() {
-        return null;
+        return taskList;
     }
 
     @Override
@@ -221,6 +235,9 @@ public class TaskManager implements ITaskManager {
         return null;
     }
 
+    /**
+     * 加载数据库所有任务
+     */
     private void loadTaskFromSQL(){
         Cursor cursor = helper.getReadableDatabase().query(DBHelper.TABLE_TASK, null, null, null, null, null, null);
         while (cursor.moveToNext()) {

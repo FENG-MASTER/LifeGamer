@@ -1,7 +1,9 @@
 package com.lifegamer.fengmaster.lifegamer.fragment.task.editTaskDialog;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
 import com.annimon.stream.function.Function;
+import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.command.command.task.UpdateTaskCommand;
@@ -26,6 +29,8 @@ import java.util.List;
 
 /**
  * Created by qianzise on 2017/10/16.
+ *
+ * 任务编辑对话框 额外部分
  */
 
 public class EditTaskExtraFragment extends EditTaskDialog.SaveableFragment implements View.OnClickListener {
@@ -54,20 +59,39 @@ public class EditTaskExtraFragment extends EditTaskDialog.SaveableFragment imple
         binding=DialogEditTaskExtraBinding.inflate(inflater);
         binding.setTask(task);
 
+        //初始化原有的父任务
         for (Task preTask : preTasks) {
-            Button button=newPreTaskButton(preTask);
-            binding.llDialogEditTaskExtraParentTask.addView(button,buttonLayoutParams);
+            addPreTask(preTask);
         }
 
         //新增父任务
         binding.btDialogEditTaskAddPreTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: 弹出选择框
+                //弹出选择框
+                List<Task> tasks=Stream.of(Game.getInstance().getTaskManager().getAllTask()).filterNot(value -> preTasks.contains(value)).collect(Collectors.toList());
+                List<String> names=Stream.of(tasks).
+                        map(Task::getName).collect(Collectors.toList());
+
+                //选择框显示
+                new AlertDialog.Builder(getContext()).setSingleChoiceItems(names.toArray(new String[names.size()]), 0, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        preTasks.add(tasks.get(i));
+                        addPreTask(tasks.get(i));
+                        dialogInterface.dismiss();
+                    }
+                }).create().show();
+
             }
         });
 
         return binding.getRoot();
+    }
+
+    private void addPreTask(Task task){
+        Button button=newPreTaskButton(task);
+        binding.llDialogEditTaskExtraParentTask.addView(button,buttonLayoutParams);
     }
 
 
@@ -104,7 +128,6 @@ public class EditTaskExtraFragment extends EditTaskDialog.SaveableFragment imple
 
         task.setPreTasks(Stream.of(preTasks).map(task1 -> (int) task1.getId()).collect(Collectors.toList()));
 
-        Game.getInstance().getCommandManager().executeCommand(new UpdateTaskCommand(task));
     }
 
     @Override

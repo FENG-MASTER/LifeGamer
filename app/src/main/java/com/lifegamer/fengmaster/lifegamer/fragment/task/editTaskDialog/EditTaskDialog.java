@@ -14,8 +14,10 @@ import android.view.ViewGroup;
 
 import com.annimon.stream.Stream;
 import com.annimon.stream.function.Consumer;
+import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.adapter.BaseViewPagerFragmentAdapter;
+import com.lifegamer.fengmaster.lifegamer.command.command.task.UpdateTaskCommand;
 import com.lifegamer.fengmaster.lifegamer.databinding.DialogEditTaskBinding;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseFragment;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
@@ -32,14 +34,13 @@ import butterknife.ButterKnife;
 
 public class EditTaskDialog extends DialogFragment implements View.OnClickListener {
 
-    @BindView(R.id.vp_dialog_edit_task_content)
-    ViewPager viewPager;
-    @BindView(R.id.tl_dialog_edit_task)
-    TabLayout tabLayout;
+
 
     private Task task;
 
     private List<EditTaskDialog.SaveableFragment> fragmentList;
+
+    private DialogEditTaskBinding binding;
 
     public EditTaskDialog() {
     }
@@ -51,18 +52,19 @@ public class EditTaskDialog extends DialogFragment implements View.OnClickListen
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        DialogEditTaskBinding binding=DialogEditTaskBinding.inflate(inflater);
-        ButterKnife.bind(this,binding.getRoot());
+        binding=DialogEditTaskBinding.inflate(inflater);
+
         binding.setTask(task);
 
         fragmentList=new ArrayList<>();
         fragmentList.add(new EditTaskExtraFragment().setTask(task));
-        fragmentList.add(new EditTaskTimeFragment());
+        fragmentList.add(new EditTaskTimeFragment().setTask(task));
         fragmentList.add(new EditTaskRewardFragment());
+        fragmentList.add(new EditTaskPunishFragment());
 
         //这里getChildFragmentManager 否则会报找不到id错误
-        viewPager.setAdapter(new BaseViewPagerFragmentAdapter(getChildFragmentManager(),fragmentList));
-        tabLayout.setupWithViewPager(viewPager);
+        binding.vpDialogEditTaskContent.setAdapter(new BaseViewPagerFragmentAdapter(getChildFragmentManager(),fragmentList));
+        binding.tlDialogEditTask.setupWithViewPager(binding.vpDialogEditTaskContent);
 
         binding.btDialogEditTaskNo.setOnClickListener(this);
         binding.btDialogEditTaskOk.setOnClickListener(this);
@@ -79,6 +81,8 @@ public class EditTaskDialog extends DialogFragment implements View.OnClickListen
 
                 //全部子fragment保存
                 Stream.of(fragmentList).forEach(SaveableFragment::save);
+                save();
+
                 dismiss();
 
                 break;
@@ -87,6 +91,14 @@ public class EditTaskDialog extends DialogFragment implements View.OnClickListen
                 dismiss();
 
         }
+    }
+
+    private void save(){
+        task.setName(binding.etDialogEditTaskName.getText().toString());
+        task.setDesc(binding.etDialogEditTaskDesc.getText().toString());
+
+        //最终更新命令
+        Game.getInstance().getCommandManager().executeCommand(new UpdateTaskCommand(task));
     }
 
     public static abstract class SaveableFragment extends BaseFragment{
