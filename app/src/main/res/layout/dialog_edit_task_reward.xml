@@ -10,7 +10,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <LinearLayout
-        android:id="@+id/ll_dialog_edit_task_time_finish_skill"
         android:orientation="vertical"
         android:padding="5dp"
         android:layout_width="match_parent"
@@ -21,9 +20,19 @@
             android:text="增加技能点"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+        <LinearLayout
+
+            android:id="@+id/ll_dialog_edit_task_time_finish_skill"
+            android:orientation="vertical"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            </LinearLayout>
+
         <Button
-            android:text="技能11"
-            android:drawableRight="@drawable/ic_clear_black_24dp"
+            android:id="@+id/bt_dialog_edit_task_reward_add_skill"
+            android:text="新增技能奖励"
+            android:drawableRight="@drawable/ic_add_black_24dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

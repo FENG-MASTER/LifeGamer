@@ -69,7 +69,13 @@ public class EditTaskExtraFragment extends EditTaskDialog.SaveableFragment imple
             @Override
             public void onClick(View view) {
                 //弹出选择框
-                List<Task> tasks=Stream.of(Game.getInstance().getTaskManager().getAllTask()).filterNot(value -> preTasks.contains(value)).collect(Collectors.toList());
+
+                //除去已经添加的父任务和自身
+                List<Task> tasks=Stream.of(Game.getInstance().getTaskManager().getAllTask()).
+                        filterNot(value -> preTasks.contains(value)).
+                        filterNot(value -> value==task).
+                        collect(Collectors.toList());
+
                 List<String> names=Stream.of(tasks).
                         map(Task::getName).collect(Collectors.toList());
 

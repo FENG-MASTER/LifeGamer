@@ -43,6 +43,7 @@ public class EditTaskDialog extends DialogFragment implements View.OnClickListen
     private DialogEditTaskBinding binding;
 
     public EditTaskDialog() {
+        setCancelable(false);
     }
 
     public void setTask(Task task){
@@ -59,7 +60,7 @@ public class EditTaskDialog extends DialogFragment implements View.OnClickListen
         fragmentList=new ArrayList<>();
         fragmentList.add(new EditTaskExtraFragment().setTask(task));
         fragmentList.add(new EditTaskTimeFragment().setTask(task));
-        fragmentList.add(new EditTaskRewardFragment());
+        fragmentList.add(new EditTaskRewardFragment().setTask(task));
         fragmentList.add(new EditTaskPunishFragment());
 
         //这里getChildFragmentManager 否则会报找不到id错误
