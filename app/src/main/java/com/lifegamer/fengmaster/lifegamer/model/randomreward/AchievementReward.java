@@ -24,4 +24,17 @@ public class AchievementReward extends AbsRandomReward {
     public String getAchievement() {
         return achievement;
     }
+
+    public void setAchievement(String achievement) {
+        this.achievement = achievement;
+    }
+
+    public void setProbability(int probability) {
+        this.probability = probability;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return achievement.equals(((AchievementReward)o).getAchievement());
+    }
 }

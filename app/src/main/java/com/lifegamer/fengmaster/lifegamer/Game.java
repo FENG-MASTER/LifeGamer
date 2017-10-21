@@ -5,6 +5,7 @@ import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
+import com.lifegamer.fengmaster.lifegamer.manager.AchievementManager;
 import com.lifegamer.fengmaster.lifegamer.manager.HeroManger;
 import com.lifegamer.fengmaster.lifegamer.manager.SkillManager;
 import com.lifegamer.fengmaster.lifegamer.manager.TaskManager;
@@ -39,7 +40,7 @@ public class Game {
     /**
      * 成就管理器
      */
-    private IAchievementManager achievementManager;
+    private IAchievementManager achievementManager=new AchievementManager();
     /**
      * 技能管理器
      */
