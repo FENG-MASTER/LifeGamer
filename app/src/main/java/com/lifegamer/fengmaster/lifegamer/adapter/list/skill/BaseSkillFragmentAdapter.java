@@ -26,6 +26,8 @@ import butterknife.ButterKnife;
 
 /**
  * Created by qianzise on 2017/10/14.
+ *
+ * 基础 技能实现适配器
  */
 
 public abstract class BaseSkillFragmentAdapter extends BaseRecyclerViewAdapter<BaseSkillFragmentAdapter.Holder, Skill> {
@@ -58,7 +60,6 @@ public abstract class BaseSkillFragmentAdapter extends BaseRecyclerViewAdapter<B
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-        holder.setBinding(BR.skill, showSkillList.get(position));
         holder.setSkill(showSkillList.get(position));
     }
 
@@ -133,6 +134,7 @@ public abstract class BaseSkillFragmentAdapter extends BaseRecyclerViewAdapter<B
 
         public void setSkill(Skill skill) {
             this.skill = skill;
+            setBinding(BR.skill, skill);
         }
 
         @Override

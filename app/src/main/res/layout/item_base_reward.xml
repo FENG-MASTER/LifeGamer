@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="com.lifegamer.fengmaster.lifegamer.util.FormatUtil"/>
+        <import type="com.lifegamer.fengmaster.lifegamer.Game"/>
+        <import type="android.view.View"/>
+        <variable
+            name="reward"
+            type="com.lifegamer.fengmaster.lifegamer.model.RewardItem"/>
+
+    </data>
+
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ll_item_base_reward"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <com.lifegamer.fengmaster.lifegamer.wight.SqureImageView
+            android:id="@+id/siv_item_reward_icon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:src="@{reward.icon == null? @drawable/ic_default :Game.instance.avatarManager.getAvatar(FormatUtil.avatarStrFormat(reward.icon)[1]).icon}"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_item_reward_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@{reward.name}"
+                        android:textSize="20sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_item_reward_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text='@{reward.desc}'
+                        android:textSize="16sp"/>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:paddingRight="5dp"
+                            android:drawableStart="@drawable/ic_life_point_coin"
+                            android:id="@+id/tv_item_reward_cost_lp"
+                            android:layout_width="wrap_content"
+                            android:text="@{String.valueOf(reward.costLP)}"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_item_reward_available_time"
+                    android:text="@{String.valueOf(reward.quantityAvailable)}"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+            </RelativeLayout>
+
+
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</layout>

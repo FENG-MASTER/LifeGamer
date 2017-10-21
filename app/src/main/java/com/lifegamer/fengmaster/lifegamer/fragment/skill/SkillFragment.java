@@ -14,6 +14,7 @@ import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.skill.AllSkillFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.skill.TypeSkillFragmentAdapter;
+import com.lifegamer.fengmaster.lifegamer.command.command.skill.RemoveSkillCommand;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseTabListFragment;
 import com.lifegamer.fengmaster.lifegamer.model.Skill;
 import com.lifegamer.fengmaster.lifegamer.util.ViewUtil;
@@ -87,9 +88,6 @@ public class SkillFragment extends BaseTabListFragment implements OnItemSelectLi
     private void onSelectItemSelect(SelectItem item){
 
         switch (item.getId()){
-            case SelectItem.FINISH_ID:
-                //完成
-                break;
             case SelectItem.EDIT_ID:
                 //编辑
                 if (selectSkill!=null){
@@ -101,7 +99,7 @@ public class SkillFragment extends BaseTabListFragment implements OnItemSelectLi
             case SelectItem.DELETE_ID:
                 //删除
                 if (selectSkill!=null){
-                    Game.getInstance().getSkillManager().removeSkill(selectSkill.getName());
+                    Game.getInstance().getCommandManager().executeCommand(new RemoveSkillCommand(selectSkill));
                 }
 
                 break;

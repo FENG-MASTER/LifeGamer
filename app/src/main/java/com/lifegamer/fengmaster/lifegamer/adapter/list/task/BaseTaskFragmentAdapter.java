@@ -27,6 +27,8 @@ import butterknife.ButterKnife;
 
 /**
  * Created by qianzise on 2017/10/15.
+ *
+ * 基础 任务显示适配器
  */
 
 public abstract class BaseTaskFragmentAdapter extends BaseRecyclerViewAdapter<BaseTaskFragmentAdapter.Holder,Task>{
@@ -86,17 +88,10 @@ public abstract class BaseTaskFragmentAdapter extends BaseRecyclerViewAdapter<Ba
          */
         private Task task;
 
-        @BindView(R.id.ll_item_all_skill_base)
-        LinearLayout linearLayout;
 
         public Holder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
-            linearLayout.setOnClickListener(this);
-        }
-
-        public Task getTask() {
-            return task;
+            itemView.setOnClickListener(this);
         }
 
         public void setTask(Task task) {

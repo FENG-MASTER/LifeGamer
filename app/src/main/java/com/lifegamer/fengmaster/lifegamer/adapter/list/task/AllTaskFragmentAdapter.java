@@ -4,6 +4,8 @@ import com.lifegamer.fengmaster.lifegamer.Game;
 
 /**
  * Created by qianzise on 2017/10/15.
+ *
+ * 所有任务适配器
  */
 
 public class AllTaskFragmentAdapter extends BaseTaskFragmentAdapter {
