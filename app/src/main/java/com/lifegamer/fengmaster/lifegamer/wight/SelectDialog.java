@@ -2,6 +2,7 @@ package com.lifegamer.fengmaster.lifegamer.wight;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -21,19 +22,19 @@ import java.util.List;
 
 /**
  * Created by qianzise on 2017/10/12.
+ *
+ * 操作选择对话框
  */
 
-public class SelectDialog extends AppCompatDialogFragment implements OnItemSelectListener<SelectItem>,ItemSelectObservable<SelectItem> {
+public class SelectDialog extends DialogFragment implements OnItemSelectListener<SelectItem>,ItemSelectObservable<SelectItem> {
     private List<SelectItem> itemList;
     private List<OnItemSelectListener<SelectItem>> listeners = new ArrayList<>();
 
     public SelectDialog setItems(List<SelectItem> items) {
         itemList = items;
-
         return this;
     }
     private RecyclerView recyclerView;
-
 
 
     @Nullable
@@ -53,10 +54,12 @@ public class SelectDialog extends AppCompatDialogFragment implements OnItemSelec
         SelectDialogItemAdapter selectDialogItemAdapter = new SelectDialogItemAdapter(itemList);
 
         selectDialogItemAdapter.addItemSelectListener(this);
-
+        recyclerView.getMinimumHeight();
         recyclerView.setAdapter(selectDialogItemAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
+
+
         return inflate;
     }
 

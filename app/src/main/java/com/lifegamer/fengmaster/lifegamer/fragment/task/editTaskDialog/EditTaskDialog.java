@@ -123,7 +123,9 @@ public class EditTaskDialog extends DialogFragment implements View.OnClickListen
         task.setName(binding.etDialogEditTaskName.getText().toString());
         task.setDesc(binding.etDialogEditTaskDesc.getText().toString());
 
-        task.setIcon(taskAvatar==null?null:taskAvatar.toString());
+        if (taskAvatar!=null){
+            task.setIcon(taskAvatar.toString());
+        }
 
 
         if (task.getId() != 0) {

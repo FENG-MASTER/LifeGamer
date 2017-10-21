@@ -89,6 +89,10 @@ public abstract class BaseSkillFragmentAdapter extends BaseRecyclerViewAdapter<B
         notifyDataSetChanged();
     }
 
+    /**
+     * 有技能被删除,需要更新
+     * @param event
+     */
     @Subscribe(threadMode = ThreadMode.POSTING)
     public void delSkill(DelSkillEvent event){
         updateList();

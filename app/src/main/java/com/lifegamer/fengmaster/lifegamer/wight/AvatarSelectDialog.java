@@ -2,6 +2,7 @@ package com.lifegamer.fengmaster.lifegamer.wight;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -26,15 +27,12 @@ import java.util.List;
  * 头像选择对话框
  */
 
-public class AvatarSelectDialog extends AppCompatDialogFragment implements OnItemSelectListener<IAvatarManager.Avatar>,ItemSelectObservable<IAvatarManager.Avatar> {
+public class AvatarSelectDialog extends DialogFragment implements OnItemSelectListener<IAvatarManager.Avatar>,ItemSelectObservable<IAvatarManager.Avatar> {
 
     private RecyclerView recyclerView;
 
     private List<OnItemSelectListener<IAvatarManager.Avatar>> listeners=new ArrayList<>();
 
-    public AvatarSelectDialog(){
-
-    }
 
     @Nullable
     @Override

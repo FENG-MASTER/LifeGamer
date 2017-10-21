@@ -104,8 +104,9 @@ public class EditSkillDialog extends DialogFragment implements OnItemSelectListe
             skill.setName(binding.etDialogEditSkillName.getText().toString());
             skill.setIntro(binding.etDialogEditSkillIntro.getText().toString());
             skill.setType(binding.etDialogEditSkillType.getText().toString());
-            skill.setIcon(avatar!=null?avatar.toString():null);
-
+            if (avatar!=null){
+                skill.setIcon(avatar.toString());
+            }
             if (skill.getId() == 0) {
                 //新建的skill
                 Game.getInstance().getCommandManager().executeCommand(new AddSkillCommand(skill));

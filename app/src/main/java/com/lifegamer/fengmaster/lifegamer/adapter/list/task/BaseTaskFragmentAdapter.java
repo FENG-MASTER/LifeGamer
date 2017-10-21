@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.lifegamer.fengmaster.lifegamer.BR;
 import com.lifegamer.fengmaster.lifegamer.R;
@@ -11,15 +12,18 @@ import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.BindingHolder;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.event.task.NewTaskEvent;
+import com.lifegamer.fengmaster.lifegamer.model.Skill;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by qianzise on 2017/10/15.
@@ -27,6 +31,12 @@ import butterknife.BindView;
 
 public abstract class BaseTaskFragmentAdapter extends BaseRecyclerViewAdapter<BaseTaskFragmentAdapter.Holder,Task>{
 
+    private List<OnItemSelectListener<Task>> listeners=new LinkedList<>();
+
+
+    /**
+     * 显示任务列表
+     */
     protected List<Task> showTaskList;
 
     public abstract void updateTaskList();
@@ -43,7 +53,7 @@ public abstract class BaseTaskFragmentAdapter extends BaseRecyclerViewAdapter<Ba
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-        holder.setBinding(BR.task,showTaskList.get(position));
+        holder.setTask(showTaskList.get(position));
     }
 
     @Override
@@ -55,20 +65,48 @@ public abstract class BaseTaskFragmentAdapter extends BaseRecyclerViewAdapter<Ba
 
     @Override
     public void addItemSelectListener(OnItemSelectListener<Task> listener) {
-
+        listeners.add(listener);
     }
 
     @Override
     public void removeItemSelectListener(OnItemSelectListener<Task> listener) {
-
+        listeners.remove(listener);
     }
 
-    public static class Holder extends BindingHolder {
+    private void notifyListener(Task task) {
+        for (OnItemSelectListener<Task> listener : listeners) {
+            listener.onItemSelect(task);
+        }
+    }
 
+    public class Holder extends BindingHolder implements View.OnClickListener {
+
+        /**
+         * 任务对象
+         */
+        private Task task;
+
+        @BindView(R.id.ll_item_all_skill_base)
+        LinearLayout linearLayout;
 
         public Holder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this,itemView);
+            linearLayout.setOnClickListener(this);
+        }
 
+        public Task getTask() {
+            return task;
+        }
+
+        public void setTask(Task task) {
+            this.task = task;
+            setBinding(BR.task,task);
+        }
+
+        @Override
+        public void onClick(View v) {
+            notifyListener(task);
         }
     }
 

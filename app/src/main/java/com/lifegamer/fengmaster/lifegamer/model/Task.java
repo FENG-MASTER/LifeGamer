@@ -2,7 +2,10 @@ package com.lifegamer.fengmaster.lifegamer.model;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 
+import com.lifegamer.fengmaster.lifegamer.BR;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
@@ -22,7 +25,7 @@ import java.util.Map;
  * 任务实体类
  */
 
-public class Task implements Updateable, Insertable, Deleteable {
+public class Task extends BaseObservable implements Updateable, Insertable, Deleteable {
 
 
     /**
@@ -163,7 +166,7 @@ public class Task implements Updateable, Insertable, Deleteable {
     /**
      * 任务到期时间
      */
-    private Date expirationTime=new Date();
+    private Date expirationTime = new Date();
     /**
      * 任务创建时间
      */
@@ -241,212 +244,265 @@ public class Task implements Updateable, Insertable, Deleteable {
 
     }
 
+    @Bindable
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+        notifyPropertyChanged(BR.name);
     }
 
+    @Bindable
     public String getDesc() {
         return desc;
     }
 
+    @Bindable
     public boolean isAutoFail() {
         return isAutoFail;
     }
 
     public void setAutoFail(boolean autoFail) {
         isAutoFail = autoFail;
+        notifyPropertyChanged(BR.autoFail);
     }
 
+    @Bindable
     public String getIcon() {
         return icon;
     }
 
     public void setIcon(String icon) {
         this.icon = icon;
+        notifyPropertyChanged(BR.icon);
     }
 
+    @Bindable
     public int getDifficulty() {
         return difficulty;
     }
 
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
+        notifyPropertyChanged(BR.difficulty);
     }
 
+    @Bindable
     public int getUrgency() {
         return urgency;
     }
 
     public void setUrgency(int urgency) {
         this.urgency = urgency;
+        notifyPropertyChanged(BR.urgency);
     }
 
+    @Bindable
     public int getFear() {
         return fear;
     }
 
     public void setFear(int fear) {
         this.fear = fear;
+        notifyPropertyChanged(BR.fear);
     }
 
+    @Bindable
     public Map<String, Integer> getSuccessSkills() {
         return successSkills;
     }
 
     public void setSuccessSkills(Map<String, Integer> successSkills) {
         this.successSkills = successSkills;
+        notifyPropertyChanged(BR.successSkills);
     }
 
+    @Bindable
     public List<RandomItemReward> getSuccessItems() {
         return successItems;
     }
 
     public void setSuccessItems(List<RandomItemReward> successItems) {
         this.successItems = successItems;
+        notifyPropertyChanged(BR.successItems);
     }
 
+    @Bindable
     public List<AchievementReward> getSuccessAchievements() {
         return successAchievements;
     }
 
+    @Bindable
     public Map<String, Integer> getFailureSkills() {
         return failureSkills;
     }
 
     public void setFailureSkills(Map<String, Integer> failureSkills) {
         this.failureSkills = failureSkills;
+        notifyPropertyChanged(BR.failureSkills);
     }
 
+    @Bindable
     public List<RandomItemReward> getFailureItems() {
         return failureItems;
     }
 
     public void setFailureItems(List<RandomItemReward> failureItems) {
         this.failureItems = failureItems;
+        notifyPropertyChanged(BR.failureItems);
     }
 
+    @Bindable
     public List<AchievementReward> getFailureAchievements() {
         return failureAchievements;
     }
 
     public void setFailureAchievements(List<AchievementReward> failureAchievements) {
         this.failureAchievements = failureAchievements;
+        notifyPropertyChanged(BR.failureAchievements);
     }
 
+    @Bindable
     public int getEarnLP() {
         return earnLP;
     }
 
+    @Bindable
     public int getLostLP() {
         return lostLP;
     }
 
+
     public void setLostLP(int lostLP) {
         this.lostLP = lostLP;
+        notifyPropertyChanged(BR.lostLP);
     }
 
+    @Bindable
     public int getRepeatType() {
         return repeatType;
     }
 
     public void setRepeatType(int repeatType) {
         this.repeatType = repeatType;
+        notifyPropertyChanged(BR.repeatType);
     }
 
+    @Bindable
     public int getRepeatInterval() {
         return repeatInterval;
     }
 
     public void setRepeatInterval(int repeatInterval) {
         this.repeatInterval = repeatInterval;
+        notifyPropertyChanged(BR.repeatInterval);
     }
 
+    @Bindable
     public int getRepeatAvailableTime() {
         return repeatAvailableTime;
     }
 
     public void setRepeatAvailableTime(int repeatAvailableTime) {
         this.repeatAvailableTime = repeatAvailableTime;
+        notifyPropertyChanged(BR.repeatAvailableTime);
     }
 
+    @Bindable
     public Date getExpirationTime() {
         return expirationTime;
     }
 
     public void setExpirationTime(Date expirationTime) {
         this.expirationTime = expirationTime;
+        notifyPropertyChanged(BR.expirationTime);
     }
 
+    @Bindable
     public Date getCreateTime() {
         return createTime;
     }
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+        notifyPropertyChanged(BR.createTime);
     }
 
+    @Bindable
     public Date getUpdateTime() {
         return updateTime;
     }
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+        notifyPropertyChanged(BR.updateTime);
     }
 
+    @Bindable
     public int getCompleteTimes() {
         return completeTimes;
     }
 
     public void setCompleteTimes(int completeTimes) {
         this.completeTimes = completeTimes;
+        notifyPropertyChanged(BR.completeTimes);
     }
 
+    @Bindable
     public int getFailureTimes() {
         return failureTimes;
     }
 
     public void setFailureTimes(int failureTimes) {
         this.failureTimes = failureTimes;
+        notifyPropertyChanged(BR.failureTimes);
     }
 
+    @Bindable
     public List<Integer> getPreTasks() {
         return preTasks;
     }
 
+    @Bindable
     public List<Integer> getNotes() {
         return notes;
     }
 
     public void setNotes(List<Integer> notes) {
         this.notes = notes;
+        notifyPropertyChanged(BR.notes);
     }
 
+    @Bindable
     public long getId() {
         return id;
     }
 
     public void setId(long id) {
         this.id = id;
+        notifyPropertyChanged(BR.id);
     }
 
     public void setPreTasks(List<Integer> preTasks) {
         this.preTasks = preTasks;
+        notifyPropertyChanged(BR.preTasks);
     }
 
     public void setEarnLP(int earnLP) {
         this.earnLP = earnLP;
+        notifyPropertyChanged(BR.earnLP);
     }
 
     public void setSuccessAchievements(List<AchievementReward> successAchievements) {
         this.successAchievements = successAchievements;
+        notifyPropertyChanged(BR.successAchievements);
     }
 
     public void setDesc(String desc) {
         this.desc = desc;
+        notifyPropertyChanged(BR.desc);
     }
 
     @Override

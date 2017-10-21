@@ -2,8 +2,7 @@
 <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
              android:id="@+id/rv_fragment_dialog_select_list"
              android:layout_width="match_parent"
-             android:layout_height="?android:attr/actionBarSize"
-             android:orientation="horizontal">
+             android:layout_height="100dp">
 
 
 
