@@ -2,9 +2,8 @@ package com.lifegamer.fengmaster.lifegamer.util;
 
 import android.text.format.DateFormat;
 
-import com.lifegamer.fengmaster.lifegamer.model.Achievement;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
-import com.lifegamer.fengmaster.lifegamer.model.randomreward.ItemReward;
+import com.lifegamer.fengmaster.lifegamer.model.randomreward.RandomItemReward;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -107,34 +106,34 @@ public class FormatUtil {
         return map;
     }
 
-    public static String itemRewardList2Str(List<ItemReward> rewardList) {
+    public static String itemRewardList2Str(List<RandomItemReward> rewardList) {
         if (rewardList == null||rewardList.isEmpty()) {
             return "";
         }
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (ItemReward itemReward : rewardList) {
-            stringBuilder.append(itemReward.getItem()).append(",").
-                    append(itemReward.getNum()).append(",").
-                    append(itemReward.getProbability()).append(";");
+        for (RandomItemReward randomItemReward : rewardList) {
+            stringBuilder.append(randomItemReward.getRewardName()).append(",").
+                    append(randomItemReward.getNum()).append(",").
+                    append(randomItemReward.getProbability()).append(";");
         }
 
         return stringBuilder.toString();
     }
 
-    public static List<ItemReward> str2ItemRewardList(String str) {
+    public static List<RandomItemReward> str2ItemRewardList(String str) {
         if (str == null||str.equals("")) {
             return new ArrayList<>();
         }
 
-        List<ItemReward> itemRewards = new ArrayList<>();
+        List<RandomItemReward> randomItemRewards = new ArrayList<>();
 
         String[] split = str.split(";");
         for (String ss : split) {
             String[] s = ss.split(",");
-            itemRewards.add(new ItemReward(s[0], Integer.valueOf(s[1]), Integer.valueOf(s[2])));
+            randomItemRewards.add(new RandomItemReward(s[0], Integer.valueOf(s[1]), Integer.valueOf(s[2])));
         }
-        return itemRewards;
+        return randomItemRewards;
     }
 
     public static String achievementRewardList2Str(List<AchievementReward> list) {
@@ -171,6 +170,11 @@ public class FormatUtil {
      */
     public static String date2Str(Date date){
         return DateFormat.format("EEEE,yyyy年MM月dd日,kk:mm",date).toString();
+    }
+
+
+    public static String date2BriefDesc(Date date){
+        return DateFormat.format("dd号,kk:mm",date).toString();
     }
 
 }

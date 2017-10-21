@@ -10,7 +10,12 @@ import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.BindingHolder;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
+import com.lifegamer.fengmaster.lifegamer.event.task.NewTaskEvent;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -25,6 +30,10 @@ public abstract class BaseTaskFragmentAdapter extends BaseRecyclerViewAdapter<Ba
     protected List<Task> showTaskList;
 
     public abstract void updateTaskList();
+
+    public BaseTaskFragmentAdapter() {
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -61,5 +70,29 @@ public abstract class BaseTaskFragmentAdapter extends BaseRecyclerViewAdapter<Ba
             super(itemView);
 
         }
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        if (showTaskList==null){
+            updateTaskList();
+        }
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        EventBus.getDefault().unregister(this);
+    }
+
+    /**
+     * 有新建的任务,需要刷新
+     * @param event 事件
+     */
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void newTaskCome(NewTaskEvent event){
+        updateTaskList();
+        notifyDataSetChanged();
     }
 }

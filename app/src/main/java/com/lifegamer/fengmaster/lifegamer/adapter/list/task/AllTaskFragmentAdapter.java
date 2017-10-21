@@ -7,6 +7,8 @@ import com.lifegamer.fengmaster.lifegamer.Game;
  */
 
 public class AllTaskFragmentAdapter extends BaseTaskFragmentAdapter {
+
+
     @Override
     public String getName() {
         return "所有任务";

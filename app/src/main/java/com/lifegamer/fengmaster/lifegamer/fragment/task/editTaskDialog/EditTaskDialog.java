@@ -17,10 +17,14 @@ import com.annimon.stream.function.Consumer;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.adapter.BaseViewPagerFragmentAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
+import com.lifegamer.fengmaster.lifegamer.command.command.task.AddTaskCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.task.UpdateTaskCommand;
 import com.lifegamer.fengmaster.lifegamer.databinding.DialogEditTaskBinding;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseFragment;
+import com.lifegamer.fengmaster.lifegamer.manager.base.itf.IAvatarManager;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
+import com.lifegamer.fengmaster.lifegamer.wight.AvatarSelectDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +39,15 @@ import butterknife.ButterKnife;
 public class EditTaskDialog extends DialogFragment implements View.OnClickListener {
 
 
+    /**
+     * 正在编辑的任务对象
+     */
+    private Task task = new Task();
 
-    private Task task;
+    /**
+     * 图标
+     */
+    private IAvatarManager.Avatar taskAvatar;
 
     private List<EditTaskDialog.SaveableFragment> fragmentList;
 
@@ -46,29 +57,31 @@ public class EditTaskDialog extends DialogFragment implements View.OnClickListen
         setCancelable(false);
     }
 
-    public void setTask(Task task){
-        this.task=task;
+    public void setTask(Task task) {
+        this.task = task;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding=DialogEditTaskBinding.inflate(inflater);
+        binding = DialogEditTaskBinding.inflate(inflater);
 
         binding.setTask(task);
 
-        fragmentList=new ArrayList<>();
+        fragmentList = new ArrayList<>();
         fragmentList.add(new EditTaskExtraFragment().setTask(task));
         fragmentList.add(new EditTaskTimeFragment().setTask(task));
         fragmentList.add(new EditTaskRewardFragment().setTask(task));
         fragmentList.add(new EditTaskPunishFragment());
 
         //这里getChildFragmentManager 否则会报找不到id错误
-        binding.vpDialogEditTaskContent.setAdapter(new BaseViewPagerFragmentAdapter(getChildFragmentManager(),fragmentList));
+        binding.vpDialogEditTaskContent.setAdapter(new BaseViewPagerFragmentAdapter(getChildFragmentManager(), fragmentList));
         binding.tlDialogEditTask.setupWithViewPager(binding.vpDialogEditTaskContent);
 
         binding.btDialogEditTaskNo.setOnClickListener(this);
         binding.btDialogEditTaskOk.setOnClickListener(this);
+
+        binding.sivDialogEditTaskIcon.setOnClickListener(this);
 
         return binding.getRoot();
     }
@@ -76,7 +89,7 @@ public class EditTaskDialog extends DialogFragment implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.bt_dialog_edit_task_ok:
                 //确认
 
@@ -90,19 +103,45 @@ public class EditTaskDialog extends DialogFragment implements View.OnClickListen
             case R.id.bt_dialog_edit_task_no:
                 //取消
                 dismiss();
+                break;
+            case R.id.siv_dialog_edit_task_icon:
+                //选择图标
+                AvatarSelectDialog dialog=new AvatarSelectDialog();
+                dialog.addItemSelectListener(avatar -> {
+                    taskAvatar=avatar;
+                    binding.sivDialogEditTaskIcon.setImageDrawable(taskAvatar.getIcon());
+                });
+                dialog.show(getFragmentManager(),"avatarSelect");
+
+                break;
+            default:
 
         }
     }
 
-    private void save(){
+    private void save() {
         task.setName(binding.etDialogEditTaskName.getText().toString());
         task.setDesc(binding.etDialogEditTaskDesc.getText().toString());
 
-        //最终更新命令
-        Game.getInstance().getCommandManager().executeCommand(new UpdateTaskCommand(task));
+        task.setIcon(taskAvatar==null?null:taskAvatar.toString());
+
+
+        if (task.getId() != 0) {
+            //更新
+            //最终更新命令
+            Game.getInstance().getCommandManager().executeCommand(new UpdateTaskCommand(task));
+
+        } else {
+            //新建
+
+            Game.getInstance().getCommandManager().executeCommand(new AddTaskCommand(task));
+
+        }
+
+
     }
 
-    public static abstract class SaveableFragment extends BaseFragment{
+    public static abstract class SaveableFragment extends BaseFragment {
         abstract void save();
     }
 }

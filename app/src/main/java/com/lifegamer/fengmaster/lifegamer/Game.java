@@ -7,6 +7,8 @@ import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
 import com.lifegamer.fengmaster.lifegamer.manager.AchievementManager;
 import com.lifegamer.fengmaster.lifegamer.manager.HeroManger;
+import com.lifegamer.fengmaster.lifegamer.manager.ItemManager;
+import com.lifegamer.fengmaster.lifegamer.manager.RewardItemManager;
 import com.lifegamer.fengmaster.lifegamer.manager.SkillManager;
 import com.lifegamer.fengmaster.lifegamer.manager.TaskManager;
 import com.lifegamer.fengmaster.lifegamer.manager.base.DefaultAvatarManager;
@@ -15,6 +17,7 @@ import com.lifegamer.fengmaster.lifegamer.manager.itf.IAchievementManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IHeroManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IItemManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.INoteManager;
+import com.lifegamer.fengmaster.lifegamer.manager.itf.IRewardManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ISkillManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ITaskManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IWealthManager;
@@ -32,11 +35,15 @@ public class Game {
         return instance;
     }
 
+    /**
+     * 奖励物品管理器
+     */
+    private IRewardManager rewardManager=new RewardItemManager();
 
     /**
      * 物品管理器
      */
-    private IItemManager itemManager;
+    private IItemManager itemManager=new ItemManager();
     /**
      * 成就管理器
      */
@@ -76,6 +83,10 @@ public class Game {
 
     private Game() {
 
+    }
+
+    public IRewardManager getRewardManager() {
+        return rewardManager;
     }
 
     public CommandManager getCommandManager() {

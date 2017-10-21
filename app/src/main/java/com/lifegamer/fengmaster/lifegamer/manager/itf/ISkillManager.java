@@ -44,7 +44,7 @@ public interface ISkillManager {
      * 删除技能
      * @param name 技能名称
      */
-    void removeSkill(String name);
+    boolean removeSkill(String name);
 
     /**
      * 获取 所有技能名称

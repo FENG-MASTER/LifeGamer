@@ -24,9 +24,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
+
 
 
 /**
@@ -62,7 +60,6 @@ public class SkillManager implements ISkillManager {
         if (id != 0) {
             skill.setId(id);
             skillMap.put(skill.getName(), skill);
-            EventBus.getDefault().post(new NewSkillEvent(skill));
             return true;
         }
         return false;
@@ -107,10 +104,10 @@ public class SkillManager implements ISkillManager {
     }
 
     @Override
-    public void removeSkill(String name) {
+    public boolean removeSkill(String name) {
         Skill remove = skillMap.remove(name);
         Game.delete(remove);
-        EventBus.getDefault().post(new DelSkillEvent(name));
+        return true;
     }
 
     @Override

@@ -22,6 +22,7 @@
         android:padding="5dp">
 
         <com.lifegamer.fengmaster.lifegamer.wight.SqureImageView
+            android:id="@+id/siv_item_task_icon"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginRight="10dp"
@@ -45,7 +46,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_item_all_skill_name"
+                        android:id="@+id/tv_item_all_task_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
@@ -53,7 +54,7 @@
                         android:textSize="20sp"/>
 
                     <TextView
-                        android:id="@+id/tv_item_all_skill_level"
+                        android:id="@+id/tv_item_all_task_desc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
@@ -66,6 +67,7 @@
                         android:layout_height="wrap_content">
 
                         <TextView
+                            android:paddingRight="5dp"
                             android:drawableStart="@drawable/ic_life_point_coin"
                             android:id="@+id/tv_item_base_task_lp"
                             android:layout_width="wrap_content"
@@ -73,7 +75,8 @@
                             android:layout_height="wrap_content"/>
 
                         <TextView
-                            android:drawableStart="@drawable/ic_nav_item"
+                            android:paddingRight="5dp"
+                            android:drawableStart="@drawable/ic_item"
                             android:id="@+id/tv_item_base_task_item"
                             android:layout_width="wrap_content"
                             android:text="@{String.valueOf(task.successItems.size())}"
@@ -81,7 +84,8 @@
                             android:layout_height="wrap_content"/>
 
                         <TextView
-                            android:drawableStart="@drawable/ic_nav_skill"
+                            android:paddingRight="5dp"
+                            android:drawableStart="@drawable/ic_skill"
                             android:id="@+id/tv_item_base_task_skill"
                             android:layout_width="wrap_content"
                             android:text="@{String.valueOf(task.successSkills.size())}"
@@ -92,8 +96,9 @@
                 </LinearLayout>
 
                 <TextView
-                    android:text="过期时间"
-                    android:layout_alignParentLeft="true"
+                    android:id="@+id/tv_item_all_task_time"
+                    android:text="@{FormatUtil.date2BriefDesc(task.expirationTime)}"
+                    android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>

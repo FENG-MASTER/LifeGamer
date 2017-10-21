@@ -8,7 +8,7 @@ import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
-import com.lifegamer.fengmaster.lifegamer.model.randomreward.ItemReward;
+import com.lifegamer.fengmaster.lifegamer.model.randomreward.RandomItemReward;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 
 import java.text.SimpleDateFormat;
@@ -112,7 +112,7 @@ public class Task implements Updateable, Insertable, Deleteable {
      * <p>
      * key-物品名称 val-物品个数
      */
-    private List<ItemReward> successItems;
+    private List<RandomItemReward> successItems;
     /**
      * 任务完成后获得的成就列表
      */
@@ -128,7 +128,7 @@ public class Task implements Updateable, Insertable, Deleteable {
      * <p>
      * key-物品名称 val-物品个数
      */
-    private List<ItemReward> failureItems;
+    private List<RandomItemReward> failureItems;
     /**
      * 任务失败后失去的成就列表
      */
@@ -301,11 +301,11 @@ public class Task implements Updateable, Insertable, Deleteable {
         this.successSkills = successSkills;
     }
 
-    public List<ItemReward> getSuccessItems() {
+    public List<RandomItemReward> getSuccessItems() {
         return successItems;
     }
 
-    public void setSuccessItems(List<ItemReward> successItems) {
+    public void setSuccessItems(List<RandomItemReward> successItems) {
         this.successItems = successItems;
     }
 
@@ -321,11 +321,11 @@ public class Task implements Updateable, Insertable, Deleteable {
         this.failureSkills = failureSkills;
     }
 
-    public List<ItemReward> getFailureItems() {
+    public List<RandomItemReward> getFailureItems() {
         return failureItems;
     }
 
-    public void setFailureItems(List<ItemReward> failureItems) {
+    public void setFailureItems(List<RandomItemReward> failureItems) {
         this.failureItems = failureItems;
     }
 

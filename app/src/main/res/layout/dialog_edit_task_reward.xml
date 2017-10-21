@@ -59,6 +59,7 @@
                 android:textSize="12sp"/>
 
             <Button
+                android:id="@+id/bt_dialog_edit_task_reward_item_add"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/ic_clear_black_24dp"

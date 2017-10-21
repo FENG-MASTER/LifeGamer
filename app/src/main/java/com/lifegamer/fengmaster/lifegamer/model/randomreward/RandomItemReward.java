@@ -8,11 +8,11 @@ import java.util.Random;
  * 概率型物品奖励
  */
 
-public class ItemReward extends AbsRandomReward{
+public class RandomItemReward extends AbsRandomReward{
 
     private static Random random;
 
-    private String item;
+    private String rewardName;
 
     /**
      * 物品数量
@@ -25,14 +25,14 @@ public class ItemReward extends AbsRandomReward{
     private int probability;
 
 
-    public ItemReward(String item, int num, int probability) {
-        this.item = item;
+    public RandomItemReward(String rewardName, int num, int probability) {
+        this.rewardName = rewardName;
         this.num = num;
         this.probability = probability;
     }
 
-    public String getItem() {
-        return item;
+    public String getRewardName() {
+        return rewardName;
     }
 
     public int getNum() {
@@ -43,5 +43,17 @@ public class ItemReward extends AbsRandomReward{
     @Override
     public int getProbability() {
         return probability;
+    }
+
+    public void setRewardName(String rewardName) {
+        this.rewardName = rewardName;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
+
+    public void setProbability(int probability) {
+        this.probability = probability;
     }
 }

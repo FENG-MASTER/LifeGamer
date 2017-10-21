@@ -53,7 +53,6 @@ public class TaskManager implements ITaskManager {
         if (id != 0) {
             task.setId(id);
             taskList.add(task);
-            EventBus.getDefault().post(new NewTaskEvent(task));
         }
         return id != 0;
     }
@@ -207,7 +206,8 @@ public class TaskManager implements ITaskManager {
 
     @Override
     public Task getTask(String name) {
-        return null;
+
+        return Stream.of(taskList).filter(value -> value.getName().equals(name)).findFirst().get();
     }
 
     @Override

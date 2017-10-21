@@ -104,6 +104,9 @@ public class EditTaskExtraFragment extends EditTaskDialog.SaveableFragment imple
     private void initPreTask(){
         preTasks.clear();
         List<Integer> preTaskIDs = task.getPreTasks();
+        if (preTaskIDs==null){
+            return;
+        }
         preTasks.addAll(Stream.of(preTaskIDs).
                 map(integer -> Game.getInstance().getTaskManager().getTask(integer)).
                 collect(Collectors.toList()));

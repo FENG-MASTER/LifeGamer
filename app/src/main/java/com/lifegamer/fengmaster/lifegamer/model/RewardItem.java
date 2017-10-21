@@ -23,7 +23,7 @@ import java.util.List;
  * 没有 是否拥有 状态
  */
 
-public class Reward implements Insertable,Deleteable,Updateable{
+public class RewardItem implements Insertable,Deleteable,Updateable{
 
     /**
      * 奖励ID
