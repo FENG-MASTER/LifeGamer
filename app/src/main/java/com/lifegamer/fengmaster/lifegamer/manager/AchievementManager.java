@@ -19,6 +19,8 @@ import java.util.List;
 
 /**
  * Created by qianzise on 2017/10/4.
+ *
+ * 本地成就管理器
  */
 
 public class AchievementManager implements IAchievementManager{
@@ -47,7 +49,7 @@ public class AchievementManager implements IAchievementManager{
     }
 
     @Override
-    public boolean removeAchievement(int id) {
+    public boolean removeAchievement(long id) {
         return false;
     }
 

@@ -34,7 +34,7 @@ public interface IAchievementManager {
      *
      * @param id 成就id
      */
-    boolean removeAchievement(int id);
+    boolean removeAchievement(long id);
 
     /**
      * 更新成就
