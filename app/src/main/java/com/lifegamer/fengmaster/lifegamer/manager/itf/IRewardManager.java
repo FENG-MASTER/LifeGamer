@@ -19,6 +19,22 @@ public interface IRewardManager {
      */
     boolean addRewardItem(RewardItem rewardItem);
 
+
+    /**
+     * 更新奖励物品
+     * @param rewardItem 奖励物品
+     * @return 是否成功
+     */
+    boolean updateRewardItem(RewardItem rewardItem);
+
+
+    /**
+     * 删除奖励物品
+     * @param id 奖励物品id
+     * @return 是否成功
+     */
+    boolean removeRewardItem(long id);
+
     /**
      * 赢得奖励
      * @param rewardItem 奖励

@@ -11,6 +11,7 @@ import com.lifegamer.fengmaster.lifegamer.manager.ItemManager;
 import com.lifegamer.fengmaster.lifegamer.manager.RewardItemManager;
 import com.lifegamer.fengmaster.lifegamer.manager.SkillManager;
 import com.lifegamer.fengmaster.lifegamer.manager.TaskManager;
+import com.lifegamer.fengmaster.lifegamer.manager.WealthManager;
 import com.lifegamer.fengmaster.lifegamer.manager.base.DefaultAvatarManager;
 import com.lifegamer.fengmaster.lifegamer.manager.base.itf.IAvatarManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IAchievementManager;
@@ -55,7 +56,7 @@ public class Game {
     /**
      * 财富管理器
      */
-    private IWealthManager wealthManager;
+    private IWealthManager wealthManager=new WealthManager();
     /**
      * 任务管理器
      */

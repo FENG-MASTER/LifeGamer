@@ -1,103 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<layout>
+    <data>
+        <variable
+            name="task"
+            type="com.lifegamer.fengmaster.lifegamer.model.Task"/>
 
-    <LinearLayout
+    </data>
+
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="胜利奖励"/>
+        android:layout_height="wrap_content">
 
         <LinearLayout
+            android:paddingTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="5dp">
+            android:orientation="vertical">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:inputType="number"
+                    android:id="@+id/et_dialog_edit_task_reward_earn_lp"
+                    android:hint="获得金币数量"
+                    android:gravity="center"
+                    android:text="@{String.valueOf(task.earnLP)}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </android.support.design.widget.TextInputLayout>
+
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="增加技能点"
-                android:textSize="12sp"/>
+                android:text="胜利奖励"/>
 
             <LinearLayout
-
-                android:id="@+id/ll_dialog_edit_task_time_finish_skill"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="5dp">
-            </LinearLayout>
 
-            <Button
-                android:id="@+id/bt_dialog_edit_task_reward_add_skill"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableRight="@drawable/ic_add_black_24dp"
-                android:text="新增技能奖励"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="增加技能点"
+                    android:textSize="12sp"/>
 
-        </LinearLayout>
+                <LinearLayout
 
-        <LinearLayout
-            android:id="@+id/ll_dialog_edit_task_time_finish_item"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="5dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="获得物品"
-                android:textSize="12sp"/>
-
-            <Button
-                android:id="@+id/bt_dialog_edit_task_reward_item_add"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableRight="@drawable/ic_clear_black_24dp"
-                android:text="新增物品奖励"/>
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="5dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="获得成就"
-                android:textSize="12sp"/>
-
-            <LinearLayout
-                android:id="@+id/ll_dialog_edit_task_time_finish_achievement"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="5dp">
+                    android:id="@+id/ll_dialog_edit_task_time_finish_skill"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="5dp">
                 </LinearLayout>
 
-            <Button
-                android:id="@+id/bt_dialog_edit_task_reward_add_achievement"
+                <Button
+                    android:id="@+id/bt_dialog_edit_task_reward_add_skill"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/ic_add_black_24dp"
+                    android:text="新增技能奖励"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_dialog_edit_task_time_finish_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableRight="@drawable/ic_clear_black_24dp"
-                android:text="新增成就奖励"/>
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="获得物品"
+                    android:textSize="12sp"/>
+
+                <Button
+                    android:id="@+id/bt_dialog_edit_task_reward_item_add"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/ic_clear_black_24dp"
+                    android:text="新增物品奖励"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="获得成就"
+                    android:textSize="12sp"/>
+
+                <LinearLayout
+                    android:id="@+id/ll_dialog_edit_task_time_finish_achievement"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/bt_dialog_edit_task_reward_add_achievement"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/ic_clear_black_24dp"
+                    android:text="新增成就奖励"/>
+
+
+            </LinearLayout>
 
 
         </LinearLayout>
+    </ScrollView>
 
 
-    </LinearLayout>
-</ScrollView>
+</layout>
+

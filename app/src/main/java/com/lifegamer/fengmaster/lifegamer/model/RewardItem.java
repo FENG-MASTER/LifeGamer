@@ -2,7 +2,10 @@ package com.lifegamer.fengmaster.lifegamer.model;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 
+import com.lifegamer.fengmaster.lifegamer.BR;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
@@ -23,7 +26,7 @@ import java.util.List;
  * 没有 是否拥有 状态
  */
 
-public class RewardItem implements Insertable,Deleteable,Updateable{
+public class RewardItem extends BaseObservable implements Insertable,Deleteable,Updateable{
 
     /**
      * 奖励ID
@@ -38,7 +41,7 @@ public class RewardItem implements Insertable,Deleteable,Updateable{
     /**
      * 奖励所属种类
      */
-    private String type;
+    private String type="未分类";
 
     /**
      * 奖励详细描述信息
@@ -47,11 +50,13 @@ public class RewardItem implements Insertable,Deleteable,Updateable{
 
     /**
      * 获得奖励所需LP点数
+     * -1 表示不可购买(只能通过任务获得)
      */
     private int costLP;
 
     /**
-     * 剩余奖励数目 -1表示无限
+     * 剩余奖励数目
+     * -1表示无限
      */
     private int quantityAvailable;
 
@@ -63,12 +68,12 @@ public class RewardItem implements Insertable,Deleteable,Updateable{
     /**
      * 创建时间
      */
-    private Date createTime;
+    private Date createTime=new Date();
 
     /**
      * 修改时间
      */
-    private Date updateTime;
+    private Date updateTime=new Date();
 
     /**
      * 奖励图标
@@ -81,7 +86,7 @@ public class RewardItem implements Insertable,Deleteable,Updateable{
     private int costLPIncrement;
 
     /**
-     * 是否添加到物品
+     * 得到后是否添加到物品
      */
     private boolean addToItem;
     /**
@@ -102,117 +107,131 @@ public class RewardItem implements Insertable,Deleteable,Updateable{
         return new Item();
 
     }
-
+    @Bindable
     public boolean isExpendable() {
         return expendable;
     }
 
     public void setExpendable(boolean expendable) {
         this.expendable = expendable;
+        notifyPropertyChanged(BR.expendable);
     }
-
+    @Bindable
     public long getId() {
         return id;
     }
 
     public void setId(long id) {
         this.id = id;
+        notifyPropertyChanged(BR.id);
     }
-
+    @Bindable
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+        notifyPropertyChanged(BR.name);
     }
-
+    @Bindable
     public String getType() {
         return type;
     }
 
     public void setType(String type) {
         this.type = type;
+        notifyPropertyChanged(BR.type);
     }
-
+    @Bindable
     public String getDesc() {
         return desc;
     }
 
     public void setDesc(String desc) {
         this.desc = desc;
+        notifyPropertyChanged(BR.desc);
     }
-
+    @Bindable
     public int getCostLP() {
         return costLP;
     }
 
     public void setCostLP(int costLP) {
         this.costLP = costLP;
+        notifyPropertyChanged(BR.costLP);
     }
-
+    @Bindable
     public int getQuantityAvailable() {
         return quantityAvailable;
     }
 
     public void setQuantityAvailable(int quantityAvailable) {
         this.quantityAvailable = quantityAvailable;
+        notifyPropertyChanged(BR.quantityAvailable);
     }
-
+    @Bindable
     public int getGainTimes() {
         return gainTimes;
     }
 
     public void setGainTimes(int gainTimes) {
         this.gainTimes = gainTimes;
+        notifyPropertyChanged(BR.gainTimes);
     }
-
+    @Bindable
     public Date getCreateTime() {
         return createTime;
     }
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+        notifyPropertyChanged(BR.createTime);
     }
-
+    @Bindable
     public Date getUpdateTime() {
         return updateTime;
     }
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+        notifyPropertyChanged(BR.updateTime);
     }
-
+    @Bindable
     public String getIcon() {
         return icon;
     }
 
     public void setIcon(String icon) {
         this.icon = icon;
+        notifyPropertyChanged(BR.icon);
     }
-
+    @Bindable
     public int getCostLPIncrement() {
         return costLPIncrement;
     }
 
     public void setCostLPIncrement(int costLPIncrement) {
         this.costLPIncrement = costLPIncrement;
+        notifyPropertyChanged(BR.costLPIncrement);
     }
-
+    @Bindable
     public boolean isAddToItem() {
         return addToItem;
     }
 
     public void setAddToItem(boolean addToItem) {
         this.addToItem = addToItem;
+        notifyPropertyChanged(BR.addToItem);
     }
-
+    @Bindable
     public List<Integer> getNotes() {
         return notes;
     }
 
     public void setNotes(List<Integer> notes) {
         this.notes = notes;
+        notifyPropertyChanged(BR.notes);
     }
 
 

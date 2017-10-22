@@ -71,7 +71,7 @@
                             android:drawableStart="@drawable/ic_life_point_coin"
                             android:id="@+id/tv_item_reward_cost_lp"
                             android:layout_width="wrap_content"
-                            android:text="@{String.valueOf(reward.costLP)}"
+                            android:text='@{reward.costLP!=-1?String.valueOf(reward.costLP): @string/no_sale}'
                             android:layout_height="wrap_content"/>
 
                     </LinearLayout>
@@ -79,7 +79,7 @@
 
                 <TextView
                     android:id="@+id/tv_item_reward_available_time"
-                    android:text="@{String.valueOf(reward.quantityAvailable)}"
+                    android:text="@{reward.quantityAvailable!=-1?String.valueOf(reward.quantityAvailable):@string/item_num_infinite}"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
                     android:layout_width="wrap_content"

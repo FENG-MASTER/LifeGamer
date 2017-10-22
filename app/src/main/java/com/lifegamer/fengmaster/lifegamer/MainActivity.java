@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        drawerLayout.closeDrawers();
         switch (item.getItemId()){
             case R.id.nav_task:
                 changeToFragment(0);
@@ -138,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         }
-        drawerLayout.closeDrawers();
+
         return true;
     }
 

@@ -11,6 +11,8 @@ import static com.lifegamer.fengmaster.lifegamer.dao.DBHelper.TABLE_HERO;
 
 /**
  * Created by qianzise on 2017/10/8.
+ *
+ * 本地英雄信息管理器
  */
 
 public class HeroManger implements IHeroManager {

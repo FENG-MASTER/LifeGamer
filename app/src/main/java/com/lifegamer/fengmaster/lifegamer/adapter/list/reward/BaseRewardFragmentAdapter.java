@@ -1,5 +1,6 @@
 package com.lifegamer.fengmaster.lifegamer.adapter.list.reward;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,15 @@ public abstract class BaseRewardFragmentAdapter extends BaseRecyclerViewAdapter<
     public abstract void updateRewardItemList();
 
     private List<OnItemSelectListener<RewardItem>> listeners = new ArrayList<>();
+
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        if (rewardItemList==null){
+            updateRewardItemList();
+        }
+    }
 
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {

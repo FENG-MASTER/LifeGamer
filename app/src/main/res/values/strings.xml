@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">LifeGamer</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hero_name">英雄名</string>
     <string name="hero_title">称号</string>
     <string name="hero_desc">英雄简介</string>
@@ -17,4 +15,7 @@
     <string name="nav_setting">设置</string>
     <string name="nav_help">帮助</string>
     <string name="level">等级</string>
+
+    <string name="no_sale">非卖品</string>
+    <string name="item_num_infinite">无限</string>
 </resources>

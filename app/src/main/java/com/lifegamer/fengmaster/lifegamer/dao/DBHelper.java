@@ -38,9 +38,16 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TABLE_NOTE="Notes";
     public static final String TABLE_REWARD="Rewards";
     public static final String TABLE_SKILL="Skills";
+    public static final String TABLE_WEALTH="Wealth";
 
-    private SQLiteDatabase writeDB;
-    private SQLiteDatabase readDB;
+
+    /**
+     * 创建 财富 表
+     */
+    private static final String CREATE_TABLE_WEALTH="create table if not exists "+TABLE_WEALTH+
+            "( _id integer primary key autoincrement," +
+            "heroID integer unique," +
+            "liftPoint integer)";
 
     /**
      * 创建 英雄 表
@@ -107,14 +114,14 @@ public class DBHelper extends SQLiteOpenHelper {
             "( _id integer primary key autoincrement," +
             "name varchar unique," +
             "type varchar," +
-            "icon varchar" +
+            "icon varchar," +
             "desc varchar," +
             "costLPIncrement integer," +
             "addToItem boolean," +
-            "notes text" +
+            "notes text," +
             "costLP integer," +
             "quantityAvailable integer," +
-            "gainTime integer," +
+            "gainTimes integer," +
             "createTime integer," +
             "updateTime integer)";
 
@@ -162,24 +169,21 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private DBHelper(Context context){
         super(context,DB_NAME,null,1);
-        init();
+
     }
 
 
     private DBHelper(Context context, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DB_NAME, factory, version);
-        init();
+
     }
 
     private DBHelper(Context context, SQLiteDatabase.CursorFactory factory, int version, DatabaseErrorHandler errorHandler) {
         super(context, DB_NAME, factory, version, errorHandler);
-        init();
+
     }
 
-    private void init(){
-        writeDB=getWritableDatabase();
-        readDB=getReadableDatabase();
-    }
+
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
@@ -190,7 +194,7 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_TABLE_NOTE);
         sqLiteDatabase.execSQL(CREATE_TABLE_REWARD);
         sqLiteDatabase.execSQL(CREATE_TABLE_TASK);
-
+        sqLiteDatabase.execSQL(CREATE_TABLE_WEALTH);
 
     }
 

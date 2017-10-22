@@ -21,6 +21,7 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
+import com.lifegamer.fengmaster.lifegamer.databinding.DialogEditTaskRewardBinding;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
 import com.lifegamer.fengmaster.lifegamer.model.RewardItem;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
@@ -45,15 +46,8 @@ import butterknife.OnClick;
 
 public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
 
-    @BindView(R.id.ll_dialog_edit_task_time_finish_skill)
-    LinearLayout skillView;
-    @BindView(R.id.bt_dialog_edit_task_reward_add_skill)
-    Button addSkill;
 
-    @BindView(R.id.ll_dialog_edit_task_time_finish_item)
-    LinearLayout itemView;
-    @BindView(R.id.ll_dialog_edit_task_time_finish_achievement)
-    LinearLayout achievementView;
+    private DialogEditTaskRewardBinding binding;
 
     private Task task;
 
@@ -83,7 +77,11 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_edit_task_reward, container, false);
+        binding=DialogEditTaskRewardBinding.inflate(inflater);
+        View view = binding.getRoot();
+
+        binding.setTask(task);
+
         ButterKnife.bind(this, view);
 
         initSkills();
@@ -142,7 +140,7 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
      * @param reward 奖励
      */
     private void addNewItemView(RandomItemReward reward) {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.item_dialog_edit_task_reward_item, itemView, false);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.item_dialog_edit_task_reward_item, binding.llDialogEditTaskTimeFinishItem, false);
 
         ImageButton del= (ImageButton) view.findViewById(R.id.bt_dialog_edit_task_reward_item_del);
         TextView name= (TextView) view.findViewById(R.id.tv_item_dialog_edit_task_reward_item_name);
@@ -160,7 +158,7 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
             @Override
             public void onClick(View v) {
                 randomItemRewards.remove(reward);
-                itemView.removeView(view);
+                binding.llDialogEditTaskTimeFinishItem.removeView(view);
             }
         });
 
@@ -215,7 +213,7 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
             }
         });
 
-        itemView.addView(view);
+        binding.llDialogEditTaskTimeFinishItem.addView(view);
 
 
     }
@@ -227,7 +225,7 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
      * @param val  xp数值
      */
     private void newSkillView(String name, int val) {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.item_dialog_edit_task_reward_skill, skillView, false);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.item_dialog_edit_task_reward_skill, binding.llDialogEditTaskTimeFinishSkill, false);
 
         TextView nameView = (TextView) view.findViewById(R.id.tv_item_dialog_edit_task_reward_skill_name);
         EditText valView = (EditText) view.findViewById(R.id.et_item_dialog_edit_task_reward_skill_val);
@@ -236,7 +234,7 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
         //删除技能奖励
         del.setOnClickListener(v -> {
             skills.remove(name);
-            skillView.removeView(view);
+            binding.llDialogEditTaskTimeFinishSkill.removeView(view);
         });
 
         nameView.setText(name);
@@ -260,12 +258,12 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
             }
         });
 
-        skillView.addView(view);
+        binding.llDialogEditTaskTimeFinishSkill.addView(view);
 
     }
 
     private void addNewAchievementRewardView(AchievementReward achievementReward) {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.item_dialog_edit_task_reward_achievement, achievementView, false);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.item_dialog_edit_task_reward_achievement, binding.llDialogEditTaskTimeFinishAchievement, false);
         ImageButton del = (ImageButton) view.findViewById(R.id.bt_dialog_edit_task_reward_achievement_del);
         TextView name = (TextView) view.findViewById(R.id.tv_item_dialog_edit_task_reward_achievement_name);
         EditText rate = (EditText) view.findViewById(R.id.et_item_dialog_edit_task_reward_achievement_rate);
@@ -282,7 +280,7 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
                 }
             }
             achievements.remove(rm);
-            achievementView.removeView(view);
+            binding.llDialogEditTaskTimeFinishAchievement.removeView(view);
         });
 
         name.setText(achievementReward.getAchievement());
@@ -320,7 +318,7 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
             }
         });
 
-        achievementView.addView(view);
+        binding.llDialogEditTaskTimeFinishAchievement.addView(view);
     }
 
     @Override
@@ -339,6 +337,9 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
 
         //保存物品奖励
         task.setSuccessItems(randomItemRewards);
+
+        //保存金币奖励数目
+        task.setEarnLP(binding.etDialogEditTaskRewardEarnLp.getText().toString().equals("")?0:Integer.valueOf(binding.etDialogEditTaskRewardEarnLp.getText().toString()));
 
     }
 
