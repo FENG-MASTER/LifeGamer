@@ -107,33 +107,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.closeDrawers();
         switch (item.getItemId()){
             case R.id.nav_task:
+                //任务
                 changeToFragment(0);
                 break;
 
             case R.id.nav_reward:
+                //奖励
                 changeToFragment(1);
                 break;
 
             case R.id.nav_item:
+                //物品仓库
                 changeToFragment(2);
                 break;
 
             case R.id.nav_skill:
+                //技能
                 changeToFragment(3);
                 break;
 
 
             case R.id.nav_achievement:
+                //成就
                 changeToFragment(4);
                 break;
 
             case R.id.nav_statistics:
+                //统计
                 changeToFragment(5);
                 break;
 
 
             case R.id.nav_hero:
+                //英雄信息
                 changeToFragment(6);
+                break;
+
+            case R.id.nav_exit:
+                //退出
+                finish();
                 break;
             default:
 
