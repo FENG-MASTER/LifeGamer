@@ -38,7 +38,7 @@ public class RewardFragment extends BaseTabListFragment implements OnItemSelectL
     public void onActionButtonClick() {
         EditRewardDialog dialog=new EditRewardDialog();
         dialog.setRewardItem(new RewardItem());
-        dialog.show(getFragmentManager(),"editReward");
+        dialog.show(getChildFragmentManager(),"editReward");
     }
 
     @Override

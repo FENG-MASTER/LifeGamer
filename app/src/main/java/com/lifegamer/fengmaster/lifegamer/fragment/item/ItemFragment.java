@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lifegamer.fengmaster.lifegamer.R;
+import com.lifegamer.fengmaster.lifegamer.adapter.list.item.AllItemFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseTabListFragment;
 
 /**
@@ -17,6 +18,10 @@ import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseTabListFragment;
  */
 public class ItemFragment extends BaseTabListFragment {
 
+
+    public ItemFragment() {
+        addAdapter(new AllItemFragmentAdapter());
+    }
 
     @Override
     public void onActionButtonClick() {

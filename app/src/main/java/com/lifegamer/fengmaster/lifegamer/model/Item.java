@@ -61,12 +61,12 @@ public class Item extends BaseObservable implements Insertable, Deleteable, Upda
     /**
      * 创建物品时间
      */
-    private Date createTime;
+    private Date createTime=new Date();
 
     /**
      * 更新时间
      */
-    private Date updateTime;
+    private Date updateTime=new Date();
 
     /**
      * 笔记ID

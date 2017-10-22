@@ -54,7 +54,7 @@ public class SkillFragment extends BaseTabListFragment implements OnItemSelectLi
     public void onActionButtonClick() {
         //新建技能
         EditSkillDialog dialog=new EditSkillDialog();
-        dialog.show(getFragmentManager(),"1");
+        dialog.show(getChildFragmentManager(),"1");
     }
 
 

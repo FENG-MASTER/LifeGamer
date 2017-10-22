@@ -112,7 +112,7 @@ public class EditTaskDialog extends BaseDialogFragment implements View.OnClickLi
                     taskAvatar=avatar;
                     binding.sivDialogEditTaskIcon.setImageDrawable(taskAvatar.getIcon());
                 });
-                dialog.show(getFragmentManager(),"avatarSelect");
+                dialog.show(getChildFragmentManager(),"avatarSelect");
 
                 break;
             default:
