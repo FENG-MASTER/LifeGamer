@@ -10,7 +10,7 @@ import java.lang.ref.SoftReference;
 import java.util.Queue;
 import java.util.Stack;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.function.Predicate;
+
 
 /**
  * Created by qianzise on 2017/10/8.
