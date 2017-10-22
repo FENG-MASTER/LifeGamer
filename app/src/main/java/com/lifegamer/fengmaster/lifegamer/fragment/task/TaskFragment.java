@@ -1,6 +1,11 @@
 package com.lifegamer.fengmaster.lifegamer.fragment.task;
 
 
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.task.AllTaskFragmentAdapter;
@@ -31,7 +36,6 @@ public class TaskFragment extends BaseTabListFragment implements OnItemSelectLis
         allTaskFragmentAdapter.addItemSelectListener(this);
         addAdapter(allTaskFragmentAdapter);
     }
-
 
     @Override
     public void onActionButtonClick() {

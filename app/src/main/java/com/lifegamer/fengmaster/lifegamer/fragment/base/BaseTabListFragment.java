@@ -58,18 +58,21 @@ public abstract class BaseTabListFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        if (container.getTag()!=null){
+            //防止多次调用出现白屏bug
+            container.removeView((View) container.getTag());
+            View view = (View) container.getTag();
+            container.setTag(null);
+            return view;
+        }
+
         View inflate = inflater.inflate(R.layout.fragment_base_tab_list, container, false);
         ButterKnife.bind(this,inflate);
 
         viewPager.setAdapter(new BaseViewPagerFragmentAdapter(getFragmentManager(), fragments));
         tabLayout.setupWithViewPager(viewPager);
-        actionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onActionButtonClick();
-            }
-        });
+        actionButton.setOnClickListener(view -> onActionButtonClick());
+        container.setTag(inflate);
         return inflate;
     }
 
