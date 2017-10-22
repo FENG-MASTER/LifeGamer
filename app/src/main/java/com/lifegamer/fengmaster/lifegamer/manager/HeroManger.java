@@ -64,7 +64,7 @@ public class HeroManger implements IHeroManager {
             return null;
         }
         Hero hero=new Hero();
-
+        hero.setId(query.getLong(query.getColumnIndex("_id")));
         hero.setName(query.getString(query.getColumnIndex("name")));
         hero.setAvatarUrl(query.getString(query.getColumnIndex("avatar")));
         hero.setIntroduction(query.getString(query.getColumnIndex("introduction")));

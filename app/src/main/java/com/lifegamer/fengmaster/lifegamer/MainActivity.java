@@ -15,7 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 
-import com.lifegamer.fengmaster.lifegamer.fragment.AchievementFragment;
+import com.lifegamer.fengmaster.lifegamer.fragment.achievement.AchievementFragment;
 import com.lifegamer.fengmaster.lifegamer.fragment.reward.RewardFragment;
 import com.lifegamer.fengmaster.lifegamer.fragment.HeroInfoFragment;
 import com.lifegamer.fengmaster.lifegamer.fragment.item.ItemFragment;

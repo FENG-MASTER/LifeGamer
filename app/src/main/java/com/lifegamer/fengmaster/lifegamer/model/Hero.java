@@ -29,7 +29,7 @@ public class Hero extends BaseObservable implements Insertable,Updateable{
 
 
     private String name;
-    private int id ;
+    private long id ;
     private String title;
     private String introduction;
     private String avatarUrl;
@@ -100,7 +100,7 @@ public class Hero extends BaseObservable implements Insertable,Updateable{
         notifyPropertyChanged(BR.name);
     }
     @Bindable
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -132,7 +132,7 @@ public class Hero extends BaseObservable implements Insertable,Updateable{
         notifyPropertyChanged(BR.avatarUrl);
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
         notifyPropertyChanged(BR.id);
     }

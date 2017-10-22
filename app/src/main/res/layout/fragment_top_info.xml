@@ -2,7 +2,8 @@
 <layout>
 
     <data>
-
+        <import type="com.lifegamer.fengmaster.lifegamer.Game"/>
+        <import type="com.lifegamer.fengmaster.lifegamer.util.FormatUtil"/>
         <variable
             name="hero"
             type="com.lifegamer.fengmaster.lifegamer.model.Hero"/>
@@ -43,7 +44,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
-                    android:src="@drawable/test1"/>
+                    android:src="@{ hero.avatarUrl == null? @drawable/ic_default :Game.instance.avatarManager.getAvatar(FormatUtil.avatarStrFormat(hero.avatarUrl)[1]).icon }"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"

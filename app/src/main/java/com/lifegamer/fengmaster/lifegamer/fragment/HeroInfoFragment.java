@@ -14,32 +14,25 @@ import android.widget.ImageView;
 
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
+import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
+import com.lifegamer.fengmaster.lifegamer.databinding.FragmentHeroInfoBinding;
+import com.lifegamer.fengmaster.lifegamer.manager.base.itf.IAvatarManager;
 import com.lifegamer.fengmaster.lifegamer.model.Hero;
 import com.lifegamer.fengmaster.lifegamer.util.ViewUtil;
+import com.lifegamer.fengmaster.lifegamer.wight.AvatarSelectDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class HeroInfoFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
+public class HeroInfoFragment extends Fragment implements CompoundButton.OnCheckedChangeListener, View.OnClickListener, OnItemSelectListener<IAvatarManager.Avatar> {
 
-    @BindView(R.id.et_hero_info_desc)
-    EditText editTextDesc;
-    @BindView(R.id.et_hero_info_name)
-    EditText editTextName;
-    @BindView(R.id.et_hero_info_title)
-    EditText editTextTitle;
-    @BindView(R.id.cb_hero_info_desc)
-    CheckBox checkBoxDesc;
-    @BindView(R.id.cb_hero_info_name)
-    CheckBox checkBoxName;
-    @BindView(R.id.cb_heron_info_title)
-    CheckBox checkBoxTitle;
 
-    @BindView(R.id.im_hero_info_avatar)
-    ImageView avatar;
+    private FragmentHeroInfoBinding binding;
 
     private Hero hero;
+
+    private IAvatarManager.Avatar heroAvatar;
 
 
     public HeroInfoFragment() {
@@ -50,11 +43,10 @@ public class HeroInfoFragment extends Fragment implements CompoundButton.OnCheck
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_hero_info, container, false);
-        ButterKnife.bind(this, view);
+        binding=FragmentHeroInfoBinding.inflate(inflater);
         initView();
-        return view;
+        binding.setHero(hero);
+        return binding.getRoot();
     }
 
     @Override
@@ -64,46 +56,44 @@ public class HeroInfoFragment extends Fragment implements CompoundButton.OnCheck
     }
 
     private void initView() {
-        checkBoxName.setOnCheckedChangeListener(this);
-        checkBoxTitle.setOnCheckedChangeListener(this);
-        checkBoxDesc.setOnCheckedChangeListener(this);
-
+        binding.cbHeroInfoName.setOnCheckedChangeListener(this);
+        binding.cbHeronInfoTitle.setOnCheckedChangeListener(this);
+        binding.cbHeroInfoDesc.setOnCheckedChangeListener(this);
+        binding.imHeroInfoAvatar.setOnClickListener(this);
 
 
         hero=Game.getInstance().getHeroManager().getHero();
-        editTextName.setText(hero.getName());
-        editTextDesc.setText(hero.getIntroduction());
-        editTextTitle.setText(hero.getTitle());
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        checkBoxName.setOnCheckedChangeListener(null);
-        checkBoxDesc.setOnCheckedChangeListener(null);
-        checkBoxTitle.setOnCheckedChangeListener(null);
+        binding.cbHeroInfoName.setOnCheckedChangeListener(null);
+        binding.cbHeronInfoTitle.setOnCheckedChangeListener(null);
+        binding.cbHeroInfoDesc.setOnCheckedChangeListener(null);
+        binding.imHeroInfoAvatar.setOnClickListener(null);
     }
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         switch (compoundButton.getId()) {
             case R.id.cb_hero_info_name:
-                editTextName.setEnabled(b);
+                binding.etHeroInfoName.setEnabled(b);
                 if (!b){
-                    hero.setName(editTextName.getText().toString());
+                    hero.setName(binding.etHeroInfoName.getText().toString());
 
                 }
                 break;
             case R.id.cb_heron_info_title:
-                editTextTitle.setEnabled(b);
+                binding.etHeroInfoTitle.setEnabled(b);
                 if (!b){
-                    hero.setTitle(editTextTitle.getText().toString());
+                    hero.setTitle(binding.etHeroInfoTitle.getText().toString());
                 }
                 break;
             case R.id.cb_hero_info_desc:
-                editTextDesc.setEnabled(b);
+                binding.etHeroInfoDesc.setEnabled(b);
                 if (!b){
-                    hero.setIntroduction(editTextDesc.getText().toString());
+                    hero.setIntroduction(binding.etHeroInfoDesc.getText().toString());
                 }
                 break;
         }
@@ -113,4 +103,21 @@ public class HeroInfoFragment extends Fragment implements CompoundButton.OnCheck
     }
 
 
+    @Override
+    public void onClick(View v) {
+        if (v.getId()==R.id.im_hero_info_avatar){
+            //更换头像
+            AvatarSelectDialog dialog=new AvatarSelectDialog();
+            dialog.addItemSelectListener(this);
+            dialog.show(getChildFragmentManager(),"selectAvatar");
+        }
+    }
+
+    @Override
+    public void onItemSelect(IAvatarManager.Avatar avatar) {
+        //选择头像成功
+        heroAvatar=avatar;
+        hero.setAvatarUrl(heroAvatar.toString());
+        Game.getInstance().getHeroManager().updateHero(hero);
+    }
 }
