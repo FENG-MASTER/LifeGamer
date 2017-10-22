@@ -14,6 +14,7 @@ import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.command.command.reward.AddRewardCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.reward.UpdateRewardCommand;
 import com.lifegamer.fengmaster.lifegamer.databinding.DialogEditRewardBinding;
+import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseDialogFragment;
 import com.lifegamer.fengmaster.lifegamer.model.RewardItem;
 
 /**
@@ -22,7 +23,7 @@ import com.lifegamer.fengmaster.lifegamer.model.RewardItem;
  * 奖励编辑对话框
  */
 
-public class EditRewardDialog extends DialogFragment implements View.OnClickListener {
+public class EditRewardDialog extends BaseDialogFragment implements View.OnClickListener {
 
     private RewardItem rewardItem;
 

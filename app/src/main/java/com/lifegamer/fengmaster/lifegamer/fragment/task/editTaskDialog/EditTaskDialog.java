@@ -21,6 +21,7 @@ import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.command.command.task.AddTaskCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.task.UpdateTaskCommand;
 import com.lifegamer.fengmaster.lifegamer.databinding.DialogEditTaskBinding;
+import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseDialogFragment;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseFragment;
 import com.lifegamer.fengmaster.lifegamer.manager.base.itf.IAvatarManager;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
@@ -36,7 +37,7 @@ import butterknife.ButterKnife;
  * Created by qianzise on 2017/10/16.
  */
 
-public class EditTaskDialog extends DialogFragment implements View.OnClickListener {
+public class EditTaskDialog extends BaseDialogFragment implements View.OnClickListener {
 
 
     /**

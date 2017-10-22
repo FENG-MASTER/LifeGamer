@@ -16,6 +16,7 @@ import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.command.command.skill.AddSkillCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.skill.UpdateSkillCommand;
 import com.lifegamer.fengmaster.lifegamer.databinding.DialogEditSkillBinding;
+import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseDialogFragment;
 import com.lifegamer.fengmaster.lifegamer.manager.base.itf.IAvatarManager;
 import com.lifegamer.fengmaster.lifegamer.model.Skill;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
@@ -31,7 +32,7 @@ import butterknife.ButterKnife;
  * 技能编辑对话框
  */
 
-public class EditSkillDialog extends DialogFragment implements OnItemSelectListener<IAvatarManager.Avatar> {
+public class EditSkillDialog extends BaseDialogFragment implements OnItemSelectListener<IAvatarManager.Avatar> {
 
     private Skill skill = new Skill();
 
