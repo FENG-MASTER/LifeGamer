@@ -11,10 +11,8 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.annimon.stream.Collectors;
@@ -34,7 +32,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -414,13 +411,13 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
      */
     @OnClick(R.id.bt_dialog_edit_task_reward_add_achievement)
     public void addAchievement(View view) {
-        if (Game.getInstance().getAchievementManager().getNoGetAchievment() == null) {
+        if (Game.getInstance().getAchievementManager().getAllNoGetAchievment() == null) {
             //没有成就可选
 
             ViewUtil.showToast("没有成就可供选择");
             return;
         }
-        List<String> achievementNames = Stream.of(Game.getInstance().getAchievementManager().getNoGetAchievment()).
+        List<String> achievementNames = Stream.of(Game.getInstance().getAchievementManager().getAllNoGetAchievment()).
                 filterNot(value -> achievements.contains(new AchievementReward(value.getName(), 0))).//排除已经添加了的成就
                 map(Achievement::getName).
                 collect(Collectors.toList());

@@ -24,7 +24,7 @@ public class Achievement implements Insertable,Updateable,Deleteable{
     /**
      * 成就ID
      */
-    private int id;
+    private long id;
 
     /**
      * 成就名称
@@ -64,12 +64,12 @@ public class Achievement implements Insertable,Updateable,Deleteable{
     /**
      * 创建时间
      */
-    private Date createTime;
+    private Date createTime=new Date();
 
     /**
      * 更新时间
      */
-    private Date updateTime;
+    private Date updateTime=new Date();
 
     public List<Integer> getNotes() {
         return notes;
@@ -79,11 +79,11 @@ public class Achievement implements Insertable,Updateable,Deleteable{
         this.notes = notes;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -180,7 +180,7 @@ public class Achievement implements Insertable,Updateable,Deleteable{
         cv.put("icon",getIcon());
         cv.put("desc",getDesc());
         cv.put("isGot",isGot());
-        cv.put("gainTime", SimpleDateFormat.getInstance().format(getGainTime()));
+        cv.put("gainTime", getGainTime()!=null?SimpleDateFormat.getInstance().format(getGainTime()):null);
         cv.put("notes", FormatUtil.list2Str(getNotes()));
         cv.put("createTime",SimpleDateFormat.getInstance().format(getCreateTime()));
         cv.put("updateTime",SimpleDateFormat.getInstance().format(getUpdateTime()));

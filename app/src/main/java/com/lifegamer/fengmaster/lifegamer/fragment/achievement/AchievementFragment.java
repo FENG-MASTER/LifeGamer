@@ -26,7 +26,8 @@ public class AchievementFragment extends BaseTabListFragment {
 
     @Override
     public void onActionButtonClick() {
-
+        EditAchievementDialog dialog=new EditAchievementDialog();
+        dialog.show(getChildFragmentManager(),"editAchievement");
     }
 
 }

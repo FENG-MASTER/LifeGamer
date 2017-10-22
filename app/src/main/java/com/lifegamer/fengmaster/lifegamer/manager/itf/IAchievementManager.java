@@ -17,8 +17,9 @@ public interface IAchievementManager {
      * 添加成就(只是添加,不获得)
      *
      * @param achievement 成就
+     * @return 是否成功
      */
-    void addAchievement(Achievement achievement);
+    boolean addAchievement(Achievement achievement);
 
     /**
      * 删除成就
@@ -34,6 +35,13 @@ public interface IAchievementManager {
      * @param id 成就id
      */
     boolean removeAchievement(int id);
+
+    /**
+     * 更新成就
+     * @param achievement 成就
+     * @return 是否成功
+     */
+    boolean updateAchievement(Achievement achievement);
 
     /**
      * 获得成就
@@ -81,7 +89,7 @@ public interface IAchievementManager {
      *
      * @return 成就列表
      */
-    List<Achievement> getNoGetAchievment();
+    List<Achievement> getAllNoGetAchievment();
 
 
     /**获取 所有已经 获得 的成就列表
@@ -105,7 +113,7 @@ public interface IAchievementManager {
      * @param type    成就分类
      * @return 成就列表
      */
-    List<Achievement> getNoGetAchievment(String type);
+    List<Achievement> getAllNoGetAchievment(String type);
 
     /**获取 所有已经 获得 的成就列表
      * @param type    成就分类

@@ -18,4 +18,5 @@
 
     <string name="no_sale">非卖品</string>
     <string name="item_num_infinite">无限</string>
+    <string name="nav_exit">退出</string>
 </resources>
