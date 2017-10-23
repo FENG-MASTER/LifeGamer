@@ -16,8 +16,9 @@ public interface ISkillManager {
      * 增加技能点
      * @param skillName 技能名字
      * @param xp 增加点数
+     * @return 是否成功
      */
-    void addSkillXp(String skillName, int xp);
+    boolean addSkillXp(String skillName, int xp);
 
     /**
      * 新增技能
@@ -39,6 +40,14 @@ public interface ISkillManager {
      * @return 技能
      */
     Skill getSkill(String name);
+
+
+    /**
+     * 根据ID获得技能对象
+     * @param id 技能id
+     * @return 技能对象
+     */
+    Skill getSkill(long id);
 
     /**
      * 删除技能

@@ -17,11 +17,14 @@ import android.widget.TextView;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
+import com.annimon.stream.function.Function;
+import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.databinding.DialogEditTaskRewardBinding;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
 import com.lifegamer.fengmaster.lifegamer.model.RewardItem;
+import com.lifegamer.fengmaster.lifegamer.model.Skill;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.RandomItemReward;
@@ -51,7 +54,7 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
     /**
      * 任务完成获得的 技能列表
      */
-    private Map<String, Integer> skills = new HashMap<>();
+    private Map<Long, Integer> skills = new HashMap<>();
 
     /**
      * 任务完成获得的 成就列表
@@ -97,8 +100,8 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
             return;
         }
         skills.putAll(task.getSuccessSkills());
-        for (Map.Entry<String, Integer> entry : skills.entrySet()) {
-            newSkillView(entry.getKey(), entry.getValue());
+        for (Map.Entry<Long, Integer> entry : skills.entrySet()) {
+            newSkillView(Game.getInstance().getSkillManager().getSkill(entry.getKey()), entry.getValue());
         }
     }
 
@@ -218,10 +221,10 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
     /**
      * 新增一个奖励技能的view
      *
-     * @param name 技能名
+     * @param skill 技能
      * @param val  xp数值
      */
-    private void newSkillView(String name, int val) {
+    private void newSkillView(Skill skill, int val) {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.item_dialog_edit_task_reward_skill, binding.llDialogEditTaskTimeFinishSkill, false);
 
         TextView nameView = (TextView) view.findViewById(R.id.tv_item_dialog_edit_task_reward_skill_name);
@@ -230,11 +233,11 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
 
         //删除技能奖励
         del.setOnClickListener(v -> {
-            skills.remove(name);
+            skills.remove(skill.getId());
             binding.llDialogEditTaskTimeFinishSkill.removeView(view);
         });
 
-        nameView.setText(name);
+        nameView.setText(skill.getName());
         valView.setText(String.valueOf(val));
         valView.addTextChangedListener(new TextWatcher() {
             @Override
@@ -250,7 +253,7 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if (!s.toString().equals("") && TextUtils.isDigitsOnly(s.toString())) {
-                    skills.put(name, Integer.parseInt(s.toString()));
+                    skills.put(skill.getId(), Integer.parseInt(s.toString()));
                 }
             }
         });
@@ -348,8 +351,13 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
      */
     @OnClick(R.id.bt_dialog_edit_task_reward_add_skill)
     public void addSkill(View view) {
-        List<String> allSkillName = Stream.of(Game.getInstance().getSkillManager().getAllSkillName()).
-                filterNot(value -> skills.containsKey(value)).//排除已经添加了的技能
+        List<Skill> allSkill=Stream.of(Game.getInstance().getSkillManager().getAllSkill()).
+                filterNot(value -> skills.containsKey(value.getId())).//排除已经添加了的技能
+                collect(Collectors.toList());
+
+        //显示用的名字列表
+        List<String> allSkillName = Stream.of(allSkill).
+                map(Skill::getName).
                 collect(Collectors.toList());
         if (allSkillName == null || allSkillName.isEmpty()) {
             //没有可用技能
@@ -360,8 +368,8 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
         new AlertDialog.Builder(getContext()).setSingleChoiceItems(allSkillName.toArray(new String[allSkillName.size()]), 0, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                newSkillView(allSkillName.get(which), 0);
-                skills.put(allSkillName.get(which), 0);
+                newSkillView(allSkill.get(which), 0);
+                skills.put(allSkill.get(which).getId(), 0);
                 dialog.dismiss();
             }
         }).create().show();

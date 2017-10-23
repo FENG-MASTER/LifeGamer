@@ -6,6 +6,8 @@ import android.os.Build;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
+import com.annimon.stream.function.Function;
+import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.BR;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
@@ -26,118 +28,34 @@ import java.util.List;
 import java.util.Map;
 
 
-
 /**
  * Created by qianzise on 2017/10/4.
  * <p>
  * 本地技能管理模块
  * <p>
- * 模块本身存储一份所有技能的备份{@link SkillManager#skillMap}
+ * 模块本身存储一份所有技能的备份{@link SkillManager#skillList}
  */
 
 public class SkillManager implements ISkillManager {
 
-    Map<String, Skill> skillMap = new HashMap<>();
-    private DBHelper helper;
+
+    private List<Skill> skillList = new ArrayList<>();
+
+    private DBHelper helper = DBHelper.getInstance();
 
     public SkillManager() {
-        helper = DBHelper.getInstance();
         getAllSkillFromSQL();
     }
 
-    @Override
-    public void addSkillXp(String skillName, int xp) {
-        Skill skill = skillMap.get(skillName);
-        if (skill != null) {
-            skill.addXP(xp);
-            updateSkill(skill);
+    /**
+     * 从数据库中读取所有数据
+     */
+    private void getAllSkillFromSQL() {
+        Cursor cursor = helper.getReadableDatabase().query(DBHelper.TABLE_SKILL, null, null, null, null, null, null);
+        while (cursor.moveToNext()) {
+            Skill skill = getSkillFromCursor(cursor);
+            skillList.add(skill);
         }
-    }
-
-    @Override
-    public boolean addSkill(Skill skill) {
-        long id = skill.insert(helper.getWritableDatabase());
-        if (id != 0) {
-            skill.setId(id);
-            skillMap.put(skill.getName(), skill);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean updateSkill(Skill skill) {
-        String oldName=null;
-        for (Map.Entry<String, Skill> entry : skillMap.entrySet()) {
-            if (entry.getValue()==skill){
-                if (!entry.getKey().equals(skill.getName())){
-                    //已经改名
-                    oldName=entry.getKey();
-                }
-            }
-        }
-        if (oldName!=null){
-            skillMap.remove(oldName);
-            skillMap.put(skill.getName(),skill);
-        }
-
-        return Game.update(skill);
-    }
-
-    @Override
-    public Skill getSkill(String name) {
-        if (skillMap.containsKey(name)) {
-            //缓存有
-            return skillMap.get(name);
-        } else {
-            //否则去数据库看看
-            Cursor cursor = helper.getReadableDatabase().query(DBHelper.TABLE_SKILL, null, "name = ?", new String[]{name}, null, null, null);
-            if (cursor != null && cursor.moveToNext() && cursor.getCount() != 0) {
-                //有数据
-                Skill skill = getSkillFromCursor(cursor, true);
-                cursor.close();
-                return skill;
-            }
-        }
-
-        return null;
-    }
-
-    @Override
-    public boolean removeSkill(String name) {
-        Skill remove = skillMap.remove(name);
-        Game.delete(remove);
-        return true;
-    }
-
-    @Override
-    public List<String> getAllSkillName() {
-        return new ArrayList<>(skillMap.keySet());
-    }
-
-    @Override
-    public List<Skill> getAllSkill() {
-        return new ArrayList<>(skillMap.values());
-    }
-
-    @Override
-    public List<String> getAllSkillName(String type) {
-        return Stream.of(skillMap.values()).
-                filter(skill -> type.equals(skill.getType())).
-                map(Skill::getName).
-                collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Skill> getAllSkill(String type) {
-        return Stream.of(skillMap.values()).
-                filter(skill -> type.equals(skill.getType())).
-                collect(Collectors.toList());
-    }
-
-    @Override
-    public List<String> getAllSkillType() {
-        return Stream.of(skillMap.values()).map(Skill::getType).distinct().collect(Collectors.toList());
     }
 
     /**
@@ -146,7 +64,7 @@ public class SkillManager implements ISkillManager {
      * @param cursor 游标
      * @return skill
      */
-    private Skill getSkillFromCursor(Cursor cursor, boolean update) {
+    private Skill getSkillFromCursor(Cursor cursor) {
         Skill skill = new Skill();
         skill.setId(cursor.getInt(cursor.getColumnIndex("_id")));
         skill.setXP(cursor.getInt(cursor.getColumnIndex("xp")));
@@ -164,40 +82,148 @@ public class SkillManager implements ISkillManager {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-
-        if (update && updateSkillFromSQL(skill)) {
-            //如果是更新的内容
-            skill = getSkill(skill.getName());
-        }
-
         return skill;
     }
 
-
     /**
-     * 更新从sql来的skill数据
-     *
-     * @param skill sql来的数据
-     * @return true表示更新, false表示插入
+     * 增加技能经验值
+     * @param skillName 技能名字
+     * @param xp        增加点数
+     * @return 是否成功
      */
-    private boolean updateSkillFromSQL(Skill skill) {
-        if (skillMap.containsKey(skill.getName())) {
-            //存在相应对象,需要更新,更新要求,不允许改变引用
-            skillMap.get(skill.getName()).copyFrom(skill);
-            return true;
-        } else {
-            //不存在,直接插入
-            skillMap.put(skill.getName(), skill);
+    @Override
+    public boolean addSkillXp(String skillName, int xp) {
+
+        Skill skill=getSkill(skillName);
+        if (skill!=null){
+            skill.addXP(xp);
+            return updateSkill(skill);
+        }else {
             return false;
         }
     }
 
-    private void getAllSkillFromSQL() {
-        Cursor cursor = helper.getReadableDatabase().query(DBHelper.TABLE_SKILL, null, null, null, null, null, null);
-        while (cursor.moveToNext()) {
-            Skill skill = getSkillFromCursor(cursor, true);
+    /**
+     * 新建技能
+     * @param skill 技能
+     * @return 是否成功
+     */
+    @Override
+    public boolean addSkill(Skill skill) {
+        long id = skill.insert(helper.getWritableDatabase());
+        if (id != 0) {
+            skill.setId(id);
+            skillList.add(skill);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 更新技能
+     * @param skill 技能
+     * @return 是否成功
+     */
+    @Override
+    public boolean updateSkill(Skill skill) {
+
+        if (skillList.contains(skill)) {
+            //如果存在缓存里
+            return Game.update(skill);
+        } else {
+            Skill s = getSkill(skill.getId());
+            if (s != null) {
+                //存在相同id
+                //则更新缓存里的对象
+                s.copyFrom(skill);
+                return Game.update(s);
+            }else {
+                return false;
+            }
 
         }
+    }
+
+    /**
+     * @param name 技能名称
+     * @return 技能
+     */
+    @Override
+    public Skill getSkill(String name) {
+        return Stream.of(skillList).filter(value -> value.getName().equals(name)).findFirst().get();
+    }
+
+    /**
+     * @param id 技能id
+     * @return 技能
+     */
+    @Override
+    public Skill getSkill(long id) {
+        return Stream.of(skillList).filter(value -> value.getId() == id).findFirst().get();
+    }
+
+    /**
+     * 删除技能
+     * @param name 技能名称
+     * @return 是否成功
+     */
+    @Override
+    public boolean removeSkill(String name) {
+        Skill remove=getSkill(name);
+        if (remove!=null){
+            skillList.remove(remove);
+            return Game.delete(remove);
+        }else {
+            return false;
+        }
+
+    }
+
+    /**
+     * 获得所有技能名称
+     * @return 技能名称列表
+     */
+    @Override
+    public List<String> getAllSkillName() {
+        return Stream.of(skillList).map(Skill::getName).collect(Collectors.toList());
+    }
+
+    /**
+     * 获得所有技能列表
+     * @return 技能列表
+     */
+    @Override
+    public List<Skill> getAllSkill() {
+        return skillList;
+    }
+
+    /**
+     * 获取 特定分类的技能名称列表
+     * @param type 技能分类
+     * @return 名称列表
+     */
+    @Override
+    public List<String> getAllSkillName(String type) {
+        return Stream.of(skillList).filter(value -> value.getType().equals(type)).map(Skill::getName).collect(Collectors.toList());
+    }
+
+    /**
+     * 获取 特定分类的技能列表
+     * @param type 技能分类
+     * @return 列表
+     */
+    @Override
+    public List<Skill> getAllSkill(String type) {
+        return Stream.of(skillList).filter(value -> value.getType().equals(type)).collect(Collectors.toList());
+
+    }
+
+    /**
+     * 获取技能所有种类
+     * @return 种类列表
+     */
+    @Override
+    public List<String> getAllSkillType() {
+        return Stream.of(skillList).map(Skill::getType).distinct().collect(Collectors.toList());
     }
 }

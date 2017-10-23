@@ -109,7 +109,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
      * <p>
      * key-技能名称 val-增加的点数
      */
-    private Map<String, Integer> successSkills;
+    private Map<Long, Integer> successSkills;
     /**
      * 任务完成后获得的物品列表
      * <p>
@@ -125,7 +125,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
      * <p>
      * key-技能名称 val-增加的点数
      */
-    private Map<String, Integer> failureSkills;
+    private Map<Long, Integer> failureSkills;
     /**
      * 任务失败后失去的物品列表
      * <p>
@@ -310,11 +310,11 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
     }
 
     @Bindable
-    public Map<String, Integer> getSuccessSkills() {
+    public Map<Long, Integer> getSuccessSkills() {
         return successSkills;
     }
 
-    public void setSuccessSkills(Map<String, Integer> successSkills) {
+    public void setSuccessSkills(Map<Long, Integer> successSkills) {
         this.successSkills = successSkills;
         notifyPropertyChanged(BR.successSkills);
     }
@@ -335,11 +335,11 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
     }
 
     @Bindable
-    public Map<String, Integer> getFailureSkills() {
+    public Map<Long, Integer> getFailureSkills() {
         return failureSkills;
     }
 
-    public void setFailureSkills(Map<String, Integer> failureSkills) {
+    public void setFailureSkills(Map<Long, Integer> failureSkills) {
         this.failureSkills = failureSkills;
         notifyPropertyChanged(BR.failureSkills);
     }

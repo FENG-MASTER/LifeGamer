@@ -76,12 +76,12 @@ public class FormatUtil {
      * @param skillMap skillmap key-技能名 val-技能增加xp
      * @return string形式
      */
-    public static String skillMap2Str(Map<String, Integer> skillMap) {
+    public static String skillMap2Str(Map<Long, Integer> skillMap) {
         if (skillMap == null||skillMap.isEmpty()) {
             return "";
         }
         StringBuilder stringBuilder = new StringBuilder();
-        for (Map.Entry<String, Integer> entry : skillMap.entrySet()) {
+        for (Map.Entry<Long, Integer> entry : skillMap.entrySet()) {
             stringBuilder.append(entry.getKey()).append(",").append(entry.getValue()).append(";");
         }
         return stringBuilder.toString();
@@ -93,15 +93,15 @@ public class FormatUtil {
      * @param str string形式
      * @return skillmap key-技能名 val-技能增加xp
      */
-    public static Map<String, Integer> str2SkillMap(String str) {
+    public static Map<Long, Integer> str2SkillMap(String str) {
         if (str == null||str.equals("")) {
             return new HashMap<>();
         }
-        Map<String, Integer> map = new HashMap<>();
+        Map<Long, Integer> map = new HashMap<>();
         String[] split = str.split(";");
         for (String ss : split) {
             String[] s = ss.split(",");
-            map.put(s[0], Integer.valueOf(s[1]));
+            map.put(Long.parseLong(s[0]), Integer.valueOf(s[1]));
         }
         return map;
     }

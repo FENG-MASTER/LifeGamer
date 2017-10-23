@@ -97,7 +97,7 @@ public class AchievementManager implements IAchievementManager{
             if (t!=null){
                 //存在重复id,采用替换的方式
                 t.copyFrom(achievement);
-                return true;
+                return Game.update(t);
             }else {
                 return false;
             }
