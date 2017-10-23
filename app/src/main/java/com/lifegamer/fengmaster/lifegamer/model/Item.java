@@ -6,6 +6,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import com.lifegamer.fengmaster.lifegamer.BR;
+import com.lifegamer.fengmaster.lifegamer.base.ICopy;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
@@ -21,7 +22,7 @@ import java.util.List;
  * <p>
  * 物品对象
  */
-public class Item extends BaseObservable implements Insertable, Deleteable, Updateable {
+public class Item extends BaseObservable implements Insertable, Deleteable, Updateable,ICopy<Item> {
 
     /**
      * 物品ID
@@ -208,5 +209,20 @@ public class Item extends BaseObservable implements Insertable, Deleteable, Upda
         cv.put("updateTime", SimpleDateFormat.getInstance().format(getUpdateTime()));
 
         return sqLiteDatabase.insert(DBHelper.TABLE_ITEM, null, cv);
+    }
+
+    @Override
+    public void copyFrom(Item item) {
+        this.setId(item.getId());
+        this.setName(item.getName());
+        this.setDesc(item.getDesc());
+        this.setExpendable(item.isExpendable());
+        this.setType(item.getType());
+        this.setIcon(item.getIcon());
+        this.setQuantity(item.getQuantity());
+        this.setCreateTime(item.getCreateTime());
+        this.setUpdateTime(item.getUpdateTime());
+        this.setNotes(item.getNotes());
+
     }
 }

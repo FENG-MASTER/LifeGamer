@@ -1,9 +1,11 @@
 package com.lifegamer.fengmaster.lifegamer.manager;
 
+import android.database.Cursor;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import com.lifegamer.fengmaster.lifegamer.BR;
+import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IWealthManager;
 import com.lifegamer.fengmaster.lifegamer.model.LifePoint;
 
@@ -13,20 +15,42 @@ import com.lifegamer.fengmaster.lifegamer.model.LifePoint;
 
 public class WealthManager implements IWealthManager {
 
+    private DBHelper helper=DBHelper.getInstance();
 
-    @Override
-    public int getLP() {
-        return 0;
+    private LifePoint lifePoint;
+
+    public WealthManager() {
+        loadFromSQL();
     }
 
     @Override
-    public void addLP(int lifePoint) {
+    public int getLP() {
+        return lifePoint.getLpPoint();
+    }
 
+    @Override
+    public void addLP(int p) {
+        lifePoint.addPoint(p);
     }
 
     @Override
     public LifePoint getLPInstance() {
-        return null;
+        return lifePoint;
+    }
+
+    private void loadFromSQL(){
+
+        //先不管那个hero 的id,以后再说啦
+        Cursor cursor = helper.getReadableDatabase().query(DBHelper.TABLE_WEALTH, null, null, null, null, null, null);
+        if (cursor.moveToNext()){
+            lifePoint=new LifePoint();
+            lifePoint.setLpPoint(cursor.getInt(cursor.getColumnIndex("liftPoint")));
+        }else {
+            lifePoint=new LifePoint();
+        }
+
+        cursor.close();
+
     }
 
 

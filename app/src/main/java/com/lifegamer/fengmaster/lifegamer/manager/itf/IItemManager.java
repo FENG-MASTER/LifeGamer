@@ -27,11 +27,25 @@ public interface IItemManager {
     boolean lostItem(String name);
 
     /**
+     * 失去物品
+     * @param id 物品id
+     * @return 是否成功
+     */
+    boolean lostItem(long id);
+
+    /**
      * 使用物品
      * @param item 物品名称
      * @return 是否成功
      */
     boolean useItem(String item);
+
+    /**
+     * 使用物品
+     * @param id 物品id
+     * @return 是否成功
+     */
+    boolean useItem(long id);
 
     /**
      * 获取物品信息
@@ -54,6 +68,19 @@ public interface IItemManager {
     List<Item> getAllItem();
 
 
+    /**
+     * 获得特定分类的物品列表
+     * @param type 分类
+     * @return 列表
+     */
+    List<Item> getAllItem(String type);
+
+
+    /**
+     * 获得分类列表
+     * @return 分类列表
+     */
+    List<String> getAllType();
 
 
     /**

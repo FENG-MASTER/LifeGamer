@@ -244,6 +244,7 @@ public class TaskManager implements ITaskManager {
             Task task=getTaskFromCursor(cursor);
             taskList.add(task);
         }
+        cursor.close();
 
 
     }

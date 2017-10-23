@@ -56,6 +56,7 @@ public class SkillManager implements ISkillManager {
             Skill skill = getSkillFromCursor(cursor);
             skillList.add(skill);
         }
+        cursor.close();
     }
 
     /**

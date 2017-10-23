@@ -143,4 +143,11 @@ public interface IAchievementManager {
     boolean lostAchievement(AchievementReward achievementReward);
 
 
+    /**
+     * 获得成就所有分类
+     * @return 分类列表
+     */
+    List<String> getAllType();
+
+
 }

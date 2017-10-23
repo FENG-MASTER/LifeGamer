@@ -8,6 +8,7 @@ import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IAchievementManager;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
+import com.lifegamer.fengmaster.lifegamer.model.Skill;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 
@@ -260,6 +261,16 @@ public class AchievementManager implements IAchievementManager{
     }
 
     /**
+     * 获得所有分类
+     * @return 分类列表
+     */
+    @Override
+    public List<String> getAllType() {
+        return Stream.of(achievements).map(Achievement::getType).distinct().collect(Collectors.toList());
+
+    }
+
+    /**
      * 载入数据库数据
      */
     private void loadAchievementsFromSQL(){
@@ -268,6 +279,7 @@ public class AchievementManager implements IAchievementManager{
             Achievement a = getAchievementFromCursor(cursor);
             achievements.add(a);
         }
+        cursor.close();
     }
 
 

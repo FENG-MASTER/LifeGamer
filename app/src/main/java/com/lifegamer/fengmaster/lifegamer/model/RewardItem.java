@@ -6,6 +6,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import com.lifegamer.fengmaster.lifegamer.BR;
+import com.lifegamer.fengmaster.lifegamer.base.ICopy;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
@@ -26,7 +27,7 @@ import java.util.List;
  * 没有 是否拥有 状态
  */
 
-public class RewardItem extends BaseObservable implements Insertable,Deleteable,Updateable{
+public class RewardItem extends BaseObservable implements Insertable,Deleteable,Updateable,ICopy<RewardItem>{
 
     /**
      * 奖励ID
@@ -278,5 +279,23 @@ public class RewardItem extends BaseObservable implements Insertable,Deleteable,
 
 
         return sqLiteDatabase.insert(DBHelper.TABLE_REWARD,null,cv);
+    }
+
+    @Override
+    public void copyFrom(RewardItem rewardItem) {
+        this.setId(rewardItem.getId());
+        this.setName(rewardItem.getName());
+        this.setType(rewardItem.getType());
+        this.setDesc(rewardItem.getDesc());
+        this.setCostLP(rewardItem.getCostLP());
+        this.setQuantityAvailable(rewardItem.getQuantityAvailable());
+        this.setGainTimes(rewardItem.getGainTimes());
+        this.setIcon(rewardItem.getIcon());
+        this.setCostLPIncrement(rewardItem.getCostLPIncrement());
+        this.setAddToItem(rewardItem.isAddToItem());
+        this.setNotes(rewardItem.getNotes());
+        this.setCreateTime(rewardItem.getCreateTime());
+        this.setUpdateTime(rewardItem.getUpdateTime());
+
     }
 }
