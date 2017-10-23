@@ -13,6 +13,21 @@ public interface IRewardManager {
 
 
     /**
+     * 获取 奖励 详情
+     * @param id 奖励id
+     * @return 详情
+     */
+    RewardItem getRewardItem(long id);
+
+    /**
+     * 获取 奖励 详情
+     * @param name 奖励名
+     * @return 详情
+     */
+    RewardItem getRewardItem(String name);
+
+
+    /**
      * 添加新的奖励物品
      * @param rewardItem 奖励物品
      * @return 是否成功

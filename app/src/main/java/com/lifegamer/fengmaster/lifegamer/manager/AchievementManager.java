@@ -4,7 +4,6 @@ import android.database.Cursor;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
-import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IAchievementManager;
@@ -151,7 +150,7 @@ public class AchievementManager implements IAchievementManager{
     public boolean gainAchievement(AchievementReward achievementReward) {
         if (achievementReward.isHit()){
             //hit
-            return gainAchievement(achievementReward.getAchievement());
+            return gainAchievement(achievementReward.getAchievementID());
         }else {
             return false;
         }
@@ -249,7 +248,7 @@ public class AchievementManager implements IAchievementManager{
     @Override
     public boolean lostAchievement(AchievementReward achievementReward) {
         if (achievementReward.isHit()){
-            Achievement achievement=Stream.of(achievements).filter(value -> value.getName().equals(achievementReward.getAchievement())).findFirst().get();
+            Achievement achievement=Stream.of(achievements).filter(value -> value.getName().equals(achievementReward.getAchievementID())).findFirst().get();
             if (achievement!=null){
                 return lostAchievement(achievement.getId());
             }else {

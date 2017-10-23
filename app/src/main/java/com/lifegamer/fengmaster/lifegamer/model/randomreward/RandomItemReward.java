@@ -4,15 +4,13 @@ import java.util.Random;
 
 /**
  * Created by qianzise on 2017/10/5.
- *
+ * <p>
  * 概率型物品奖励
  */
 
-public class RandomItemReward extends AbsRandomReward{
+public class RandomItemReward extends AbsRandomReward {
 
-    private static Random random;
-
-    private String rewardName;
+    private long rewardID;
 
     /**
      * 物品数量
@@ -25,32 +23,32 @@ public class RandomItemReward extends AbsRandomReward{
     private int probability;
 
 
-    public RandomItemReward(String rewardName, int num, int probability) {
-        this.rewardName = rewardName;
+    public RandomItemReward(long rewardID, int num, int probability) {
+        this.rewardID = rewardID;
         this.num = num;
         this.probability = probability;
     }
 
-    public String getRewardName() {
-        return rewardName;
+
+    public long getRewardID() {
+        return rewardID;
+    }
+
+    public void setRewardID(long rewardID) {
+        this.rewardID = rewardID;
     }
 
     public int getNum() {
         return num;
     }
 
+    public void setNum(int num) {
+        this.num = num;
+    }
 
     @Override
     public int getProbability() {
         return probability;
-    }
-
-    public void setRewardName(String rewardName) {
-        this.rewardName = rewardName;
-    }
-
-    public void setNum(int num) {
-        this.num = num;
     }
 
     public void setProbability(int probability) {

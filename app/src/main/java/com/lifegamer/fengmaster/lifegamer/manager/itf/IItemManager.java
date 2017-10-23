@@ -41,6 +41,13 @@ public interface IItemManager {
     Item getItem(String item);
 
     /**
+     * 根据ID获取物品
+     * @param id 物品id
+     * @return 物品
+     */
+    Item getItem(long id);
+
+    /**
      * 获得所有物品列表
      * @return 物品列表
      */

@@ -113,7 +113,7 @@ public class FormatUtil {
         StringBuilder stringBuilder = new StringBuilder();
 
         for (RandomItemReward randomItemReward : rewardList) {
-            stringBuilder.append(randomItemReward.getRewardName()).append(",").
+            stringBuilder.append(randomItemReward.getRewardID()).append(",").
                     append(randomItemReward.getNum()).append(",").
                     append(randomItemReward.getProbability()).append(";");
         }
@@ -131,7 +131,7 @@ public class FormatUtil {
         String[] split = str.split(";");
         for (String ss : split) {
             String[] s = ss.split(",");
-            randomItemRewards.add(new RandomItemReward(s[0], Integer.valueOf(s[1]), Integer.valueOf(s[2])));
+            randomItemRewards.add(new RandomItemReward(Long.valueOf(s[0]), Integer.valueOf(s[1]), Integer.valueOf(s[2])));
         }
         return randomItemRewards;
     }
@@ -142,7 +142,7 @@ public class FormatUtil {
         }
         StringBuilder stringBuilder = new StringBuilder();
         for (AchievementReward achievementReward : list) {
-            stringBuilder.append(achievementReward.getAchievement()).append(",").
+            stringBuilder.append(achievementReward.getAchievementID()).append(",").
                     append(achievementReward.getProbability()).append(";");
         }
 
@@ -157,7 +157,7 @@ public class FormatUtil {
         String[] split = str.split(";");
         for (String ss : split) {
             String[] s = ss.split(",");
-            list.add(new AchievementReward(s[0],Integer.valueOf(s[1])));
+            list.add(new AchievementReward(Long.valueOf(s[0]),Integer.valueOf(s[1])));
         }
         return list;
     }

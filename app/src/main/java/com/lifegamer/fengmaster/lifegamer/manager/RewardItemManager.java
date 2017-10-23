@@ -33,6 +33,16 @@ public class RewardItemManager implements IRewardManager {
     }
 
     @Override
+    public RewardItem getRewardItem(long id) {
+        return null;
+    }
+
+    @Override
+    public RewardItem getRewardItem(String name) {
+        return null;
+    }
+
+    @Override
     public boolean addRewardItem(RewardItem rewardItem) {
         long l = Game.insert(rewardItem);
         if (l!=0){

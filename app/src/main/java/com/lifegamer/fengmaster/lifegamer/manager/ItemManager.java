@@ -60,6 +60,11 @@ public class ItemManager implements IItemManager{
     }
 
     @Override
+    public Item getItem(long id) {
+        return null;
+    }
+
+    @Override
     public List<Item> getAllItem() {
         return items;
     }

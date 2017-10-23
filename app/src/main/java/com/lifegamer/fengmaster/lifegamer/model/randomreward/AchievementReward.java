@@ -7,12 +7,12 @@ package com.lifegamer.fengmaster.lifegamer.model.randomreward;
  */
 
 public class AchievementReward extends AbsRandomReward {
-    private String achievement;
+    private long achievementID;
 
     private int probability;
 
-    public AchievementReward(String achievement, int probability) {
-        this.achievement = achievement;
+    public AchievementReward(long achievementID, int probability) {
+        this.achievementID = achievementID;
         this.probability = probability;
     }
 
@@ -21,12 +21,12 @@ public class AchievementReward extends AbsRandomReward {
         return probability;
     }
 
-    public String getAchievement() {
-        return achievement;
+    public long getAchievementID() {
+        return achievementID;
     }
 
-    public void setAchievement(String achievement) {
-        this.achievement = achievement;
+    public void setAchievementID(long achievementID) {
+        this.achievementID = achievementID;
     }
 
     public void setProbability(int probability) {
@@ -35,6 +35,6 @@ public class AchievementReward extends AbsRandomReward {
 
     @Override
     public boolean equals(Object o) {
-        return achievement.equals(((AchievementReward)o).getAchievement());
+        return achievementID==(((AchievementReward)o).getAchievementID());
     }
 }

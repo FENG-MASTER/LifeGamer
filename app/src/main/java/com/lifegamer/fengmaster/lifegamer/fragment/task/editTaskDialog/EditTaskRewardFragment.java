@@ -17,8 +17,6 @@ import android.widget.TextView;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
-import com.annimon.stream.function.Function;
-import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.databinding.DialogEditTaskRewardBinding;
@@ -148,8 +146,8 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
         EditText rate= (EditText) view.findViewById(R.id.et_item_dialog_edit_task_reward_item_rate);
         EditText num= (EditText) view.findViewById(R.id.et_item_dialog_edit_task_reward_item_num);
 
-
-        name.setText(reward.getRewardName());
+        RewardItem rewardItem = Game.getInstance().getRewardManager().getRewardItem(reward.getRewardID());
+        name.setText(rewardItem.getName());
         rate.setText(String.valueOf(reward.getProbability()));
         num.setText(String.valueOf(reward.getNum()));
 
@@ -283,7 +281,7 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
             binding.llDialogEditTaskTimeFinishAchievement.removeView(view);
         });
 
-        name.setText(achievementReward.getAchievement());
+        name.setText(Game.getInstance().getAchievementManager().getAchievement(achievementReward.getAchievementID()).getName());
         rate.setText(String.valueOf(achievementReward.getProbability()));
 
         //检测输入数字只能在1-1000之间
@@ -389,6 +387,9 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
             ViewUtil.showToast("没有奖励可供选择");
             return;
         }
+
+        List<RewardItem> rewardItems=Game.getInstance().getRewardManager().getAllAvailableRewardItem();
+
         List<String> rewardsName = Stream.of(Game.getInstance().getRewardManager().getAllAvailableRewardItem()).
                 map(RewardItem::getName).
                 collect(Collectors.toList());
@@ -400,14 +401,11 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
         }
 
         //弹出选择框
-        new AlertDialog.Builder(getContext()).setSingleChoiceItems(rewardsName.toArray(new String[rewardsName.size()]), 0, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                RandomItemReward reward=new RandomItemReward(rewardsName.get(which),1,1000);
-                addNewItemView(reward);
-                randomItemRewards.add(reward);
-                dialog.dismiss();
-            }
+        new AlertDialog.Builder(getContext()).setSingleChoiceItems(rewardsName.toArray(new String[rewardsName.size()]), 0, (dialog, which) -> {
+            RandomItemReward reward=new RandomItemReward(rewardItems.get(which).getId(),1,1000);
+            addNewItemView(reward);
+            randomItemRewards.add(reward);
+            dialog.dismiss();
         }).create().show();
 
     }
@@ -425,8 +423,15 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
             ViewUtil.showToast("没有成就可供选择");
             return;
         }
-        List<String> achievementNames = Stream.of(Game.getInstance().getAchievementManager().getAllNoGetAchievment()).
-                filterNot(value -> achievements.contains(new AchievementReward(value.getName(), 0))).//排除已经添加了的成就
+
+        List<Achievement> allAchievements=
+                Stream.of(Game.getInstance().getAchievementManager().getAllNoGetAchievment()).
+                        //排除已经添加了的成就
+                        filterNot(value -> achievements.contains(new AchievementReward(value.getId(), 0))).
+                        collect(Collectors.toList());
+
+
+        List<String> achievementNames = Stream.of(allAchievements).
                 map(Achievement::getName).
                 collect(Collectors.toList());
         if (achievementNames == null || achievementNames.isEmpty()) {
@@ -440,7 +445,7 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
         new AlertDialog.Builder(getContext()).setSingleChoiceItems(achievementNames.toArray(new String[achievementNames.size()]), 0, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                AchievementReward reward = new AchievementReward(achievementNames.get(which), 1000);
+                AchievementReward reward = new AchievementReward(allAchievements.get(which).getId(), 1000);
                 addNewAchievementRewardView(reward);
                 achievements.add(reward);
                 dialog.dismiss();
