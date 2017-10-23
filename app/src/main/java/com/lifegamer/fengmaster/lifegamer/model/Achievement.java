@@ -3,6 +3,7 @@ package com.lifegamer.fengmaster.lifegamer.model;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.lifegamer.fengmaster.lifegamer.base.ICopy;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
@@ -19,7 +20,7 @@ import java.util.List;
  * 成就实体类
  */
 
-public class Achievement implements Insertable,Updateable,Deleteable{
+public class Achievement implements Insertable,Updateable,Deleteable,ICopy<Achievement>{
 
     /**
      * 成就ID
@@ -186,5 +187,19 @@ public class Achievement implements Insertable,Updateable,Deleteable{
         cv.put("updateTime",SimpleDateFormat.getInstance().format(getUpdateTime()));
 
         return sqLiteDatabase.insert(DBHelper.TABLE_ACHIEVEMENT,null,cv);
+    }
+
+    @Override
+    public void copyFrom(Achievement achievement) {
+        this.setId(achievement.getId());
+        this.setName(achievement.getName());
+        this.setIcon(achievement.getIcon());
+        this.setDesc(achievement.getDesc());
+        this.setGainTime(achievement.getGainTime());
+        this.setGot(achievement.isGot());
+        this.setUpdateTime(achievement.getUpdateTime());
+        this.setType(achievement.getType());
+        this.setCreateTime(achievement.getCreateTime());
+        this.setNotes(achievement.getNotes());
     }
 }

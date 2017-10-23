@@ -48,16 +48,18 @@ public interface IAchievementManager {
      * {@link com.lifegamer.fengmaster.lifegamer.event.achievement.GotAchievement}
      *
      * @param id 成就ID
+     * @return 是否成功
      */
-    void gainAchievement(int id);
+    boolean gainAchievement(long id);
 
     /**
      * 获得成就
      * {@link com.lifegamer.fengmaster.lifegamer.event.achievement.GotAchievement}
      *
      * @param name 成就名称
+     * @return 是否成功
      */
-    void gainAchievement(String name);
+    boolean gainAchievement(String name);
 
 
     /**
@@ -65,8 +67,9 @@ public interface IAchievementManager {
      * {@link com.lifegamer.fengmaster.lifegamer.event.achievement.GotAchievement}
      *
      * @param achievementReward 成就奖励
+     * @return 是否成功
      */
-    void gainAchievement(AchievementReward achievementReward);
+    boolean gainAchievement(AchievementReward achievementReward);
 
     /**
      * 获取成就信息
@@ -74,7 +77,7 @@ public interface IAchievementManager {
      * @param id 成就ID
      * @return 成就对象
      */
-    Achievement getAchievement(int id);
+    Achievement getAchievement(long id);
 
     /**
      * 获取所有成就列表
@@ -129,7 +132,7 @@ public interface IAchievementManager {
      *
      * @param id 成就id
      */
-    void lostAchievement(int id);
+    boolean lostAchievement(long id);
 
     /**
      * 失去成就
@@ -137,7 +140,7 @@ public interface IAchievementManager {
      *
      * @param achievementReward 成就
      */
-    void lostAchievement(AchievementReward achievementReward);
+    boolean lostAchievement(AchievementReward achievementReward);
 
 
 }

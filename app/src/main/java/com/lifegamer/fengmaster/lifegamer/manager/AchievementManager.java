@@ -33,6 +33,11 @@ public class AchievementManager implements IAchievementManager{
         loadAchievementsFromSQL();
     }
 
+    /**
+     * 新增成就
+     * @param achievement 成就
+     * @return 是否成功
+     */
     @Override
     public boolean addAchievement(Achievement achievement) {
         long l = Game.insert(achievement);
@@ -43,80 +48,216 @@ public class AchievementManager implements IAchievementManager{
         return l!=0;
     }
 
+    /**
+     * 删除成就
+     * @param name 成就名称
+     * @return 是否成功
+     */
     @Override
     public boolean removeAchievement(String name) {
-        return false;
+        Achievement achievement = Stream.of(achievements).filter(value -> value.getName().equals(name)).findFirst().get();
+        if (achievement!=null&&Game.delete(achievement)){
+            achievements.remove(achievement);
+            return true;
+        }else {
+            return false;
+        }
     }
 
+    /**
+     * 删除成就
+     * @param id 成就id
+     * @return 是否成功
+     */
     @Override
     public boolean removeAchievement(long id) {
-        return false;
+        Achievement achievement = Stream.of(achievements).filter(value -> value.getId() == id).findFirst().get();
+
+        if (achievement!=null&&Game.delete(achievement)){
+            achievements.remove(achievement);
+            return true;
+        }else {
+            return false;
+        }
     }
 
+    /**
+     * 更新成就,如果id相同,会修改原来的成就
+     * @param achievement 成就
+     * @return 是否成功
+     */
     @Override
     public boolean updateAchievement(Achievement achievement) {
-        return Game.update(achievement);
+        if(achievements.contains(achievement)){
+            return Game.update(achievement);
+        }else {
+            Achievement t = Stream.of(achievements).
+                    filter(value -> value.getId() == achievement.getId()).
+                    findFirst().get();
+            if (t!=null){
+                //存在重复id,采用替换的方式
+                t.copyFrom(achievement);
+                return true;
+            }else {
+                return false;
+            }
+        }
+
     }
 
+    /**
+     * 获得成就
+     * @param id 成就ID
+     * @return 是否成功
+     */
     @Override
-    public void gainAchievement(int id) {
+    public boolean gainAchievement(long id) {
+        Achievement achievement = Stream.of(achievements).filter(value -> value.getId() == id).findFirst().get();
+        return gainAchievement(achievement);
 
     }
 
+    /**
+     * 获得成就
+     * @param name 成就名称
+     * @return 是否成功
+     */
     @Override
-    public void gainAchievement(String name) {
-
+    public boolean gainAchievement(String name) {
+        Achievement achievement = Stream.of(achievements).filter(value -> value.getName().equals(name)).findFirst().get();
+        return gainAchievement(achievement);
     }
 
+    /**
+     * 获得成就
+     * @param achievement 成就
+     * @return 是否成功
+     */
+    private boolean gainAchievement(Achievement achievement){
+        if (achievement!=null){
+            achievement.setGot(true);
+            return updateAchievement(achievement);
+        }else {
+            return false;
+        }
+    }
+
+    /**
+     * 从概率型成就对象中获得成就
+     * @param achievementReward 成就奖励
+     * @return 是否成功
+     */
     @Override
-    public void gainAchievement(AchievementReward achievementReward) {
-
+    public boolean gainAchievement(AchievementReward achievementReward) {
+        if (achievementReward.isHit()){
+            //hit
+            return gainAchievement(achievementReward.getAchievement());
+        }else {
+            return false;
+        }
     }
 
+    /**
+     * 获得成就详情
+     * @param id 成就ID
+     * @return 成就
+     */
     @Override
-    public Achievement getAchievement(int id) {
-        return null;
+    public Achievement getAchievement(long id) {
+        return Stream.of(achievements).filter(value -> value.getId() == id).findFirst().get();
     }
 
+    /**
+     * 获得所有成就
+     * @return 成就列表
+     */
     @Override
     public List<Achievement> getAllAchievement() {
         return achievements;
     }
 
+    /**
+     * 获得所有 尚未获得 的成就列表
+     * @return 成就列表
+     */
     @Override
     public List<Achievement> getAllNoGetAchievment() {
         return Stream.of(achievements).filterNot(Achievement::isGot).collect(Collectors.toList());
     }
 
+    /**
+     * 获得所有 已经获得 的成就列表
+     * @return 成就列表
+     */
     @Override
     public List<Achievement> getAllGotAchievement() {
-        return Stream.of(achievements).filterNot(Achievement::isGot).collect(Collectors.toList());
-
+        return Stream.of(achievements).filter(Achievement::isGot).collect(Collectors.toList());
     }
 
+    /**
+     * 获得所有 特定分类 的成就列表
+     * @param type 成就分类
+     * @return 列表
+     */
     @Override
     public List<Achievement> getAllAchievement(String type) {
-        return null;
+        return  Stream.of(getAllAchievement()).filter(value -> value.getType().equals(type)).collect(Collectors.toList());
     }
 
+    /**
+     * 获得所有 特定分类而且尚未获得 的成就列表
+     * @param type 成就分类
+     * @return 列表
+     */
     @Override
     public List<Achievement> getAllNoGetAchievment(String type) {
-        return null;
+        return Stream.of(getAllNoGetAchievment()).filter(value -> value.getType().equals(type)).collect(Collectors.toList());
     }
 
+    /**
+     * 获得所有 特定分类而且已经获得 的成就列表
+     * @param type 成就分类
+     * @return 列表
+     */
     @Override
     public List<Achievement> getAllGotAchievement(String type) {
-        return null;
+        return Stream.of(getAllGotAchievement()).filter(value -> value.getType().equals(type)).collect(Collectors.toList());
     }
 
+    /**
+     * 失去成就
+     * @param id 成就id
+     * @return 是否成功
+     */
     @Override
-    public void lostAchievement(int id) {
-
+    public boolean lostAchievement(long id) {
+        Achievement achievement = getAchievement(id);
+        if (achievement!=null){
+            //有相应成就
+            achievement.setGot(false);
+            return updateAchievement(achievement);
+        }else {
+            return false;
+        }
     }
 
+    /**
+     * 从随机成就中失去成就
+     * @param achievementReward 成就
+     * @return 是否成功
+     */
     @Override
-    public void lostAchievement(AchievementReward achievementReward) {
-
+    public boolean lostAchievement(AchievementReward achievementReward) {
+        if (achievementReward.isHit()){
+            Achievement achievement=Stream.of(achievements).filter(value -> value.getName().equals(achievementReward.getAchievement())).findFirst().get();
+            if (achievement!=null){
+                return lostAchievement(achievement.getId());
+            }else {
+                return false;
+            }
+        }else {
+            return false;
+        }
     }
 
     /**

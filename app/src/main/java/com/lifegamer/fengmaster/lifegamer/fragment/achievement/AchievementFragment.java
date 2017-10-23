@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lifegamer.fengmaster.lifegamer.R;
+import com.lifegamer.fengmaster.lifegamer.adapter.list.achievemnet.AllAchievementFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseTabListFragment;
 
 /**
@@ -19,7 +20,7 @@ public class AchievementFragment extends BaseTabListFragment {
 
 
     public AchievementFragment() {
-
+        addAdapter(new AllAchievementFragmentAdapter());
     }
 
 
