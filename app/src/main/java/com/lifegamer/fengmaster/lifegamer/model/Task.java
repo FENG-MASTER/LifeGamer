@@ -6,6 +6,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import com.lifegamer.fengmaster.lifegamer.BR;
+import com.lifegamer.fengmaster.lifegamer.base.ICopy;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
@@ -25,7 +26,7 @@ import java.util.Map;
  * 任务实体类
  */
 
-public class Task extends BaseObservable implements Updateable, Insertable, Deleteable {
+public class Task extends BaseObservable implements Updateable, Insertable, Deleteable,ICopy<Task> {
 
 
     /**
@@ -555,5 +556,36 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
     @Override
     public int delete(SQLiteDatabase sqLiteDatabase) {
         return sqLiteDatabase.delete(DBHelper.TABLE_TASK, "_id=?", new String[]{String.valueOf(getId())});
+    }
+
+    @Override
+    public void copyFrom(Task task) {
+        this.setId(task.getId());
+        this.setName(task.getName());
+        this.setDesc(task.getDesc());
+        this.setFear(task.getFear());
+        this.setDifficulty(task.getDifficulty());
+        this.setUrgency(task.getUrgency());
+        this.setEarnLP(task.getEarnLP());
+        this.setLostLP(task.getLostLP());
+        this.setAutoFail(task.isAutoFail());
+        this.setCompleteTimes(task.getCompleteTimes());
+        this.setFailureTimes(task.getFailureTimes());
+        this.setSuccessAchievements(task.getSuccessAchievements());
+        this.setSuccessItems(task.getSuccessItems());
+        this.setSuccessSkills(task.getSuccessSkills());
+        this.setFailureAchievements(task.getFailureAchievements());
+        this.setFailureItems(task.getFailureItems());
+        this.setFailureSkills(task.getFailureSkills());
+        this.setCreateTime(task.getCreateTime());
+        this.setUpdateTime(task.getUpdateTime());
+        this.setNotes(task.getNotes());
+        this.setRepeatType(task.getRepeatType());
+        this.setRepeatAvailableTime(task.getRepeatAvailableTime());
+        this.setRepeatInterval(task.getRepeatInterval());
+        this.setIcon(task.getIcon());
+        this.setPreTasks(task.getPreTasks());
+
+
     }
 }

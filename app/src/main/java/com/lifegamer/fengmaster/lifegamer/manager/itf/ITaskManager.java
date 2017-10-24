@@ -44,25 +44,37 @@ public interface ITaskManager {
      *完成任务
      * @param task 任务名称
      */
-    void finishTask(String task);
+    boolean finishTask(String task);
+
+    /**
+     *完成任务
+     * @param taskID 任务ID
+     */
+    boolean finishTask(long taskID);
 
     /**
      * 撤销完成任务
      * @param task 任务名称
      */
-    void undoFinishTask(String task);
+    boolean undoFinishTask(String task);
+
+    /**
+     * 撤销完成任务
+     * @param taskID 任务ID
+     */
+    boolean undoFinishTask(long taskID);
 
     /**
      * 任务失败
      * @param task 任务名称
      */
-    void failTask(String task);
+    boolean failTask(String task);
 
     /**
      * 撤销 任务失败
      * @param task 任务名
      */
-    void undoFailTask(String task);
+    boolean undoFailTask(String task);
 
 
     /**
