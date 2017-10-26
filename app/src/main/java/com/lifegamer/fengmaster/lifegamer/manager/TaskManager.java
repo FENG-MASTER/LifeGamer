@@ -11,6 +11,7 @@ import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.event.task.NewTaskEvent;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ITaskManager;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
+import com.lifegamer.fengmaster.lifegamer.util.DateUtil;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -220,6 +221,7 @@ public class TaskManager implements ITaskManager {
 
     /**
      * 撤销完成任务
+     *
      * @param taskName 任务名
      * @return 是否成功
      */
@@ -231,12 +233,13 @@ public class TaskManager implements ITaskManager {
 
     /**
      * 撤销完成任务
+     *
      * @param taskID 任务ID
      * @return 是否成功
      */
     @Override
     public boolean undoFinishTask(long taskID) {
-        Task task = Stream.of(taskList).filter(value -> value.getId()==taskID).findFirst().get();
+        Task task = Stream.of(taskList).filter(value -> value.getId() == taskID).findFirst().get();
         return undoFinishTask(task);
     }
 
@@ -261,29 +264,55 @@ public class TaskManager implements ITaskManager {
         return Stream.of(taskList).filter(value -> value.getName().equals(name)).findFirst().get();
     }
 
+    /**
+     * 获得所有任务
+     * @return 任务列表
+     */
     @Override
     public List<Task> getAllTask() {
         return taskList;
     }
 
+    /**
+     * 获取今天需要完成的所有任务
+     * @return 任务列表
+     */
     @Override
     public List<Task> getTodayTask() {
-        return null;
+        return Stream.of(taskList).filter(value -> value.getExpirationTime().after(
+                DateUtil.getStartOfToday().getTime()) &&
+                value.getExpirationTime().before(
+                        DateUtil.getEndOfToday().getTime())).collect(Collectors.toList());
     }
 
+    /**
+     * 获取明天要完成的所有任务
+     * @return 任务列表
+     */
     @Override
     public List<Task> getTomorrowTask() {
-        return null;
+        return Stream.of(taskList).filter(value -> value.getExpirationTime().after(
+                DateUtil.getEndOfToday().getTime()) &&
+                value.getExpirationTime().before(
+                        DateUtil.getEndOfTomorrow().getTime())).collect(Collectors.toList());
     }
 
+    /**
+     * 获取所有没有完成的任务列表
+     * @return 任务列表
+     */
     @Override
     public List<Task> getAllUnFinishTask() {
-        return Stream.of(taskList).filter(value -> value.getRepeatAvailableTime() != 0).collect(Collectors.toList());
+            return Stream.of(taskList).filter(value -> value.getRepeatAvailableTime() != 0).collect(Collectors.toList());
     }
 
+    /**
+     * 获取今天需要完成而没有完成的任务列表
+     * @return 任务列表
+     */
     @Override
     public List<Task> getTodayUnFinishTask() {
-        return null;
+        return Stream.of(getTodayTask()).filter(value -> value.getRepeatAvailableTime()!=0).collect(Collectors.toList());
     }
 
     /**
@@ -394,6 +423,7 @@ public class TaskManager implements ITaskManager {
 
     /**
      * 撤销完成任务
+     *
      * @param task 任务
      * @return 是否成功
      */
