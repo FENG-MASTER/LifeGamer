@@ -243,9 +243,43 @@ public class TaskManager implements ITaskManager {
         return undoFinishTask(task);
     }
 
+    /**
+     * 任务失败
+     * @param task 任务名称
+     * @return 是否成功
+     */
     @Override
     public boolean failTask(String task) {
-        return false;
+        return failTask(getTask(task));
+    }
+
+    /**
+     * 任务失败
+     * @param taskID 任务ID
+     * @return 是否成功
+     */
+    @Override
+    public boolean failTask(long taskID) {
+        return failTask(getTask(taskID));
+    }
+
+    private boolean failTask(Task task){
+        if (task!=null){
+
+            //失败次数+1
+            task.setFailureTimes(task.getFailureTimes()+1);
+
+            //重新调度任务时间
+            scheduleTaskTime(task);
+
+
+
+            return true;
+
+        }else {
+            //null失败
+            return false;
+        }
     }
 
     @Override
@@ -253,14 +287,23 @@ public class TaskManager implements ITaskManager {
         return false;
     }
 
+    /**
+     * 获取任务对象
+     * @param id 任务ID
+     * @return 任务对象
+     */
     @Override
-    public Task getTask(int id) {
+    public Task getTask(long id) {
         return Stream.of(taskList).filter(value -> value.getId() == id).findFirst().get();
     }
 
+    /**
+     * 获取任务对象
+     * @param name 任务名
+     * @return 任务对象
+     */
     @Override
     public Task getTask(String name) {
-
         return Stream.of(taskList).filter(value -> value.getName().equals(name)).findFirst().get();
     }
 
@@ -335,6 +378,22 @@ public class TaskManager implements ITaskManager {
         //完成次数+1
         task.setCompleteTimes(task.getCompleteTimes() + 1);
 
+        //调度任务时间
+        return scheduleTaskTime(task);
+    }
+
+    /**
+     * 重新调度任务时间
+     * @param task 任务
+     * @return 是否成功
+     */
+    private boolean scheduleTaskTime(Task task){
+        if(task==null){
+            //没有对应任务,失败
+            return false;
+        }
+
+
         //修改过期时间
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(task.getExpirationTime());
@@ -399,6 +458,25 @@ public class TaskManager implements ITaskManager {
 
         }
         return true;
+
+    }
+
+
+    /**
+     * 撤销调度任务时间
+     * @param task 任务
+     * @return 是否成功
+     */
+    private boolean undoScheduleTaskTime(Task task){
+        if(task==null||lastExpirationTimeMap.get((int)task.getId())==null){
+            //没有对应任务,失败
+            return false;
+        }
+
+        //过期时间恢复
+        task.setExpirationTime(lastExpirationTimeMap.get((int) task.getId()));
+        lastExpirationTimeMap.remove((int) task.getId());
+        return true;
     }
 
     /**
@@ -431,12 +509,10 @@ public class TaskManager implements ITaskManager {
         if (task != null) {
             //完成次数-1
             task.setCompleteTimes(task.getCompleteTimes() - 1);
-            //过期时间恢复
-            task.setExpirationTime(lastExpirationTimeMap.get((int) task.getId()));
             //可重复次数+1
             task.setRepeatAvailableTime(task.getRepeatAvailableTime() + 1);
-            //删除历史过期时间
-            lastExpirationTimeMap.remove((int) task.getId());
+            //恢复之前过期时间
+            undoScheduleTaskTime(task);
             return updateTask(task);
         } else {
             return false;

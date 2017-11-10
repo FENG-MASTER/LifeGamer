@@ -70,6 +70,13 @@ public interface ITaskManager {
      */
     boolean failTask(String task);
 
+
+    /**
+     * 任务失败
+     * @param taskID 任务ID
+     */
+    boolean failTask(long taskID);
+
     /**
      * 撤销 任务失败
      * @param task 任务名
@@ -82,7 +89,7 @@ public interface ITaskManager {
      * @param id 任务ID
      * @return 任务
      */
-    Task getTask(int id);
+    Task getTask(long id);
 
 
     /**
