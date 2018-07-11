@@ -101,9 +101,7 @@ public class EditTaskDialog extends BaseDialogFragment implements View.OnClickLi
                     save();
                 }
 
-
                 dismiss();
-
                 break;
             case R.id.bt_dialog_edit_task_no:
                 //取消

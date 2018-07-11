@@ -5,6 +5,7 @@
               android:orientation="horizontal">
 
     <ImageButton
+        android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:id="@+id/bt_dialog_edit_task_reward_item_del"
         android:layout_width="wrap_content"
@@ -13,8 +14,9 @@
 
 
     <TextView
+        android:layout_gravity="center_vertical"
         android:maxLength="8"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:id="@+id/tv_item_dialog_edit_task_reward_item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -27,6 +29,7 @@
         android:gravity="center">
 
         <EditText
+            android:gravity="bottom"
             android:id="@+id/et_item_dialog_edit_task_reward_item_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,6 +47,7 @@
         android:gravity="center">
 
         <EditText
+            android:gravity="bottom"
             android:id="@+id/et_item_dialog_edit_task_reward_item_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

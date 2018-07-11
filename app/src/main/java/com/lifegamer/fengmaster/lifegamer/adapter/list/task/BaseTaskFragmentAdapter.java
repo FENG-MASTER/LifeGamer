@@ -4,15 +4,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.lifegamer.fengmaster.lifegamer.BR;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.BindingHolder;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
+import com.lifegamer.fengmaster.lifegamer.event.task.DeleteTaskEvent;
 import com.lifegamer.fengmaster.lifegamer.event.task.NewTaskEvent;
-import com.lifegamer.fengmaster.lifegamer.model.Skill;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
 
 import org.greenrobot.eventbus.EventBus;
@@ -21,9 +20,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.LinkedList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by qianzise on 2017/10/15.
@@ -125,6 +121,17 @@ public abstract class BaseTaskFragmentAdapter extends BaseRecyclerViewAdapter<Ba
      */
     @Subscribe(threadMode = ThreadMode.POSTING)
     public void newTaskCome(NewTaskEvent event){
+        updateTaskList();
+        notifyDataSetChanged();
+    }
+
+
+    /**
+     * 有任务删除,需要刷新
+     * @param event 事件
+     */
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void deltedTask(DeleteTaskEvent event){
         updateTaskList();
         notifyDataSetChanged();
     }
