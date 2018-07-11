@@ -13,7 +13,7 @@ public class AllAchievementFragmentAdapter extends BaseAchievementFragmentAdapte
     }
 
     @Override
-    public void updateAchievements() {
-        achievements= Game.getInstance().getAchievementManager().getAllAchievement();
+    public void updateShowList() {
+        showList= Game.getInstance().getAchievementManager().getAllAchievement();
     }
 }

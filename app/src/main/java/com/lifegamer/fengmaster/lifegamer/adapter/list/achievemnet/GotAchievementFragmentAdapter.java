@@ -8,8 +8,8 @@ import com.lifegamer.fengmaster.lifegamer.Game;
  */
 public class GotAchievementFragmentAdapter extends BaseAchievementFragmentAdapter {
     @Override
-    public void updateAchievements() {
-        achievements= Game.getInstance().getAchievementManager().getAllGotAchievement();
+    public void updateShowList() {
+        showList= Game.getInstance().getAchievementManager().getAllGotAchievement();
     }
 
     @Override

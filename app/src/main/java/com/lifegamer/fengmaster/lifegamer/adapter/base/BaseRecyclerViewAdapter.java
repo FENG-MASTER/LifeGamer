@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.annimon.stream.Stream;
 import com.annimon.stream.function.Consumer;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.task.BaseTaskFragmentAdapter;
+import com.lifegamer.fengmaster.lifegamer.model.Achievement;
 
 
 import java.util.ArrayList;
@@ -18,10 +19,10 @@ import java.util.List;
  * 基础适配器,集成了item被点击后弹窗接口
  * Created by FengMaster on 18/07/11.
  */
-public abstract class BaseRecyclerViewAdapter<R> extends AbsBaseRecyclerViewAdapter<BaseRecyclerViewAdapter.BaseRecyclerViewHolder,R> implements View.OnClickListener {
+public abstract class BaseRecyclerViewAdapter<R> extends AbsBaseRecyclerViewAdapter<BaseRecyclerViewAdapter.BaseRecyclerViewHolder,R> {
 
     //所有需要显示的数据<泛型>,任务,成就等
-    protected List<R> showList=new ArrayList<>();
+    protected List<R> showList=null;
 
 
     protected List<OnItemSelectListener<R>> clickListeners=new ArrayList<>();
@@ -30,7 +31,7 @@ public abstract class BaseRecyclerViewAdapter<R> extends AbsBaseRecyclerViewAdap
     @Override
     public BaseRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View inflate = LayoutInflater.from(parent.getContext()).inflate(getItemLayoutID(), parent, false);
-        BaseRecyclerViewHolder<R> t=new BaseRecyclerViewHolder<R>(inflate);
+        BaseRecyclerViewHolder t=new BaseRecyclerViewHolder(inflate);
         return t;
     }
 
@@ -45,6 +46,14 @@ public abstract class BaseRecyclerViewAdapter<R> extends AbsBaseRecyclerViewAdap
         return showList.size();
     }
 
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        if (showList==null){
+            updateShowList();
+        }
+    }
+
     /**
      * 通知所有监听点击事件的监听者
      * @param r
@@ -52,6 +61,22 @@ public abstract class BaseRecyclerViewAdapter<R> extends AbsBaseRecyclerViewAdap
     protected void notifyClickListener(R r){
         Stream.of(clickListeners).forEach(rOnItemSelectListener -> rOnItemSelectListener.onItemSelect(r));
     }
+
+    @Override
+    public void addItemSelectListener(OnItemSelectListener<R> listener) {
+        clickListeners.add(listener);
+    }
+
+    @Override
+    public void removeItemSelectListener(OnItemSelectListener<R> listener) {
+        clickListeners.remove(listener);
+    }
+
+
+    /**
+     * 更新显示内容
+     */
+    public abstract void updateShowList();
 
 
     /**
@@ -66,16 +91,16 @@ public abstract class BaseRecyclerViewAdapter<R> extends AbsBaseRecyclerViewAdap
      */
     public abstract int getBindingItemID();
 
-    public class BaseRecyclerViewHolder<S extends R> extends BindingHolder implements View.OnClickListener {
+    public class BaseRecyclerViewHolder extends BindingHolder implements View.OnClickListener {
 
-        protected S obj;
+        protected R obj;
 
         public BaseRecyclerViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
         }
 
-        public void setObj(int id,S obj){
+        public void setObj(int id,R obj){
             this.obj=obj;
             setBinding(id,obj);
         }
