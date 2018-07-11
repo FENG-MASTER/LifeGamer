@@ -325,7 +325,7 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
     }
 
     @Override
-    void save() {
+    boolean save() {
 
         //保存技能奖励
         task.setSuccessSkills(skills);
@@ -339,6 +339,7 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
         //保存金币奖励数目
         task.setEarnLP(binding.etDialogEditTaskRewardEarnLp.getText().toString().equals("")?0:Integer.valueOf(binding.etDialogEditTaskRewardEarnLp.getText().toString()));
 
+        return true;
     }
 
 

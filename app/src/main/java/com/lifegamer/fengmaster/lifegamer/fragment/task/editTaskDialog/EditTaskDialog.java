@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.annimon.stream.Stream;
 import com.annimon.stream.function.Consumer;
+import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.adapter.BaseViewPagerFragmentAdapter;
@@ -78,6 +79,7 @@ public class EditTaskDialog extends BaseDialogFragment implements View.OnClickLi
         //这里getChildFragmentManager 否则会报找不到id错误
         binding.vpDialogEditTaskContent.setAdapter(new BaseViewPagerFragmentAdapter(getChildFragmentManager(), fragmentList));
         binding.tlDialogEditTask.setupWithViewPager(binding.vpDialogEditTaskContent);
+        binding.vpDialogEditTaskContent.setOffscreenPageLimit(10);
 
         binding.btDialogEditTaskNo.setOnClickListener(this);
         binding.btDialogEditTaskOk.setOnClickListener(this);
@@ -95,8 +97,10 @@ public class EditTaskDialog extends BaseDialogFragment implements View.OnClickLi
                 //确认
 
                 //全部子fragment保存
-                Stream.of(fragmentList).forEach(SaveableFragment::save);
-                save();
+                if (Stream.of(fragmentList).allMatch(SaveableFragment::save)) {
+                    save();
+                }
+
 
                 dismiss();
 
@@ -107,12 +111,12 @@ public class EditTaskDialog extends BaseDialogFragment implements View.OnClickLi
                 break;
             case R.id.siv_dialog_edit_task_icon:
                 //选择图标
-                AvatarSelectDialog dialog=new AvatarSelectDialog();
+                AvatarSelectDialog dialog = new AvatarSelectDialog();
                 dialog.addItemSelectListener(avatar -> {
-                    taskAvatar=avatar;
+                    taskAvatar = avatar;
                     binding.sivDialogEditTaskIcon.setImageDrawable(taskAvatar.getIcon());
                 });
-                dialog.show(getChildFragmentManager(),"avatarSelect");
+                dialog.show(getChildFragmentManager(), "avatarSelect");
 
                 break;
             default:
@@ -124,7 +128,7 @@ public class EditTaskDialog extends BaseDialogFragment implements View.OnClickLi
         task.setName(binding.etDialogEditTaskName.getText().toString());
         task.setDesc(binding.etDialogEditTaskDesc.getText().toString());
 
-        if (taskAvatar!=null){
+        if (taskAvatar != null) {
             task.setIcon(taskAvatar.toString());
         }
 
@@ -145,6 +149,6 @@ public class EditTaskDialog extends BaseDialogFragment implements View.OnClickLi
     }
 
     public static abstract class SaveableFragment extends BaseFragment {
-        abstract void save();
+        abstract boolean save();
     }
 }

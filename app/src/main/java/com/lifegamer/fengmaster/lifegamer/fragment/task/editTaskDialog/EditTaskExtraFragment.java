@@ -13,15 +13,10 @@ import android.widget.LinearLayout;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
-import com.annimon.stream.function.Function;
-import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
-import com.lifegamer.fengmaster.lifegamer.command.command.task.UpdateTaskCommand;
 import com.lifegamer.fengmaster.lifegamer.databinding.DialogEditTaskExtraBinding;
-import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseFragment;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
-import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -130,13 +125,14 @@ public class EditTaskExtraFragment extends EditTaskDialog.SaveableFragment imple
     }
 
     @Override
-    public void save() {
+    public boolean save() {
         task.setFear(binding.sbDialogEditTaskFear.getProgress());
         task.setUrgency(binding.sbDialogEditTaskUrgency.getProgress());
         task.setDifficulty(binding.sbDialogEditTaskDifficulty.getProgress());
 
         task.setPreTasks(Stream.of(preTasks).map(task1 -> (int) task1.getId()).collect(Collectors.toList()));
 
+        return true;
     }
 
     @Override

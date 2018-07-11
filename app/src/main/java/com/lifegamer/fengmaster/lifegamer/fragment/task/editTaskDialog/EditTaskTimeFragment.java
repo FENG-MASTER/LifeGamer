@@ -4,21 +4,17 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.databinding.DialogEditTaskTimeBinding;
-import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseFragment;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
@@ -75,7 +71,7 @@ public class EditTaskTimeFragment extends EditTaskDialog.SaveableFragment implem
     }
 
     @Override
-    void save() {
+    boolean save() {
         //可完成次数
         task.setRepeatAvailableTime(Integer.valueOf(binding.etDialogEditTaskRepTimes.getText().toString()));
 
@@ -86,6 +82,7 @@ public class EditTaskTimeFragment extends EditTaskDialog.SaveableFragment implem
 
         //过期时间
         task.setExpirationTime(taskTime.getTime());
+        return true;
     }
 
     @Override

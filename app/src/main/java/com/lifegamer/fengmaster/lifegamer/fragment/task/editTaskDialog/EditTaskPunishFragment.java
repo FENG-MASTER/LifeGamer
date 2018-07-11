@@ -6,8 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseFragment;
-
 /**
  * Created by qianzise on 2017/10/19.
  */
@@ -27,7 +25,7 @@ public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
     }
 
     @Override
-    void save() {
-
+    boolean save() {
+        return true;
     }
 }
