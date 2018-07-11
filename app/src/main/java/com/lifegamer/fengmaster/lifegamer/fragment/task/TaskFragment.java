@@ -4,6 +4,7 @@ package com.lifegamer.fengmaster.lifegamer.fragment.task;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.task.AllTaskFragmentAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.list.task.TodayTaskFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.command.command.task.DeleteTaskCommend;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseTabListFragment;
 import com.lifegamer.fengmaster.lifegamer.fragment.task.editTaskDialog.EditTaskDialog;
@@ -29,8 +30,11 @@ public class TaskFragment extends BaseTabListFragment implements OnItemSelectLis
 
     public TaskFragment() {
         AllTaskFragmentAdapter allTaskFragmentAdapter = new AllTaskFragmentAdapter();
+        TodayTaskFragmentAdapter todayTaskFragmentAdapter=new TodayTaskFragmentAdapter();
         allTaskFragmentAdapter.addItemSelectListener(this);
+        todayTaskFragmentAdapter.addItemSelectListener(this);
         addAdapter(allTaskFragmentAdapter);
+        addAdapter(todayTaskFragmentAdapter);
     }
 
     @Override

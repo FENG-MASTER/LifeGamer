@@ -1,16 +1,7 @@
 package com.lifegamer.fengmaster.lifegamer.fragment.skill;
 
 
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.lifegamer.fengmaster.lifegamer.Game;
-import com.lifegamer.fengmaster.lifegamer.R;
-import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.skill.AllSkillFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.skill.TypeSkillFragmentAdapter;

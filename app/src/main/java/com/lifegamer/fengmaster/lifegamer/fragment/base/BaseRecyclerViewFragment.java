@@ -1,10 +1,7 @@
 package com.lifegamer.fengmaster.lifegamer.fragment.base;
 
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.lifegamer.fengmaster.lifegamer.R;
-import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.base.AbsBaseRecyclerViewAdapter;
 import com.lifegamer.fengmaster.lifegamer.wight.MyItemDecoration;
 
 import butterknife.BindView;
@@ -37,7 +34,7 @@ public class BaseRecyclerViewFragment extends BaseFragment {
     @BindView(R.id.fl_recycler_fragment_head)
     FrameLayout head;
 
-    private BaseRecyclerViewAdapter adapter;
+    private AbsBaseRecyclerViewAdapter adapter;
 
     public BaseRecyclerViewFragment() {
         // Required empty public constructor
@@ -66,7 +63,7 @@ public class BaseRecyclerViewFragment extends BaseFragment {
         return view;
     }
 
-    public BaseRecyclerViewFragment setAdapter(BaseRecyclerViewAdapter adapter){
+    public BaseRecyclerViewFragment setAdapter(AbsBaseRecyclerViewAdapter adapter){
         this.adapter=adapter;
         if (recyclerView!=null){
             recyclerView.setAdapter(adapter);

@@ -1,6 +1,5 @@
 package com.lifegamer.fengmaster.lifegamer.adapter.dialog;
 
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +9,9 @@ import android.widget.TextView;
 
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
-import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.base.AbsBaseRecyclerViewAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.manager.base.itf.IAvatarManager;
-import com.lifegamer.fengmaster.lifegamer.wight.model.SelectItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +25,7 @@ import butterknife.ButterKnife;
  * 头像选择适配器
  */
 
-public class AvatarSelectAdapter extends BaseRecyclerViewAdapter<AvatarSelectAdapter.Holder,IAvatarManager.Avatar> {
+public class AvatarSelectAdapter extends AbsBaseRecyclerViewAdapter<AvatarSelectAdapter.Holder,IAvatarManager.Avatar> {
 
     private List<String> avatarNameList;
 

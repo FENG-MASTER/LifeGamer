@@ -7,13 +7,10 @@ import android.view.ViewGroup;
 
 import com.lifegamer.fengmaster.lifegamer.BR;
 import com.lifegamer.fengmaster.lifegamer.R;
-import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.base.AbsBaseRecyclerViewAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.BindingHolder;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
-import com.lifegamer.fengmaster.lifegamer.adapter.list.reward.BaseRewardFragmentAdapter;
-import com.lifegamer.fengmaster.lifegamer.databinding.ItemBaseItemBinding;
 import com.lifegamer.fengmaster.lifegamer.model.Item;
-import com.lifegamer.fengmaster.lifegamer.model.RewardItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +21,7 @@ import java.util.List;
  * 基础物品显示适配器
  */
 
-public abstract class BaseItemFragmentAdapter extends BaseRecyclerViewAdapter<BaseItemFragmentAdapter.Holder, Item> {
+public abstract class BaseItemFragmentAdapter extends AbsBaseRecyclerViewAdapter<BaseItemFragmentAdapter.Holder, Item> {
 
     protected List<Item> showItemList;
 

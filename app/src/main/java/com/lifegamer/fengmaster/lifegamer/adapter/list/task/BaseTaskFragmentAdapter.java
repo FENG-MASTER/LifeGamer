@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import com.lifegamer.fengmaster.lifegamer.BR;
 import com.lifegamer.fengmaster.lifegamer.R;
-import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.base.AbsBaseRecyclerViewAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.BindingHolder;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.event.task.DeleteTaskEvent;
@@ -27,8 +27,8 @@ import java.util.List;
  * 基础 任务显示适配器
  */
 
-public abstract class BaseTaskFragmentAdapter extends BaseRecyclerViewAdapter<BaseTaskFragmentAdapter.Holder,Task>{
-
+public abstract class BaseTaskFragmentAdapter extends AbsBaseRecyclerViewAdapter<BaseTaskFragmentAdapter.Holder,Task> {
+    //点击事件监听者
     private List<OnItemSelectListener<Task>> listeners=new LinkedList<>();
 
 
@@ -37,6 +37,9 @@ public abstract class BaseTaskFragmentAdapter extends BaseRecyclerViewAdapter<Ba
      */
     protected List<Task> showTaskList;
 
+    /**
+     * 更新任务显示列表方法
+     */
     public abstract void updateTaskList();
 
     public BaseTaskFragmentAdapter() {

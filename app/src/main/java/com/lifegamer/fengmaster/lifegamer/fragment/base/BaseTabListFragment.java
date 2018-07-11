@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.adapter.BaseViewPagerFragmentAdapter;
-import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.base.AbsBaseRecyclerViewAdapter;
 import com.lifegamer.fengmaster.lifegamer.util.ViewUtil;
 
 import java.util.ArrayList;
@@ -76,7 +76,7 @@ public abstract class BaseTabListFragment extends Fragment{
         return inflate;
     }
 
-    public void addAdapter(BaseRecyclerViewAdapter adapter){
+    public void addAdapter(AbsBaseRecyclerViewAdapter adapter){
         fragments.add(new BaseRecyclerViewFragment().setAdapter(adapter));
     }
 

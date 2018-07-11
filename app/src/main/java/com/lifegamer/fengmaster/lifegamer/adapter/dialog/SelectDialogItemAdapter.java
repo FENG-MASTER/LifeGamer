@@ -8,10 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lifegamer.fengmaster.lifegamer.R;
-import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.base.AbsBaseRecyclerViewAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
-import com.lifegamer.fengmaster.lifegamer.wight.SelectDialog;
-import com.lifegamer.fengmaster.lifegamer.wight.SqureImageView;
 import com.lifegamer.fengmaster.lifegamer.wight.model.SelectItem;
 
 import java.util.LinkedList;
@@ -24,7 +22,7 @@ import butterknife.ButterKnife;
  * Created by qianzise on 2017/10/12.
  */
 
-public class SelectDialogItemAdapter extends BaseRecyclerViewAdapter<SelectDialogItemAdapter.Holder,SelectItem> {
+public class SelectDialogItemAdapter extends AbsBaseRecyclerViewAdapter<SelectDialogItemAdapter.Holder,SelectItem> {
     private List<SelectItem> items;
 
     private List<OnItemSelectListener<SelectItem>> listeners=new LinkedList<>();

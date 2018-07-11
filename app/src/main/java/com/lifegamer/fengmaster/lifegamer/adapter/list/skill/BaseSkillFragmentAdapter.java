@@ -6,9 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lifegamer.fengmaster.lifegamer.BR;
-import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
-import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.base.AbsBaseRecyclerViewAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.BindingHolder;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.event.skill.DelSkillEvent;
@@ -30,7 +29,7 @@ import butterknife.ButterKnife;
  * 基础 技能实现适配器
  */
 
-public abstract class BaseSkillFragmentAdapter extends BaseRecyclerViewAdapter<BaseSkillFragmentAdapter.Holder, Skill> {
+public abstract class BaseSkillFragmentAdapter extends AbsBaseRecyclerViewAdapter<BaseSkillFragmentAdapter.Holder, Skill> {
     protected List<Skill> showSkillList;
 
     /**

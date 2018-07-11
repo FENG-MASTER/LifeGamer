@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import com.lifegamer.fengmaster.lifegamer.BR;
 import com.lifegamer.fengmaster.lifegamer.R;
-import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.base.AbsBaseRecyclerViewAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.BindingHolder;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.model.RewardItem;
@@ -19,7 +19,7 @@ import java.util.List;
  * Created by qianzise on 2017/10/21.
  */
 
-public abstract class BaseRewardFragmentAdapter extends BaseRecyclerViewAdapter<BaseRewardFragmentAdapter.Holder, RewardItem> {
+public abstract class BaseRewardFragmentAdapter extends AbsBaseRecyclerViewAdapter<BaseRewardFragmentAdapter.Holder, RewardItem> {
 
     protected List<RewardItem> rewardItemList;
 

@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import com.lifegamer.fengmaster.lifegamer.BR;
 import com.lifegamer.fengmaster.lifegamer.R;
-import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.base.AbsBaseRecyclerViewAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.BindingHolder;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
@@ -19,7 +19,7 @@ import java.util.List;
  * Created by qianzise on 2017/10/23.
  */
 
-public abstract class BaseAchievementFragmentAdapter extends BaseRecyclerViewAdapter<BaseAchievementFragmentAdapter.Holder, Achievement> {
+public abstract class BaseAchievementFragmentAdapter extends AbsBaseRecyclerViewAdapter<BaseAchievementFragmentAdapter.Holder, Achievement> {
 
     protected List<Achievement> achievements;
 
