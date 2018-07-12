@@ -19,4 +19,11 @@
     <string name="no_sale">非卖品</string>
     <string name="item_num_infinite">无限</string>
     <string name="nav_exit">退出</string>
+
+    <string name="urgency_num">紧急系数:</string>
+    <string name="fear_num">恐惧系数:</string>
+    <string name="difficulty_num">困难系数:</string>
+    <string name="task_get_xp">任务所得经验值:</string>
+
+
 </resources>

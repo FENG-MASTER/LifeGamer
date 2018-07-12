@@ -26,13 +26,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:drawableLeft="@drawable/ic_exp"
-                android:text="任务所得经验值:100"/>
+                />
 
             <TextView
+                android:id="@+id/tv_dialog_edit_task_extra_difficulty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_nav_help"
-                android:text='@{"困难系数  "+task.difficulty}'
+                android:text='@{@string/difficulty_num+task.difficulty}'
                 android:textSize="12sp"/>
 
 
@@ -45,10 +46,11 @@
 
 
             <TextView
+                android:id="@+id/tv_dialog_edit_task_extra_fear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_nav_help"
-                android:text="恐惧系数"
+                android:text='@{@string/fear_num+task.fear}'
                 android:textSize="12sp"/>
 
 
@@ -61,10 +63,11 @@
 
 
             <TextView
+                android:id="@+id/tv_dialog_edit_task_extra_urgency"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_nav_help"
-                android:text="紧急系数"
+                android:text='@{@string/urgency_num+task.urgency}'
                 android:textSize="12sp"/>
 
 
