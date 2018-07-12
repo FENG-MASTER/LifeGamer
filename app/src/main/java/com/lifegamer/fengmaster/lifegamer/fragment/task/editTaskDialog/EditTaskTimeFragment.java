@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
@@ -19,46 +20,82 @@ import java.util.Calendar;
 
 /**
  * Created by qianzise on 2017/10/16.
- *
+ * <p>
  * 任务编辑对话框 时间部分
  */
 
 public class EditTaskTimeFragment extends EditTaskDialog.SaveableFragment implements View.OnClickListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
+    private final static int ONCE = 0;
+    private final static int NO_LIMIT = 1;
+    private final static int DAYILY=3;
+
     private DialogEditTaskTimeBinding binding;
 
     private Task task;
 
-    private Calendar taskTime=Calendar.getInstance();
+    private Calendar taskTime = Calendar.getInstance();
 
 
-    public EditTaskTimeFragment setTask(Task task){
-        this.task=task;
+    public EditTaskTimeFragment setTask(Task task) {
+        this.task = task;
         return this;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding=DialogEditTaskTimeBinding.inflate(inflater);
+        binding = DialogEditTaskTimeBinding.inflate(inflater);
 
         binding.setTask(task);
 
-        if (task.getExpirationTime()!=null){
+        if (task.getExpirationTime() != null) {
             // 非新建任务的时候,获取时间
-           taskTime.setTime(task.getExpirationTime());
+            taskTime.setTime(task.getExpirationTime());
         }
         //设置重复类型显示
         binding.spDialogEditTaskRepType.setSelection(task.getRepeatType());
 
+        binding.spDialogEditTaskRepType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i) {
+                    case ONCE:
+                        //单次任务
+                        binding.etDialogEditTaskRepTimes.setText("1");
+                        binding.etDialogEditTaskRepTimes.setEnabled(false);
+                        binding.switchDialogEditTaskInfinite.setChecked(false);
+                        break;
+                    case NO_LIMIT:
+                        binding.etDialogEditTaskRepTimes.setText("-1");
+                        binding.etDialogEditTaskRepTimes.setEnabled(false);
+                        binding.switchDialogEditTaskInfinite.setChecked(true);
+                        break;
+                    default:
+                        binding.etDialogEditTaskRepTimes.setEnabled(true);
+                        binding.switchDialogEditTaskInfinite.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         binding.switchDialogEditTaskInfinite.setOnCheckedChangeListener((compoundButton, b) -> {
             //无限完成次数
-            if (b){
+            if (b) {
                 binding.etDialogEditTaskRepTimes.setText("-1");
                 binding.etDialogEditTaskRepTimes.setEnabled(false);
-            }else {
-                binding.etDialogEditTaskRepTimes.setEnabled(true);
+                if (binding.spDialogEditTaskRepType.getSelectedItemId()==ONCE){
+                    //如果在单次任务下切换无限,则为不限次数任务模式
+                    binding.spDialogEditTaskRepType.setSelection(NO_LIMIT,true);
+                }
+            } else {
+                binding.etDialogEditTaskRepTimes.setText("1");
+                binding.etDialogEditTaskRepTimes.setEnabled(false);
+                binding.spDialogEditTaskRepType.setSelection(DAYILY,true);
             }
         });
 
@@ -91,10 +128,10 @@ public class EditTaskTimeFragment extends EditTaskDialog.SaveableFragment implem
 
     @Override
     public void onClick(View view) {
-        if (view.getId()==R.id.bt_dialog_edit_task_expiration_time){
+        if (view.getId() == R.id.bt_dialog_edit_task_expiration_time) {
             //选择过期时间
             //弹出对话框
-            DatePickerDialog datePickerDialog=new DatePickerDialog(getContext(),this,
+            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), this,
                     taskTime.get(Calendar.YEAR),
                     taskTime.get(Calendar.MONTH),
                     taskTime.get(Calendar.DAY_OF_MONTH));
@@ -108,20 +145,20 @@ public class EditTaskTimeFragment extends EditTaskDialog.SaveableFragment implem
 
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-        taskTime.set(Calendar.YEAR,year);
-        taskTime.set(Calendar.MONTH,monthOfYear);
-        taskTime.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+        taskTime.set(Calendar.YEAR, year);
+        taskTime.set(Calendar.MONTH, monthOfYear);
+        taskTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-        TimePickerDialog timePickerDialog=new TimePickerDialog(getContext(), this,
+        TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), this,
                 taskTime.get(Calendar.HOUR_OF_DAY),
-                taskTime.get(Calendar.MINUTE),true);
+                taskTime.get(Calendar.MINUTE), true);
         timePickerDialog.show();
     }
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        taskTime.set(Calendar.HOUR_OF_DAY,hourOfDay);
-        taskTime.set(Calendar.MINUTE,minute);
+        taskTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        taskTime.set(Calendar.MINUTE, minute);
 
         //更新过期时间显示
         setTaskExpirationView();
@@ -130,7 +167,7 @@ public class EditTaskTimeFragment extends EditTaskDialog.SaveableFragment implem
     /**
      * 更新过期时间显示
      */
-    private void setTaskExpirationView(){
+    private void setTaskExpirationView() {
         binding.btDialogEditTaskExpirationTime.setText(FormatUtil.date2Str(taskTime.getTime()));
     }
 }

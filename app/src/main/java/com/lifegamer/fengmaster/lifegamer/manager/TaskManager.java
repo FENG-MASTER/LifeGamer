@@ -60,6 +60,11 @@ public class TaskManager implements ITaskManager {
 
     }
 
+    /**
+     * 从数据库的指针中获取task对象
+     * @param cursor 指针
+     * @return task对象
+     */
     private Task getTaskFromCursor(Cursor cursor) {
         Task task = new Task();
         task.setId(cursor.getInt(cursor.getColumnIndex("_id")));
@@ -450,7 +455,6 @@ public class TaskManager implements ITaskManager {
                 //默认也是一次性
             default:
                 //一次性
-                task.setExpirationTime(null);
                 task.setRepeatInterval(0);
                 task.setRepeatAvailableTime(0);
                 break;

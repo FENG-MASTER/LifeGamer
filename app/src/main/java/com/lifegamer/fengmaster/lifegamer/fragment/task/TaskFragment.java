@@ -6,6 +6,7 @@ import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.task.AllTaskFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.task.TodayTaskFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.command.command.task.DeleteTaskCommend;
+import com.lifegamer.fengmaster.lifegamer.command.command.task.FinishTaskCommand;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseTabListFragment;
 import com.lifegamer.fengmaster.lifegamer.fragment.task.editTaskDialog.EditTaskDialog;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
@@ -70,6 +71,10 @@ public class TaskFragment extends BaseTabListFragment implements OnItemSelectLis
 
     private void onSelectItemSelect(SelectItem selectItem) {
         switch (selectItem.getId()) {
+            case SelectItem.FINISH_ID:
+                //完成任务
+                finishTask(task);
+                break;
             case SelectItem.EDIT_ID:
                 // 编辑任务界面
                 EditTaskDialog dialog = new EditTaskDialog();
@@ -82,6 +87,10 @@ public class TaskFragment extends BaseTabListFragment implements OnItemSelectLis
             default:
 
         }
+    }
+
+    private void finishTask(Task task) {
+        Game.getInstance().getCommandManager().executeCommand(new FinishTaskCommand(task));
     }
 
 
