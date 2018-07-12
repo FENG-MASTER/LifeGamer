@@ -109,7 +109,7 @@ public class TaskManager implements ITaskManager {
 
 
         String updateTime = cursor.getString(cursor.getColumnIndex("updateTime"));
-        if (updateTime != null && updateTime.equals("")) {
+        if (updateTime != null && !updateTime.equals("")) {
             try {
                 task.setUpdateTime(SimpleDateFormat.getInstance().parse(updateTime));
             } catch (ParseException e) {
