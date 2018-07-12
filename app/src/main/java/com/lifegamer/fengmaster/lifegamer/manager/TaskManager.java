@@ -89,7 +89,7 @@ public class TaskManager implements ITaskManager {
         task.setRepeatAvailableTime(cursor.getInt(cursor.getColumnIndex("repeatAvailableTime")));
 
         String expirationTime = cursor.getString(cursor.getColumnIndex("expirationTime"));
-        if (expirationTime != null && expirationTime.equals("")) {
+        if (expirationTime != null && !expirationTime.equals("")) {
             try {
                 task.setExpirationTime(SimpleDateFormat.getInstance().parse(expirationTime));
             } catch (ParseException e) {
@@ -99,7 +99,7 @@ public class TaskManager implements ITaskManager {
 
 
         String createTime = cursor.getString(cursor.getColumnIndex("createTime"));
-        if (createTime != null && createTime.equals("")) {
+        if (createTime != null && !createTime.equals("")) {
             try {
                 task.setCreateTime(SimpleDateFormat.getInstance().parse(createTime));
             } catch (ParseException e) {
