@@ -1,5 +1,7 @@
 package com.lifegamer.fengmaster.lifegamer.manager.itf;
 
+import com.lifegamer.fengmaster.lifegamer.event.achievement.GotAchievementEvent;
+import com.lifegamer.fengmaster.lifegamer.event.achievement.LostAchievementEvent;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
 
@@ -45,7 +47,7 @@ public interface IAchievementManager {
 
     /**
      * 获得成就
-     * {@link com.lifegamer.fengmaster.lifegamer.event.achievement.GotAchievement}
+     * {@link GotAchievementEvent}
      *
      * @param id 成就ID
      * @return 是否成功
@@ -54,7 +56,7 @@ public interface IAchievementManager {
 
     /**
      * 获得成就
-     * {@link com.lifegamer.fengmaster.lifegamer.event.achievement.GotAchievement}
+     * {@link GotAchievementEvent}
      *
      * @param name 成就名称
      * @return 是否成功
@@ -64,7 +66,7 @@ public interface IAchievementManager {
 
     /**
      * 获得成就
-     * {@link com.lifegamer.fengmaster.lifegamer.event.achievement.GotAchievement}
+     * {@link GotAchievementEvent}
      *
      * @param achievementReward 成就奖励
      * @return 是否成功
@@ -128,7 +130,7 @@ public interface IAchievementManager {
     /**
      * 失去成就
      * <p>
-     * {@link com.lifegamer.fengmaster.lifegamer.event.achievement.LostAchievement}
+     * {@link LostAchievementEvent}
      *
      * @param id 成就id
      */
@@ -136,7 +138,7 @@ public interface IAchievementManager {
 
     /**
      * 失去成就
-     * {@link com.lifegamer.fengmaster.lifegamer.event.achievement.LostAchievement}
+     * {@link LostAchievementEvent}
      *
      * @param achievementReward 成就
      */

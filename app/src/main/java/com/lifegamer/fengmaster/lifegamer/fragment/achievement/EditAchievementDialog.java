@@ -14,6 +14,8 @@ import com.lifegamer.fengmaster.lifegamer.databinding.DialogEditAchievementBindi
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseDialogFragment;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
 
+import java.util.Date;
+
 /**
  * Created by qianzise on 2017/10/22.
  */
@@ -63,6 +65,10 @@ public class EditAchievementDialog extends BaseDialogFragment implements View.On
         achievement.setName(binding.etDialogEditAchievementName.getText().toString());
         achievement.setDesc(binding.etDialogEditAchievementDesc.getText().toString());
         achievement.setType(binding.etDialogEditAchievementType.getText().toString());
+        achievement.setGot(false);
+        achievement.setCreateTime(new Date());
+        achievement.setUpdateTime(new Date());
+        achievement.setGainTime(new Date());
 
         if (achievement.getId()!=0){
             //更新

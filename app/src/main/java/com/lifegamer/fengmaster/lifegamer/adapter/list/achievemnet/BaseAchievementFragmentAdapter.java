@@ -12,8 +12,14 @@ import com.lifegamer.fengmaster.lifegamer.adapter.base.AbsBaseRecyclerViewAdapte
 import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.BindingHolder;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
+import com.lifegamer.fengmaster.lifegamer.event.achievement.GotAchievementEvent;
+import com.lifegamer.fengmaster.lifegamer.event.achievement.LostAchievementEvent;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
 import com.lifegamer.fengmaster.lifegamer.util.ViewUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +29,11 @@ import java.util.List;
  */
 
 public abstract class BaseAchievementFragmentAdapter extends BaseRecyclerViewAdapter<Achievement> {
+
+    public BaseAchievementFragmentAdapter() {
+        EventBus.getDefault().register(this);
+    }
+
 
     @Override
     public int getItemLayoutID() {
@@ -34,6 +45,21 @@ public abstract class BaseAchievementFragmentAdapter extends BaseRecyclerViewAda
         return BR.achievement;
     }
 
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        EventBus.getDefault().unregister(this);
+    }
 
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void onGotAchievement(GotAchievementEvent gotAchievementEvent){
+        updateShowList();
+        notifyDataSetChanged();
+    }
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void onLostAchievement(LostAchievementEvent lostAchievementEvent){
+        updateShowList();
+        notifyDataSetChanged();
+    }
 
 }

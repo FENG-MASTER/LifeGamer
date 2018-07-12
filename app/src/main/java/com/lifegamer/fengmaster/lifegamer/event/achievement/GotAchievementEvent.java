@@ -8,11 +8,11 @@ import com.lifegamer.fengmaster.lifegamer.model.Achievement;
  * 获得成就事件
  */
 
-public class GotAchievement {
+public class GotAchievementEvent {
 
     private Achievement achievement;
 
-    public GotAchievement(Achievement achievement) {
+    public GotAchievementEvent(Achievement achievement) {
         this.achievement = achievement;
     }
 

@@ -15,6 +15,7 @@ import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -136,6 +137,7 @@ public class AchievementManager implements IAchievementManager{
     private boolean gainAchievement(Achievement achievement){
         if (achievement!=null){
             achievement.setGot(true);
+            achievement.setGainTime(new Date());
             return updateAchievement(achievement);
         }else {
             return false;
@@ -235,6 +237,7 @@ public class AchievementManager implements IAchievementManager{
         if (achievement!=null){
             //有相应成就
             achievement.setGot(false);
+            achievement.setGainTime(new Date());
             return updateAchievement(achievement);
         }else {
             return false;

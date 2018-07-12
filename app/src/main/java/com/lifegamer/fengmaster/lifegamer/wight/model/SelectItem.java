@@ -20,7 +20,8 @@ public class SelectItem {
     public static final int NOTES_ID=5;
     //获得
     public static final int GOT_ID=6;
-
+    //失去
+    public static final int LOSE_ID=7;
 
 
 
@@ -33,6 +34,7 @@ public class SelectItem {
     public static final SelectItem FAIL = new SelectItem(FAIL_ID, "失败", R.drawable.ic_select_fail);
     public static final SelectItem NOTES = new SelectItem(NOTES_ID, "笔记", R.drawable.ic_select_notes);
     public static final SelectItem GOT = new SelectItem(GOT_ID, "获得", R.drawable.ic_select_got);
+    public static final SelectItem LOSE = new SelectItem(LOSE_ID, "失去", R.drawable.ic_select_lose);
 
 
     private int id;

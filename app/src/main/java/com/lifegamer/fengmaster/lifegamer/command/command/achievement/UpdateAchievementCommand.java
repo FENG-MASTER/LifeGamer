@@ -4,6 +4,8 @@ import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.command.command.AbsNoCancelableCommand;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
 
+import org.greenrobot.eventbus.EventBus;
+
 /**
  * Created by qianzise on 2017/10/22.
  */
@@ -18,7 +20,10 @@ public class UpdateAchievementCommand extends AbsNoCancelableCommand {
 
     @Override
     public void execute() {
-        Game.getInstance().getAchievementManager().updateAchievement(achievement);
+        if (Game.getInstance().getAchievementManager().updateAchievement(achievement)){
+            EventBus.getDefault().post(new UpdateAchievementCommand(achievement));
+        }
+
     }
 
     @Override

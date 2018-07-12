@@ -8,10 +8,10 @@ import com.lifegamer.fengmaster.lifegamer.model.Achievement;
  * 失去成就事件
  */
 
-public class LostAchievement {
+public class LostAchievementEvent {
     private Achievement achievement;
 
-    public LostAchievement(Achievement achievement) {
+    public LostAchievementEvent(Achievement achievement) {
         this.achievement = achievement;
     }
 
