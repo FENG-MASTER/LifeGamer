@@ -1,5 +1,6 @@
 package com.lifegamer.fengmaster.lifegamer.adapter.list.achievemnet;
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.BindingHolder;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
+import com.lifegamer.fengmaster.lifegamer.util.ViewUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,7 @@ public abstract class BaseAchievementFragmentAdapter extends BaseRecyclerViewAda
     public int getBindingItemID() {
         return BR.achievement;
     }
+
 
 
 }

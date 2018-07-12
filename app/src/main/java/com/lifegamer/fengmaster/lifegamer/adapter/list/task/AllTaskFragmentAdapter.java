@@ -17,7 +17,7 @@ public class AllTaskFragmentAdapter extends BaseTaskFragmentAdapter {
     }
 
     @Override
-    public void updateTaskList() {
-        showTaskList= Game.getInstance().getTaskManager().getAllTask();
+    public void updateShowList() {
+        showList= Game.getInstance().getTaskManager().getAllTask();
     }
 }

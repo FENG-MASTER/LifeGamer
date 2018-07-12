@@ -7,9 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.annimon.stream.Stream;
-import com.annimon.stream.function.Consumer;
-import com.lifegamer.fengmaster.lifegamer.adapter.list.task.BaseTaskFragmentAdapter;
-import com.lifegamer.fengmaster.lifegamer.model.Achievement;
 
 
 import java.util.ArrayList;
@@ -23,7 +20,6 @@ public abstract class BaseRecyclerViewAdapter<R> extends AbsBaseRecyclerViewAdap
 
     //所有需要显示的数据<泛型>,任务,成就等
     protected List<R> showList=null;
-
 
     protected List<OnItemSelectListener<R>> clickListeners=new ArrayList<>();
 
@@ -71,6 +67,7 @@ public abstract class BaseRecyclerViewAdapter<R> extends AbsBaseRecyclerViewAdap
     public void removeItemSelectListener(OnItemSelectListener<R> listener) {
         clickListeners.remove(listener);
     }
+
 
 
     /**

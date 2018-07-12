@@ -67,7 +67,7 @@ public class AchievementFragment extends BaseTabListFragment implements OnItemSe
         SelectDialog dialog = new SelectDialog();
         List<SelectItem> itemList = new ArrayList<>();
         itemList.add(SelectItem.GOT);
-        itemList.add(SelectItem.GOT);
+        itemList.add(SelectItem.EDIT);
         dialog.setItems(itemList);
         dialog.addItemSelectListener(this);
         dialog.show(getFragmentManager(), "select");

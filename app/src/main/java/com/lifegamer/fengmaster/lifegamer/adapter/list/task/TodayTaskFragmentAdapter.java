@@ -8,8 +8,8 @@ import com.lifegamer.fengmaster.lifegamer.Game;
  */
 public class TodayTaskFragmentAdapter extends BaseTaskFragmentAdapter {
     @Override
-    public void updateTaskList() {
-        showTaskList= Game.getInstance().getTaskManager().getTodayUnFinishTask();
+    public void updateShowList() {
+        showList= Game.getInstance().getTaskManager().getTodayUnFinishTask();
     }
 
     @Override
