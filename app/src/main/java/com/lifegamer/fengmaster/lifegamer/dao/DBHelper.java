@@ -147,6 +147,7 @@ public class DBHelper extends SQLiteOpenHelper {
             "difficulty integer," +
             "urgency integer," +
             "fear integer," +
+            "xp integer,"+
             "successSkills text," +
             "successItems text," +
             "successAchievements text," +

@@ -59,6 +59,7 @@ public class EditTaskTimeFragment extends EditTaskDialog.SaveableFragment implem
         binding.spDialogEditTaskRepType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                binding.layoutTaskTimeRepInterval.setVisibility(View.GONE);
                 switch (i) {
                     case ONCE:
                         //单次任务
@@ -74,6 +75,8 @@ public class EditTaskTimeFragment extends EditTaskDialog.SaveableFragment implem
                     default:
                         binding.etDialogEditTaskRepTimes.setEnabled(true);
                         binding.switchDialogEditTaskInfinite.setEnabled(true);
+                        binding.layoutTaskTimeRepInterval.setVisibility(View.VISIBLE);
+
                 }
             }
 
@@ -82,6 +85,8 @@ public class EditTaskTimeFragment extends EditTaskDialog.SaveableFragment implem
 
             }
         });
+
+
 
         binding.switchDialogEditTaskInfinite.setOnCheckedChangeListener((compoundButton, b) -> {
             //无限完成次数
@@ -119,6 +124,7 @@ public class EditTaskTimeFragment extends EditTaskDialog.SaveableFragment implem
         //重复类型
 
         task.setRepeatType(binding.spDialogEditTaskRepType.getSelectedItemPosition());
+        task.setRepeatInterval(Integer.valueOf(binding.etDialogEditTaskRepInterval.getText().toString()));
         task.setAutoFail(binding.switchDialogEditTaskAutoFail.isChecked());
 
         //过期时间

@@ -32,7 +32,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
     /**
      * 只能完成一次
      */
-    public static final int REP_ONCE = 1;
+    public static final int REP_ONCE = 0;
     /**
      * 可重复完成的
      * <p>
@@ -40,27 +40,27 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
      * <p>
      * 过期时间无效{@link Task#expirationTime}无效
      */
-    public static final int REP_CONTINUOUS = 2;
+    public static final int REP_CONTINUOUS = 1;
     /**
      * 每X小时重复
      */
-    public static final int REP_HOURLY = 3;
+    public static final int REP_HOURLY = 2;
     /**
      * 每X天重复
      */
-    public static final int REP_DAILY = 4;
+    public static final int REP_DAILY = 3;
     /**
      * 每X星期重复
      */
-    public static final int REP_WEEKLY = 5;
+    public static final int REP_WEEKLY = 4;
     /**
      * 每X月重复
      */
-    public static final int REP_MONTHLY = 6;
+    public static final int REP_MONTHLY = 5;
     /**
      * 每X年重复
      */
-    public static final int REP_YEARLY = 7;
+    public static final int REP_YEARLY = 6;
 
 /***********************S基础信息S**************************/
     /**
@@ -97,6 +97,12 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
      * 害怕程度
      */
     private int fear;
+
+    /**
+     * 完成任务获得经验值
+     */
+    private int xp;
+
     /**
      * 前置任务ID列表
      */
@@ -203,6 +209,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         cv.put("difficulty", getDifficulty());
         cv.put("urgency", getUrgency());
         cv.put("fear", getFear());
+        cv.put("xp",getXp());
         cv.put("successSkills", FormatUtil.skillMap2Str(getSuccessSkills()));
         cv.put("successItems", FormatUtil.itemRewardList2Str(getSuccessItems()));
         cv.put("successAchievements", FormatUtil.achievementRewardList2Str(getSuccessAchievements()));
@@ -305,6 +312,14 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
     public void setFear(int fear) {
         this.fear = fear;
         notifyPropertyChanged(BR.fear);
+    }
+
+    public int getXp() {
+        return xp;
+    }
+
+    public void setXp(int xp) {
+        this.xp = xp;
     }
 
     @Bindable
@@ -516,6 +531,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         cv.put("difficulty", getDifficulty());
         cv.put("urgency", getUrgency());
         cv.put("fear", getFear());
+        cv.put("xp",getXp());
         cv.put("successSkills", FormatUtil.skillMap2Str(getSuccessSkills()));
         cv.put("successItems", FormatUtil.itemRewardList2Str(getSuccessItems()));
         cv.put("successAchievements", FormatUtil.achievementRewardList2Str(getSuccessAchievements()));
@@ -564,6 +580,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         this.setName(task.getName());
         this.setDesc(task.getDesc());
         this.setFear(task.getFear());
+        this.setXp(task.getXp());
         this.setDifficulty(task.getDifficulty());
         this.setUrgency(task.getUrgency());
         this.setEarnLP(task.getEarnLP());

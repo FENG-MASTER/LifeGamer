@@ -62,6 +62,7 @@ public class TaskManager implements ITaskManager {
 
     /**
      * 从数据库的指针中获取task对象
+     *
      * @param cursor 指针
      * @return task对象
      */
@@ -76,6 +77,7 @@ public class TaskManager implements ITaskManager {
         task.setDifficulty(cursor.getInt(cursor.getColumnIndex("difficulty")));
         task.setFear(cursor.getInt(cursor.getColumnIndex("fear")));
         task.setUrgency(cursor.getInt(cursor.getColumnIndex("urgency")));
+        task.setXp(cursor.getInt(cursor.getColumnIndex("xp")));
 
         task.setSuccessSkills(FormatUtil.str2SkillMap(cursor.getString(cursor.getColumnIndex("successSkills"))));
         task.setSuccessItems(FormatUtil.str2ItemRewardList(cursor.getString(cursor.getColumnIndex("successItems"))));
@@ -249,6 +251,7 @@ public class TaskManager implements ITaskManager {
 
     /**
      * 任务失败
+     *
      * @param task 任务名称
      * @return 是否成功
      */
@@ -259,6 +262,7 @@ public class TaskManager implements ITaskManager {
 
     /**
      * 任务失败
+     *
      * @param taskID 任务ID
      * @return 是否成功
      */
@@ -267,20 +271,19 @@ public class TaskManager implements ITaskManager {
         return failTask(getTask(taskID));
     }
 
-    private boolean failTask(Task task){
-        if (task!=null){
+    private boolean failTask(Task task) {
+        if (task != null) {
 
             //失败次数+1
-            task.setFailureTimes(task.getFailureTimes()+1);
+            task.setFailureTimes(task.getFailureTimes() + 1);
 
             //重新调度任务时间
             scheduleTaskTime(task);
 
 
-
             return true;
 
-        }else {
+        } else {
             //null失败
             return false;
         }
@@ -293,6 +296,7 @@ public class TaskManager implements ITaskManager {
 
     /**
      * 获取任务对象
+     *
      * @param id 任务ID
      * @return 任务对象
      */
@@ -303,6 +307,7 @@ public class TaskManager implements ITaskManager {
 
     /**
      * 获取任务对象
+     *
      * @param name 任务名
      * @return 任务对象
      */
@@ -313,6 +318,7 @@ public class TaskManager implements ITaskManager {
 
     /**
      * 获得所有任务
+     *
      * @return 任务列表
      */
     @Override
@@ -322,6 +328,7 @@ public class TaskManager implements ITaskManager {
 
     /**
      * 获取今天需要完成的所有任务
+     *
      * @return 任务列表
      */
     @Override
@@ -334,6 +341,7 @@ public class TaskManager implements ITaskManager {
 
     /**
      * 获取明天要完成的所有任务
+     *
      * @return 任务列表
      */
     @Override
@@ -346,20 +354,22 @@ public class TaskManager implements ITaskManager {
 
     /**
      * 获取所有没有完成的任务列表
+     *
      * @return 任务列表
      */
     @Override
     public List<Task> getAllUnFinishTask() {
-            return Stream.of(taskList).filter(value -> value.getRepeatAvailableTime() != 0).collect(Collectors.toList());
+        return Stream.of(taskList).filter(value -> value.getRepeatAvailableTime() != 0).collect(Collectors.toList());
     }
 
     /**
      * 获取今天需要完成而没有完成的任务列表
+     *
      * @return 任务列表
      */
     @Override
     public List<Task> getTodayUnFinishTask() {
-        return Stream.of(getTodayTask()).filter(value -> value.getRepeatAvailableTime()!=0).collect(Collectors.toList());
+        return Stream.of(getTodayTask()).filter(value -> value.getRepeatAvailableTime() != 0).collect(Collectors.toList());
     }
 
     /**
@@ -376,23 +386,28 @@ public class TaskManager implements ITaskManager {
             //无重复次数
             return false;
         }
-        //可重复次数-1
-        task.setRepeatAvailableTime(task.getRepeatAvailableTime() - 1);
+        if (task.getRepeatAvailableTime() != -1) {
+            //可重复次数-1
+            task.setRepeatAvailableTime(task.getRepeatAvailableTime() - 1);
+        }
 
         //完成次数+1
         task.setCompleteTimes(task.getCompleteTimes() + 1);
 
         //调度任务时间
-        return scheduleTaskTime(task);
+        boolean b = scheduleTaskTime(task);
+        Game.update(task);
+        return b;
     }
 
     /**
      * 重新调度任务时间
+     *
      * @param task 任务
      * @return 是否成功
      */
-    private boolean scheduleTaskTime(Task task){
-        if(task==null){
+    private boolean scheduleTaskTime(Task task) {
+        if (task == null) {
             //没有对应任务,失败
             return false;
         }
@@ -408,7 +423,7 @@ public class TaskManager implements ITaskManager {
         switch (task.getRepeatType()) {
             case Task.REP_CONTINUOUS:
                 //重复的
-                task.setExpirationTime(null);
+//                task.setExpirationTime(null);
                 task.setRepeatInterval(0);
                 break;
             case Task.REP_DAILY:
@@ -467,11 +482,12 @@ public class TaskManager implements ITaskManager {
 
     /**
      * 撤销调度任务时间
+     *
      * @param task 任务
      * @return 是否成功
      */
-    private boolean undoScheduleTaskTime(Task task){
-        if(task==null||lastExpirationTimeMap.get((int)task.getId())==null){
+    private boolean undoScheduleTaskTime(Task task) {
+        if (task == null || lastExpirationTimeMap.get((int) task.getId()) == null) {
             //没有对应任务,失败
             return false;
         }
