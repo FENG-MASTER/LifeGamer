@@ -1,8 +1,10 @@
 package com.lifegamer.fengmaster.lifegamer.command.command.task;
 
 import com.lifegamer.fengmaster.lifegamer.Game;
+import com.lifegamer.fengmaster.lifegamer.command.command.AbsCancelableCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.AbsNoCancelableCommand;
 import com.lifegamer.fengmaster.lifegamer.event.task.DeleteTaskEvent;
+import com.lifegamer.fengmaster.lifegamer.event.task.NewTaskEvent;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
 
 import org.greenrobot.eventbus.EventBus;
@@ -11,7 +13,7 @@ import org.greenrobot.eventbus.EventBus;
  * 删除任务指令
  * Created by FengMaster on 18/07/11.
  */
-public class DeleteTaskCommend extends AbsNoCancelableCommand {
+public class DeleteTaskCommend extends AbsCancelableCommand {
 
     private Task task;
 
@@ -28,7 +30,18 @@ public class DeleteTaskCommend extends AbsNoCancelableCommand {
     }
 
     @Override
+    public void undo() {
+        Game.getInstance().getTaskManager().addTask(task);
+        EventBus.getDefault().post(new NewTaskEvent(task));
+    }
+
+    @Override
     public String getName() {
         return "删除任务"+task.getName()+"成功!";
+    }
+
+    @Override
+    public String getUndoActionName() {
+        return "撤销";
     }
 }

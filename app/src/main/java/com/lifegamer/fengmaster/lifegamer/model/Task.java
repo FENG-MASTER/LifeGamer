@@ -164,7 +164,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
     /**
      * 任务到期时间
      */
-    private Date expirationTime = new Date();
+    private Date expirationTime;
     /**
      * 任务创建时间
      */
