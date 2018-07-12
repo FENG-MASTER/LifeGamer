@@ -43,6 +43,7 @@ public class EditTaskTimeFragment extends EditTaskDialog.SaveableFragment implem
         binding=DialogEditTaskTimeBinding.inflate(inflater);
 
         binding.setTask(task);
+        taskTime.setTime(task.getExpirationTime());
 
         //设置重复类型显示
         binding.spDialogEditTaskRepType.setSelection(task.getRepeatType());

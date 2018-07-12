@@ -2,7 +2,10 @@ package com.lifegamer.fengmaster.lifegamer.command.command.task;
 
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.command.command.AbsNoCancelableCommand;
+import com.lifegamer.fengmaster.lifegamer.event.task.UpdateTaskEvent;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by qianzise on 2017/10/19.
@@ -19,7 +22,11 @@ public class UpdateTaskCommand extends AbsNoCancelableCommand {
 
     @Override
     public void execute() {
-        Game.getInstance().getTaskManager().updateTask(task);
+        if (Game.getInstance().getTaskManager().updateTask(task)){
+            EventBus.getDefault().post(new UpdateTaskEvent(task));
+        }
+
+
     }
 
     @Override
