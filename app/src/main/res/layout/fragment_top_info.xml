@@ -8,9 +8,6 @@
             name="hero"
             type="com.lifegamer.fengmaster.lifegamer.model.Hero"/>
 
-        <variable
-            name="lp"
-            type="com.lifegamer.fengmaster.lifegamer.model.LifePoint"/>
 
     </data>
 
@@ -81,7 +78,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
                         android:layout_weight="1"
-                        android:text="@{String.valueOf(lp.lpPoint)}"
+                        android:text="@{String.valueOf(hero.lifePoint.lpPoint)}"
                         android:textSize="12sp"/>
 
                     <TextView

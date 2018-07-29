@@ -43,7 +43,6 @@ public class TopInfoFragment extends Fragment {
         FragmentTopInfoBinding binding=FragmentTopInfoBinding.inflate(inflater);
         ButterKnife.bind(this,binding.getRoot());
         binding.setHero(Game.getInstance().getHeroManager().getHero());
-        binding.setLp(new LifePoint());
         binding.tvTopName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
