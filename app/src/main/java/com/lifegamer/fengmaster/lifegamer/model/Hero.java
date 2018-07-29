@@ -40,6 +40,8 @@ public class Hero extends BaseObservable implements Insertable,Updateable{
 
     private ILevelXP levelXP=new NormalLevelXP();
 
+    private LifePoint lifePoint;
+
     @Bindable
     public int getLevel() {
         return level;
@@ -153,6 +155,14 @@ public class Hero extends BaseObservable implements Insertable,Updateable{
         cv.put("xp",getXp());
         cv.put("upGradeXP",getUpGradeXP());
         return sqLiteDatabase.update(DBHelper.TABLE_HERO,cv,"_id =?",new String[]{String.valueOf(getId())});
+    }
+
+    public LifePoint getLifePoint() {
+        return lifePoint;
+    }
+
+    public void setLifePoint(LifePoint lifePoint) {
+        this.lifePoint = lifePoint;
     }
 
     @Override

@@ -11,7 +11,6 @@ import com.lifegamer.fengmaster.lifegamer.manager.ItemManager;
 import com.lifegamer.fengmaster.lifegamer.manager.RewardItemManager;
 import com.lifegamer.fengmaster.lifegamer.manager.SkillManager;
 import com.lifegamer.fengmaster.lifegamer.manager.TaskManager;
-import com.lifegamer.fengmaster.lifegamer.manager.WealthManager;
 import com.lifegamer.fengmaster.lifegamer.manager.base.DefaultAvatarManager;
 import com.lifegamer.fengmaster.lifegamer.manager.base.itf.IAvatarManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IAchievementManager;
@@ -21,8 +20,6 @@ import com.lifegamer.fengmaster.lifegamer.manager.itf.INoteManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IRewardManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ISkillManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ITaskManager;
-import com.lifegamer.fengmaster.lifegamer.manager.itf.IWealthManager;
-import com.lifegamer.fengmaster.lifegamer.model.Hero;
 
 /**
  * Created by qianzise on 2017/10/6.
@@ -58,10 +55,6 @@ public class Game {
      */
     private IHeroManager heroManager=new HeroManger();
     /**
-     * 财富管理器
-     */
-    private IWealthManager wealthManager=new WealthManager();
-    /**
      * 任务管理器
      */
     private ITaskManager taskManager=new TaskManager();
@@ -81,7 +74,7 @@ public class Game {
     private CommandManager commandManager=new CommandManager();
 
     private Game() {
-
+        heroManager.getHero();
     }
 
     public IRewardManager getRewardManager() {
@@ -112,9 +105,6 @@ public class Game {
         return skillManager;
     }
 
-    public IWealthManager getWealthManager() {
-        return wealthManager;
-    }
 
     public ITaskManager getTaskManager() {
         return taskManager;

@@ -38,16 +38,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TABLE_NOTE="Notes";
     public static final String TABLE_REWARD="Rewards";
     public static final String TABLE_SKILL="Skills";
-    public static final String TABLE_WEALTH="Wealth";
 
-
-    /**
-     * 创建 财富 表
-     */
-    private static final String CREATE_TABLE_WEALTH="create table if not exists "+TABLE_WEALTH+
-            "( _id integer primary key autoincrement," +
-            "heroID integer unique," +
-            "lifePoint integer)";
 
     /**
      * 创建 英雄 表
@@ -58,6 +49,7 @@ public class DBHelper extends SQLiteOpenHelper {
             "title varchar,"+
             "level integer," +
             "xp integer," +
+            "lifePoint integer," +
             "upGradeXP integer," +
             "introduction varchar," +
             "avatar varchar)";
@@ -196,8 +188,6 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_TABLE_NOTE);
         sqLiteDatabase.execSQL(CREATE_TABLE_REWARD);
         sqLiteDatabase.execSQL(CREATE_TABLE_TASK);
-        sqLiteDatabase.execSQL(CREATE_TABLE_WEALTH);
-
     }
 
 

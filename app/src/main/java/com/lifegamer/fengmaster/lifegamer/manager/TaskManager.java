@@ -426,7 +426,7 @@ public class TaskManager implements ITaskManager {
 
     private void handleLifePoint(Task task){
         if (task.getEarnLP()!=0){
-            Game.getInstance().getWealthManager().addLP(task.getEarnLP());
+            Game.getInstance().getHeroManager().getHero().getLifePoint().addPoint(task.getEarnLP());
         }
     }
 

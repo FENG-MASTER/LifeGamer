@@ -17,7 +17,7 @@ import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
  * Created by qianzise on 2017/10/9.
  */
 
-public class LifePoint extends BaseObservable implements Insertable, Updateable {
+public class LifePoint extends BaseObservable implements Updateable {
 
     private int _id=1;
 
@@ -41,19 +41,10 @@ public class LifePoint extends BaseObservable implements Insertable, Updateable 
 
 
     @Override
-    public long insert(SQLiteDatabase sqLiteDatabase) {
-        ContentValues cv=new ContentValues();
-        //TODO:由于Game对象此时为空,暂时无法使用hero控制器
-        cv.put("heroID", 1);
-        cv.put("lifePoint",getLpPoint());
-        return sqLiteDatabase.insert(DBHelper.TABLE_WEALTH, null, cv);
-    }
-
-    @Override
     public int update(SQLiteDatabase sqLiteDatabase) {
         ContentValues cv=new ContentValues();
-        cv.put("heroID", 1);
+        cv.put("_id", 1);
         cv.put("lifePoint",getLpPoint());
-        return sqLiteDatabase.update(DBHelper.TABLE_WEALTH,cv,"_id =?",new String[]{String.valueOf(_id)});
+        return sqLiteDatabase.update(DBHelper.TABLE_HERO,cv,"_id =?",new String[]{String.valueOf(_id)});
     }
 }

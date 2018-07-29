@@ -6,6 +6,7 @@ import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IHeroManager;
 import com.lifegamer.fengmaster.lifegamer.model.Hero;
+import com.lifegamer.fengmaster.lifegamer.model.LifePoint;
 
 import static com.lifegamer.fengmaster.lifegamer.dao.DBHelper.TABLE_HERO;
 
@@ -73,6 +74,13 @@ public class HeroManger implements IHeroManager {
         hero.setTitle(query.getString(query.getColumnIndex("title")));
         hero.setUpGradeXP(query.getInt(query.getColumnIndex("upGradeXP")));
         hero.setXp(query.getInt(query.getColumnIndex("xp")));
+
+        //先不管那个hero 的id,以后再说啦
+
+        LifePoint lifePoint=new LifePoint();
+        lifePoint.setLpPoint(query.getInt(query.getColumnIndex("lifePoint")));
+        hero.setLifePoint(lifePoint);
+
 
         query.close();
 
