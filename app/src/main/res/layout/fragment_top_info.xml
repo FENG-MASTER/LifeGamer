@@ -108,6 +108,7 @@
                 app:max="@{hero.upGradeXP}"
                 app:progress="@{hero.xp}"
                 app:rightText='@{String.valueOf(hero.upGradeXP)}'
+                app:centerText="@string/progress_xp"
                 app:unFinishColor="@color/colorRemain"
                 />
 
@@ -117,7 +118,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
                 app:finishColor="@color/colorRemainTime"
-                app:progress="20"
+                app:progress="@{hero.xp}"
+                app:centerText="@string/progress_energy"
                 app:unFinishColor="@color/colorRemain"
                 />
 
