@@ -26,6 +26,7 @@ public class HeroManger implements IHeroManager {
                     Hero h = getHeroFromSQL(1);
                     if (h==null){
                         hero=Hero.emptyHero;
+                        Game.insert(hero);
                     }else {
                         hero=h;
                     }

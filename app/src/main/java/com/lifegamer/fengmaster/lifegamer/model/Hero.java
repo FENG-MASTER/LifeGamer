@@ -171,6 +171,7 @@ public class Hero extends BaseObservable implements Insertable,Updateable{
     public static Hero emptyHero =new Hero();
 
     static {
+        emptyHero.setId(1);
         emptyHero.setTitle(App.getContext().getString(R.string.empty));
         emptyHero.setName(App.getContext().getString(R.string.empty));
         emptyHero.setIntroduction(App.getContext().getString(R.string.empty));

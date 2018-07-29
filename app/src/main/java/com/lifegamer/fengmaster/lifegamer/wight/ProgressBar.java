@@ -38,6 +38,7 @@ public class ProgressBar extends RelativeLayout {
 
     private String leftText;
     private String rightText;
+    private String centerText;
 
     private int progress = 0;
     private int max = 100;
@@ -46,6 +47,8 @@ public class ProgressBar extends RelativeLayout {
     TextView left;
     @BindView(R.id.tv_progress_right)
     TextView right;
+    @BindView(R.id.tv_progress_center)
+    TextView center;
 
 
     public ProgressBar(Context context) {
@@ -74,6 +77,7 @@ public class ProgressBar extends RelativeLayout {
         rightTextColor = typedArray.getColor(R.styleable.ProgressBar_rightTextColor, Color.BLACK);
         leftText=typedArray.getString(R.styleable.ProgressBar_leftText);
         rightText=typedArray.getString(R.styleable.ProgressBar_rightText);
+        centerText=typedArray.getString(R.styleable.ProgressBar_centerText);
         typedArray.recycle();
         typedArray = null;
 
@@ -89,6 +93,7 @@ public class ProgressBar extends RelativeLayout {
         right.setTextColor(rightTextColor);
         left.setTextSize(textSize);
         right.setTextSize(textSize);
+        setCenterText(centerText);
 
         paint = new Paint();
         paint.setStrokeWidth(getHeight());
@@ -133,5 +138,10 @@ public class ProgressBar extends RelativeLayout {
     public void setRightText(String text) {
         rightText=text;
         right.setText(rightText);
+    }
+
+    public void setCenterText(String text){
+        centerText=text;
+        center.setText(centerText);
     }
 }

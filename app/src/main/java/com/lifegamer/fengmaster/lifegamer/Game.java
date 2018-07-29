@@ -54,6 +54,10 @@ public class Game {
      */
     private ISkillManager skillManager=new SkillManager();
     /**
+     * 英雄管理器
+     */
+    private IHeroManager heroManager=new HeroManger();
+    /**
      * 财富管理器
      */
     private IWealthManager wealthManager=new WealthManager();
@@ -65,12 +69,6 @@ public class Game {
      * 笔记管理器
      */
     private INoteManager noteManager;
-
-    /**
-     * 英雄管理器
-     */
-    private IHeroManager heroManager=new HeroManger();
-
     /**
      * 图标管理器
      */

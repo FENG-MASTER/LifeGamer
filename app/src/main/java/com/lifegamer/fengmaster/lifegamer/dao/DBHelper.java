@@ -47,7 +47,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_WEALTH="create table if not exists "+TABLE_WEALTH+
             "( _id integer primary key autoincrement," +
             "heroID integer unique," +
-            "liftPoint integer)";
+            "lifePoint integer)";
 
     /**
      * 创建 英雄 表

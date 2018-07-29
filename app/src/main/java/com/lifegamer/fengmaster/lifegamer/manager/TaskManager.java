@@ -9,6 +9,7 @@ import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ITaskManager;
+import com.lifegamer.fengmaster.lifegamer.model.Hero;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
 import com.lifegamer.fengmaster.lifegamer.util.DateUtil;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
@@ -394,10 +395,39 @@ public class TaskManager implements ITaskManager {
         //完成次数+1
         task.setCompleteTimes(task.getCompleteTimes() + 1);
 
+        getReward(task);
+
         //调度任务时间
         boolean b = scheduleTaskTime(task);
+        //更新数据库
         Game.update(task);
         return b;
+    }
+
+    /**
+     * 获得任务奖励
+     */
+    private void getReward(Task task){
+        handleXP(task);
+        handleLifePoint(task);
+    }
+
+    /**
+     * 处理任务经验
+     * @param task 任务
+     */
+    private void handleXP(Task task){
+        if (task.getXp()!=0){
+            Hero hero = Game.getInstance().getHeroManager().getHero();
+            hero.addXp(task.getXp());
+            Game.getInstance().getHeroManager().updateHero(hero);
+        }
+    }
+
+    private void handleLifePoint(Task task){
+        if (task.getEarnLP()!=0){
+            Game.getInstance().getWealthManager().addLP(task.getEarnLP());
+        }
     }
 
     /**

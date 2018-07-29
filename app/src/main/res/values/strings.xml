@@ -24,6 +24,8 @@
     <string name="fear_num">恐惧系数:</string>
     <string name="difficulty_num">困难系数:</string>
     <string name="task_get_xp">任务所得经验值:</string>
+    <string name="progress_xp">经验值</string>
+    <string name="progress_energy">能量</string>
 
 
 </resources>

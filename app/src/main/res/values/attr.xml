@@ -10,6 +10,7 @@
         <attr name="rightTextColor" format="color"/>
         <attr name="leftTextColor" format="color"/>
         <attr name="leftText" format="string"/>
+        <attr name="centerText" format="string"/>
         <attr name="rightText" format="string"/>
 
     </declare-styleable>
