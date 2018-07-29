@@ -4,6 +4,8 @@
     <data>
         <import type="com.lifegamer.fengmaster.lifegamer.Game"/>
         <import type="com.lifegamer.fengmaster.lifegamer.util.FormatUtil"/>
+        <import type="com.lifegamer.fengmaster.lifegamer.util.DateUtil"/>
+
         <variable
             name="hero"
             type="com.lifegamer.fengmaster.lifegamer.model.Hero"/>
@@ -115,8 +117,10 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
                 app:finishColor="@color/colorRemainTime"
-                app:progress="@{hero.xp}"
+                app:leftText='@{String.valueOf(DateUtil.getDateDistance(DateUtil.getEndOfToday().getTime(),DateUtil.getNowDate(),12))+"/3600"}'
+                app:progress="@{DateUtil.getDateDistance(DateUtil.getEndOfToday().getTime(),DateUtil.getNowDate(),12)}"
                 app:centerText="@string/progress_energy"
+                app:max="3600"
                 app:unFinishColor="@color/colorRemain"
                 />
 
