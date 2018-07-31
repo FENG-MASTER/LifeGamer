@@ -7,7 +7,10 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
+import com.lifegamer.fengmaster.lifegamer.command.command.skill.SkillIncreaseCommand;
+import com.lifegamer.fengmaster.lifegamer.command.command.task.UpdateTaskCommand;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
+import com.lifegamer.fengmaster.lifegamer.event.skill.DelSkillEvent;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ITaskManager;
 import com.lifegamer.fengmaster.lifegamer.model.Hero;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
@@ -15,6 +18,8 @@ import com.lifegamer.fengmaster.lifegamer.util.DateUtil;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -45,6 +50,7 @@ public class TaskManager implements ITaskManager {
 
     public TaskManager() {
         loadTaskFromSQL();
+        EventBus.getDefault().register(this);
     }
 
     /**
@@ -408,23 +414,56 @@ public class TaskManager implements ITaskManager {
      * 获得任务奖励
      */
     private void getReward(Task task){
-        handleXP(task);
-        handleLifePoint(task);
+        //获得经验奖励
+        handleXP(task,true);
+        //获得金币点数奖励
+        handleLifePoint(task,true);
+        handleSkillReward(task,true);
+    }
+
+    /**
+     * 处理技能奖励
+     * @param task 任务
+     * @param finish
+     */
+    private void handleSkillReward(Task task,boolean finish) {
+        if (finish){
+            //完成任务技能奖励
+            Map<Long, Integer> successSkills = task.getSuccessSkills();
+            for(Map.Entry<Long,Integer> entry:successSkills.entrySet()){
+                Game.getInstance().getCommandManager().executeCommand(new SkillIncreaseCommand(entry.getKey(),entry.getValue()));
+            }
+
+        }else {
+            //任务失败
+
+        }
+
     }
 
     /**
      * 处理任务经验
      * @param task 任务
      */
-    private void handleXP(Task task){
-        if (task.getXp()!=0){
-            Hero hero = Game.getInstance().getHeroManager().getHero();
-            hero.addXp(task.getXp());
-            Game.getInstance().getHeroManager().updateHero(hero);
+    private void handleXP(Task task,boolean finish){
+        if (finish){
+            //完成任务
+            if (task.getXp()!=0){
+                Hero hero = Game.getInstance().getHeroManager().getHero();
+                hero.addXp(task.getXp());
+                Game.getInstance().getHeroManager().updateHero(hero);
+            }
+        }else {
+            //任务失败,对经验无操作
+
         }
+
     }
 
-    private void handleLifePoint(Task task){
+    private void handleLifePoint(Task task,boolean finish){
+        if (finish){
+
+        }
         if (task.getEarnLP()!=0){
             Game.getInstance().getHeroManager().getHero().getLifePoint().addPoint(task.getEarnLP());
         }
@@ -565,6 +604,22 @@ public class TaskManager implements ITaskManager {
             return updateTask(task);
         } else {
             return false;
+        }
+
+    }
+
+    /**
+     * 当有技能被删除的时候,需要相关任务中残留的相关技能ID
+     * @param delSkillEvent
+     */
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void whenSkillRemove(DelSkillEvent delSkillEvent){
+        for (Task task : taskList) {
+            Map<Long, Integer> skills = task.getSuccessSkills();
+            if (skills.keySet().contains(delSkillEvent.getSkillID())){
+                skills.remove(delSkillEvent.getSkillID());
+                Game.getInstance().getCommandManager().executeCommand(new UpdateTaskCommand(task));
+            }
         }
 
     }

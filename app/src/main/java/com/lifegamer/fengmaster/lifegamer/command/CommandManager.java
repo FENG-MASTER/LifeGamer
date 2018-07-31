@@ -13,13 +13,16 @@ public class CommandManager {
 
     public void executeCommand(ICommand command){
         command.execute();
-        if (command.isUndoable()){
-            //可取消
-            ViewUtil.showSnack(command.getName(), Snackbar.LENGTH_LONG, command.getUndoActionName(), view -> command.undo());
-        }else {
-            //不可取消
-            ViewUtil.showSnack(command.getName(),Snackbar.LENGTH_LONG);
+        if (command.isShow()){
+            if (command.isUndoable()){
+                //可取消
+                ViewUtil.showSnack(command.getName(), Snackbar.LENGTH_LONG, command.getUndoActionName(), view -> command.undo());
+            }else {
+                //不可取消
+                ViewUtil.showSnack(command.getName(),Snackbar.LENGTH_LONG);
+            }
         }
+
     }
 
 }

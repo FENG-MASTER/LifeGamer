@@ -8,13 +8,19 @@ package com.lifegamer.fengmaster.lifegamer.event.skill;
 
 public class DelSkillEvent {
 
+    private long skillID;
     private String skillName;
 
-    public DelSkillEvent(String skillName) {
+    public DelSkillEvent(String skillName,long skillID) {
         this.skillName = skillName;
+        this.skillID=skillID;
     }
 
     public String getSkillName() {
         return skillName;
+    }
+
+    public long getSkillID() {
+        return skillID;
     }
 }

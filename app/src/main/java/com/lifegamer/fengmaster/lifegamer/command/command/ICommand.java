@@ -37,4 +37,10 @@ public interface ICommand {
      * @return 撤销名称
      */
     String getUndoActionName();
+
+    /**
+     * 是否需要提示
+     * @return 是否需要提示
+     */
+    boolean isShow();
 }

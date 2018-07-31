@@ -22,4 +22,9 @@ public abstract class AbsNoCancelableCommand implements ICommand{
     public String getUndoActionName() {
         return "";
     }
+
+    @Override
+    public boolean isShow() {
+        return true;
+    }
 }
