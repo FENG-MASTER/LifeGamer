@@ -14,6 +14,7 @@ import com.lifegamer.fengmaster.lifegamer.event.skill.DelSkillEvent;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ITaskManager;
 import com.lifegamer.fengmaster.lifegamer.model.Hero;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
+import com.lifegamer.fengmaster.lifegamer.model.randomreward.RandomItemReward;
 import com.lifegamer.fengmaster.lifegamer.util.DateUtil;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 
@@ -419,6 +420,24 @@ public class TaskManager implements ITaskManager {
         //获得金币点数奖励
         handleLifePoint(task,true);
         handleSkillReward(task,true);
+        handleItemReward(task,true);
+    }
+
+    /**
+     * 处理物品奖励
+     * @param task
+     * @param finish
+     */
+    private void handleItemReward(Task task, boolean finish) {
+
+        List<RandomItemReward> itemRewards = finish ? task.getSuccessItems() : task.getFailureItems();
+        for (RandomItemReward itemReward : itemRewards) {
+            if (itemReward.isHit()){
+                //获得相应物品
+
+            }
+        }
+
     }
 
     /**
@@ -427,16 +446,10 @@ public class TaskManager implements ITaskManager {
      * @param finish
      */
     private void handleSkillReward(Task task,boolean finish) {
-        if (finish){
-            //完成任务技能奖励
-            Map<Long, Integer> successSkills = task.getSuccessSkills();
-            for(Map.Entry<Long,Integer> entry:successSkills.entrySet()){
-                Game.getInstance().getCommandManager().executeCommand(new SkillIncreaseCommand(entry.getKey(),entry.getValue()));
-            }
 
-        }else {
-            //任务失败
-
+        Map<Long, Integer> map = finish ? task.getSuccessSkills() : task.getFailureSkills();
+        for(Map.Entry<Long,Integer> entry:map.entrySet()){
+            Game.getInstance().getCommandManager().executeCommand(new SkillIncreaseCommand(entry.getKey(),finish?entry.getValue():-entry.getValue()));
         }
 
     }

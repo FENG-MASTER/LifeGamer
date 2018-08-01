@@ -10,11 +10,12 @@ public class AllRewardFragmentAdapter extends BaseRewardFragmentAdapter {
 
     @Override
     public String getName() {
-        return "全部";
+        return "所有奖励";
     }
 
+
     @Override
-    public void updateRewardItemList() {
-        rewardItemList= Game.getInstance().getRewardManager().getAllAvailableRewardItem();
+    public void updateShowList() {
+        showList= Game.getInstance().getRewardManager().getAllAvailableRewardItem();
     }
 }
