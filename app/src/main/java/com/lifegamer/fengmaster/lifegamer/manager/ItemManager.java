@@ -4,6 +4,7 @@ import android.database.Cursor;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
+import com.annimon.stream.function.Function;
 import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
@@ -15,7 +16,10 @@ import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by qianzise on 2017/10/4.
@@ -25,7 +29,7 @@ import java.util.List;
 
 public class ItemManager implements IItemManager {
 
-    private List<Item> items = new ArrayList<>();
+    private Map<Integer,Item> items = new HashMap<>();
 
     private DBHelper helper = DBHelper.getInstance();
 
@@ -43,13 +47,31 @@ public class ItemManager implements IItemManager {
      */
     @Override
     public boolean gainItem(Item item) {
-        long l = Game.insert(item);
-        if (l != 0) {
-            item.setId(l);
-            items.add(item);
+
+        if (items.containsKey((int)item.getId())){
+            //已经存在相同物品,需要做的是增加物品数量
+            Item mainItem=items.get((int) item.getId());
+            //更新数量
+            mainItem.setQuantity(mainItem.getQuantity()+item.getQuantity());
+            //更新更新时间
+            mainItem.setUpdateTime(new Date());
+
+            //同步更新
+            return updateItem(mainItem);
+
+        }else {
+
+            long l = Game.insert(item);
+            if (l != 0) {
+                item.setId(l);
+                items.put((int) item.getId(),item);
+            }
+
+            return l != 0;
+
         }
 
-        return l != 0;
+
     }
 
     /**
@@ -60,7 +82,7 @@ public class ItemManager implements IItemManager {
      */
     @Override
     public boolean lostItem(String name) {
-        Item item = Stream.of(items).filter(value -> value.getName().equals(name)).findFirst().get();
+        Item item = Stream.of(items).filter(value -> value.getValue().getName().equals(name)).findFirst().get().getValue();
         if (item != null) {
             if (Game.delete(item)) {
                 items.remove(item);
@@ -80,7 +102,7 @@ public class ItemManager implements IItemManager {
      */
     @Override
     public boolean lostItem(long id) {
-        Item item = Stream.of(items).filter(value -> value.getId() == id).findFirst().get();
+        Item item = Stream.of(items).filter(value -> value.getValue().getId() == id).findFirst().get().getValue();
         if (item != null) {
             if (Game.delete(item)) {
                 items.remove(item);
@@ -150,7 +172,7 @@ public class ItemManager implements IItemManager {
      */
     @Override
     public Item getItem(String itemName) {
-        return Stream.of(items).filter(value -> value.getName().equals(itemName)).findFirst().get();
+        return Stream.of(items).filter(value -> value.getValue().getName().equals(itemName)).findFirst().get().getValue();
     }
 
     /**
@@ -161,7 +183,7 @@ public class ItemManager implements IItemManager {
      */
     @Override
     public Item getItem(long id) {
-        return Stream.of(items).filter(value -> value.getId() == id).findFirst().get();
+        return Stream.of(items).filter(value -> value.getValue().getId() == id).findFirst().get().getValue();
 
     }
 
@@ -171,7 +193,7 @@ public class ItemManager implements IItemManager {
      */
     @Override
     public List<Item> getAllItem() {
-        return items;
+        return new ArrayList<>(items.values());
     }
 
     /**
@@ -181,7 +203,7 @@ public class ItemManager implements IItemManager {
      */
     @Override
     public List<Item> getAllItem(String type) {
-        return Stream.of(items).filter(value -> value.getType().equals(type)).collect(Collectors.toList());
+        return Stream.of(items).filter(value -> value.getValue().getType().equals(type)).map(Map.Entry::getValue).collect(Collectors.toList());
     }
 
     /**
@@ -190,7 +212,7 @@ public class ItemManager implements IItemManager {
      */
     @Override
     public List<String> getAllType() {
-        return Stream.of(items).map(Item::getType).distinct().collect(Collectors.toList());
+        return Stream.of(items).map(integerItemEntry -> integerItemEntry.getValue().getType()).distinct().collect(Collectors.toList());
 
     }
 
@@ -202,7 +224,7 @@ public class ItemManager implements IItemManager {
      */
     @Override
     public boolean updateItem(Item item) {
-        if (items.contains(item)){
+        if (items.containsValue(item)){
             //缓存有
             return Game.update(item);
         }else {
@@ -226,7 +248,7 @@ public class ItemManager implements IItemManager {
         Cursor cursor = helper.getReadableDatabase().query(DBHelper.TABLE_ITEM, null, null, null, null, null, null);
         while (cursor.moveToNext()) {
             Item item = getItemFromCursor(cursor);
-            items.add(item);
+            items.put((int) item.getId(),item);
         }
         cursor.close();
 

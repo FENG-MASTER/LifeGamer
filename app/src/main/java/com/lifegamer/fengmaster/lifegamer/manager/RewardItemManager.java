@@ -143,6 +143,36 @@ public class RewardItemManager implements IRewardManager {
         return gainRewardItem(rewardItem);
     }
 
+    @Override
+    public boolean buyRewardItem(int rewardItemID) {
+        return buyRewardItem(getRewardItem(rewardItemID));
+    }
+
+    @Override
+    public boolean buyRewardItem(String rewardItem) {
+        return buyRewardItem(getRewardItem(rewardItem));
+    }
+
+    /**
+     * 购买奖励
+     * @param rewardItem 奖励对象
+     * @return 是否购买成功
+     */
+    private boolean buyRewardItem(RewardItem rewardItem){
+        int lpPoint = Game.getInstance().getHeroManager().getHero().getLifePoint().getLpPoint();
+        if (lpPoint>=0&&rewardItem.getCostLP()<lpPoint){
+            //有足够点数购买奖励
+            if (gainRewardItem(rewardItem)){
+                Game.getInstance().getHeroManager().getHero().getLifePoint().addPoint(-rewardItem.getCostLP());
+                return true;
+            }else {
+                return false;
+            }
+        }else {
+            return false;
+        }
+    }
+
     /**
      * 获得奖励
      * @param rewardItem 奖励对象

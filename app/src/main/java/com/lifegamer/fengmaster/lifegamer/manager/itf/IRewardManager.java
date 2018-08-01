@@ -65,6 +65,34 @@ public interface IRewardManager {
     boolean gainRewardItem(int rewardItemID);
 
     /**
+     * 取消获得奖励
+     * @param rewardItem 要取消的奖励
+     * @return 是否成功
+     */
+    boolean lostRewardItem(RewardItem rewardItem);
+
+    /**
+     * 购买奖励
+     * @param rewardItemID 奖励ID
+     * @return 是否购买成功
+     */
+    boolean buyRewardItem(int rewardItemID);
+
+    /**
+     * 购买奖励
+     * @param rewardItem 奖励名
+     * @return 是否购买成功
+     */
+    boolean buyRewardItem(String rewardItem);
+
+    /**
+     * 取消购买奖励,即退货
+     * @param rewardItem 要取消的奖励
+     * @return 是否成功
+     */
+    boolean returnRewardItem(RewardItem rewardItem);
+
+    /**
      * 获得所有  奖励物品
      * @return 奖励物品列表
      */
