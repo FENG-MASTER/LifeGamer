@@ -20,6 +20,9 @@ import com.lifegamer.fengmaster.lifegamer.strategy.xp.NormalLevelXP;
  * Created by qianzise on 2017/10/4.
  *
  * 英雄实体类
+ *
+ *  额外说明:
+ *   1. 每次升级,只改变下次升级所需经验值,当前经验值不受影响
  */
 
 public class Hero extends BaseObservable implements Insertable,Updateable{
@@ -28,14 +31,38 @@ public class Hero extends BaseObservable implements Insertable,Updateable{
     private static final int DEF_LEVEL=1;
 
 
+    /**
+     * 英雄名
+     */
     private String name;
+    /**
+     * ID
+     */
     private long id ;
+    /**
+     * 头衔
+     */
     private String title;
+    /**
+     * 介绍
+     */
     private String introduction;
+    /**
+     * 头像URL
+     */
     private String avatarUrl;
 
+    /**
+     * 当前等级
+     */
     private int level;
+    /**
+     * 当前经验值
+     */
     private int xp;
+    /**
+     * 升级所需经验值
+     */
     private int upGradeXP;
 
     private ILevelXP levelXP=new NormalLevelXP();
@@ -69,7 +96,6 @@ public class Hero extends BaseObservable implements Insertable,Updateable{
     public void addXp(int xp){
         this.xp+=xp;
         if (getXp()>=getUpGradeXP()){
-            this.xp-=getUpGradeXP();
             levelUp();
         }
         notifyPropertyChanged(BR.xp);
@@ -78,7 +104,6 @@ public class Hero extends BaseObservable implements Insertable,Updateable{
     public void setXp(int xp) {
         this.xp = xp;
         if (getXp()>=getUpGradeXP()){
-            this.xp-=getUpGradeXP();
             levelUp();
         }
         notifyPropertyChanged(BR.xp);
