@@ -18,6 +18,10 @@ import java.util.List;
  * Created by qianzise on 2017/10/4.
  *
  * 成就实体类
+ *
+ * 额外说明:
+ *  1. 成就只有两种状态,获得和未获得
+ *
  */
 
 public class Achievement implements Insertable,Updateable,Deleteable,ICopy<Achievement>{
