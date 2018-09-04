@@ -45,7 +45,7 @@ public class Item extends BaseObservable implements Insertable, Deleteable, Upda
     private String desc;
 
     /**
-     * 数量
+     * 存储数量
      */
     private int quantity;
 
