@@ -2,7 +2,7 @@
 <resources>
     <string-array name="main_sp">
         <item>任务</item>
-        <item>奖励</item>
+        <item>商店</item>
         <item>物品</item>
         <item>技能</item>
         <item>成就</item>
