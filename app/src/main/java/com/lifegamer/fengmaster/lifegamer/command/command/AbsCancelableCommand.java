@@ -8,6 +8,13 @@ package com.lifegamer.fengmaster.lifegamer.command.command;
 
 public abstract class AbsCancelableCommand implements ICommand {
 
+    protected boolean show=true;
+
+    public AbsCancelableCommand setShow(boolean show) {
+        this.show = show;
+        return this;
+    }
+
     @Override
     public boolean isUndoable() {
         return true;

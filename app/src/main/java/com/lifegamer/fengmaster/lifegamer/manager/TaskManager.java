@@ -432,8 +432,7 @@ public class TaskManager implements ITaskManager {
 
         List<RandomItemReward> itemRewards = finish ? task.getSuccessItems() : task.getFailureItems();
         for (RandomItemReward itemReward : itemRewards) {
-            if (itemReward.isHit()&&
-                    Game.getInstance().getRewardManager().getRewardItem(itemReward.getRewardID()).getQuantityAvailable()>0){
+            if (itemReward.isHit()){
                 //获得相应物品
                 Game.getInstance().getRewardManager().gainRewardItem((int) itemReward.getRewardID());
 

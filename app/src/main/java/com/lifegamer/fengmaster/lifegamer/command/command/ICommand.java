@@ -43,4 +43,10 @@ public interface ICommand {
      * @return 是否需要提示
      */
     boolean isShow();
+
+    /**
+     * 设置是否需要显示
+     * @return 是否显示
+     */
+    ICommand setShow(boolean show);
 }

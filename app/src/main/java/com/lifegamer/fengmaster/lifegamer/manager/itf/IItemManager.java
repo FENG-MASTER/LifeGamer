@@ -17,21 +17,21 @@ public interface IItemManager {
      * @param item 物品
      * @return 是否成功
      */
-    boolean gainItem(Item item);
+    boolean addItem(Item item);
 
     /**
-     * 失去物品
+     * 删除物品
      * @param name 物品名称
      * @return 是否成功
      */
-    boolean lostItem(String name);
+    boolean removeItem(String name);
 
     /**
-     * 失去物品
+     * 删除物品
      * @param id 物品id
      * @return 是否成功
      */
-    boolean lostItem(long id);
+    boolean removeItem(long id);
 
     /**
      * 使用物品
@@ -81,6 +81,20 @@ public interface IItemManager {
      * @return 分类列表
      */
     List<String> getAllType();
+
+
+    /**
+     * 获得所有拥有的物品
+     * @return
+     */
+    List<Item> getAllOwnItem();
+
+    /**
+     * 获得所有指定类型的拥有的物品
+     * @param type 指定类型
+     * @return
+     */
+    List<Item> getAllOwnItem(String type);
 
 
     /**

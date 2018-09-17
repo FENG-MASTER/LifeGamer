@@ -21,12 +21,12 @@ public class AddItemCommand extends AbsCancelableCommand{
 
     @Override
     public void execute() {
-        Game.getInstance().getItemManager().gainItem(item);
+        Game.getInstance().getItemManager().addItem(item);
     }
 
     @Override
     public void undo() {
-        Game.getInstance().getItemManager().lostItem(item.getName());
+        Game.getInstance().getItemManager().removeItem(item.getName());
     }
 
     @Override

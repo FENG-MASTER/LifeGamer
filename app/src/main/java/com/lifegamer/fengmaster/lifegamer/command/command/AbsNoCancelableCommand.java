@@ -8,6 +8,8 @@ package com.lifegamer.fengmaster.lifegamer.command.command;
 
 public abstract class AbsNoCancelableCommand implements ICommand{
 
+    protected boolean show=true;
+
     @Override
     public void undo() {
 
@@ -25,6 +27,11 @@ public abstract class AbsNoCancelableCommand implements ICommand{
 
     @Override
     public boolean isShow() {
-        return true;
+        return show;
+    }
+
+    public AbsNoCancelableCommand setShow(boolean show) {
+        this.show = show;
+        return this;
     }
 }

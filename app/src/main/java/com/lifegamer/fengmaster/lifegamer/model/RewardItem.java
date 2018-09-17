@@ -104,8 +104,17 @@ public class RewardItem extends BaseObservable implements Insertable,Deleteable,
         if (!addToItem){
             return null;
         }
-        //TODO :转换成物品
-        return new Item();
+        //转换成物品
+        Item item=new Item();
+        item.setName(getName());
+        item.setId(getId());
+        item.setCreateTime(new Date());
+        item.setExpendable(isExpendable());
+        item.setDesc(getDesc());
+        item.setIcon(getIcon());
+        item.setType(getType());
+        item.setQuantity(0);
+        return item;
 
     }
     @Bindable

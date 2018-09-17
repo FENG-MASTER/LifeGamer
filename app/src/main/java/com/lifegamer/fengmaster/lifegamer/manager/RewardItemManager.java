@@ -7,9 +7,13 @@ import com.annimon.stream.Stream;
 import com.annimon.stream.function.Function;
 import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
+import com.lifegamer.fengmaster.lifegamer.command.CommandManager;
+import com.lifegamer.fengmaster.lifegamer.command.command.item.AddItemCommand;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IRewardManager;
+import com.lifegamer.fengmaster.lifegamer.model.Item;
 import com.lifegamer.fengmaster.lifegamer.model.RewardItem;
+import com.lifegamer.fengmaster.lifegamer.model.randomreward.RandomItemReward;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 
 import java.text.ParseException;
@@ -20,7 +24,7 @@ import java.util.List;
 /**
  * Created by qianzise on 2017/10/21.
  * <p>
- * 本地奖励 管理器
+ * 本地奖励(商店) 管理器
  */
 
 public class RewardItemManager implements IRewardManager {
@@ -131,6 +135,11 @@ public class RewardItemManager implements IRewardManager {
         return gainRewardItem(item);
     }
 
+    @Override
+    public boolean gainRewardItem(String rewardItem, int num, int probability) {
+        return false;
+    }
+
     /**
      * 获得奖励
      *
@@ -144,13 +153,58 @@ public class RewardItemManager implements IRewardManager {
     }
 
     @Override
-    public boolean buyRewardItem(int rewardItemID) {
-        return buyRewardItem(getRewardItem(rewardItemID));
+    public boolean gainRewardItem(int rewardItemID, int num, int probability) {
+        return false;
     }
 
     @Override
-    public boolean buyRewardItem(String rewardItem) {
-        return buyRewardItem(getRewardItem(rewardItem));
+    public boolean gainRewardItem(RandomItemReward randomItemReward) {
+        RewardItem rewardItem=getRewardItem(randomItemReward.getRewardID());
+        if (rewardItem != null) {
+            if (rewardItem.getQuantityAvailable() == -1) {
+                //无限次数
+
+                //更新价格
+                rewardItem.setCostLP(rewardItem.getCostLP()+rewardItem.getCostLPIncrement());
+                Item item = new Item();
+                item.setName(rewardItem.getName());
+                item.setQuantity(randomItemReward.getNum());
+                Game.getInstance().getCommandManager().executeCommand(new AddItemCommand(item));
+
+                return true;
+            } else if (rewardItem.getQuantityAvailable() > 0) {
+                //或者还有次数
+                rewardItem.setCostLP(rewardItem.getCostLP()+rewardItem.getCostLPIncrement());
+                rewardItem.setQuantityAvailable(rewardItem.getQuantityAvailable()-1);
+                return true;
+            }else {
+                return false;
+            }
+        }else {
+            return false;
+        }
+
+
+    }
+
+    @Override
+    public boolean lostRewardItem(RewardItem rewardItem) {
+        return false;
+    }
+
+    @Override
+    public boolean buyRewardItem(int rewardItemID,int num) {
+        return buyRewardItem(getRewardItem(rewardItemID),num);
+    }
+
+    @Override
+    public boolean buyRewardItem(String rewardItem,int num) {
+        return buyRewardItem(getRewardItem(rewardItem),num);
+    }
+
+    @Override
+    public boolean returnRewardItem(RewardItem rewardItem) {
+        return false;
     }
 
     /**
@@ -158,11 +212,11 @@ public class RewardItemManager implements IRewardManager {
      * @param rewardItem 奖励对象
      * @return 是否购买成功
      */
-    private boolean buyRewardItem(RewardItem rewardItem){
+    private boolean buyRewardItem(RewardItem rewardItem,int num){
         int lpPoint = Game.getInstance().getHeroManager().getHero().getLifePoint().getLpPoint();
         if (lpPoint>=0&&rewardItem.getCostLP()<lpPoint){
             //有足够点数购买奖励
-            if (gainRewardItem(rewardItem)){
+            if (gainRewardItem(rewardItem,num)){
                 Game.getInstance().getHeroManager().getHero().getLifePoint().addPoint(-rewardItem.getCostLP());
                 return true;
             }else {
@@ -178,13 +232,20 @@ public class RewardItemManager implements IRewardManager {
      * @param rewardItem 奖励对象
      * @return 是否成功
      */
-    private boolean gainRewardItem(RewardItem rewardItem) {
+    private boolean gainRewardItem(RewardItem rewardItem,int num) {
         if (rewardItem != null) {
             if (rewardItem.getQuantityAvailable() == -1) {
                 //无限次数
 
                 //更新价格
                 rewardItem.setCostLP(rewardItem.getCostLP()+rewardItem.getCostLPIncrement());
+                Item item = null;
+                if ((item=rewardItem.getItem())!=null){
+                    //当前奖励会被添加到物品里
+                    item.setQuantity(num);
+                    Game.getInstance().getCommandManager().executeCommand(new AddItemCommand(item));
+                }
+
                 return true;
             } else if (rewardItem.getQuantityAvailable() > 0) {
                 //或者还有次数

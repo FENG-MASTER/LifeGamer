@@ -2,6 +2,7 @@ package com.lifegamer.fengmaster.lifegamer.manager.itf;
 
 import com.lifegamer.fengmaster.lifegamer.model.Item;
 import com.lifegamer.fengmaster.lifegamer.model.RewardItem;
+import com.lifegamer.fengmaster.lifegamer.model.randomreward.RandomItemReward;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ public interface IRewardManager {
 
     /**
      * 获取 奖励 详情
+     *
      * @param id 奖励id
      * @return 详情
      */
@@ -21,6 +23,7 @@ public interface IRewardManager {
 
     /**
      * 获取 奖励 详情
+     *
      * @param name 奖励名
      * @return 详情
      */
@@ -29,6 +32,7 @@ public interface IRewardManager {
 
     /**
      * 添加新的奖励物品
+     *
      * @param rewardItem 奖励物品
      * @return 是否成功
      */
@@ -37,6 +41,7 @@ public interface IRewardManager {
 
     /**
      * 更新奖励物品
+     *
      * @param rewardItem 奖励物品
      * @return 是否成功
      */
@@ -45,6 +50,7 @@ public interface IRewardManager {
 
     /**
      * 删除奖励物品
+     *
      * @param id 奖励物品id
      * @return 是否成功
      */
@@ -52,6 +58,7 @@ public interface IRewardManager {
 
     /**
      * 赢得奖励
+     *
      * @param rewardItem 奖励
      * @return 是否成功
      */
@@ -59,13 +66,45 @@ public interface IRewardManager {
 
     /**
      * 赢得奖励
+     *
+     * @param rewardItem 奖励
+     * @param num  数量
+     * @param probability 千分比例
+     * @return 是否成功
+     */
+    boolean gainRewardItem(String rewardItem, int num, int probability);
+
+    /**
+     * 赢得奖励
+     *
      * @param rewardItemID 奖励ID
      * @return 是否成功
      */
     boolean gainRewardItem(int rewardItemID);
 
     /**
+     * 赢得奖励
+     *
+     *
+     * @param rewardItemID id
+     * @param num  数量
+     * @param probability 千分比例
+     * @return 是否成功
+     */
+    boolean gainRewardItem(int rewardItemID, int num, int probability);
+
+
+    /**
+     * 赢得随机奖励
+     * @param randomItemReward 随机奖励
+     * @return 是否获取
+     */
+    boolean gainRewardItem(RandomItemReward randomItemReward);
+
+
+    /**
      * 取消获得奖励
+     *
      * @param rewardItem 要取消的奖励
      * @return 是否成功
      */
@@ -73,20 +112,23 @@ public interface IRewardManager {
 
     /**
      * 购买奖励
+     *
      * @param rewardItemID 奖励ID
      * @return 是否购买成功
      */
-    boolean buyRewardItem(int rewardItemID);
+    boolean buyRewardItem(int rewardItemID,int num);
 
     /**
      * 购买奖励
+     *
      * @param rewardItem 奖励名
      * @return 是否购买成功
      */
-    boolean buyRewardItem(String rewardItem);
+    boolean buyRewardItem(String rewardItem,int num);
 
     /**
      * 取消购买奖励,即退货
+     *
      * @param rewardItem 要取消的奖励
      * @return 是否成功
      */
@@ -94,12 +136,14 @@ public interface IRewardManager {
 
     /**
      * 获得所有  奖励物品
+     *
      * @return 奖励物品列表
      */
     List<RewardItem> getAllRewardItem();
 
     /**
      * 获得所有 特定分类 奖励物品
+     *
      * @param type 分类
      * @return 奖励物品列表
      */
@@ -107,12 +151,14 @@ public interface IRewardManager {
 
     /**
      * 获得所有 未获得的奖励物品列表
+     *
      * @return 奖励物品列表
      */
     List<RewardItem> getAllAvailableRewardItem();
 
     /**
      * 获得所有 特定分类 未获得的奖励物品列表
+     *
      * @param type 分类
      * @return 奖励物品列表
      */
@@ -120,17 +166,18 @@ public interface IRewardManager {
 
     /**
      * 获得所有未获得的奖励物品名称列表
+     *
      * @return 奖励物品名称列表
      */
     List<String> getAllAvailableRewardItemName();
 
     /**
      * 获得所有 特定分类 未获得的奖励物品名称列表
+     *
      * @param type 分类
      * @return 奖励物品名称列表
      */
     List<String> getAllAvailableRewardItemName(String type);
-
 
 
 }

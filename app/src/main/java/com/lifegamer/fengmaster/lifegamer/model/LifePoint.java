@@ -15,6 +15,8 @@ import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
 
 /**
  * Created by qianzise on 2017/10/9.
+ *
+ * LP点数对象,LP点数都存储在这个对象里,目前只有单一对象
  */
 
 public class LifePoint extends BaseObservable implements Updateable {
