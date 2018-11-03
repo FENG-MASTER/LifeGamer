@@ -4,17 +4,23 @@ import android.database.Cursor;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
+import com.annimon.stream.function.Consumer;
 import com.annimon.stream.function.Function;
 import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.command.CommandManager;
 import com.lifegamer.fengmaster.lifegamer.command.command.item.AddItemCommand;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
+import com.lifegamer.fengmaster.lifegamer.event.GameBaseInitFinish;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IRewardManager;
 import com.lifegamer.fengmaster.lifegamer.model.Item;
 import com.lifegamer.fengmaster.lifegamer.model.RewardItem;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.RandomItemReward;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,6 +42,7 @@ public class RewardItemManager implements IRewardManager {
     public RewardItemManager() {
         //载入数据
         loadRewardItemFromSQL();
+        EventBus.getDefault().register(this);
     }
 
     /**
@@ -68,6 +75,12 @@ public class RewardItemManager implements IRewardManager {
      */
     @Override
     public boolean addRewardItem(RewardItem rewardItem) {
+        Item it = rewardItem.generateItem();
+        if (!Game.getInstance().getItemManager().addItem(it)){
+            //先添加物品,再添加奖励
+            return false;
+        }
+        rewardItem.setItem(it);
         long l = Game.insert(rewardItem);
         if (l != 0) {
             rewardItem.setId(l);
@@ -133,6 +146,10 @@ public class RewardItemManager implements IRewardManager {
     public boolean gainRewardItem(String rewardItem) {
         RewardItem item = getRewardItem(rewardItem);
         return gainRewardItem(item);
+    }
+
+    private boolean gainRewardItem(RewardItem item) {
+        return false;
     }
 
     @Override
@@ -240,7 +257,7 @@ public class RewardItemManager implements IRewardManager {
                 //更新价格
                 rewardItem.setCostLP(rewardItem.getCostLP()+rewardItem.getCostLPIncrement());
                 Item item = null;
-                if ((item=rewardItem.getItem())!=null){
+                if ((item=rewardItem.getItem2())!=null){
                     //当前奖励会被添加到物品里
                     item.setQuantity(num);
                     Game.getInstance().getCommandManager().executeCommand(new AddItemCommand(item));
@@ -333,6 +350,11 @@ public class RewardItemManager implements IRewardManager {
 
     }
 
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void gameInitFinsh(GameBaseInitFinish gameBaseInitFinish){
+        Stream.of(rewardItems).filter(value -> value.getItem()==null).forEach(rewardItem -> rewardItem.setItem(Game.getInstance().getItemManager().getItem(rewardItem.getItemId())));
+    }
+
 
     /**
      * 从游标中提取 rewarditem
@@ -343,10 +365,11 @@ public class RewardItemManager implements IRewardManager {
     private RewardItem getRewardItemFromCursor(Cursor cursor) {
         RewardItem rewardItem = new RewardItem();
         rewardItem.setId(cursor.getLong(cursor.getColumnIndex("_id")));
-        rewardItem.setName(cursor.getString(cursor.getColumnIndex("name")));
-        rewardItem.setType(cursor.getString(cursor.getColumnIndex("type")));
-        rewardItem.setIcon(cursor.getString(cursor.getColumnIndex("icon")));
-        rewardItem.setDesc(cursor.getString(cursor.getColumnIndex("desc")));
+        rewardItem.setItemId(cursor.getLong(cursor.getColumnIndex("itemId")));
+//        rewardItem.setName(cursor.getString(cursor.getColumnIndex("name")));
+//        rewardItem.setType(cursor.getString(cursor.getColumnIndex("type")));
+//        rewardItem.setIcon(cursor.getString(cursor.getColumnIndex("icon")));
+//        rewardItem.setDesc(cursor.getString(cursor.getColumnIndex("desc")));
         rewardItem.setCostLP(cursor.getInt(cursor.getColumnIndex("costLP")));
         rewardItem.setCostLPIncrement(cursor.getInt(cursor.getColumnIndex("costLPIncrement")));
         rewardItem.setGainTimes(cursor.getInt(cursor.getColumnIndex("gainTimes")));

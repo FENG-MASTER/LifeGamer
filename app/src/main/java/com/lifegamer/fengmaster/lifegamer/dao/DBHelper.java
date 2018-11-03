@@ -105,10 +105,7 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     private static final String CREATE_TABLE_REWARD="create table if not exists "+TABLE_REWARD+
             "( _id integer primary key autoincrement," +
-            "name varchar unique," +
-            "type varchar," +
-            "icon varchar," +
-            "desc varchar," +
+            "itemId integer," +
             "costLPIncrement integer," +
             "addToItem boolean," +
             "notes text," +

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
+import com.lifegamer.fengmaster.lifegamer.adapter.list.reward.AllAvailableRewardFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.reward.AllRewardFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseTabListFragment;
 import com.lifegamer.fengmaster.lifegamer.model.RewardItem;
@@ -29,8 +30,11 @@ public class RewardFragment extends BaseTabListFragment implements OnItemSelectL
 
     public RewardFragment() {
         AllRewardFragmentAdapter allRewardFragmentAdapter = new AllRewardFragmentAdapter();
+        AllAvailableRewardFragmentAdapter allAvailableRewardFragmentAdapter=new AllAvailableRewardFragmentAdapter();
+        allAvailableRewardFragmentAdapter.addItemSelectListener(this);
         allRewardFragmentAdapter.addItemSelectListener(this);
         addAdapter(allRewardFragmentAdapter);
+        addAdapter(allAvailableRewardFragmentAdapter);
 
     }
 

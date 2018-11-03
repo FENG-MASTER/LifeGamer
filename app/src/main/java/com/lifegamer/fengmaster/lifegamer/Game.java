@@ -5,6 +5,7 @@ import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
+import com.lifegamer.fengmaster.lifegamer.event.GameBaseInitFinish;
 import com.lifegamer.fengmaster.lifegamer.manager.AchievementManager;
 import com.lifegamer.fengmaster.lifegamer.manager.HeroManger;
 import com.lifegamer.fengmaster.lifegamer.manager.ItemManager;
@@ -21,6 +22,8 @@ import com.lifegamer.fengmaster.lifegamer.manager.itf.IRewardManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ISkillManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ITaskManager;
 
+import org.greenrobot.eventbus.EventBus;
+
 /**
  * Created by qianzise on 2017/10/6.
  */
@@ -33,15 +36,17 @@ public class Game {
         return instance;
     }
 
-    /**
-     * 奖励物品管理器
-     */
-    private IRewardManager rewardManager=new RewardItemManager();
 
     /**
      * 物品管理器
      */
     private IItemManager itemManager=new ItemManager();
+
+
+    /**
+     * 奖励物品管理器
+     */
+    private IRewardManager rewardManager=new RewardItemManager();
     /**
      * 成就管理器
      */
@@ -75,6 +80,7 @@ public class Game {
 
     private Game() {
         heroManager.getHero();
+
     }
 
     public IRewardManager getRewardManager() {

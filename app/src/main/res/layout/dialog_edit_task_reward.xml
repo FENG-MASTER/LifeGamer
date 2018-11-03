@@ -33,12 +33,6 @@
             </android.support.design.widget.TextInputLayout>
 
 
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="胜利奖励"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -86,7 +80,7 @@
                     android:id="@+id/bt_dialog_edit_task_reward_item_add"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableRight="@drawable/ic_clear_black_24dp"
+                    android:drawableRight="@drawable/ic_add_black_24dp"
                     android:text="新增物品奖励"/>
 
             </LinearLayout>
@@ -116,7 +110,7 @@
                     android:id="@+id/bt_dialog_edit_task_reward_add_achievement"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableRight="@drawable/ic_clear_black_24dp"
+                    android:drawableRight="@drawable/ic_add_black_24dp"
                     android:text="新增成就奖励"/>
 
 

@@ -6,16 +6,16 @@ import com.lifegamer.fengmaster.lifegamer.Game;
  * Created by qianzise on 2017/10/22.
  */
 
-public class AllRewardFragmentAdapter extends BaseRewardFragmentAdapter {
+public class AllAvailableRewardFragmentAdapter extends BaseRewardFragmentAdapter {
 
     @Override
     public String getName() {
-        return "所有奖励";
+        return "可获得奖励";
     }
 
 
     @Override
     public void updateShowList() {
-        showList= Game.getInstance().getRewardManager().getAllRewardItem();
+        showList= Game.getInstance().getRewardManager().getAllAvailableRewardItem();
     }
 }

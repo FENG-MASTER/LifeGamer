@@ -6,6 +6,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import com.lifegamer.fengmaster.lifegamer.BR;
+import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.base.ICopy;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
@@ -33,6 +34,8 @@ public class RewardItem extends BaseObservable implements Insertable,Deleteable,
      * 奖励ID
      */
     private long id;
+
+    private long itemId;
 
     /**
      * 奖励名称
@@ -100,23 +103,55 @@ public class RewardItem extends BaseObservable implements Insertable,Deleteable,
      */
     private List<Integer> notes;
 
-    public Item getItem(){
+    /**
+     * 实体item对象
+     */
+    private Item item;
+
+    public void setItem(Item item) {
+        this.item = item;
+        notifyPropertyChanged(BR.name);
+        notifyPropertyChanged(BR.type);
+        notifyPropertyChanged(BR.desc);
+        notifyPropertyChanged(BR.icon);
+
+    }
+
+
+    public Item getItem2(){
         if (!addToItem){
             return null;
         }
-        //转换成物品
-        Item item=new Item();
-        item.setName(getName());
-        item.setId(getId());
-        item.setCreateTime(new Date());
-        item.setExpendable(isExpendable());
-        item.setDesc(getDesc());
-        item.setIcon(getIcon());
-        item.setType(getType());
-        item.setQuantity(0);
-        return item;
-
+        if (item!=null){
+            return item;
+        }else {
+            //还没有对应的item,需要去物品管理器中搜索
+            item=Game.getInstance().getItemManager().getItem(getName());
+            if (item==null){
+                //没有对应的item,出错
+            }
+            return item;
+        }
     }
+
+    public Item getItem(){
+       return item;
+    }
+
+    public Item generateItem(){
+
+        //转换成物品
+        Item titem=new Item();
+        titem.setName(getName());
+        titem.setCreateTime(new Date());
+        titem.setExpendable(isExpendable());
+        titem.setDesc(getDesc());
+        titem.setIcon(getIcon());
+        titem.setType(getType());
+        titem.setQuantity(0);
+        return titem;
+    }
+
     @Bindable
     public boolean isExpendable() {
         return expendable;
@@ -137,28 +172,46 @@ public class RewardItem extends BaseObservable implements Insertable,Deleteable,
     }
     @Bindable
     public String getName() {
+        if (item!=null){
+            return item.getName();
+        }
         return name;
     }
 
     public void setName(String name) {
+        if (item!=null){
+            item.setName(name);
+        }
         this.name = name;
         notifyPropertyChanged(BR.name);
     }
     @Bindable
     public String getType() {
+        if (item!=null){
+            return item.getType();
+        }
         return type;
     }
 
     public void setType(String type) {
+        if (item!=null){
+            item.setType(type);
+        }
         this.type = type;
         notifyPropertyChanged(BR.type);
     }
     @Bindable
     public String getDesc() {
+        if (item!=null){
+            return item.getDesc();
+        }
         return desc;
     }
 
     public void setDesc(String desc) {
+        if (item!=null){
+            item.setDesc(desc);
+        }
         this.desc = desc;
         notifyPropertyChanged(BR.desc);
     }
@@ -207,6 +260,15 @@ public class RewardItem extends BaseObservable implements Insertable,Deleteable,
         this.updateTime = updateTime;
         notifyPropertyChanged(BR.updateTime);
     }
+
+    public long getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(long itemId) {
+        this.itemId = itemId;
+    }
+
     @Bindable
     public String getIcon() {
         return icon;
@@ -255,13 +317,15 @@ public class RewardItem extends BaseObservable implements Insertable,Deleteable,
     @Override
     public int update(SQLiteDatabase sqLiteDatabase) {
         ContentValues cv=new ContentValues();
-        cv.put("name",getName());
-        cv.put("type",getType());
-        cv.put("desc",getDesc());
+//        cv.put("name",getName());
+//        cv.put("type",getType());
+//        cv.put("desc",getDesc());
+//        cv.put("icon",getIcon());
+
+        cv.put("itemId",item.getId());
         cv.put("costLP",getCostLP());
         cv.put("quantityAvailable",getQuantityAvailable());
         cv.put("gainTimes", getGainTimes());
-        cv.put("icon",getIcon());
         cv.put("costLPIncrement",getCostLPIncrement());
         cv.put("addToItem",isAddToItem());
         cv.put("notes", FormatUtil.list2Str(notes));
@@ -273,13 +337,15 @@ public class RewardItem extends BaseObservable implements Insertable,Deleteable,
     @Override
     public long insert(SQLiteDatabase sqLiteDatabase) {
         ContentValues cv=new ContentValues();
-        cv.put("name",getName());
-        cv.put("type",getType());
-        cv.put("desc",getDesc());
+//        cv.put("name",getName());
+//        cv.put("type",getType());
+//        cv.put("desc",getDesc());
+//        cv.put("icon",getIcon());
+
+        cv.put("itemId",item.getId());
         cv.put("costLP",getCostLP());
         cv.put("quantityAvailable",getQuantityAvailable());
         cv.put("gainTimes", getGainTimes());
-        cv.put("icon",getIcon());
         cv.put("costLPIncrement",getCostLPIncrement());
         cv.put("addToItem",isAddToItem());
         cv.put("notes", FormatUtil.list2Str(notes));
