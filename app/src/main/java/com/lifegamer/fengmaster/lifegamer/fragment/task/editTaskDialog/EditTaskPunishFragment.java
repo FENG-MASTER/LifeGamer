@@ -112,7 +112,7 @@ public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
         }
         achievements.addAll(task.getFailureAchievements());
         for (AchievementReward achievementReward : achievements) {
-            addNewAchievementRewardView(achievementReward);
+            addNewAchievementPunishView(achievementReward);
         }
 
     }
@@ -135,7 +135,7 @@ public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
     /**
      * 新增一个物品view
      *
-     * @param reward 奖励
+     * @param reward 惩罚
      */
     private void addNewItemView(RandomItemReward reward) {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.item_dialog_edit_task_reward_item, binding.llDialogEditTaskTimeFailureItem, false);
@@ -217,7 +217,7 @@ public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
     }
 
     /**
-     * 新增一个奖励技能的view
+     * 新增一个惩罚技能的view
      *
      * @param skill 技能
      * @param val   xp数值
@@ -229,7 +229,7 @@ public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
         EditText valView = (EditText) view.findViewById(R.id.et_item_dialog_edit_task_reward_skill_val);
         ImageButton del = (ImageButton) view.findViewById(R.id.bt_dialog_edit_task_reward_skill_del);
 
-        //删除技能奖励
+        //删除技能惩罚
         del.setOnClickListener(v -> {
             skills.remove(skill.getId());
             binding.llDialogEditTaskTimeFailureSkill.removeView(view);
@@ -260,7 +260,7 @@ public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
 
     }
 
-    private void addNewAchievementRewardView(AchievementReward achievementReward) {
+    private void addNewAchievementPunishView(AchievementReward achievementReward) {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.item_dialog_edit_task_reward_achievement, binding.llDialogEditTaskTimeFailureAchievement, false);
         ImageButton del = (ImageButton) view.findViewById(R.id.bt_dialog_edit_task_reward_achievement_del);
         TextView name = (TextView) view.findViewById(R.id.tv_item_dialog_edit_task_reward_achievement_name);
@@ -269,7 +269,7 @@ public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
         TextInputLayout ratel = (TextInputLayout) view.findViewById(R.id.tl_dialog_edit_task_reward_achievement_rate);
 
 
-        //删除成就奖励
+        //删除成就惩罚
         del.setOnClickListener(v -> {
             AchievementReward rm = null;
             for (AchievementReward achievement : achievements) {
@@ -322,28 +322,28 @@ public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
     @Override
     boolean save() {
 
-        //保存技能奖励
-        task.setSuccessSkills(skills);
+        //保存技能惩罚
+        task.setFailureSkills(skills);
 
-        //保存成就奖励
-        task.setSuccessAchievements(achievements);
+        //保存成就惩罚
+        task.setFailureAchievements(achievements);
 
-        //保存物品奖励
-        task.setSuccessItems(randomItemRewards);
+        //保存物品惩罚
+        task.setFailureItems(randomItemRewards);
 
-        //保存金币奖励数目
-        task.setEarnLP(binding.etDialogEditTaskPunishLostLp.getText().toString().equals("") ? 0 : Integer.valueOf(binding.etDialogEditTaskPunishLostLp.getText().toString()));
+        //保存金币惩罚数目
+        task.setLostLP(binding.etDialogEditTaskPunishLostLp.getText().toString().equals("") ? 0 : Integer.valueOf(binding.etDialogEditTaskPunishLostLp.getText().toString()));
 
         return true;
     }
 
 
     /**
-     * 点击新增奖励技能
+     * 点击新增惩罚技能
      *
      * @param view view
      */
-    @OnClick(R.id.bt_dialog_edit_task_failure_add_skill)
+    @OnClick(R.id.bt_dialog_edit_task_punish_add_skill)
     public void addSkill(View view) {
         List<Skill> allSkill = Stream.of(Game.getInstance().getSkillManager().getAllSkill()).
                 filterNot(value -> skills.containsKey(value.getId())).//排除已经添加了的技能
@@ -372,11 +372,11 @@ public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
     }
 
     /**
-     * 点击新增物品奖励
+     * 点击新增物品惩罚
      *
      * @param view view
      */
-    @OnClick(R.id.bt_dialog_edit_task_reward_item_add)
+    @OnClick(R.id.bt_dialog_edit_task_failure_item_add)
     public void addItem(View view) {
         if (Game.getInstance().getRewardManager().getAllAvailableRewardItem() == null) {
             //没有奖励可选
@@ -408,11 +408,11 @@ public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
     }
 
     /**
-     * 点击新增奖励技能
+     * 点击新增惩罚技能
      *
      * @param view view
      */
-    @OnClick(R.id.bt_dialog_edit_task_reward_add_achievement)
+    @OnClick(R.id.bt_dialog_edit_task_punish_add_achievement)
     public void addAchievement(View view) {
         if (Game.getInstance().getAchievementManager().getAllNoGetAchievment() == null) {
             //没有成就可选
@@ -443,7 +443,7 @@ public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 AchievementReward reward = new AchievementReward(allAchievements.get(which).getId(), 1000);
-                addNewAchievementRewardView(reward);
+                addNewAchievementPunishView(reward);
                 achievements.add(reward);
                 dialog.dismiss();
             }

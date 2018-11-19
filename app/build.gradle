@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.2'
     defaultConfig {
         applicationId "com.lifegamer.fengmaster.lifegamer"
         minSdkVersion 22
@@ -29,27 +29,27 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    api fileTree(include: ['*.jar'], dir: 'libs')
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
 
-    implementation ('com.jakewharton:butterknife:8.8.1'){
+    api ('com.jakewharton:butterknife:8.8.1'){
         exclude module: 'support-compat'
 //        解决依赖问题
     }
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     //stream兼容包
-    implementation 'com.annimon:stream:1.1.9'
+    api 'com.annimon:stream:1.1.9'
 //    implementation 'com.android.support:appcompat-v7:23.4.0'
-    implementation 'com.android.support:support-v4:27.1.1'
-    implementation 'com.android.support:design:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    implementation 'org.greenrobot:eventbus:3.1.1'
-    implementation 'com.github.aakira:expandable-layout:1.6.0@aar'
+    api 'com.android.support:support-v4:27.1.1'
+    api 'com.android.support:design:27.1.1'
+    api 'com.android.support.constraint:constraint-layout:1.1.2'
+    api 'io.reactivex.rxjava2:rxjava:2.1.9'
+    api 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    api 'org.greenrobot:eventbus:3.1.1'
+    api 'com.github.aakira:expandable-layout:1.6.0@aar'
     testImplementation 'junit:junit:4.12'
 
 }

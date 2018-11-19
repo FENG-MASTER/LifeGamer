@@ -74,7 +74,7 @@ public class EditTaskDialog extends BaseDialogFragment implements View.OnClickLi
         fragmentList.add(new EditTaskExtraFragment().setTask(task));
         fragmentList.add(new EditTaskTimeFragment().setTask(task));
         fragmentList.add(new EditTaskRewardFragment().setTask(task));
-        fragmentList.add(new EditTaskPunishFragment());
+        fragmentList.add(new EditTaskPunishFragment().setTask(task));
 
         //这里getChildFragmentManager 否则会报找不到id错误
         binding.vpDialogEditTaskContent.setAdapter(new BaseViewPagerFragmentAdapter(getChildFragmentManager(), fragmentList));
