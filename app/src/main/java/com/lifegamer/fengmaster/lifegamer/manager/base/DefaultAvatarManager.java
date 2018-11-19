@@ -37,12 +37,16 @@ public class DefaultAvatarManager implements IAvatarManager{
     @Override
     public Drawable getDrawable(String name) {
         Drawable drawable=null;
-        try {
+        if(name==null){
 
-            drawable= Drawable.createFromStream(assetManager.open(DIR+"/" + name, AssetManager.ACCESS_BUFFER), getName() + "#" + name);
-        } catch (IOException e) {
-            e.printStackTrace();
+        }else {
+            try {
+                drawable= Drawable.createFromStream(assetManager.open(DIR+"/" + name, AssetManager.ACCESS_BUFFER), getName() + "#" + name);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
         return drawable;
     }
 

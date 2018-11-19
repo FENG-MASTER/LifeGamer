@@ -434,7 +434,7 @@ public class TaskManager implements ITaskManager {
         for (RandomItemReward itemReward : itemRewards) {
             if (itemReward.isHit()){
                 //获得相应物品
-                Game.getInstance().getRewardManager().gainRewardItem((int) itemReward.getRewardID());
+                Game.getInstance().getRewardManager().gainRewardItem((int)itemReward.getRewardID(),itemReward.getNum());
 
             }
         }

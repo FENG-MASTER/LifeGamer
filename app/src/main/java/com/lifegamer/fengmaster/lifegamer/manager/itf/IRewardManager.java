@@ -56,13 +56,6 @@ public interface IRewardManager {
      */
     boolean removeRewardItem(long id);
 
-    /**
-     * 赢得奖励
-     *
-     * @param rewardItem 奖励
-     * @return 是否成功
-     */
-    boolean gainRewardItem(String rewardItem);
 
     /**
      * 赢得奖励
@@ -74,13 +67,6 @@ public interface IRewardManager {
      */
     boolean gainRewardItem(String rewardItem, int num, int probability);
 
-    /**
-     * 赢得奖励
-     *
-     * @param rewardItemID 奖励ID
-     * @return 是否成功
-     */
-    boolean gainRewardItem(int rewardItemID);
 
     /**
      * 赢得奖励
@@ -100,6 +86,23 @@ public interface IRewardManager {
      * @return 是否获取
      */
     boolean gainRewardItem(RandomItemReward randomItemReward);
+
+
+    /**
+     * 获得奖励
+     * @param rewardItem 奖励对象
+     * @return 是否成功
+     */
+    boolean gainRewardItem(RewardItem rewardItem,int num);
+
+
+    /**
+     * 获得奖励
+     * @param rewardItemID 奖励id
+     * @param num
+     * @return 是否成功
+     */
+    boolean gainRewardItem(int rewardItemID,int num);
 
 
     /**

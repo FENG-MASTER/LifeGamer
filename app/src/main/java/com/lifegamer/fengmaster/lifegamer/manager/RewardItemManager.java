@@ -136,17 +136,7 @@ public class RewardItemManager implements IRewardManager {
 
     }
 
-    /**
-     * 获得奖励
-     *
-     * @param rewardItem 奖励
-     * @return 是否成功
-     */
-    @Override
-    public boolean gainRewardItem(String rewardItem) {
-        RewardItem item = getRewardItem(rewardItem);
-        return gainRewardItem(item);
-    }
+
 
     private boolean gainRewardItem(RewardItem item) {
         return false;
@@ -157,17 +147,6 @@ public class RewardItemManager implements IRewardManager {
         return false;
     }
 
-    /**
-     * 获得奖励
-     *
-     * @param rewardItemID 奖励ID
-     * @return 是否成功
-     */
-    @Override
-    public boolean gainRewardItem(int rewardItemID) {
-        RewardItem rewardItem = getRewardItem(rewardItemID);
-        return gainRewardItem(rewardItem);
-    }
 
     @Override
     public boolean gainRewardItem(int rewardItemID, int num, int probability) {
@@ -249,7 +228,8 @@ public class RewardItemManager implements IRewardManager {
      * @param rewardItem 奖励对象
      * @return 是否成功
      */
-    private boolean gainRewardItem(RewardItem rewardItem,int num) {
+    @Override
+    public boolean gainRewardItem(RewardItem rewardItem,int num) {
         if (rewardItem != null) {
             if (rewardItem.getQuantityAvailable() == -1) {
                 //无限次数
@@ -259,8 +239,11 @@ public class RewardItemManager implements IRewardManager {
                 Item item = null;
                 if ((item=rewardItem.getItem2())!=null){
                     //当前奖励会被添加到物品里
-                    item.setQuantity(num);
-                    Game.getInstance().getCommandManager().executeCommand(new AddItemCommand(item));
+                    Item itemt=new Item();
+                    itemt.copyFrom(item);
+
+                    itemt.setQuantity(num);
+                    Game.getInstance().getCommandManager().executeCommand(new AddItemCommand(itemt));
                 }
 
                 return true;
@@ -268,6 +251,18 @@ public class RewardItemManager implements IRewardManager {
                 //或者还有次数
                 rewardItem.setCostLP(rewardItem.getCostLP()+rewardItem.getCostLPIncrement());
                 rewardItem.setQuantityAvailable(rewardItem.getQuantityAvailable()-1);
+
+                Item item = null;
+                if ((item=rewardItem.getItem2())!=null){
+                    //当前奖励会被添加到物品里
+                    Item itemt=new Item();
+                    itemt.copyFrom(item);
+
+                    itemt.setQuantity(num);
+                    Game.getInstance().getCommandManager().executeCommand(new AddItemCommand(itemt));
+                }
+
+
                 return true;
             }else {
                 return false;
@@ -275,6 +270,15 @@ public class RewardItemManager implements IRewardManager {
         }else {
             return false;
         }
+    }
+
+    @Override
+    public boolean gainRewardItem(int rewardItemID, int num) {
+        RewardItem item = getRewardItem(rewardItemID);
+        if (item!=null){
+            return gainRewardItem(item,num);
+        }
+        return false;
     }
 
 
