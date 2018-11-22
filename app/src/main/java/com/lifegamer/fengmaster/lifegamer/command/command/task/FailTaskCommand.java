@@ -4,30 +4,26 @@ import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.command.command.AbsCancelableCommand;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
 
-/**
- * Created by FengMaster on 18/07/12.
- */
-public class FinishTaskCommand extends AbsCancelableCommand {
-
+public class FailTaskCommand extends AbsCancelableCommand {
     private Task task;
 
-    public FinishTaskCommand(Task task) {
+    public FailTaskCommand(Task task) {
         this.task = task;
     }
 
     @Override
     public void execute() {
-        Game.getInstance().getTaskManager().finishTask(task.getId());
+        Game.getInstance().getTaskManager().failTask(task.getId());
     }
 
     @Override
     public void undo() {
-        Game.getInstance().getTaskManager().undoFinishTask(task.getId());
+        Game.getInstance().getTaskManager().undoFailTask(task.getName());
     }
 
     @Override
     public String getName() {
-        return "完成任务"+task.getName();
+        return "任务:"+task.getName()+"失败";
     }
 
     @Override

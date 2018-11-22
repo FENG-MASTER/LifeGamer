@@ -7,13 +7,17 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
+import com.lifegamer.fengmaster.lifegamer.command.command.achievement.GotAchievementCommand;
+import com.lifegamer.fengmaster.lifegamer.command.command.achievement.LoseAchievementCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.skill.SkillIncreaseCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.task.UpdateTaskCommand;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.event.skill.DelSkillEvent;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ITaskManager;
+import com.lifegamer.fengmaster.lifegamer.model.Achievement;
 import com.lifegamer.fengmaster.lifegamer.model.Hero;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
+import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.RandomItemReward;
 import com.lifegamer.fengmaster.lifegamer.util.DateUtil;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
@@ -30,6 +34,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * Created by qianzise on 2017/10/4.
@@ -285,9 +290,15 @@ public class TaskManager implements ITaskManager {
             //失败次数+1
             task.setFailureTimes(task.getFailureTimes() + 1);
 
+
+            //金币点数惩罚
+            handleLifePoint(task,false);
+            handleSkillReward(task,false);
+            handleItemReward(task,false);
+            handleAchievement(task,false);
+
             //重新调度任务时间
             scheduleTaskTime(task);
-
 
             return true;
 
@@ -421,6 +432,7 @@ public class TaskManager implements ITaskManager {
         handleLifePoint(task,true);
         handleSkillReward(task,true);
         handleItemReward(task,true);
+        handleAchievement(task,true);
     }
 
     /**
@@ -434,7 +446,7 @@ public class TaskManager implements ITaskManager {
         for (RandomItemReward itemReward : itemRewards) {
             if (itemReward.isHit()){
                 //获得相应物品
-                Game.getInstance().getRewardManager().gainRewardItem((int)itemReward.getRewardID(),itemReward.getNum());
+                Game.getInstance().getRewardManager().gainRewardItem((int)itemReward.getRewardID(),finish?itemReward.getNum():-itemReward.getNum());
 
             }
         }
@@ -474,13 +486,68 @@ public class TaskManager implements ITaskManager {
 
     }
 
+    /**
+     * 处理lp点数
+     * @param task
+     * @param finish
+     */
     private void handleLifePoint(Task task,boolean finish){
         if (finish){
+            if (task.getEarnLP()!=0){
+                Game.getInstance().getHeroManager().getHero().getLifePoint().addPoint(task.getEarnLP());
+            }
+        }else {
+            if (task.getLostLP()!=0){
+                Game.getInstance().getHeroManager().getHero().getLifePoint().addPoint(-task.getLostLP());
+            }
 
         }
-        if (task.getEarnLP()!=0){
-            Game.getInstance().getHeroManager().getHero().getLifePoint().addPoint(task.getEarnLP());
+
+    }
+
+
+    /**
+     * 处理成就相关奖励
+     * @param task
+     * @param finish
+     */
+    private void handleAchievement(Task task,boolean finish){
+        if (finish){
+            //任务完成
+            List<AchievementReward> achievements = task.getSuccessAchievements();
+            if (achievements!=null&&!achievements.isEmpty()){
+                //有奖励成就
+                for (AchievementReward achievement : achievements) {
+                    if (achievement.isHit()){
+                        Achievement am = Game.getInstance().getAchievementManager().getAchievement(achievement.getAchievementID());
+                        if (am!=null){
+                            Game.getInstance().getCommandManager().executeCommand(new GotAchievementCommand(am));
+                        }
+                    }
+                }
+
+            }
+
+        }else {
+            //任务失败
+            List<AchievementReward> failureAchievements = task.getFailureAchievements();
+            if (failureAchievements!=null&&!failureAchievements.isEmpty()){
+                //有惩罚成就
+                for (AchievementReward achievement : failureAchievements) {
+                    if (achievement.isHit()){
+                        Achievement am = Game.getInstance().getAchievementManager().getAchievement(achievement.getAchievementID());
+                        if (am!=null){
+                            Game.getInstance().getCommandManager().executeCommand(new LoseAchievementCommand(am));
+                        }
+                    }
+                }
+
+            }
+
+
         }
+
+
     }
 
     /**
