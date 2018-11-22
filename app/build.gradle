@@ -18,7 +18,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable true
         }
-        debug{
+        debug {
             minifyEnabled false
             debuggable true
         }
@@ -41,7 +41,7 @@ dependencies {
     })
 
 
-    api ('com.jakewharton:butterknife:8.8.1'){
+    api('com.jakewharton:butterknife:8.8.1') {
         exclude module: 'support-compat'
 //        解决依赖问题
     }

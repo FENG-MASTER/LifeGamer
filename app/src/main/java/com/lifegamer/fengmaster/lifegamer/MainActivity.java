@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 
+import com.lifegamer.fengmaster.lifegamer.fragment.AboutFragment;
 import com.lifegamer.fengmaster.lifegamer.fragment.achievement.AchievementFragment;
 import com.lifegamer.fengmaster.lifegamer.fragment.reward.RewardFragment;
 import com.lifegamer.fengmaster.lifegamer.fragment.HeroInfoFragment;
@@ -142,6 +143,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //英雄信息
                 changeToFragment(6);
                 break;
+            case R.id.nav_about:
+                //关于
+                changeToFragment(7);
+                break;
 
             case R.id.nav_exit:
                 //退出
@@ -194,6 +199,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case 6:
                 changeFragment(new HeroInfoFragment());
+                break;
+            case 7:
+                changeFragment(new AboutFragment());
                 break;
             default:
 

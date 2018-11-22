@@ -26,6 +26,10 @@
     <string name="task_get_xp">任务所得经验值:</string>
     <string name="progress_xp">经验值</string>
     <string name="progress_energy">能量</string>
+    <string name="nav_about">关于</string>
+
+
+    <string name="about_text">\t\t这里是软件的作者峰少,感谢使用本软件.这个软件的创意来自于生活的灵感,但没想到已经有人先将这个想法实现了出来,类似的产品有LifeRPG,如果你有什么意见,可以在我的开源项目里提出,如果你觉得LifeRPG不错,你也可以去试试,确实是不错的APP \n  \t\tGithub开源地址:https://github.com/FENG-MASTER/LifeGamer </string>
 
 
 </resources>

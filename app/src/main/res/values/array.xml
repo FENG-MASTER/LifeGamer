@@ -8,6 +8,7 @@
         <item>成就</item>
         <item>统计</item>
         <item>个人简介</item>
+        <item>关于</item>
     </string-array>
 
     <integer-array name="main_sp_r">
