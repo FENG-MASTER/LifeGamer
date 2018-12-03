@@ -65,7 +65,8 @@ public class TaskManager implements ITaskManager {
     private void loadTaskFromSQL() {
         Cursor cursor = helper.getReadableDatabase().query(DBHelper.TABLE_TASK, null, null, null, null, null, null);
         while (cursor.moveToNext()) {
-            Task task = getTaskFromCursor(cursor);
+            Task task = new Task();
+            task.getFromCursor(cursor);
             taskList.add(task);
         }
         cursor.close();
@@ -73,79 +74,7 @@ public class TaskManager implements ITaskManager {
 
     }
 
-    /**
-     * 从数据库的指针中获取task对象
-     *
-     * @param cursor 指针
-     * @return task对象
-     */
-    private Task getTaskFromCursor(Cursor cursor) {
-        Task task = new Task();
-        task.setId(cursor.getInt(cursor.getColumnIndex("_id")));
-        task.setName(cursor.getString(cursor.getColumnIndex("name")));
-        task.setDesc(cursor.getString(cursor.getColumnIndex("desc")));
-        task.setAutoFail(cursor.getInt(cursor.getColumnIndex("isAutoFail")) == 1);
-        task.setIcon(cursor.getString(cursor.getColumnIndex("icon")));
 
-        task.setDifficulty(cursor.getInt(cursor.getColumnIndex("difficulty")));
-        task.setFear(cursor.getInt(cursor.getColumnIndex("fear")));
-        task.setUrgency(cursor.getInt(cursor.getColumnIndex("urgency")));
-        task.setXp(cursor.getInt(cursor.getColumnIndex("xp")));
-
-        task.setSuccessSkills(FormatUtil.str2SkillMap(cursor.getString(cursor.getColumnIndex("successSkills"))));
-        task.setSuccessItems(FormatUtil.str2ItemRewardList(cursor.getString(cursor.getColumnIndex("successItems"))));
-        task.setSuccessAchievements(FormatUtil.str2achievementRewardList(cursor.getString(cursor.getColumnIndex("successAchievements"))));
-
-        task.setFailureSkills(FormatUtil.str2SkillMap(cursor.getString(cursor.getColumnIndex("failureSkills"))));
-        task.setFailureItems(FormatUtil.str2ItemRewardList(cursor.getString(cursor.getColumnIndex("failureItems"))));
-        task.setFailureAchievements(FormatUtil.str2achievementRewardList(cursor.getString(cursor.getColumnIndex("failureAchievements"))));
-
-
-        task.setEarnLP(cursor.getInt(cursor.getColumnIndex("earnLP")));
-        task.setLostLP(cursor.getInt(cursor.getColumnIndex("lostLP")));
-
-        task.setRepeatType(cursor.getInt(cursor.getColumnIndex("repeatType")));
-        task.setRepeatInterval(cursor.getInt(cursor.getColumnIndex("repeatInterval")));
-        task.setRepeatAvailableTime(cursor.getInt(cursor.getColumnIndex("repeatAvailableTime")));
-
-        String expirationTime = cursor.getString(cursor.getColumnIndex("expirationTime"));
-        if (expirationTime != null && !expirationTime.equals("")) {
-            try {
-                task.setExpirationTime(SimpleDateFormat.getInstance().parse(expirationTime));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-        String createTime = cursor.getString(cursor.getColumnIndex("createTime"));
-        if (createTime != null && !createTime.equals("")) {
-            try {
-                task.setCreateTime(SimpleDateFormat.getInstance().parse(createTime));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-        String updateTime = cursor.getString(cursor.getColumnIndex("updateTime"));
-        if (updateTime != null && !updateTime.equals("")) {
-            try {
-                task.setUpdateTime(SimpleDateFormat.getInstance().parse(updateTime));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-        task.setCompleteTimes(cursor.getInt(cursor.getColumnIndex("completeTimes")));
-        task.setFailureTimes(cursor.getInt(cursor.getColumnIndex("failureTimes")));
-        task.setPreTasks(FormatUtil.str2List(cursor.getString(cursor.getColumnIndex("preTasks"))));
-        task.setNotes(FormatUtil.str2List(cursor.getString(cursor.getColumnIndex("notes"))));
-
-        return task;
-
-    }
 
     /**
      * 添加任务

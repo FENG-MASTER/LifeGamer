@@ -255,7 +255,8 @@ public class ItemManager implements IItemManager {
     private void loadItemsFromSQL() {
         Cursor cursor = helper.getReadableDatabase().query(DBHelper.TABLE_ITEM, null, null, null, null, null, null);
         while (cursor.moveToNext()) {
-            Item item = getItemFromCursor(cursor);
+            Item item = new Item();
+            item.getFromCursor(cursor);
             items.put(item.getName(),item);
         }
         cursor.close();
@@ -263,38 +264,4 @@ public class ItemManager implements IItemManager {
     }
 
 
-    private Item getItemFromCursor(Cursor cursor) {
-        Item item = new Item();
-        item.setId(cursor.getLong(cursor.getColumnIndex("_id")));
-        item.setName(cursor.getString(cursor.getColumnIndex("name")));
-        item.setQuantity(cursor.getInt(cursor.getColumnIndex("quantity")));
-        item.setDesc(cursor.getString(cursor.getColumnIndex("desc")));
-        item.setExpendable(cursor.getInt(cursor.getColumnIndex("expendable")) == 1);
-        item.setType(cursor.getString(cursor.getColumnIndex("type")));
-        item.setIcon(cursor.getString(cursor.getColumnIndex("icon")));
-
-        item.setNotes(FormatUtil.str2List(cursor.getString(cursor.getColumnIndex("notes"))));
-
-
-        String createTime = cursor.getString(cursor.getColumnIndex("createTime"));
-        if (createTime != null && !createTime.equals("")) {
-            try {
-                item.setCreateTime(SimpleDateFormat.getInstance().parse(cursor.getString(cursor.getColumnIndex("createTime"))));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
-        String updateTime = cursor.getString(cursor.getColumnIndex("updateTime"));
-        if (updateTime != null && updateTime.equals("")) {
-            try {
-                item.setUpdateTime(SimpleDateFormat.getInstance().parse(updateTime));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return item;
-
-    }
 }

@@ -1,6 +1,7 @@
 package com.lifegamer.fengmaster.lifegamer.model;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
@@ -10,10 +11,12 @@ import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.base.ICopy;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
+import com.lifegamer.fengmaster.lifegamer.dao.itf.Getable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -28,7 +31,7 @@ import java.util.List;
  * 没有 是否拥有 状态
  */
 
-public class RewardItem extends BaseObservable implements Insertable,Deleteable,Updateable,ICopy<RewardItem>{
+public class RewardItem extends BaseObservable implements Insertable,Deleteable,Updateable,ICopy<RewardItem>,Getable {
 
     /**
      * 奖励ID
@@ -371,6 +374,49 @@ public class RewardItem extends BaseObservable implements Insertable,Deleteable,
         this.setNotes(rewardItem.getNotes());
         this.setCreateTime(rewardItem.getCreateTime());
         this.setUpdateTime(rewardItem.getUpdateTime());
+
+    }
+
+    @Override
+    public void getFromDb(SQLiteDatabase sqLiteDatabase) {
+        Cursor query = sqLiteDatabase.query(DBHelper.TABLE_ITEM, null, "_id = ?", new String[]{String.valueOf(getId())}, null, null, null);
+        getFromCursor(query);
+        query.close();
+    }
+
+    @Override
+    public void getFromCursor(Cursor cursor) {
+
+        this.setId(cursor.getLong(cursor.getColumnIndex("_id")));
+        this.setItemId(cursor.getLong(cursor.getColumnIndex("itemId")));
+//        rewardItem.setName(cursor.getString(cursor.getColumnIndex("name")));
+//        rewardItem.setType(cursor.getString(cursor.getColumnIndex("type")));
+//        rewardItem.setIcon(cursor.getString(cursor.getColumnIndex("icon")));
+//        rewardItem.setDesc(cursor.getString(cursor.getColumnIndex("desc")));
+        this.setCostLP(cursor.getInt(cursor.getColumnIndex("costLP")));
+        this.setCostLPIncrement(cursor.getInt(cursor.getColumnIndex("costLPIncrement")));
+        this.setGainTimes(cursor.getInt(cursor.getColumnIndex("gainTimes")));
+        this.setQuantityAvailable(cursor.getInt(cursor.getColumnIndex("quantityAvailable")));
+        this.setAddToItem(cursor.getInt(cursor.getColumnIndex("addToItem")) == 1);
+        this.setNotes(FormatUtil.str2List(cursor.getString(cursor.getColumnIndex("notes"))));
+
+        String createTime = cursor.getString(cursor.getColumnIndex("createTime"));
+        if (createTime != null && !createTime.equals("")) {
+            try {
+                this.setCreateTime(SimpleDateFormat.getInstance().parse(cursor.getString(cursor.getColumnIndex("createTime"))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        String updateTime = cursor.getString(cursor.getColumnIndex("updateTime"));
+        if (updateTime != null && updateTime.equals("")) {
+            try {
+                this.setUpdateTime(SimpleDateFormat.getInstance().parse(updateTime));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 }

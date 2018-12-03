@@ -279,57 +279,12 @@ public class AchievementManager implements IAchievementManager{
     private void loadAchievementsFromSQL(){
         Cursor cursor = helper.getReadableDatabase().query(DBHelper.TABLE_ACHIEVEMENT, null, null, null, null, null, null);
         while (cursor.moveToNext()){
-            Achievement a = getAchievementFromCursor(cursor);
+            Achievement a = new Achievement();
+            a.getFromCursor(cursor);
             achievements.add(a);
         }
         cursor.close();
     }
 
 
-    /**
-     * 从游标中读取成就
-     * @param cursor 游标
-     * @return 成就
-     */
-    private Achievement getAchievementFromCursor(Cursor cursor){
-        Achievement achievement=new Achievement();
-        achievement.setId(cursor.getLong(cursor.getColumnIndex("_id")));
-        achievement.setName(cursor.getString(cursor.getColumnIndex("name")));
-        achievement.setType(cursor.getString(cursor.getColumnIndex("type")));
-        achievement.setDesc(cursor.getString(cursor.getColumnIndex("desc")));
-        achievement.setIcon(cursor.getString(cursor.getColumnIndex("icon")));
-        achievement.setGot(cursor.getInt(cursor.getColumnIndex("isGot"))==1);
-
-        achievement.setNotes(FormatUtil.str2List(cursor.getString(cursor.getColumnIndex("notes"))));
-
-
-        String gainTime = cursor.getString(cursor.getColumnIndex("gainTime"));
-        if (gainTime != null && !gainTime.equals("")) {
-            try {
-                achievement.setGainTime(SimpleDateFormat.getInstance().parse(gainTime));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
-        String createTime = cursor.getString(cursor.getColumnIndex("createTime"));
-        if (createTime != null && !createTime.equals("")) {
-            try {
-                achievement.setCreateTime(SimpleDateFormat.getInstance().parse(createTime));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
-        String updateTime = cursor.getString(cursor.getColumnIndex("updateTime"));
-        if (updateTime != null && updateTime.equals("")) {
-            try {
-                achievement.setUpdateTime(SimpleDateFormat.getInstance().parse(updateTime));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return achievement;
-    }
 }

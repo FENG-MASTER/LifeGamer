@@ -1,15 +1,18 @@
 package com.lifegamer.fengmaster.lifegamer.model;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.lifegamer.fengmaster.lifegamer.base.ICopy;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
+import com.lifegamer.fengmaster.lifegamer.dao.itf.Getable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +27,7 @@ import java.util.List;
  *
  */
 
-public class Achievement implements Insertable,Updateable,Deleteable,ICopy<Achievement>{
+public class Achievement implements Insertable,Updateable,Deleteable,ICopy<Achievement>,Getable {
 
     /**
      * 成就ID
@@ -205,5 +208,53 @@ public class Achievement implements Insertable,Updateable,Deleteable,ICopy<Achie
         this.setType(achievement.getType());
         this.setCreateTime(achievement.getCreateTime());
         this.setNotes(achievement.getNotes());
+    }
+
+    @Override
+    public void getFromDb(SQLiteDatabase sqLiteDatabase) {
+        Cursor query = sqLiteDatabase.query(DBHelper.TABLE_ACHIEVEMENT, null, "_id = ?", new String[]{String.valueOf(getId())}, null, null, null);
+        getFromCursor(query);
+        query.close();
+    }
+
+    @Override
+    public void getFromCursor(Cursor cursor) {
+        this.setId(cursor.getLong(cursor.getColumnIndex("_id")));
+        this.setName(cursor.getString(cursor.getColumnIndex("name")));
+        this.setType(cursor.getString(cursor.getColumnIndex("type")));
+        this.setDesc(cursor.getString(cursor.getColumnIndex("desc")));
+        this.setIcon(cursor.getString(cursor.getColumnIndex("icon")));
+        this.setGot(cursor.getInt(cursor.getColumnIndex("isGot"))==1);
+
+        this.setNotes(FormatUtil.str2List(cursor.getString(cursor.getColumnIndex("notes"))));
+
+
+        String gainTime = cursor.getString(cursor.getColumnIndex("gainTime"));
+        if (gainTime != null && !gainTime.equals("")) {
+            try {
+                this.setGainTime(SimpleDateFormat.getInstance().parse(gainTime));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        String createTime = cursor.getString(cursor.getColumnIndex("createTime"));
+        if (createTime != null && !createTime.equals("")) {
+            try {
+                this.setCreateTime(SimpleDateFormat.getInstance().parse(createTime));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        String updateTime = cursor.getString(cursor.getColumnIndex("updateTime"));
+        if (updateTime != null && updateTime.equals("")) {
+            try {
+                this.setUpdateTime(SimpleDateFormat.getInstance().parse(updateTime));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }

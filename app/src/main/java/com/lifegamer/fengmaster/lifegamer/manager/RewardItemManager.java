@@ -347,7 +347,8 @@ public class RewardItemManager implements IRewardManager {
 
         Cursor cursor = helper.getReadableDatabase().query(DBHelper.TABLE_REWARD, null, null, null, null, null, null);
         while (cursor.moveToNext()) {
-            RewardItem item = getRewardItemFromCursor(cursor);
+            RewardItem item = new RewardItem();
+            item.getFromCursor(cursor);
             rewardItems.add(item);
         }
         cursor.close();
@@ -360,45 +361,4 @@ public class RewardItemManager implements IRewardManager {
     }
 
 
-    /**
-     * 从游标中提取 rewarditem
-     *
-     * @param cursor 游标
-     * @return rewarditem
-     */
-    private RewardItem getRewardItemFromCursor(Cursor cursor) {
-        RewardItem rewardItem = new RewardItem();
-        rewardItem.setId(cursor.getLong(cursor.getColumnIndex("_id")));
-        rewardItem.setItemId(cursor.getLong(cursor.getColumnIndex("itemId")));
-//        rewardItem.setName(cursor.getString(cursor.getColumnIndex("name")));
-//        rewardItem.setType(cursor.getString(cursor.getColumnIndex("type")));
-//        rewardItem.setIcon(cursor.getString(cursor.getColumnIndex("icon")));
-//        rewardItem.setDesc(cursor.getString(cursor.getColumnIndex("desc")));
-        rewardItem.setCostLP(cursor.getInt(cursor.getColumnIndex("costLP")));
-        rewardItem.setCostLPIncrement(cursor.getInt(cursor.getColumnIndex("costLPIncrement")));
-        rewardItem.setGainTimes(cursor.getInt(cursor.getColumnIndex("gainTimes")));
-        rewardItem.setQuantityAvailable(cursor.getInt(cursor.getColumnIndex("quantityAvailable")));
-        rewardItem.setAddToItem(cursor.getInt(cursor.getColumnIndex("addToItem")) == 1);
-        rewardItem.setNotes(FormatUtil.str2List(cursor.getString(cursor.getColumnIndex("notes"))));
-
-        String createTime = cursor.getString(cursor.getColumnIndex("createTime"));
-        if (createTime != null && !createTime.equals("")) {
-            try {
-                rewardItem.setCreateTime(SimpleDateFormat.getInstance().parse(cursor.getString(cursor.getColumnIndex("createTime"))));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
-        String updateTime = cursor.getString(cursor.getColumnIndex("updateTime"));
-        if (updateTime != null && updateTime.equals("")) {
-            try {
-                rewardItem.setUpdateTime(SimpleDateFormat.getInstance().parse(updateTime));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return rewardItem;
-    }
 }

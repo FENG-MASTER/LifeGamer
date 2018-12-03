@@ -1,6 +1,7 @@
 package com.lifegamer.fengmaster.lifegamer.model;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
@@ -9,6 +10,7 @@ import com.lifegamer.fengmaster.lifegamer.BR;
 import com.lifegamer.fengmaster.lifegamer.base.ICopy;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
+import com.lifegamer.fengmaster.lifegamer.dao.itf.Getable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
 import com.lifegamer.fengmaster.lifegamer.strategy.xp.ILevelXP;
@@ -16,6 +18,7 @@ import com.lifegamer.fengmaster.lifegamer.strategy.xp.NormalLevelXP;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +28,7 @@ import java.util.List;
  * <p>
  * 技能对象
  */
-public class Skill extends BaseObservable implements Insertable, Updateable, Deleteable, ICopy<Skill> {
+public class Skill extends BaseObservable implements Insertable, Updateable, Deleteable, ICopy<Skill>,Getable {
 
     private static final int DEF_UPGRADE_XP=1000;
 
@@ -335,5 +338,34 @@ public class Skill extends BaseObservable implements Insertable, Updateable, Del
         setType(skill.getType());
         setUpdateTime(skill.getUpdateTime());
         setXP(skill.getXP());
+    }
+
+    @Override
+    public void getFromDb(SQLiteDatabase sqLiteDatabase) {
+        Cursor query = sqLiteDatabase.query(DBHelper.TABLE_ITEM, null, "_id = ?", new String[]{String.valueOf(getId())}, null, null, null);
+        getFromCursor(query);
+        query.close();
+    }
+
+    @Override
+    public void getFromCursor(Cursor cursor) {
+
+        this.setId(cursor.getInt(cursor.getColumnIndex("_id")));
+        this.setXP(cursor.getInt(cursor.getColumnIndex("xp")));
+        this.setName(cursor.getString(cursor.getColumnIndex("name")));
+        this.setLevel(cursor.getInt(cursor.getColumnIndex("level")));
+        this.setUpGradeXP(cursor.getInt(cursor.getColumnIndex("upGradeXP")));
+        this.setType(cursor.getString(cursor.getColumnIndex("type")));
+        this.setIntro(cursor.getString(cursor.getColumnIndex("intro")));
+        this.setIcon(cursor.getString(cursor.getColumnIndex("icon")));
+        this.setNotes(FormatUtil.str2List(cursor.getString(cursor.getColumnIndex("notes"))));
+        try {
+            this.setCreateTime(SimpleDateFormat.getInstance().parse(cursor.getString(cursor.getColumnIndex("createTime"))));
+            this.setUpdateTime(SimpleDateFormat.getInstance().parse(cursor.getString(cursor.getColumnIndex("updateTime"))));
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
     }
 }

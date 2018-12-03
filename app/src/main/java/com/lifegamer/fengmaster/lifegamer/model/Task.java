@@ -1,6 +1,7 @@
 package com.lifegamer.fengmaster.lifegamer.model;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
@@ -9,12 +10,14 @@ import com.lifegamer.fengmaster.lifegamer.BR;
 import com.lifegamer.fengmaster.lifegamer.base.ICopy;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
+import com.lifegamer.fengmaster.lifegamer.dao.itf.Getable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.RandomItemReward;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -26,7 +29,7 @@ import java.util.Map;
  * 任务实体类
  */
 
-public class Task extends BaseObservable implements Updateable, Insertable, Deleteable,ICopy<Task> {
+public class Task extends BaseObservable implements Updateable, Insertable, Deleteable,ICopy<Task>,Getable {
 
 
     /**
@@ -602,6 +605,81 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         this.setRepeatInterval(task.getRepeatInterval());
         this.setIcon(task.getIcon());
         this.setPreTasks(task.getPreTasks());
+
+
+    }
+
+    @Override
+    public void getFromDb(SQLiteDatabase sqLiteDatabase) {
+        Cursor query = sqLiteDatabase.query(DBHelper.TABLE_ITEM, null, "_id = ?", new String[]{String.valueOf(getId())}, null, null, null);
+        getFromCursor(query);
+        query.close();
+    }
+
+    @Override
+    public void getFromCursor(Cursor cursor) {
+
+        this.setId(cursor.getInt(cursor.getColumnIndex("_id")));
+        this.setName(cursor.getString(cursor.getColumnIndex("name")));
+        this.setDesc(cursor.getString(cursor.getColumnIndex("desc")));
+        this.setAutoFail(cursor.getInt(cursor.getColumnIndex("isAutoFail")) == 1);
+        this.setIcon(cursor.getString(cursor.getColumnIndex("icon")));
+
+        this.setDifficulty(cursor.getInt(cursor.getColumnIndex("difficulty")));
+        this.setFear(cursor.getInt(cursor.getColumnIndex("fear")));
+        this.setUrgency(cursor.getInt(cursor.getColumnIndex("urgency")));
+        this.setXp(cursor.getInt(cursor.getColumnIndex("xp")));
+
+        this.setSuccessSkills(FormatUtil.str2SkillMap(cursor.getString(cursor.getColumnIndex("successSkills"))));
+        this.setSuccessItems(FormatUtil.str2ItemRewardList(cursor.getString(cursor.getColumnIndex("successItems"))));
+        this.setSuccessAchievements(FormatUtil.str2achievementRewardList(cursor.getString(cursor.getColumnIndex("successAchievements"))));
+
+        this.setFailureSkills(FormatUtil.str2SkillMap(cursor.getString(cursor.getColumnIndex("failureSkills"))));
+        this.setFailureItems(FormatUtil.str2ItemRewardList(cursor.getString(cursor.getColumnIndex("failureItems"))));
+        this.setFailureAchievements(FormatUtil.str2achievementRewardList(cursor.getString(cursor.getColumnIndex("failureAchievements"))));
+
+
+        this.setEarnLP(cursor.getInt(cursor.getColumnIndex("earnLP")));
+        this.setLostLP(cursor.getInt(cursor.getColumnIndex("lostLP")));
+
+        this.setRepeatType(cursor.getInt(cursor.getColumnIndex("repeatType")));
+        this.setRepeatInterval(cursor.getInt(cursor.getColumnIndex("repeatInterval")));
+        this.setRepeatAvailableTime(cursor.getInt(cursor.getColumnIndex("repeatAvailableTime")));
+
+        String expirationTime = cursor.getString(cursor.getColumnIndex("expirationTime"));
+        if (expirationTime != null && !expirationTime.equals("")) {
+            try {
+                this.setExpirationTime(SimpleDateFormat.getInstance().parse(expirationTime));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        String createTime = cursor.getString(cursor.getColumnIndex("createTime"));
+        if (createTime != null && !createTime.equals("")) {
+            try {
+                this.setCreateTime(SimpleDateFormat.getInstance().parse(createTime));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        String updateTime = cursor.getString(cursor.getColumnIndex("updateTime"));
+        if (updateTime != null && !updateTime.equals("")) {
+            try {
+                this.setUpdateTime(SimpleDateFormat.getInstance().parse(updateTime));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        this.setCompleteTimes(cursor.getInt(cursor.getColumnIndex("completeTimes")));
+        this.setFailureTimes(cursor.getInt(cursor.getColumnIndex("failureTimes")));
+        this.setPreTasks(FormatUtil.str2List(cursor.getString(cursor.getColumnIndex("preTasks"))));
+        this.setNotes(FormatUtil.str2List(cursor.getString(cursor.getColumnIndex("notes"))));
 
 
     }

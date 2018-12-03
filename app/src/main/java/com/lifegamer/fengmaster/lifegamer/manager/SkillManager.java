@@ -53,38 +53,14 @@ public class SkillManager implements ISkillManager {
     private void getAllSkillFromSQL() {
         Cursor cursor = helper.getReadableDatabase().query(DBHelper.TABLE_SKILL, null, null, null, null, null, null);
         while (cursor.moveToNext()) {
-            Skill skill = getSkillFromCursor(cursor);
+            Skill skill = new Skill();
+            skill.getFromCursor(cursor);
             skillList.add(skill);
         }
         cursor.close();
     }
 
-    /**
-     * 从游标中生成对应的skill对象
-     *
-     * @param cursor 游标
-     * @return skill
-     */
-    private Skill getSkillFromCursor(Cursor cursor) {
-        Skill skill = new Skill();
-        skill.setId(cursor.getInt(cursor.getColumnIndex("_id")));
-        skill.setXP(cursor.getInt(cursor.getColumnIndex("xp")));
-        skill.setName(cursor.getString(cursor.getColumnIndex("name")));
-        skill.setLevel(cursor.getInt(cursor.getColumnIndex("level")));
-        skill.setUpGradeXP(cursor.getInt(cursor.getColumnIndex("upGradeXP")));
-        skill.setType(cursor.getString(cursor.getColumnIndex("type")));
-        skill.setIntro(cursor.getString(cursor.getColumnIndex("intro")));
-        skill.setIcon(cursor.getString(cursor.getColumnIndex("icon")));
-        skill.setNotes(FormatUtil.str2List(cursor.getString(cursor.getColumnIndex("notes"))));
-        try {
-            skill.setCreateTime(SimpleDateFormat.getInstance().parse(cursor.getString(cursor.getColumnIndex("createTime"))));
-            skill.setUpdateTime(SimpleDateFormat.getInstance().parse(cursor.getString(cursor.getColumnIndex("updateTime"))));
 
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return skill;
-    }
 
     /**
      * 增加技能经验值

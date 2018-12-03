@@ -1,6 +1,7 @@
 package com.lifegamer.fengmaster.lifegamer.model;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
@@ -9,10 +10,12 @@ import com.lifegamer.fengmaster.lifegamer.BR;
 import com.lifegamer.fengmaster.lifegamer.base.ICopy;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
+import com.lifegamer.fengmaster.lifegamer.dao.itf.Getable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -22,7 +25,7 @@ import java.util.List;
  * <p>
  * 物品对象
  */
-public class Item extends BaseObservable implements Insertable, Deleteable, Updateable,ICopy<Item> {
+public class Item extends BaseObservable implements Insertable, Deleteable, Updateable,ICopy<Item>,Getable {
 
     /**
      * 物品ID
@@ -224,5 +227,45 @@ public class Item extends BaseObservable implements Insertable, Deleteable, Upda
         this.setUpdateTime(item.getUpdateTime());
         this.setNotes(item.getNotes());
 
+    }
+
+    @Override
+    public void getFromDb(SQLiteDatabase sqLiteDatabase) {
+        Cursor query = sqLiteDatabase.query(DBHelper.TABLE_ITEM, null, "_id = ?", new String[]{String.valueOf(getId())}, null, null, null);
+        getFromCursor(query);
+        query.close();
+    }
+
+    @Override
+    public void getFromCursor(Cursor cursor) {
+
+        this.setId(cursor.getLong(cursor.getColumnIndex("_id")));
+        this.setName(cursor.getString(cursor.getColumnIndex("name")));
+        this.setQuantity(cursor.getInt(cursor.getColumnIndex("quantity")));
+        this.setDesc(cursor.getString(cursor.getColumnIndex("desc")));
+        this.setExpendable(cursor.getInt(cursor.getColumnIndex("expendable")) == 1);
+        this.setType(cursor.getString(cursor.getColumnIndex("type")));
+        this.setIcon(cursor.getString(cursor.getColumnIndex("icon")));
+
+        this.setNotes(FormatUtil.str2List(cursor.getString(cursor.getColumnIndex("notes"))));
+
+
+        String createTime = cursor.getString(cursor.getColumnIndex("createTime"));
+        if (createTime != null && !createTime.equals("")) {
+            try {
+                this.setCreateTime(SimpleDateFormat.getInstance().parse(cursor.getString(cursor.getColumnIndex("createTime"))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        String updateTime = cursor.getString(cursor.getColumnIndex("updateTime"));
+        if (updateTime != null && updateTime.equals("")) {
+            try {
+                this.setUpdateTime(SimpleDateFormat.getInstance().parse(updateTime));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
