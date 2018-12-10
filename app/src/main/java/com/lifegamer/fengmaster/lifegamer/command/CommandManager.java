@@ -16,6 +16,12 @@ public class CommandManager {
      */
     private boolean isHead=true;
 
+
+    /**
+     * 最近一条指令是否是父指令
+     */
+    private boolean lastestCommandIsHead=true;
+
     /**
      * 命令集中间的事件,不会提示
      */
@@ -32,11 +38,13 @@ public class CommandManager {
              *
              * */
             isHead=false;
+            lastestCommandIsHead=true;
             command.execute();
             isHead=true;
             hide=false;
         }else {
             hide=true;
+            lastestCommandIsHead=false;
             command.execute();
         }
 
@@ -53,4 +61,12 @@ public class CommandManager {
 
     }
 
+
+    /**
+     * 最近一条指令是否是父指令
+     * @return
+     */
+    public boolean isLastestCommandIsHead() {
+        return lastestCommandIsHead;
+    }
 }

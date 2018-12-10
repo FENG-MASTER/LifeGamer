@@ -13,21 +13,38 @@ import org.aspectj.lang.reflect.MethodSignature;
  *
  * 日志处理器接口
  *
+ * 继承本接口的类一般不应该是单例模式
+ *
  */
 public abstract class AbsLogHandler {
 
-    public void handle(JoinPoint joinPoint){
+    protected Log log=new Log();
+
+    /**
+     * 前置处理
+     * @param joinPoint
+     */
+    public void beforeHandle(JoinPoint joinPoint){
         Signature signature = joinPoint.getSignature();
         LogPoint logPoint = ((MethodSignature) signature).getMethod().getAnnotation(LogPoint.class);
 
-        Log log=new Log();
         log.setAction(logPoint.action());
         log.setType(logPoint.type());
         log.setProperty(logPoint.property());
-        handleDetail(joinPoint,log);
+        beforeHandleDetail(joinPoint);
+    }
+
+    protected abstract void beforeHandleDetail(JoinPoint joinPoint);
+
+    /**
+     * 后置处理
+     * @param joinPoint
+     */
+    public void afterHandle(JoinPoint joinPoint){
+        afterHandleDetail(joinPoint);
         Game.getInstance().getLogManager().addLog(log);
     }
 
-    protected abstract void handleDetail(JoinPoint joinPoint,Log log);
+    protected abstract void afterHandleDetail(JoinPoint joinPoint);
 
 }

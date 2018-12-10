@@ -9,17 +9,14 @@ import org.aspectj.lang.JoinPoint;
  */
 public class HeroLogHandler extends AbsLogHandler {
 
-    private static final HeroLogHandler ourInstance = new HeroLogHandler();
-
-    public static HeroLogHandler getInstance() {
-        return ourInstance;
-    }
-
-
 
     @Override
-    protected void handleDetail(JoinPoint joinPoint, Log log) {
-        joinPoint.getSignature().getName();
+    protected void beforeHandleDetail(JoinPoint joinPoint) {
+
+    }
+
+    @Override
+    protected void afterHandleDetail(JoinPoint joinPoint) {
 
     }
 }

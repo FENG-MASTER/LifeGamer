@@ -173,6 +173,7 @@ public class DBHelper extends SQLiteOpenHelper {
             "oldValue varchar," +
             "extMessage varchar," +
             "extValue varchar," +
+            "eventSequence integer," +
             "logTime integer)";
 
 

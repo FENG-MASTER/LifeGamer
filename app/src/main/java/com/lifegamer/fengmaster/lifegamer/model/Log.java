@@ -87,6 +87,12 @@ public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getab
      * 额外数值
      */
     private String extValue;
+
+    /**
+     * 事件标号
+     */
+    private int eventSequence;
+
     /**
      * 日志时间
      */
@@ -103,6 +109,7 @@ public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getab
         this.oldValue=log.oldValue;
         this.operName=log.operName;
         this.property=log.property;
+        this.eventSequence=log.eventSequence;
         this.type=log.type;
     }
 
@@ -125,6 +132,7 @@ public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getab
         this.setOldValue(cursor.getString(cursor.getColumnIndex("oldValue")));
         this.setExtMessage(cursor.getString(cursor.getColumnIndex("extMessage")));
         this.setExtValue(cursor.getString(cursor.getColumnIndex("extValue")));
+        this.setEventSequence(cursor.getInt(cursor.getColumnIndex("eventSequence")));
         String logTime = cursor.getString(cursor.getColumnIndex("logTime"));
         if (logTime != null && !logTime.equals("")) {
             try {
@@ -149,6 +157,7 @@ public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getab
         cv.put("oldValue", getOldValue());
         cv.put("extMessage", getExtMessage());
         cv.put("extValue", getExtValue());
+        cv.put("eventSequence", getEventSequence());
         if (getLogTime()==null){
             cv.put("logTime", SimpleDateFormat.getInstance().format(new Date()));
         }else {
@@ -235,6 +244,14 @@ public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getab
 
     public void setLogTime(Date logTime) {
         this.logTime = logTime;
+    }
+
+    public int getEventSequence() {
+        return eventSequence;
+    }
+
+    public void setEventSequence(int eventSequence) {
+        this.eventSequence = eventSequence;
     }
 
     public String getOperName() {
