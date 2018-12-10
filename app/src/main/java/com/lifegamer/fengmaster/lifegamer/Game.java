@@ -9,6 +9,7 @@ import com.lifegamer.fengmaster.lifegamer.event.GameBaseInitFinish;
 import com.lifegamer.fengmaster.lifegamer.manager.AchievementManager;
 import com.lifegamer.fengmaster.lifegamer.manager.HeroManger;
 import com.lifegamer.fengmaster.lifegamer.manager.ItemManager;
+import com.lifegamer.fengmaster.lifegamer.manager.LogManager;
 import com.lifegamer.fengmaster.lifegamer.manager.RewardItemManager;
 import com.lifegamer.fengmaster.lifegamer.manager.SkillManager;
 import com.lifegamer.fengmaster.lifegamer.manager.TaskManager;
@@ -17,6 +18,7 @@ import com.lifegamer.fengmaster.lifegamer.manager.base.itf.IAvatarManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IAchievementManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IHeroManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IItemManager;
+import com.lifegamer.fengmaster.lifegamer.manager.itf.ILogManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.INoteManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IRewardManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ISkillManager;
@@ -78,6 +80,11 @@ public class Game {
      */
     private CommandManager commandManager=new CommandManager();
 
+    /**
+     * 日志管理器
+     */
+    private ILogManager logManager=new LogManager();
+
     private Game() {
         heroManager.getHero();
 
@@ -120,6 +127,9 @@ public class Game {
         return noteManager;
     }
 
+    public ILogManager getLogManager() {
+        return logManager;
+    }
 
     public static boolean update(Updateable updateable){
         return updateable.update(DBHelper.getInstance().getWritableDatabase())!=0;

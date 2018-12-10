@@ -12,23 +12,24 @@ import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
+import com.lifegamer.fengmaster.lifegamer.log.LogPoint;
 import com.lifegamer.fengmaster.lifegamer.strategy.xp.ILevelXP;
 import com.lifegamer.fengmaster.lifegamer.strategy.xp.NormalLevelXP;
 
 
 /**
  * Created by qianzise on 2017/10/4.
- *
+ * <p>
  * 英雄实体类
- *
- *  额外说明:
- *   1. 每次升级,只改变下次升级所需经验值,当前经验值不受影响
+ * <p>
+ * 额外说明:
+ * 1. 每次升级,只改变下次升级所需经验值,当前经验值不受影响
  */
 
-public class Hero extends BaseObservable implements Insertable,Updateable{
+public class Hero extends BaseObservable implements Insertable, Updateable {
 
-    private static final int DEF_UPGRADE_XP=1000;
-    private static final int DEF_LEVEL=1;
+    private static final int DEF_UPGRADE_XP = 1000;
+    private static final int DEF_LEVEL = 1;
 
 
     /**
@@ -38,7 +39,7 @@ public class Hero extends BaseObservable implements Insertable,Updateable{
     /**
      * ID
      */
-    private long id ;
+    private long id;
     /**
      * 头衔
      */
@@ -65,7 +66,7 @@ public class Hero extends BaseObservable implements Insertable,Updateable{
      */
     private int upGradeXP;
 
-    private ILevelXP levelXP=new NormalLevelXP();
+    private ILevelXP levelXP = new NormalLevelXP();
 
     private LifePoint lifePoint;
 
@@ -75,15 +76,23 @@ public class Hero extends BaseObservable implements Insertable,Updateable{
     }
 
     public void setLevel(int level) {
-        if (this.level!=level){
+        if (this.level != level) {
             setUpGradeXP(levelXP.getXP(level));
         }
         this.level = level;
         notifyPropertyChanged(BR.level);
     }
 
-    public void levelUp(){
+    @LogPoint(type = Log.TYPE.HERO, property = Log.PROPERTY.LEVEL, action = Log.ACTION.ADD)
+    public void levelUp() {
         this.level++;
+        setUpGradeXP(levelXP.getXP(level));
+        notifyPropertyChanged(BR.level);
+    }
+
+    @LogPoint(type = Log.TYPE.HERO, property = Log.PROPERTY.LEVEL, action = Log.ACTION.SUB)
+    public void levelDown() {
+        this.level--;
         setUpGradeXP(levelXP.getXP(level));
         notifyPropertyChanged(BR.level);
     }
@@ -93,21 +102,42 @@ public class Hero extends BaseObservable implements Insertable,Updateable{
         return xp;
     }
 
-    public void addXp(int xp){
-        this.xp+=xp;
-        if (getXp()>=getUpGradeXP()){
+    /**
+     * 增加经验
+     *
+     * @param xp
+     */
+    @LogPoint(type = Log.TYPE.HERO, property = Log.PROPERTY.XP, action = Log.ACTION.ADD)
+    public void addXp(int xp) {
+        this.xp += xp;
+        if (getXp() >= getUpGradeXP()) {
             levelUp();
+        }
+        notifyPropertyChanged(BR.xp);
+    }
+
+    /**
+     * 减少经验
+     *
+     * @param xp
+     */
+    @LogPoint(type = Log.TYPE.HERO, property = Log.PROPERTY.XP, action = Log.ACTION.SUB)
+    public void reduceXp(int xp) {
+        this.xp -= xp;
+        if (getXp() < getUpGradeXP()) {
+            levelDown();
         }
         notifyPropertyChanged(BR.xp);
     }
 
     public void setXp(int xp) {
         this.xp = xp;
-        if (getXp()>=getUpGradeXP()){
+        if (getXp() >= getUpGradeXP()) {
             levelUp();
         }
         notifyPropertyChanged(BR.xp);
     }
+
     @Bindable
     public int getUpGradeXP() {
         return upGradeXP;
@@ -117,6 +147,7 @@ public class Hero extends BaseObservable implements Insertable,Updateable{
         this.upGradeXP = upGradeXP;
         notifyPropertyChanged(BR.upGradeXP);
     }
+
     @Bindable
     public String getName() {
         return name;
@@ -126,6 +157,7 @@ public class Hero extends BaseObservable implements Insertable,Updateable{
         this.name = name;
         notifyPropertyChanged(BR.name);
     }
+
     @Bindable
     public long getId() {
         return id;
@@ -140,6 +172,7 @@ public class Hero extends BaseObservable implements Insertable,Updateable{
         this.title = title;
         notifyPropertyChanged(BR.title);
     }
+
     @Bindable
     public String getIntroduction() {
         return introduction;
@@ -149,6 +182,7 @@ public class Hero extends BaseObservable implements Insertable,Updateable{
         this.introduction = introduction;
         notifyPropertyChanged(BR.introduction);
     }
+
     @Bindable
     public String getAvatarUrl() {
         return avatarUrl;
@@ -171,15 +205,15 @@ public class Hero extends BaseObservable implements Insertable,Updateable{
 
     @Override
     public int update(SQLiteDatabase sqLiteDatabase) {
-        ContentValues cv=new ContentValues();
-        cv.put("name",getName());
-        cv.put("title",getTitle());
-        cv.put("introduction",getIntroduction());
-        cv.put("avatar",getAvatarUrl());
-        cv.put("level",getLevel());
-        cv.put("xp",getXp());
-        cv.put("upGradeXP",getUpGradeXP());
-        return sqLiteDatabase.update(DBHelper.TABLE_HERO,cv,"_id =?",new String[]{String.valueOf(getId())});
+        ContentValues cv = new ContentValues();
+        cv.put("name", getName());
+        cv.put("title", getTitle());
+        cv.put("introduction", getIntroduction());
+        cv.put("avatar", getAvatarUrl());
+        cv.put("level", getLevel());
+        cv.put("xp", getXp());
+        cv.put("upGradeXP", getUpGradeXP());
+        return sqLiteDatabase.update(DBHelper.TABLE_HERO, cv, "_id =?", new String[]{String.valueOf(getId())});
     }
 
     public LifePoint getLifePoint() {
@@ -192,18 +226,18 @@ public class Hero extends BaseObservable implements Insertable,Updateable{
 
     @Override
     public long insert(SQLiteDatabase sqLiteDatabase) {
-        ContentValues cv=new ContentValues();
-        cv.put("name",getName());
-        cv.put("title",getTitle());
-        cv.put("introduction",getIntroduction());
-        cv.put("avatar",getAvatarUrl());
-        cv.put("level",getLevel());
-        cv.put("xp",getXp());
-        cv.put("upGradeXP",getUpGradeXP());
-        return sqLiteDatabase.insert(DBHelper.TABLE_HERO,null,cv);
+        ContentValues cv = new ContentValues();
+        cv.put("name", getName());
+        cv.put("title", getTitle());
+        cv.put("introduction", getIntroduction());
+        cv.put("avatar", getAvatarUrl());
+        cv.put("level", getLevel());
+        cv.put("xp", getXp());
+        cv.put("upGradeXP", getUpGradeXP());
+        return sqLiteDatabase.insert(DBHelper.TABLE_HERO, null, cv);
     }
 
-    public static Hero emptyHero =new Hero();
+    public static Hero emptyHero = new Hero();
 
     static {
         emptyHero.setId(1);

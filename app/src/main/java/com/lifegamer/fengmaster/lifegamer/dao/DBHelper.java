@@ -38,6 +38,9 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TABLE_NOTE="Notes";
     public static final String TABLE_REWARD="Rewards";
     public static final String TABLE_SKILL="Skills";
+    public static final String TABLE_LOG="Logs";
+
+
 
 
     /**
@@ -156,6 +159,22 @@ public class DBHelper extends SQLiteOpenHelper {
             "createTime integer," +
             "updateTime integer)";
 
+    /**
+     * 创建 日志 表
+     */
+    private static final String CREATE_TABLE_LOG="create table if not exists "+TABLE_LOG+
+            "( _id integer primary key autoincrement," +
+            "type varchar," +
+            "property varchar,"+
+            "action varchar," +
+            "operName varchar," +
+            "value varchar," +
+            "newValue varchar," +
+            "oldValue varchar," +
+            "extMessage varchar," +
+            "extValue varchar," +
+            "logTime integer)";
+
 
 
     private DBHelper(Context context){
@@ -185,6 +204,8 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_TABLE_NOTE);
         sqLiteDatabase.execSQL(CREATE_TABLE_REWARD);
         sqLiteDatabase.execSQL(CREATE_TABLE_TASK);
+        sqLiteDatabase.execSQL(CREATE_TABLE_LOG);
+
     }
 
 

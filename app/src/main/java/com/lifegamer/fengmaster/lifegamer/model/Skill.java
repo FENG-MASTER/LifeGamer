@@ -13,11 +13,11 @@ import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Getable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
+import com.lifegamer.fengmaster.lifegamer.log.LogPoint;
 import com.lifegamer.fengmaster.lifegamer.strategy.xp.ILevelXP;
 import com.lifegamer.fengmaster.lifegamer.strategy.xp.NormalLevelXP;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -85,6 +85,7 @@ public class Skill extends BaseObservable implements Insertable, Updateable, Del
         Skill.levelXP = levelXP;
     }
 
+    @LogPoint(type = Log.TYPE.SKILL,action = Log.ACTION.ADD,property = Log.PROPERTY.XP)
     public void addXP(int XP) {
         this.XP += XP;
         if (this.XP >= getUpGradeXP()) {
@@ -97,16 +98,45 @@ public class Skill extends BaseObservable implements Insertable, Updateable, Del
 
     }
 
+    @LogPoint(type = Log.TYPE.SKILL,action = Log.ACTION.SUB,property = Log.PROPERTY.XP)
+    public void reduceXP(int XP) {
+        this.XP -= XP;
+        if (this.XP < 0) {
+            //降级
+            levelDown();
+            this.XP += getUpGradeXP();
+        }
+        notifyPropertyChanged(BR.xp);
+        updateUpdateTime();
+
+    }
+
+
     @Bindable
     public int getUpGradeXP() {
         return upGradeXP;
     }
 
+    /**
+     * 升级
+     */
+    @LogPoint(type = Log.TYPE.SKILL,action = Log.ACTION.ADD,property = Log.PROPERTY.LEVEL)
     public void levelUp() {
         this.level++;
         setUpGradeXP(levelXP.getXP(getLevel()));
         notifyPropertyChanged(BR.level);
     }
+
+    /**
+     * 降级
+     */
+    @LogPoint(type = Log.TYPE.SKILL,action = Log.ACTION.SUB,property = Log.PROPERTY.LEVEL)
+    public void levelDown() {
+        this.level--;
+        setUpGradeXP(levelXP.getXP(getLevel()));
+        notifyPropertyChanged(BR.level);
+    }
+
 
     @Bindable
     public int getLevel() {
