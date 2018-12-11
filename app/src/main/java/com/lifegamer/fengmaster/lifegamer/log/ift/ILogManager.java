@@ -1,4 +1,4 @@
-package com.lifegamer.fengmaster.lifegamer.manager.itf;
+package com.lifegamer.fengmaster.lifegamer.log.ift;
 
 import com.lifegamer.fengmaster.lifegamer.model.Log;
 

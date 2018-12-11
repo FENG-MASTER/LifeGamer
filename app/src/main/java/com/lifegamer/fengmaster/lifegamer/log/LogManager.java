@@ -21,6 +21,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by FengMaster on 18/12/06.
@@ -31,22 +32,25 @@ import java.util.List;
 public class LogManager implements ILogManager {
 
 
-    private int eventSequence=0;
+    private static AtomicInteger eventSequence=new AtomicInteger(0);
 
 
     public LogManager() {
-        getEventSequenceFromDb();
+        if (eventSequence.get()==0){
+            getEventSequenceFromDb();
+        }
     }
 
 
     private void getEventSequenceFromDb(){
         Cursor query = DBHelper.getInstance().getReadableDatabase().query(DBHelper.TABLE_LOG,null,null, null,null,null,"_id desc","1");
         if (query!=null&&query.moveToNext()){
-            eventSequence=query.getInt(query.getColumnIndex("eventSequence"));
+            eventSequence.set(query.getInt(query.getColumnIndex("eventSequence")));
         }else {
             //空记录则从1开始
-            eventSequence=0;
+            eventSequence.set(0);
         }
+        android.util.Log.e("qianzise","初始化 "+String.valueOf(eventSequence));
     }
 
     /**
@@ -82,10 +86,11 @@ public class LogManager implements ILogManager {
 
         if (Game.getInstance().getCommandManager().isLastestCommandIsHead()){
             //一组新的相关日志组,eventSequence+1
-            eventSequence++;
+            eventSequence.addAndGet(1);
+            android.util.Log.e("qianzise",String.valueOf(eventSequence));
         }
         //添加事件序列号,用于确定一系列日志归属与同一事件
-        handler.setEventSequence(eventSequence);
+        handler.setEventSequence(eventSequence.get());
         //方法执行前
         handler.beforeHandle(joinPoint);
         Game.getInstance().getLogManager().addLog(handler.getLog());
@@ -102,7 +107,7 @@ public class LogManager implements ILogManager {
 
     @Override
     public int getEventSequence() {
-        return eventSequence;
+        return eventSequence.get();
     }
 
     @Override
@@ -114,6 +119,11 @@ public class LogManager implements ILogManager {
     @Override
     public void updateLog(Log log) {
         Game.update(log);
+    }
+
+    @Override
+    public void delteLog(Log log) {
+        Game.delete(log);
     }
 
     @Override

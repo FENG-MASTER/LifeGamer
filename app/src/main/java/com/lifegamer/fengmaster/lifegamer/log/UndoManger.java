@@ -1,8 +1,8 @@
-package com.lifegamer.fengmaster.lifegamer.manager;
+package com.lifegamer.fengmaster.lifegamer.log;
 
 import com.annimon.stream.Stream;
-import com.annimon.stream.function.Consumer;
 import com.lifegamer.fengmaster.lifegamer.Game;
+import com.lifegamer.fengmaster.lifegamer.log.undoHandler.IUndoHandler;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IUndoManager;
 import com.lifegamer.fengmaster.lifegamer.model.Log;
 import com.lifegamer.fengmaster.lifegamer.model.Skill;
@@ -23,6 +23,7 @@ public class UndoManger implements IUndoManager {
     public void undo(int eventSequence) {
         List<Log> eventLogs = Game.getInstance().getLogManager().getEventLogs(eventSequence);
         for (Log eventLog : eventLogs) {
+            
             switch (eventLog.getType()){
                 case Log.TYPE.SKILL:
                     undoSkill(eventLog);

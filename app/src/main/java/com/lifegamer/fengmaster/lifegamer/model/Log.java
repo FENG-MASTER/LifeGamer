@@ -21,7 +21,7 @@ import java.util.Date;
  * <p>
  * PS:所有属性写入日志的时候使用可读中文表示,不使用数字或者其他表示
  */
-public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getable,Updateable {
+public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getable,Updateable,Deleteable {
 
     /**
      * 日志ID
@@ -136,7 +136,7 @@ public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getab
         String logTime = cursor.getString(cursor.getColumnIndex("logTime"));
         if (logTime != null && !logTime.equals("")) {
             try {
-                this.setLogTime(SimpleDateFormat.getInstance().parse(cursor.getString(cursor.getColumnIndex("createTime"))));
+                this.setLogTime(SimpleDateFormat.getInstance().parse(cursor.getString(cursor.getColumnIndex("logTime"))));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -284,6 +284,12 @@ public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getab
 
 
         return sqLiteDatabase.update(DBHelper.TABLE_LOG, cv, "_id = ?", new String[]{String.valueOf(getId())});
+
+    }
+
+    @Override
+    public int delete(SQLiteDatabase sqLiteDatabase) {
+        return sqLiteDatabase.delete(DBHelper.TABLE_LOG, "_id = ?", new String[]{String.valueOf(getId())});
 
     }
 
