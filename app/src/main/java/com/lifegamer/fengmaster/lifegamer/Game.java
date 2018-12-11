@@ -12,6 +12,7 @@ import com.lifegamer.fengmaster.lifegamer.log.LogManager;
 import com.lifegamer.fengmaster.lifegamer.manager.RewardItemManager;
 import com.lifegamer.fengmaster.lifegamer.manager.SkillManager;
 import com.lifegamer.fengmaster.lifegamer.manager.TaskManager;
+import com.lifegamer.fengmaster.lifegamer.manager.UndoManger;
 import com.lifegamer.fengmaster.lifegamer.manager.base.DefaultAvatarManager;
 import com.lifegamer.fengmaster.lifegamer.manager.base.itf.IAvatarManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IAchievementManager;
@@ -22,6 +23,7 @@ import com.lifegamer.fengmaster.lifegamer.manager.itf.INoteManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IRewardManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ISkillManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ITaskManager;
+import com.lifegamer.fengmaster.lifegamer.manager.itf.IUndoManager;
 
 /**
  * Created by qianzise on 2017/10/6.
@@ -82,6 +84,11 @@ public class Game {
      */
     private ILogManager logManager=new LogManager();
 
+    /**
+     * 撤销管理器
+     */
+    private IUndoManager undoManager=new UndoManger();
+
     private Game() {
         heroManager.getHero();
 
@@ -128,6 +135,10 @@ public class Game {
         return logManager;
     }
 
+    public IUndoManager getUndoManager() {
+        return undoManager;
+    }
+
     public static boolean update(Updateable updateable){
         return updateable.update(DBHelper.getInstance().getWritableDatabase())!=0;
     }
@@ -139,6 +150,8 @@ public class Game {
     public static boolean delete(Deleteable deleteable){
         return deleteable.delete(DBHelper.getInstance().getWritableDatabase())!=0;
     }
+
+
 
 
 }

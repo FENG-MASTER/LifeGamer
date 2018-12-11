@@ -42,7 +42,7 @@ public abstract class AbsLogHandler {
      */
     public void afterHandle(JoinPoint joinPoint){
         afterHandleDetail(joinPoint);
-        Game.getInstance().getLogManager().addLog(log);
+
     }
 
     protected abstract void afterHandleDetail(JoinPoint joinPoint);
@@ -50,5 +50,9 @@ public abstract class AbsLogHandler {
 
     public void setEventSequence(int eventSequence){
         log.setEventSequence(eventSequence);
+    }
+
+    public Log getLog() {
+        return log;
     }
 }

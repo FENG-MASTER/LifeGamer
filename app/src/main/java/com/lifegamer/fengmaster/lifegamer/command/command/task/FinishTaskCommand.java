@@ -22,7 +22,8 @@ public class FinishTaskCommand extends AbsCancelableCommand {
 
     @Override
     public void undo() {
-        Game.getInstance().getTaskManager().undoFinishTask(task.getId());
+        Game.getInstance().getUndoManager().undo();
+//        Game.getInstance().getTaskManager().undoFinishTask(task.getId());
     }
 
     @Override

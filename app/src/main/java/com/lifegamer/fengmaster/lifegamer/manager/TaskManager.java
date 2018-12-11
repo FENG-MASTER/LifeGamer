@@ -324,6 +324,7 @@ public class TaskManager implements ITaskManager {
      */
     @LogPoint(type = Log.TYPE.TASK,action = Log.ACTION.FINISH,property = Log.PROPERTY.TASK)
     private boolean _finishTask(Task task) {
+        android.util.Log.e("sas","_finishTask");
         if (task == null) {
             return false;
         }

@@ -4,7 +4,6 @@ import android.database.Cursor;
 
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
-import com.lifegamer.fengmaster.lifegamer.log.LogPoint;
 import com.lifegamer.fengmaster.lifegamer.log.handler.AbsLogHandler;
 import com.lifegamer.fengmaster.lifegamer.log.handler.HeroLogHandler;
 import com.lifegamer.fengmaster.lifegamer.log.handler.SkillLogHandler;
@@ -15,11 +14,13 @@ import com.lifegamer.fengmaster.lifegamer.model.Log;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by FengMaster on 18/12/06.
@@ -39,14 +40,13 @@ public class LogManager implements ILogManager {
 
 
     private void getEventSequenceFromDb(){
-        Cursor query = DBHelper.getInstance().getReadableDatabase().query(DBHelper.TABLE_LOG,null,null, null,null,null,"_id","1");
+        Cursor query = DBHelper.getInstance().getReadableDatabase().query(DBHelper.TABLE_LOG,null,null, null,null,null,"_id desc","1");
         if (query!=null&&query.moveToNext()){
             eventSequence=query.getInt(query.getColumnIndex("eventSequence"));
         }else {
             //空记录则从1开始
-            eventSequence=1;
+            eventSequence=0;
         }
-
     }
 
     /**
@@ -56,20 +56,15 @@ public class LogManager implements ILogManager {
     @Pointcut("call(@com.lifegamer.fengmaster.lifegamer.log.LogPoint * *(..))")
     public void logPointCut(){}
 
-    @Around("execution(private * * _finishTask(..))")
-    public void xxxx(ProceedingJoinPoint joinPoint) throws Throwable {
-        android.util.Log.d("ss","ssssssssss");
-        joinPoint.proceed();
-    }
 
     @Around("logPointCut()")
-    public void log(JoinPoint joinPoint) throws Throwable {
+    public Object log(JoinPoint joinPoint) throws Throwable {
         Signature signature = joinPoint.getSignature();
         LogPoint logPoint = ((MethodSignature) signature).getMethod().getAnnotation(LogPoint.class);
-        android.util.Log.d("ss",signature.toLongString());
 
         AbsLogHandler handler=null;
 
+        //选择相应的日志处理器
         switch (logPoint.type()){
             case Log.TYPE.HERO:
                 handler=new HeroLogHandler();
@@ -89,19 +84,50 @@ public class LogManager implements ILogManager {
             //一组新的相关日志组,eventSequence+1
             eventSequence++;
         }
+        //添加事件序列号,用于确定一系列日志归属与同一事件
         handler.setEventSequence(eventSequence);
+        //方法执行前
         handler.beforeHandle(joinPoint);
+        Game.getInstance().getLogManager().addLog(handler.getLog());
 
-        ((ProceedingJoinPoint)joinPoint).proceed();
+        Object o = ((ProceedingJoinPoint) joinPoint).proceed();
 
-
+        //方法执行后
         handler.afterHandle(joinPoint);
+        Game.getInstance().getLogManager().updateLog(handler.getLog());
 
+        return o;
     }
 
 
     @Override
-    public void addLog(Log log) {
-        Game.insert(log);
+    public int getEventSequence() {
+        return eventSequence;
     }
+
+    @Override
+    public void addLog(Log log) {
+        long l = Game.insert(log);
+        log.setId(l);
+    }
+
+    @Override
+    public void updateLog(Log log) {
+        Game.update(log);
+    }
+
+    @Override
+    public List<Log> getEventLogs(int eventSequence) {
+        DBHelper dbHelper = DBHelper.getInstance();
+        Cursor query = dbHelper.getReadableDatabase().query(DBHelper.TABLE_LOG, null, "eventSequence=?", new String[]{String.valueOf(eventSequence)}, null, null, "_id");
+        ArrayList<Log> logs=new ArrayList<>();
+        while (query.moveToNext()){
+            Log log = new Log();
+            log.getFromCursor(query);
+            logs.add(log);
+        }
+        return logs;
+    }
+
+
 }

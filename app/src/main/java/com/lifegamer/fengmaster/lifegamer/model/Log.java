@@ -21,7 +21,7 @@ import java.util.Date;
  * <p>
  * PS:所有属性写入日志的时候使用可读中文表示,不使用数字或者其他表示
  */
-public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getable {
+public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getable,Updateable {
 
     /**
      * 日志ID
@@ -260,6 +260,31 @@ public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getab
 
     public void setOperName(String operName) {
         this.operName = operName;
+    }
+
+    @Override
+    public int update(SQLiteDatabase sqLiteDatabase) {
+        ContentValues cv = new ContentValues();
+        cv.put("action", getAction());
+        cv.put("type", getType());
+        cv.put("property", getProperty());
+        cv.put("value", getValue());
+        cv.put("operName", getOperName());
+        cv.put("eventSequence", getEventSequence());
+        cv.put("oldValue", getOldValue());
+        cv.put("newValue", getNewValue());
+        cv.put("extValue", getExtValue());
+        cv.put("extMessage", getExtMessage());
+
+        if (logTime!=null){
+            cv.put("logTime", SimpleDateFormat.getInstance().format(getLogTime()));
+        }else {
+            cv.put("logTime",SimpleDateFormat.getInstance().format(new Date()));
+        }
+
+
+        return sqLiteDatabase.update(DBHelper.TABLE_LOG, cv, "_id = ?", new String[]{String.valueOf(getId())});
+
     }
 
     public static class TYPE {
