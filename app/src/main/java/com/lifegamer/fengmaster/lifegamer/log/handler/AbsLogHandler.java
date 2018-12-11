@@ -47,4 +47,8 @@ public abstract class AbsLogHandler {
 
     protected abstract void afterHandleDetail(JoinPoint joinPoint);
 
+
+    public void setEventSequence(int eventSequence){
+        log.setEventSequence(eventSequence);
+    }
 }

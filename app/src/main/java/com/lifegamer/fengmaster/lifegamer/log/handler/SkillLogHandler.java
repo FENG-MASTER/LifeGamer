@@ -26,7 +26,9 @@ public class SkillLogHandler extends AbsLogHandler {
     }
 
     private void levelLogBefore(JoinPoint joinPoint, Log log, Object[] args) {
-        log.setValue(String.valueOf((int) args[0]));
+        if(args.length>=1){
+            log.setValue(String.valueOf((int) args[0]));
+        }
         log.setOldValue(String.valueOf(skill.getLevel()));
     }
 

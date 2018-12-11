@@ -5,7 +5,6 @@ import android.util.SparseArray;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
-import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.command.command.achievement.GotAchievementCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.achievement.LoseAchievementCommand;
@@ -13,28 +12,25 @@ import com.lifegamer.fengmaster.lifegamer.command.command.skill.SkillIncreaseCom
 import com.lifegamer.fengmaster.lifegamer.command.command.task.UpdateTaskCommand;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.event.skill.DelSkillEvent;
+import com.lifegamer.fengmaster.lifegamer.log.LogPoint;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ITaskManager;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
 import com.lifegamer.fengmaster.lifegamer.model.Hero;
+import com.lifegamer.fengmaster.lifegamer.model.Log;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.RandomItemReward;
 import com.lifegamer.fengmaster.lifegamer.util.DateUtil;
-import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 
 /**
  * Created by qianzise on 2017/10/4.
@@ -152,7 +148,7 @@ public class TaskManager implements ITaskManager {
     @Override
     public boolean finishTask(String taskName) {
         Task task = Stream.of(taskList).filter(value -> value.getName().equals(taskName)).findFirst().get();
-        return finishTask(task);
+        return _finishTask(task);
     }
 
     /**
@@ -164,7 +160,7 @@ public class TaskManager implements ITaskManager {
     @Override
     public boolean finishTask(long taskID) {
         Task task = Stream.of(taskList).filter(value -> value.getId() == taskID).findFirst().get();
-        return finishTask(task);
+        return _finishTask(task);
     }
 
     /**
@@ -326,7 +322,8 @@ public class TaskManager implements ITaskManager {
      * @param task 任务
      * @return 是否成功
      */
-    private boolean finishTask(Task task) {
+    @LogPoint(type = Log.TYPE.TASK,action = Log.ACTION.FINISH,property = Log.PROPERTY.TASK)
+    private boolean _finishTask(Task task) {
         if (task == null) {
             return false;
         }
