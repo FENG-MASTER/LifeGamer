@@ -10,6 +10,7 @@ import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Getable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
+import com.lifegamer.fengmaster.lifegamer.model.base.IdAble;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 
 import java.text.ParseException;
@@ -27,7 +28,7 @@ import java.util.List;
  *
  */
 
-public class Achievement implements Insertable,Updateable,Deleteable,ICopy<Achievement>,Getable {
+public class Achievement implements Insertable,Updateable,Deleteable,ICopy<Achievement>,Getable,IdAble {
 
     /**
      * 成就ID

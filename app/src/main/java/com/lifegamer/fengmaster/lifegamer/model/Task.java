@@ -13,6 +13,7 @@ import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Getable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
+import com.lifegamer.fengmaster.lifegamer.model.base.IdAble;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.RandomItemReward;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
@@ -29,7 +30,7 @@ import java.util.Map;
  * 任务实体类
  */
 
-public class Task extends BaseObservable implements Updateable, Insertable, Deleteable,ICopy<Task>,Getable {
+public class Task extends BaseObservable implements Updateable, Insertable, Deleteable,ICopy<Task>,Getable,IdAble {
 
 
     /**

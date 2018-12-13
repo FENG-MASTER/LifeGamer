@@ -447,7 +447,7 @@ public class TaskManager implements ITaskManager {
                 for (AchievementReward achievement : achievements) {
                     if (achievement.isHit()){
                         Achievement am = Game.getInstance().getAchievementManager().getAchievement(achievement.getAchievementID());
-                        if (am!=null){
+                        if (am!=null&&!am.isGot()){
                             Game.getInstance().getCommandManager().executeCommand(new GotAchievementCommand(am));
                         }
                     }
@@ -463,7 +463,7 @@ public class TaskManager implements ITaskManager {
                 for (AchievementReward achievement : failureAchievements) {
                     if (achievement.isHit()){
                         Achievement am = Game.getInstance().getAchievementManager().getAchievement(achievement.getAchievementID());
-                        if (am!=null){
+                        if (am!=null&&am.isGot()){
                             Game.getInstance().getCommandManager().executeCommand(new LoseAchievementCommand(am));
                         }
                     }

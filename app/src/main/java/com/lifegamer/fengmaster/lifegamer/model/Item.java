@@ -13,6 +13,8 @@ import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Getable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
+import com.lifegamer.fengmaster.lifegamer.log.LogPoint;
+import com.lifegamer.fengmaster.lifegamer.model.base.IdAble;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 
 import java.text.ParseException;
@@ -25,7 +27,7 @@ import java.util.List;
  * <p>
  * 物品对象
  */
-public class Item extends BaseObservable implements Insertable, Deleteable, Updateable,ICopy<Item>,Getable {
+public class Item extends BaseObservable implements Insertable, Deleteable, Updateable,ICopy<Item>,Getable,IdAble {
 
     /**
      * 物品ID
@@ -145,6 +147,26 @@ public class Item extends BaseObservable implements Insertable, Deleteable, Upda
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+        notifyPropertyChanged(BR.quantityAvailable);
+    }
+
+    /**
+     * 物品数量增加
+     * @param add
+     */
+    @LogPoint(type = Log.TYPE.ITEM,action = Log.ACTION.ADD,property = Log.PROPERTY.QUANTITY)
+    public void addQuantity(int add){
+        this.quantity+=add;
+        notifyPropertyChanged(BR.quantityAvailable);
+    }
+
+    /**
+     * 物品数量减少
+     * @param sub
+     */
+    @LogPoint(type = Log.TYPE.ITEM,action = Log.ACTION.SUB,property = Log.PROPERTY.QUANTITY)
+    public void reduceQuantity(int sub){
+        this.quantity-=sub;
         notifyPropertyChanged(BR.quantityAvailable);
     }
 

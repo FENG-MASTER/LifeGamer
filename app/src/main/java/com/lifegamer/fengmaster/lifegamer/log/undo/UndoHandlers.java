@@ -10,6 +10,7 @@ import com.lifegamer.fengmaster.lifegamer.model.Skill;
  */
 public class UndoHandlers {
 
+//--------------------------------------技能相关-------------------------------------------//
 
     @UndoHandler(type = Log.TYPE.SKILL, action = Log.ACTION.ADD, property = Log.PROPERTY.XP)
     public static void skillXpAddUndo(Log log) {
@@ -37,6 +38,11 @@ public class UndoHandlers {
         //xp处理了,不需要处理level
     }
 
+//--------------------------------------技能相关-------------------------------------------//
+
+
+//--------------------------------------英雄相关-------------------------------------------//
+
 
     @UndoHandler(type = Log.TYPE.HERO, action = Log.ACTION.ADD, property = Log.PROPERTY.LIFEPOINT)
     public static void heroLifepointAddUndo(Log log) {
@@ -44,5 +50,12 @@ public class UndoHandlers {
         lifePoint.setLpPoint(lifePoint.getLpPoint() - Integer.valueOf(log.getValue()));
 
     }
+
+
+
+//--------------------------------------英雄相关-------------------------------------------//
+
+
+
 
 }

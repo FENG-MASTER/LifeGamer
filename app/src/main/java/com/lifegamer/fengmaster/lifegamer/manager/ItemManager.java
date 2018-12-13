@@ -50,7 +50,7 @@ public class ItemManager implements IItemManager {
             //已经存在相同物品,需要做的是增加物品数量
             Item mainItem=items.get(item.getName());
             //更新数量
-            mainItem.setQuantity(mainItem.getQuantity()+item.getQuantity());
+            mainItem.addQuantity(item.getQuantity());
             //更新更新时间
             mainItem.setUpdateTime(new Date());
 
@@ -151,7 +151,7 @@ public class ItemManager implements IItemManager {
             //消耗品
             if (item.getQuantity() > 0) {
                 //还有可用数量
-                item.setQuantity(item.getQuantity() - 1);
+                item.reduceQuantity(1);
                 return updateItem(item);
             } else {
                 return false;

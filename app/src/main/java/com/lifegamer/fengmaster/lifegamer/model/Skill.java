@@ -14,6 +14,7 @@ import com.lifegamer.fengmaster.lifegamer.dao.itf.Getable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
 import com.lifegamer.fengmaster.lifegamer.log.LogPoint;
+import com.lifegamer.fengmaster.lifegamer.model.base.IdAble;
 import com.lifegamer.fengmaster.lifegamer.strategy.xp.ILevelXP;
 import com.lifegamer.fengmaster.lifegamer.strategy.xp.NormalLevelXP;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
@@ -28,7 +29,7 @@ import java.util.List;
  * <p>
  * 技能对象
  */
-public class Skill extends BaseObservable implements Insertable, Updateable, Deleteable, ICopy<Skill>,Getable {
+public class Skill extends BaseObservable implements Insertable, Updateable, Deleteable, ICopy<Skill>,Getable,IdAble {
 
     private static final int DEF_UPGRADE_XP=1000;
 

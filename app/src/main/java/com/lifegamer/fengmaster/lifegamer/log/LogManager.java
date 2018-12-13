@@ -147,7 +147,6 @@ public class LogManager implements ILogManager {
             if (map.containsKey(Log.ORDER.AFTER)){
                 //如果有后置执行函数
                 Method method = map.get(Log.ORDER.AFTER);
-
                 try {
                     method.invoke(null, new Object[]{joinPoint,log});
                 } catch (IllegalAccessException e) {

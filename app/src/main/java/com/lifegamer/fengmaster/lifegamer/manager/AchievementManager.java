@@ -6,14 +6,12 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
+import com.lifegamer.fengmaster.lifegamer.log.LogPoint;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IAchievementManager;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
-import com.lifegamer.fengmaster.lifegamer.model.Skill;
+import com.lifegamer.fengmaster.lifegamer.model.Log;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
-import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -114,7 +112,7 @@ public class AchievementManager implements IAchievementManager{
     @Override
     public boolean gainAchievement(long id) {
         Achievement achievement = Stream.of(achievements).filter(value -> value.getId() == id).findFirst().get();
-        return gainAchievement(achievement);
+        return _gainAchievement(achievement);
 
     }
 
@@ -126,7 +124,7 @@ public class AchievementManager implements IAchievementManager{
     @Override
     public boolean gainAchievement(String name) {
         Achievement achievement = Stream.of(achievements).filter(value -> value.getName().equals(name)).findFirst().get();
-        return gainAchievement(achievement);
+        return _gainAchievement(achievement);
     }
 
     /**
@@ -134,7 +132,8 @@ public class AchievementManager implements IAchievementManager{
      * @param achievement 成就
      * @return 是否成功
      */
-    private boolean gainAchievement(Achievement achievement){
+    @LogPoint(type = Log.TYPE.ACHIEVEMENT,action = Log.ACTION.GET,property = Log.PROPERTY.DEFAULT)
+    private boolean _gainAchievement(Achievement achievement){
         if (achievement!=null){
             achievement.setGot(true);
             achievement.setGainTime(new Date());

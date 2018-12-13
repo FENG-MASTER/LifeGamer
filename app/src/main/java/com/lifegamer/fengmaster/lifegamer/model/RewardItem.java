@@ -14,6 +14,7 @@ import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Getable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
+import com.lifegamer.fengmaster.lifegamer.model.base.IdAble;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 
 import java.text.ParseException;
@@ -31,7 +32,7 @@ import java.util.List;
  * 没有 是否拥有 状态
  */
 
-public class RewardItem extends BaseObservable implements Insertable,Deleteable,Updateable,ICopy<RewardItem>,Getable {
+public class RewardItem extends BaseObservable implements Insertable,Deleteable,Updateable,ICopy<RewardItem>,Getable,IdAble {
 
     /**
      * 奖励ID
