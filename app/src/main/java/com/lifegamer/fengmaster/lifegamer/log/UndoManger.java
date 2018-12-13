@@ -1,13 +1,11 @@
 package com.lifegamer.fengmaster.lifegamer.log;
 
-import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
-import com.annimon.stream.function.Consumer;
-import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
+import com.lifegamer.fengmaster.lifegamer.log.undo.UndoHandler;
+import com.lifegamer.fengmaster.lifegamer.log.undo.UndoHandlers;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IUndoManager;
 import com.lifegamer.fengmaster.lifegamer.model.Log;
-import com.lifegamer.fengmaster.lifegamer.model.Skill;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -22,17 +20,12 @@ import java.util.Map;
 public class UndoManger implements IUndoManager {
     private Map<String, Map<String, Map<String, Method>>> methodMap = new HashMap<>();
 
-    @Override
-    public void undo() {
-        int eventSequence = Game.getInstance().getLogManager().getEventSequence();
-        undo(eventSequence);
+    public UndoManger(){
+        initMap();
     }
 
-    @Override
-    public void undo(int eventSequence) {
-        List<Log> eventLogs = Game.getInstance().getLogManager().getEventLogs(eventSequence);
-
-        Stream.of(this.getClass().getMethods()).filter(value -> value.getAnnotation(UndoHandler.class) != null).forEach(method -> {
+    private void initMap() {
+        Stream.of(UndoHandlers.class.getMethods()).filter(value -> value.getAnnotation(UndoHandler.class) != null).forEach(method -> {
 
             UndoHandler undoHandler = method.getAnnotation(UndoHandler.class);
             if (!methodMap.containsKey(undoHandler.type())) {
@@ -52,6 +45,18 @@ public class UndoManger implements IUndoManager {
 
 
         });
+    }
+
+    @Override
+    public void undo() {
+        int eventSequence = Game.getInstance().getLogManager().getEventSequence();
+        undo(eventSequence);
+    }
+
+    @Override
+    public void undo(int eventSequence) {
+        List<Log> eventLogs = Game.getInstance().getLogManager().getEventLogs(eventSequence);
+
         for (Log eventLog : eventLogs) {
             if (methodMap.containsKey(eventLog.getType()) &&
                     methodMap.get(eventLog.getType()).containsKey(eventLog.getAction()) &&
@@ -59,7 +64,7 @@ public class UndoManger implements IUndoManager {
                 //有相关的处理函数
                 Method method = methodMap.get(eventLog.getType()).get(eventLog.getAction()).get(eventLog.getProperty());
                 try {
-                    method.invoke(this,new Object[]{eventLog});
+                    method.invoke(null, new Object[]{eventLog});
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 } catch (InvocationTargetException e) {
@@ -75,19 +80,6 @@ public class UndoManger implements IUndoManager {
         Stream.of(eventLogs).forEach(log -> Game.getInstance().getLogManager().delteLog(log));
     }
 
-    @UndoHandler(type = Log.TYPE.SKILL, action = Log.ACTION.ADD, property = Log.PROPERTY.XP)
-    public void skillXpAddUndo(Log log) {
-        String operName = log.getOperName();
-        Skill skill = Game.getInstance().getSkillManager().getSkill(operName);
-        skill.setXP(skill.getXP() - Integer.valueOf(log.getValue()));
-        Game.getInstance().getSkillManager().updateSkill(skill);
-    }
 
-    @UndoHandler(type = Log.TYPE.SKILL, action = Log.ACTION.SUB, property = Log.PROPERTY.XP)
-    public void skillXpSubUndo(Log log) {
-        String operName = log.getOperName();
-        Skill skill = Game.getInstance().getSkillManager().getSkill(operName);
-        skill.setXP(skill.getXP() + Integer.valueOf(log.getValue()));
-        Game.getInstance().getSkillManager().updateSkill(skill);
-    }
+
 }

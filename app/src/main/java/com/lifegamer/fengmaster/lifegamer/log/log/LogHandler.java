@@ -1,4 +1,4 @@
-package com.lifegamer.fengmaster.lifegamer.log;
+package com.lifegamer.fengmaster.lifegamer.log.log;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -6,14 +6,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created by FengMaster on 18/12/06.
+ * Created by FengMaster on 18/12/13.
  *
- * 日志注解,用于需要写日志的函数
+ * 日志处理器函数注解
+ *
  */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface LogPoint {
-
+public @interface LogHandler {
 
     /**
      * @see com.lifegamer.fengmaster.lifegamer.model.Log#type
@@ -24,11 +24,19 @@ public @interface LogPoint {
      * @see com.lifegamer.fengmaster.lifegamer.model.Log#action
      * @return
      */
-    String action();
+    String[] action();
     /**
      * @see com.lifegamer.fengmaster.lifegamer.model.Log#property
      * @return
      */
     String property();
+
+    /**
+     * 执行顺序
+     * @return
+     */
+    String order();
+
+
 
 }

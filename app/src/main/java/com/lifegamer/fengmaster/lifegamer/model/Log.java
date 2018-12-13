@@ -59,6 +59,12 @@ public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getab
      * 表示操作对象是成就1
      */
     private String operName;
+
+
+    /**
+     * opername对象的ID
+     */
+    private String operId;
     /**
      * 动作操作对象的对应属性名:
      * 如:
@@ -108,6 +114,7 @@ public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getab
         this.value=log.value;
         this.oldValue=log.oldValue;
         this.operName=log.operName;
+        this.operId=log.operId;
         this.property=log.property;
         this.eventSequence=log.eventSequence;
         this.type=log.type;
@@ -126,6 +133,7 @@ public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getab
         this.setAction(cursor.getString(cursor.getColumnIndex("action")));
         this.setType(cursor.getString(cursor.getColumnIndex("type")));
         this.setOperName(cursor.getString(cursor.getColumnIndex("operName")));
+        this.setOperId(cursor.getString(cursor.getColumnIndex("operId")));
         this.setProperty(cursor.getString(cursor.getColumnIndex("property")));
         this.setValue(cursor.getString(cursor.getColumnIndex("value")));
         this.setNewValue(cursor.getString(cursor.getColumnIndex("newValue")));
@@ -152,6 +160,7 @@ public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getab
         cv.put("action", getAction());
         cv.put("property",getProperty());
         cv.put("operName",getOperName());
+        cv.put("operId",getOperId());
         cv.put("value", getValue());
         cv.put("newValue", getNewValue());
         cv.put("oldValue", getOldValue());
@@ -262,6 +271,14 @@ public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getab
         this.operName = operName;
     }
 
+    public String getOperId() {
+        return operId;
+    }
+
+    public void setOperId(String operId) {
+        this.operId = operId;
+    }
+
     @Override
     public int update(SQLiteDatabase sqLiteDatabase) {
         ContentValues cv = new ContentValues();
@@ -270,6 +287,7 @@ public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getab
         cv.put("property", getProperty());
         cv.put("value", getValue());
         cv.put("operName", getOperName());
+        cv.put("operId", getOperId());
         cv.put("eventSequence", getEventSequence());
         cv.put("oldValue", getOldValue());
         cv.put("newValue", getNewValue());
@@ -297,6 +315,9 @@ public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getab
         public static final String TASK = "任务";
         public static final String HERO = "玩家";
         public static final String SKILL = "技能";
+        public static final String ACHIEVEMENT = "成就";
+        public static final String ITEM = "物品";
+        public static final String REWARDITEM = "奖励";
 
     }
 
@@ -311,6 +332,13 @@ public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getab
         public static final String XP = "经验";
         public static final String LEVEL = "等级";
         public static final String TASK = "任务";
+        public static final String LIFEPOINT = "金币";
 
+    }
+
+
+    public static class ORDER{
+        public static final String AFTER="after";
+        public static final String BEFORE="before";
     }
 }

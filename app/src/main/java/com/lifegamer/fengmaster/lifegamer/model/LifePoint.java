@@ -7,11 +7,9 @@ import android.databinding.Bindable;
 
 import com.lifegamer.fengmaster.lifegamer.BR;
 import com.lifegamer.fengmaster.lifegamer.Game;
-import com.lifegamer.fengmaster.lifegamer.base.ICopy;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
-import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
-import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
+import com.lifegamer.fengmaster.lifegamer.log.LogPoint;
 
 /**
  * Created by qianzise on 2017/10/9.
@@ -35,6 +33,7 @@ public class LifePoint extends BaseObservable implements Updateable {
         notifyPropertyChanged(BR.lpPoint);
     }
 
+    @LogPoint(type = Log.TYPE.HERO,action = Log.ACTION.ADD,property = Log.PROPERTY.LIFEPOINT)
     public void addPoint(int point){
         this.lpPoint +=point;
         Game.update(this);
