@@ -1,5 +1,7 @@
 package com.lifegamer.fengmaster.lifegamer.command.command;
 
+import com.lifegamer.fengmaster.lifegamer.Game;
+
 /**
  * Created by qianzise on 2017/10/15.
  *
@@ -23,5 +25,12 @@ public abstract class AbsCancelableCommand implements ICommand {
     @Override
     public boolean isShow() {
         return true;
+    }
+
+
+    @Override
+    public void undo() {
+        //默认调用日志的undo功能
+        Game.getInstance().getUndoManager().undo();
     }
 }

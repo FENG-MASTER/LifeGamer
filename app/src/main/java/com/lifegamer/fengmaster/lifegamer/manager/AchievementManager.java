@@ -233,6 +233,11 @@ public class AchievementManager implements IAchievementManager{
     @Override
     public boolean lostAchievement(long id) {
         Achievement achievement = getAchievement(id);
+        return _lostAchievement(achievement);
+    }
+
+    @LogPoint(type = Log.TYPE.ACHIEVEMENT,action = Log.ACTION.LOSE,property = Log.PROPERTY.DEFAULT)
+    private boolean _lostAchievement(Achievement achievement){
         if (achievement!=null){
             //有相应成就
             achievement.setGot(false);

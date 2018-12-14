@@ -83,6 +83,11 @@ public interface ITaskManager {
      */
     boolean undoFailTask(String task);
 
+    /**
+     * 撤销 任务失败
+     * @param taskId 任务ID
+     */
+    boolean undoFailTask(Long taskId);
 
     /**
      * 获得任务信息

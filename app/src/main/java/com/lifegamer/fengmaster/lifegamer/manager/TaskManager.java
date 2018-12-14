@@ -148,7 +148,7 @@ public class TaskManager implements ITaskManager {
     @Override
     public boolean finishTask(String taskName) {
         Task task = Stream.of(taskList).filter(value -> value.getName().equals(taskName)).findFirst().get();
-        return _finishTask(task);
+        return _prefinishTask(task);
     }
 
     /**
@@ -160,7 +160,7 @@ public class TaskManager implements ITaskManager {
     @Override
     public boolean finishTask(long taskID) {
         Task task = Stream.of(taskList).filter(value -> value.getId() == taskID).findFirst().get();
-        return _finishTask(task);
+        return _prefinishTask(task);
     }
 
     /**
@@ -235,6 +235,11 @@ public class TaskManager implements ITaskManager {
 
     @Override
     public boolean undoFailTask(String task) {
+        return false;
+    }
+
+    @Override
+    public boolean undoFailTask(Long taskId) {
         return false;
     }
 
@@ -322,9 +327,7 @@ public class TaskManager implements ITaskManager {
      * @param task 任务
      * @return 是否成功
      */
-    @LogPoint(type = Log.TYPE.TASK,action = Log.ACTION.FINISH,property = Log.PROPERTY.TASK)
-    private boolean _finishTask(Task task) {
-        android.util.Log.e("sas","_finishTask");
+    private boolean _prefinishTask(Task task) {
         if (task == null) {
             return false;
         }
@@ -332,6 +335,13 @@ public class TaskManager implements ITaskManager {
             //无重复次数
             return false;
         }
+
+        return _finshTask(task);
+    }
+
+    @LogPoint(type = Log.TYPE.TASK,action = Log.ACTION.FINISH,property = Log.PROPERTY.TASK)
+    private boolean _finshTask(Task task){
+
         if (task.getRepeatAvailableTime() != -1) {
             //可重复次数-1
             task.setRepeatAvailableTime(task.getRepeatAvailableTime() - 1);

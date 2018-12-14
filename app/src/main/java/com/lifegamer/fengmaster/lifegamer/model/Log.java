@@ -324,6 +324,7 @@ public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getab
     public static class ACTION {
         public static final String ADD = "增加";
         public static final String SUB = "减少";
+        public static final String EDIT = "编辑";
         public static final String FINISH = "完成";
         public static final String FAIL = "失败";
         public static final String GET = "取得";

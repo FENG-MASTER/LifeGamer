@@ -29,7 +29,7 @@ public class LoseAchievementCommand extends AbsCancelableCommand {
 
     @Override
     public void undo() {
-        Game.getInstance().getAchievementManager().gainAchievement(achievement.getId());
+        super.undo();
         EventBus.getDefault().post(new GotAchievementEvent(achievement));
     }
 
