@@ -116,9 +116,9 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
 /***********************S奖励信息S**************************/
 
     /**
-     * 任务完成后增加相应技能
+     * 任务完成后增加相应能力
      * <p>
-     * key-技能ID val-增加的点数
+     * key-能力ID val-增加的点数
      */
     private Map<Long, Integer> successSkills;
     /**
@@ -130,9 +130,9 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
      */
     private List<AchievementReward> successAchievements;
     /**
-     * 任务失败后减少相应技能
+     * 任务失败后减少相应能力
      * <p>
-     * key-技能ID val-增加的点数
+     * key-能力ID val-增加的点数
      */
     private Map<Long, Integer> failureSkills;
     /**

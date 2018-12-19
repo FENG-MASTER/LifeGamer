@@ -27,6 +27,7 @@ import com.lifegamer.fengmaster.lifegamer.model.Task;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.RandomItemReward;
 import com.lifegamer.fengmaster.lifegamer.util.ViewUtil;
+import com.lifegamer.fengmaster.lifegamer.wight.SearchAndSelectDialog;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -47,7 +48,7 @@ public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
     private Task task;
 
     /**
-     * 任务失败后惩罚 技能列表
+     * 任务失败后惩罚 能力列表
      */
     private Map<Long, Integer> skills = new HashMap<>();
 
@@ -89,7 +90,7 @@ public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
     }
 
     /**
-     * 初始化 任务失败惩罚技能列表
+     * 初始化 任务失败惩罚能力列表
      */
     private void initSkills() {
         skills.clear();
@@ -217,9 +218,9 @@ public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
     }
 
     /**
-     * 新增一个惩罚技能的view
+     * 新增一个惩罚能力的view
      *
-     * @param skill 技能
+     * @param skill 能力
      * @param val   xp数值
      */
     private void newSkillView(Skill skill, int val) {
@@ -229,7 +230,7 @@ public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
         EditText valView = (EditText) view.findViewById(R.id.et_item_dialog_edit_task_reward_skill_val);
         ImageButton del = (ImageButton) view.findViewById(R.id.bt_dialog_edit_task_reward_skill_del);
 
-        //删除技能惩罚
+        //删除能力惩罚
         del.setOnClickListener(v -> {
             skills.remove(skill.getId());
             binding.llDialogEditTaskTimeFailureSkill.removeView(view);
@@ -322,7 +323,7 @@ public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
     @Override
     boolean save() {
 
-        //保存技能惩罚
+        //保存能力惩罚
         task.setFailureSkills(skills);
 
         //保存成就惩罚
@@ -339,34 +340,35 @@ public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
 
 
     /**
-     * 点击新增惩罚技能
+     * 点击新增惩罚能力
      *
      * @param view view
      */
     @OnClick(R.id.bt_dialog_edit_task_punish_add_skill)
     public void addSkill(View view) {
         List<Skill> allSkill = Stream.of(Game.getInstance().getSkillManager().getAllSkill()).
-                filterNot(value -> skills.containsKey(value.getId())).//排除已经添加了的技能
+                filterNot(value -> skills.containsKey(value.getId())).//排除已经添加了的能力
                 collect(Collectors.toList());
 
-        //显示用的名字列表
-        List<String> allSkillName = Stream.of(allSkill).
-                map(Skill::getName).
-                collect(Collectors.toList());
-        if (allSkillName == null || allSkillName.isEmpty()) {
-            //没有可用技能
-            ViewUtil.showToast("没有技能可供选择");
+
+        if (allSkill == null || allSkill.isEmpty()) {
+            //没有可用能力
+            ViewUtil.showToast("没有能力可供选择");
             return;
         }
 
-        new AlertDialog.Builder(getContext()).setSingleChoiceItems(allSkillName.toArray(new String[allSkillName.size()]), 0, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                newSkillView(allSkill.get(which), 0);
-                skills.put(allSkill.get(which).getId(), 0);
-                dialog.dismiss();
+        SearchAndSelectDialog<Skill> dialog = new SearchAndSelectDialog<Skill>();
+        dialog.setItemList(allSkill).setItemKeyFunction(Skill::getName);
+        dialog.addItemSelectListener(selectSkills -> {
+            for (Skill s : selectSkills) {
+                newSkillView(s, 0);
+                skills.put(s.getId(), 0);
             }
-        }).create().show();
+            dialog.dismiss();
+        });
+
+        dialog.show(getFragmentManager(), "select");
+
 
 
     }
@@ -387,10 +389,8 @@ public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
 
         List<RewardItem> rewardItems = Game.getInstance().getRewardManager().getAllAvailableRewardItem();
 
-        List<String> rewardsName = Stream.of(Game.getInstance().getRewardManager().getAllAvailableRewardItem()).
-                map(RewardItem::getName).
-                collect(Collectors.toList());
-        if (rewardsName == null || rewardsName.isEmpty()) {
+
+        if (rewardItems == null || rewardItems.isEmpty()) {
             //没有奖励可选
 
             ViewUtil.showToast("没有奖励可供选择");
@@ -398,17 +398,27 @@ public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
         }
 
         //弹出选择框
-        new AlertDialog.Builder(getContext()).setSingleChoiceItems(rewardsName.toArray(new String[rewardsName.size()]), 0, (dialog, which) -> {
-            RandomItemReward reward = new RandomItemReward(rewardItems.get(which).getId(), 1, 1000);
-            addNewItemView(reward);
-            randomItemRewards.add(reward);
+
+        SearchAndSelectDialog<RewardItem> dialog = new SearchAndSelectDialog<RewardItem>();
+        dialog.setItemList(rewardItems).setItemKeyFunction(rewardItem -> rewardItem.getName());
+        dialog.addItemSelectListener(rewardItems1 -> {
+            for (RewardItem rewardItem : rewardItems1) {
+                RandomItemReward reward=new RandomItemReward(rewardItem.getId(),1,1000);
+                addNewItemView(reward);
+                randomItemRewards.add(reward);
+            }
             dialog.dismiss();
-        }).create().show();
+        });
+
+        dialog.show(getFragmentManager(), "select");
+
+
+
 
     }
 
     /**
-     * 点击新增惩罚技能
+     * 点击新增惩罚能力
      *
      * @param view view
      */
@@ -428,10 +438,7 @@ public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
                         collect(Collectors.toList());
 
 
-        List<String> achievementNames = Stream.of(allAchievements).
-                map(Achievement::getName).
-                collect(Collectors.toList());
-        if (achievementNames == null || achievementNames.isEmpty()) {
+        if (allAchievements == null || allAchievements.isEmpty()) {
             //没有成就可选
 
             ViewUtil.showToast("没有成就可供选择");
@@ -439,15 +446,19 @@ public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
         }
 
         //弹出选择框
-        new AlertDialog.Builder(getContext()).setSingleChoiceItems(achievementNames.toArray(new String[achievementNames.size()]), 0, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                AchievementReward reward = new AchievementReward(allAchievements.get(which).getId(), 1000);
-                addNewAchievementPunishView(reward);
-                achievements.add(reward);
-                dialog.dismiss();
+        SearchAndSelectDialog<Achievement> dialog = new SearchAndSelectDialog<Achievement>();
+        dialog.setItemList(allAchievements).setItemKeyFunction(Achievement::getName);
+        dialog.addItemSelectListener(selectAchievements -> {
+            for (Achievement a : selectAchievements) {
+                AchievementReward achievementReward = new AchievementReward(a.getId(), 1000);
+                addNewAchievementPunishView(achievementReward);
+                achievements.add(achievementReward);
             }
-        }).create().show();
+            dialog.dismiss();
+        });
+
+        dialog.show(getFragmentManager(), "select");
+
 
     }
 

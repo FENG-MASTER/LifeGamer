@@ -58,7 +58,7 @@ public class DBHelper extends SQLiteOpenHelper {
             "avatar varchar)";
 
     /**
-     * 创建 技能 表
+     * 创建 能力 表
      */
     private static final String CREATE_TABLE_SKILL="create table if not exists "+TABLE_SKILL+
             "( _id integer primary key autoincrement," +
@@ -209,6 +209,8 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_TABLE_LOG);
 
     }
+
+
 
 
 

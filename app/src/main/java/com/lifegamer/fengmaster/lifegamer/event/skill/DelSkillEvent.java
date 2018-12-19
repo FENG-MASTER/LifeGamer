@@ -3,7 +3,7 @@ package com.lifegamer.fengmaster.lifegamer.event.skill;
 /**
  * Created by qianzise on 2017/10/14.
  *
- * 删除技能事件
+ * 删除能力事件
  */
 
 public class DelSkillEvent {

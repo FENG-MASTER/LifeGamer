@@ -34,7 +34,7 @@ public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getab
      * 任务
      * 物品
      * 成就
-     * 技能
+     * 能力
      * 经验
      * LP点数
      */
@@ -314,7 +314,7 @@ public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getab
     public static class TYPE {
         public static final String TASK = "任务";
         public static final String HERO = "玩家";
-        public static final String SKILL = "技能";
+        public static final String SKILL = "能力";
         public static final String ACHIEVEMENT = "成就";
         public static final String ITEM = "物品";
         public static final String REWARDITEM = "奖励";

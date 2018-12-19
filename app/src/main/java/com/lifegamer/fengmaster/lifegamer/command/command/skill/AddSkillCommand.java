@@ -11,7 +11,7 @@ import org.greenrobot.eventbus.EventBus;
 /**
  * Created by qianzise on 2017/10/15.
  *
- * 新增技能命令
+ * 新增能力命令
  */
 
 public class AddSkillCommand extends AbsCancelableCommand {
@@ -38,7 +38,7 @@ public class AddSkillCommand extends AbsCancelableCommand {
 
     @Override
     public String getName() {
-        return "新增技能"+newSkill.getName();
+        return "新增能力"+newSkill.getName();
     }
 
     @Override

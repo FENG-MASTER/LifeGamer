@@ -16,9 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 技能fragment
+ * 能力fragment
  * <p>
- * 属于高层模块,负责整合所有技能相关适配器和相关子fragment
+ * 属于高层模块,负责整合所有能力相关适配器和相关子fragment
  */
 public class SkillFragment extends BaseTabListFragment implements OnItemSelectListener {
     private Skill selectSkill;
@@ -43,7 +43,7 @@ public class SkillFragment extends BaseTabListFragment implements OnItemSelectLi
 
     @Override
     public void onActionButtonClick() {
-        //新建技能
+        //新建能力
         EditSkillDialog dialog=new EditSkillDialog();
         dialog.show(getChildFragmentManager(),"1");
     }

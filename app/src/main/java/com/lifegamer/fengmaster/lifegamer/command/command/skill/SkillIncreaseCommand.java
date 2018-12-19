@@ -5,7 +5,7 @@ import com.lifegamer.fengmaster.lifegamer.command.command.AbsCancelableCommand;
 import com.lifegamer.fengmaster.lifegamer.model.Skill;
 
 /**
- * 技能经验增加命令
+ * 能力经验增加命令
  * Created by FengMaster on 18/07/31.
  */
 public class SkillIncreaseCommand extends AbsCancelableCommand {

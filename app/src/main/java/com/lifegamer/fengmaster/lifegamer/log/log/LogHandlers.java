@@ -18,7 +18,7 @@ import org.aspectj.lang.JoinPoint;
  */
 public class LogHandlers {
 
-//    ------------------------------技能相关-------------------------------------
+//    ------------------------------能力相关-------------------------------------
 
     private static Skill skillLogCommon(JoinPoint joinPoint,Log log){
         Skill skill = (Skill) joinPoint.getTarget();
@@ -109,7 +109,7 @@ public class LogHandlers {
 
 
     /**
-     * 技能经验日志
+     * 能力经验日志
      * @param joinPoint
      * @param log
      */
@@ -126,7 +126,7 @@ public class LogHandlers {
 
 
     /**
-     * 技能等级日志
+     * 能力等级日志
      * @param joinPoint
      * @param log
      */
@@ -142,7 +142,7 @@ public class LogHandlers {
     }
 
 
-//    ------------------------------技能相关-------------------------------------
+//    ------------------------------能力相关-------------------------------------
 
 //    ------------------------------英雄相关-------------------------------------
 

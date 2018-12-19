@@ -391,7 +391,7 @@ public class TaskManager implements ITaskManager {
     }
 
     /**
-     * 处理技能奖励
+     * 处理能力奖励
      * @param task 任务
      * @param finish
      */
@@ -627,7 +627,7 @@ public class TaskManager implements ITaskManager {
     }
 
     /**
-     * 当有技能被删除的时候,需要相关任务中残留的相关技能ID
+     * 当有能力被删除的时候,需要相关任务中残留的相关能力ID
      * @param delSkillEvent
      */
     @Subscribe(threadMode = ThreadMode.POSTING)

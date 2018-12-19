@@ -54,7 +54,7 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
     private Task task;
 
     /**
-     * 任务完成获得的 技能列表
+     * 任务完成获得的 能力列表
      */
     private Map<Long, Integer> skills = new HashMap<>();
 
@@ -94,7 +94,7 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
     }
 
     /**
-     * 初始化 任务获得技能列表
+     * 初始化 任务获得能力列表
      */
     private void initSkills() {
         skills.clear();
@@ -221,9 +221,9 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
     }
 
     /**
-     * 新增一个奖励技能的view
+     * 新增一个奖励能力的view
      *
-     * @param skill 技能
+     * @param skill 能力
      * @param val  xp数值
      */
     private void newSkillView(Skill skill, int val) {
@@ -233,7 +233,7 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
         EditText valView = (EditText) view.findViewById(R.id.et_item_dialog_edit_task_reward_skill_val);
         ImageButton del = (ImageButton) view.findViewById(R.id.bt_dialog_edit_task_reward_skill_del);
 
-        //删除技能奖励
+        //删除能力奖励
         del.setOnClickListener(v -> {
             skills.remove(skill.getId());
             binding.llDialogEditTaskTimeFinishSkill.removeView(view);
@@ -331,7 +331,7 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
     @Override
     boolean save() {
 
-        //保存技能奖励
+        //保存能力奖励
         task.setSuccessSkills(skills);
 
         //保存成就奖励
@@ -348,20 +348,20 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
 
 
     /**
-     * 点击新增奖励技能
+     * 点击新增奖励能力
      *
      * @param view view
      */
     @OnClick(R.id.bt_dialog_edit_task_reward_add_skill)
     public void addSkill(View view) {
         List<Skill> allSkill=Stream.of(Game.getInstance().getSkillManager().getAllSkill()).
-                filterNot(value -> skills.containsKey(value.getId())).//排除已经添加了的技能
+                filterNot(value -> skills.containsKey(value.getId())).//排除已经添加了的能力
                 collect(Collectors.toList());
 
 
         if (allSkill == null || allSkill.isEmpty()) {
-            //没有可用技能
-            ViewUtil.showToast("没有技能可供选择");
+            //没有可用能力
+            ViewUtil.showToast("没有能力可供选择");
             return;
         }
 
@@ -422,7 +422,7 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
     }
 
     /**
-     * 点击新增奖励技能
+     * 点击新增奖励能力
      *
      * @param view view
      */

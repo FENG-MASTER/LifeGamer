@@ -26,14 +26,14 @@ import butterknife.ButterKnife;
 /**
  * Created by qianzise on 2017/10/14.
  *
- * 基础 技能实现适配器
+ * 基础 能力实现适配器
  */
 
 public abstract class BaseSkillFragmentAdapter extends AbsBaseRecyclerViewAdapter<BaseSkillFragmentAdapter.Holder, Skill> {
     protected List<Skill> showSkillList;
 
     /**
-     * 选中技能 监听者
+     * 选中能力 监听者
      */
     private List<OnItemSelectListener<Skill>> listeners = new LinkedList<>();
 
@@ -79,7 +79,7 @@ public abstract class BaseSkillFragmentAdapter extends AbsBaseRecyclerViewAdapte
     }
 
     /**
-     * 这个监听方法是为了由于新建技能,所有技能列表发生改变,重新更新数据
+     * 这个监听方法是为了由于新建能力,所有能力列表发生改变,重新更新数据
      *
      * @param event 事件
      */
@@ -90,7 +90,7 @@ public abstract class BaseSkillFragmentAdapter extends AbsBaseRecyclerViewAdapte
     }
 
     /**
-     * 有技能被删除,需要更新
+     * 有能力被删除,需要更新
      * @param event
      */
     @Subscribe(threadMode = ThreadMode.POSTING)

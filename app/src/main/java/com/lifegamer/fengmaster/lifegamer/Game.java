@@ -53,7 +53,7 @@ public class Game {
      */
     private IAchievementManager achievementManager=new AchievementManager();
     /**
-     * 技能管理器
+     * 能力管理器
      */
     private ISkillManager skillManager=new SkillManager();
     /**

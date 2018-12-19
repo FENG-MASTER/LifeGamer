@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * Created by qianzise on 2017/10/4.
  * <p>
- * 技能对象
+ * 能力对象
  */
 public class Skill extends BaseObservable implements Insertable, Updateable, Deleteable, ICopy<Skill>,Getable,IdAble {
 
@@ -38,35 +38,35 @@ public class Skill extends BaseObservable implements Insertable, Updateable, Del
      */
     private static ILevelXP levelXP = new NormalLevelXP();
     /**
-     * 技能id
+     * 能力id
      */
     private long id;
     /**
-     * 技能名字
+     * 能力名字
      */
     private String name;
     /**
-     * 技能当前的经验
+     * 能力当前的经验
      */
     private int XP;
     /**
-     * 技能当前等级
+     * 能力当前等级
      */
     private int level = 1;
     /**
-     * 技能所属种类
+     * 能力所属种类
      */
     private String type="未分类";
     /**
-     * 技能简介
+     * 能力简介
      */
     private String intro;
     /**
-     * 技能升级所需XP
+     * 能力升级所需XP
      */
     private int upGradeXP=DEF_UPGRADE_XP;
     /**
-     * 技能图标
+     * 能力图标
      */
     private String icon;
     /**

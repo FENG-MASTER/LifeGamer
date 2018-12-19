@@ -52,7 +52,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:hint="技能名称"
+                            android:hint="能力名称"
                             android:text="@{skill.name}"/>
                     </android.support.design.widget.TextInputLayout>
 
@@ -109,7 +109,7 @@
                     android:id="@+id/et_dialog_edit_skill_intro"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="技能简介"
+                    android:hint="能力简介"
                     android:text="@{skill.intro}"/>
             </android.support.design.widget.TextInputLayout>
 

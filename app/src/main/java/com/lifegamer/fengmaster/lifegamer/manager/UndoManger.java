@@ -35,7 +35,7 @@ public class UndoManger implements IUndoManager {
     }
 
     /**
-     * 撤销技能
+     * 撤销能力
      * @param eventLog
      */
     private void undoSkill(Log eventLog) {

@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,8 +43,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @BindView(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
-    @BindView(R.id.sp_toolbar)
-    Spinner toolbarSpinner;
+
 
     TopInfoFragment topInfoFragment;
 
@@ -56,7 +56,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         initInfo();
 
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_input_add);
+        toolbar.setNavigationIcon(R.drawable.ic_nav_task);
+        //点击图标弹出导航栏
+        toolbar.setNavigationOnClickListener(v -> drawerLayout.openDrawer(Gravity.LEFT));
         toolbar.setSubtitle("任务");
         initNav();
         //showInfo();
@@ -66,17 +68,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void initNav(){
         navigationView.setNavigationItemSelectedListener(this);
-        toolbarSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                changeToFragment(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
     }
 
     @Override
@@ -123,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.nav_skill:
-                //技能
+                //能力
                 changeToFragment(3);
                 break;
 
@@ -207,7 +198,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
         toolbar.setSubtitle(getResources().getStringArray(R.array.main_sp)[i]);
-        toolbarSpinner.setSelection(i,true);
 
     }
 

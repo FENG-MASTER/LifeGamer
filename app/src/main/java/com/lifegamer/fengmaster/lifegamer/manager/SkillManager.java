@@ -31,9 +31,9 @@ import java.util.Map;
 /**
  * Created by qianzise on 2017/10/4.
  * <p>
- * 本地技能管理模块
+ * 本地能力管理模块
  * <p>
- * 模块本身存储一份所有技能的备份{@link SkillManager#skillList}
+ * 模块本身存储一份所有能力的备份{@link SkillManager#skillList}
  */
 
 public class SkillManager implements ISkillManager {
@@ -63,8 +63,8 @@ public class SkillManager implements ISkillManager {
 
 
     /**
-     * 增加技能经验值
-     * @param skillName 技能名字
+     * 增加能力经验值
+     * @param skillName 能力名字
      * @param xp        增加点数
      * @return 是否成功
      */
@@ -81,8 +81,8 @@ public class SkillManager implements ISkillManager {
     }
 
     /**
-     * 新建技能
-     * @param skill 技能
+     * 新建能力
+     * @param skill 能力
      * @return 是否成功
      */
     @Override
@@ -97,8 +97,8 @@ public class SkillManager implements ISkillManager {
     }
 
     /**
-     * 更新技能
-     * @param skill 技能
+     * 更新能力
+     * @param skill 能力
      * @return 是否成功
      */
     @Override
@@ -122,8 +122,8 @@ public class SkillManager implements ISkillManager {
     }
 
     /**
-     * @param name 技能名称
-     * @return 技能
+     * @param name 能力名称
+     * @return 能力
      */
     @Override
     public Skill getSkill(String name) {
@@ -131,8 +131,8 @@ public class SkillManager implements ISkillManager {
     }
 
     /**
-     * @param id 技能id
-     * @return 技能
+     * @param id 能力id
+     * @return 能力
      */
     @Override
     public Skill getSkill(long id) {
@@ -140,8 +140,8 @@ public class SkillManager implements ISkillManager {
     }
 
     /**
-     * 删除技能
-     * @param name 技能名称
+     * 删除能力
+     * @param name 能力名称
      * @return 是否成功
      */
     @Override
@@ -157,8 +157,8 @@ public class SkillManager implements ISkillManager {
     }
 
     /**
-     * 获得所有技能名称
-     * @return 技能名称列表
+     * 获得所有能力名称
+     * @return 能力名称列表
      */
     @Override
     public List<String> getAllSkillName() {
@@ -166,8 +166,8 @@ public class SkillManager implements ISkillManager {
     }
 
     /**
-     * 获得所有技能列表
-     * @return 技能列表
+     * 获得所有能力列表
+     * @return 能力列表
      */
     @Override
     public List<Skill> getAllSkill() {
@@ -175,8 +175,8 @@ public class SkillManager implements ISkillManager {
     }
 
     /**
-     * 获取 特定分类的技能名称列表
-     * @param type 技能分类
+     * 获取 特定分类的能力名称列表
+     * @param type 能力分类
      * @return 名称列表
      */
     @Override
@@ -185,8 +185,8 @@ public class SkillManager implements ISkillManager {
     }
 
     /**
-     * 获取 特定分类的技能列表
-     * @param type 技能分类
+     * 获取 特定分类的能力列表
+     * @param type 能力分类
      * @return 列表
      */
     @Override
@@ -196,7 +196,7 @@ public class SkillManager implements ISkillManager {
     }
 
     /**
-     * 获取技能所有种类
+     * 获取能力所有种类
      * @return 种类列表
      */
     @Override

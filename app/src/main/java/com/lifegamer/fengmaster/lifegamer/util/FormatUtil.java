@@ -73,7 +73,7 @@ public class FormatUtil {
     /**
      * skillmap转string形式
      *
-     * @param skillMap skillmap key-技能名 val-技能增加xp
+     * @param skillMap skillmap key-能力名 val-能力增加xp
      * @return string形式
      */
     public static String skillMap2Str(Map<Long, Integer> skillMap) {
@@ -91,7 +91,7 @@ public class FormatUtil {
      * string转skillmap形式
      *
      * @param str string形式
-     * @return skillmap key-技能名 val-技能增加xp
+     * @return skillmap key-能力名 val-能力增加xp
      */
     public static Map<Long, Integer> str2SkillMap(String str) {
         if (str == null||str.equals("")) {

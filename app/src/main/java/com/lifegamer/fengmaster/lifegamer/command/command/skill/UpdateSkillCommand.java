@@ -7,7 +7,7 @@ import com.lifegamer.fengmaster.lifegamer.model.Skill;
 /**
  * Created by qianzise on 2017/10/15.
  *
- * 更新技能命令
+ * 更新能力命令
  */
 
 public class UpdateSkillCommand extends AbsNoCancelableCommand{
@@ -24,6 +24,6 @@ public class UpdateSkillCommand extends AbsNoCancelableCommand{
 
     @Override
     public String getName() {
-        return "更新技能 "+skill.getName()+" 成功";
+        return "更新能力 "+skill.getName()+" 成功";
     }
 }

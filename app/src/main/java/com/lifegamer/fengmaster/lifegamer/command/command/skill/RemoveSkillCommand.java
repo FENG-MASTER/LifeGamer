@@ -10,7 +10,7 @@ import org.greenrobot.eventbus.EventBus;
 /**
  * Created by qianzise on 2017/10/21.
  *
- * 删除技能命令
+ * 删除能力命令
  */
 
 public class RemoveSkillCommand extends AbsCancelableCommand {
@@ -34,7 +34,7 @@ public class RemoveSkillCommand extends AbsCancelableCommand {
 
     @Override
     public String getName() {
-        return "删除技能"+skill.getName()+"成功";
+        return "删除能力"+skill.getName()+"成功";
     }
 
     @Override

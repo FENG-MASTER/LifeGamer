@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 /**
  * Created by qianzise on 2017/10/13.
  * <p>
- * 技能编辑对话框
+ * 能力编辑对话框
  */
 
 public class EditSkillDialog extends BaseDialogFragment implements OnItemSelectListener<IAvatarManager.Avatar> {
@@ -88,7 +88,7 @@ public class EditSkillDialog extends BaseDialogFragment implements OnItemSelectL
                 if (Stream.of(Game.getInstance().getSkillManager().getAllSkillName()).anyMatch(s -> !s.equals(skill.getName())&&s.equals(editable.toString()))) {
                     //重名!!
                     binding.tilDialogEditSkillName.setErrorEnabled(true);
-                    binding.tilDialogEditSkillName.setError("技能重名!");
+                    binding.tilDialogEditSkillName.setError("能力重名!");
                     err = true;
                 } else {
                     binding.tilDialogEditSkillName.setErrorEnabled(false);

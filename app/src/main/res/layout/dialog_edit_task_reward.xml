@@ -42,7 +42,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="增加技能点"
+                    android:text="增加能力点"
                     android:textSize="12sp"/>
 
                 <LinearLayout
@@ -59,7 +59,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableRight="@drawable/ic_add_black_24dp"
-                    android:text="新增技能奖励"/>
+                    android:text="新增能力奖励"/>
 
             </LinearLayout>
 
