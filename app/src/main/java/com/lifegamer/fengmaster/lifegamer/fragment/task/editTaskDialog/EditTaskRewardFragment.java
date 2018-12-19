@@ -18,8 +18,10 @@ import android.widget.TextView;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.annimon.stream.function.Function;
+import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
+import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.databinding.DialogEditTaskRewardBinding;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
 import com.lifegamer.fengmaster.lifegamer.model.RewardItem;
@@ -356,24 +358,25 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
                 filterNot(value -> skills.containsKey(value.getId())).//排除已经添加了的技能
                 collect(Collectors.toList());
 
-        //显示用的名字列表
-        List<String> allSkillName = Stream.of(allSkill).
-                map(Skill::getName).
-                collect(Collectors.toList());
-        if (allSkillName == null || allSkillName.isEmpty()) {
+
+        if (allSkill == null || allSkill.isEmpty()) {
             //没有可用技能
             ViewUtil.showToast("没有技能可供选择");
             return;
         }
 
-        new AlertDialog.Builder(getContext()).setSingleChoiceItems(allSkillName.toArray(new String[allSkillName.size()]), 0, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                newSkillView(allSkill.get(which), 0);
-                skills.put(allSkill.get(which).getId(), 0);
-                dialog.dismiss();
+        //显示选择框
+        SearchAndSelectDialog<Skill> dialog = new SearchAndSelectDialog<Skill>();
+        dialog.setItemList(allSkill).setItemKeyFunction(Skill::getName);
+        dialog.addItemSelectListener(selectSkills -> {
+            for (Skill s : selectSkills) {
+                newSkillView(s, 0);
+                skills.put(s.getId(), 0);
             }
-        }).create().show();
+            dialog.dismiss();
+        });
+
+        dialog.show(getFragmentManager(), "select");
 
 
     }
@@ -391,12 +394,11 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
             return;
         }
 
-        List<RewardItem> rewardItems=Game.getInstance().getRewardManager().getAllAvailableRewardItem();
+        //过滤掉已经添加过的
+        List<RewardItem> rewardItems=Stream.of(Game.getInstance().getRewardManager().getAllAvailableRewardItem()).filterNot(value -> randomItemRewards.contains(new RandomItemReward(value.getId(),0,0))).collect(Collectors.toList());
 
-        List<String> rewardsName = Stream.of(Game.getInstance().getRewardManager().getAllAvailableRewardItem()).
-                map(RewardItem::getName).
-                collect(Collectors.toList());
-        if (rewardsName == null || rewardsName.isEmpty()) {
+
+        if (rewardItems == null || rewardItems.isEmpty()) {
             //没有奖励可选
 
             ViewUtil.showToast("没有奖励可供选择");
@@ -404,23 +406,18 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
         }
 
         SearchAndSelectDialog<RewardItem> dialog = new SearchAndSelectDialog<RewardItem>();
-        dialog.setItemList(rewardItems).setItemKeyFunction(new Function<RewardItem, String>() {
-            @Override
-            public String apply(RewardItem rewardItem) {
-                return rewardItem.getName();
+        dialog.setItemList(rewardItems).setItemKeyFunction(rewardItem -> rewardItem.getName());
+        dialog.addItemSelectListener(rewardItems1 -> {
+            for (RewardItem rewardItem : rewardItems1) {
+                RandomItemReward reward=new RandomItemReward(rewardItem.getId(),1,1000);
+                addNewItemView(reward);
+                randomItemRewards.add(reward);
             }
+            dialog.dismiss();
         });
 
         dialog.show(getFragmentManager(), "select");
 
-
-//        //弹出选择框
-//        new AlertDialog.Builder(getContext()).setSingleChoiceItems(rewardsName.toArray(new String[rewardsName.size()]), 0, (dialog, which) -> {
-//            RandomItemReward reward=new RandomItemReward(rewardItems.get(which).getId(),1,1000);
-//            addNewItemView(reward);
-//            randomItemRewards.add(reward);
-//            dialog.dismiss();
-//        }).create().show();
 
     }
 
@@ -445,10 +442,7 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
                         collect(Collectors.toList());
 
 
-        List<String> achievementNames = Stream.of(allAchievements).
-                map(Achievement::getName).
-                collect(Collectors.toList());
-        if (achievementNames == null || achievementNames.isEmpty()) {
+        if (allAchievements == null || allAchievements.isEmpty()) {
             //没有成就可选
 
             ViewUtil.showToast("没有成就可供选择");
@@ -456,15 +450,21 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
         }
 
         //弹出选择框
-        new AlertDialog.Builder(getContext()).setSingleChoiceItems(achievementNames.toArray(new String[achievementNames.size()]), 0, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                AchievementReward reward = new AchievementReward(allAchievements.get(which).getId(), 1000);
-                addNewAchievementRewardView(reward);
-                achievements.add(reward);
-                dialog.dismiss();
+
+
+        SearchAndSelectDialog<Achievement> dialog = new SearchAndSelectDialog<Achievement>();
+        dialog.setItemList(allAchievements).setItemKeyFunction(Achievement::getName);
+        dialog.addItemSelectListener(selectAchievements -> {
+            for (Achievement a : selectAchievements) {
+                AchievementReward achievementReward = new AchievementReward(a.getId(), 1000);
+                addNewAchievementRewardView(achievementReward);
+                achievements.add(achievementReward);
             }
-        }).create().show();
+            dialog.dismiss();
+        });
+
+        dialog.show(getFragmentManager(), "select");
+
 
     }
 }

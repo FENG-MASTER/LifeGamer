@@ -54,4 +54,14 @@ public class RandomItemReward extends AbsRandomReward {
     public void setProbability(int probability) {
         this.probability = probability;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return ((RandomItemReward)obj).rewardID==rewardID;
+    }
+
+    @Override
+    public int hashCode() {
+        return Long.valueOf(rewardID).hashCode();
+    }
 }
