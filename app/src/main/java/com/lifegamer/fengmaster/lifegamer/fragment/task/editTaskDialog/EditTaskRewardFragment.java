@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
+import com.annimon.stream.function.Function;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.databinding.DialogEditTaskRewardBinding;
@@ -27,6 +28,7 @@ import com.lifegamer.fengmaster.lifegamer.model.Task;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.RandomItemReward;
 import com.lifegamer.fengmaster.lifegamer.util.ViewUtil;
+import com.lifegamer.fengmaster.lifegamer.wight.SearchAndSelectDialog;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -401,13 +403,24 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
             return;
         }
 
-        //弹出选择框
-        new AlertDialog.Builder(getContext()).setSingleChoiceItems(rewardsName.toArray(new String[rewardsName.size()]), 0, (dialog, which) -> {
-            RandomItemReward reward=new RandomItemReward(rewardItems.get(which).getId(),1,1000);
-            addNewItemView(reward);
-            randomItemRewards.add(reward);
-            dialog.dismiss();
-        }).create().show();
+        SearchAndSelectDialog<RewardItem> dialog = new SearchAndSelectDialog<RewardItem>();
+        dialog.setItemList(rewardItems).setItemKeyFunction(new Function<RewardItem, String>() {
+            @Override
+            public String apply(RewardItem rewardItem) {
+                return rewardItem.getName();
+            }
+        });
+
+        dialog.show(getFragmentManager(), "select");
+
+
+//        //弹出选择框
+//        new AlertDialog.Builder(getContext()).setSingleChoiceItems(rewardsName.toArray(new String[rewardsName.size()]), 0, (dialog, which) -> {
+//            RandomItemReward reward=new RandomItemReward(rewardItems.get(which).getId(),1,1000);
+//            addNewItemView(reward);
+//            randomItemRewards.add(reward);
+//            dialog.dismiss();
+//        }).create().show();
 
     }
 
