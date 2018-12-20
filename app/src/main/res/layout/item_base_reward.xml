@@ -27,7 +27,7 @@
             android:layout_height="80dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:src="@{reward.icon == null? @drawable/ic_default :Game.instance.avatarManager.getAvatar(FormatUtil.avatarStrFormat(reward.icon)[1]).icon}"/>
+            android:src="@{reward.icon == null? @drawable/ic_default :Game.instance.avatarManager.getAvatar(reward.icon).icon}"/>
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -28,7 +28,7 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_weight="1"
-                android:src="@{ hero.avatarUrl == null? @drawable/ic_default :Game.instance.avatarManager.getAvatar(FormatUtil.avatarStrFormat(hero.avatarUrl)[1]).icon }"/>
+                android:src="@{ hero.avatarUrl == null? @drawable/ic_default :Game.instance.avatarManager.getAvatar(hero.avatarUrl).icon }"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"

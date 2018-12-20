@@ -51,7 +51,7 @@ public interface IAvatarManager extends IName{
 
         public Drawable getIcon() {
             if (icon==null){
-                icon= Game.getInstance().getAvatarManager().getDrawable(name);
+                icon= Game.getInstance().getAvatarManager().getDrawable(toString());
             }
             return icon;
         }

@@ -14,6 +14,7 @@ import com.lifegamer.fengmaster.lifegamer.manager.SkillManager;
 import com.lifegamer.fengmaster.lifegamer.manager.TaskManager;
 import com.lifegamer.fengmaster.lifegamer.manager.UndoManger;
 import com.lifegamer.fengmaster.lifegamer.manager.base.DefaultAvatarManager;
+import com.lifegamer.fengmaster.lifegamer.manager.base.IconicsAvatarManager;
 import com.lifegamer.fengmaster.lifegamer.manager.base.itf.IAvatarManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IAchievementManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IHeroManager;
@@ -71,7 +72,7 @@ public class Game {
     /**
      * 图标管理器
      */
-    private IAvatarManager avatarManager=new DefaultAvatarManager();
+    private IAvatarManager avatarManager=new IconicsAvatarManager();
 
 
     /**

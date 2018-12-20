@@ -35,7 +35,7 @@
                     android:id="@+id/siv_dialog_edit_task_icon"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:src="@{task.icon == null? @drawable/ic_default :Game.instance.avatarManager.getAvatar(FormatUtil.avatarStrFormat(task.icon)[1]).icon}"/>
+                    android:src="@{task.icon == null? @drawable/ic_default :Game.instance.avatarManager.getAvatar(task.icon).icon}"/>
 
 
                 <LinearLayout

@@ -37,7 +37,7 @@
                     android:id="@+id/siv_dialog_edit_reward_icon"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:src="@{reward.icon == null? @drawable/ic_default :Game.instance.avatarManager.getAvatar(FormatUtil.avatarStrFormat(reward.icon)[1]).icon}"/>
+                    android:src="@{reward.icon == null? @drawable/ic_default :Game.instance.avatarManager.getAvatar(reward.icon).icon}"/>
 
 
                 <LinearLayout

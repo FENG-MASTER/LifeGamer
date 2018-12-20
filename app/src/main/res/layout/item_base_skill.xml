@@ -25,7 +25,7 @@
             android:layout_height="80dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:src="@{skill.icon == null? @drawable/ic_default :Game.instance.avatarManager.getAvatar(FormatUtil.avatarStrFormat(skill.icon)[1]).icon}"/>
+            android:src="@{skill.icon == null? @drawable/ic_default :Game.instance.avatarManager.getAvatar(skill.icon).icon}"/>
 
         <LinearLayout
             android:layout_width="match_parent"

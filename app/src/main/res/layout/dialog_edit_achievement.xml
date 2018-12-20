@@ -33,7 +33,7 @@
                     android:id="@+id/siv_dialog_edit_achievement_icon"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:src="@{achievement.icon == null? @drawable/ic_default :Game.instance.avatarManager.getAvatar(FormatUtil.avatarStrFormat(achievement.icon)[1]).icon}"/>
+                    android:src="@{achievement.icon == null? @drawable/ic_default :Game.instance.avatarManager.getAvatar(achievement.icon).icon}"/>
 
 
                 <LinearLayout
