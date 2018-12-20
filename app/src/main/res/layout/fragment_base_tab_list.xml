@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
-    android:id="@+id/coordinatorLayout_fragment"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorLayout_fragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,8 +15,12 @@
             android:id="@+id/tl_fragment_base_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorDarkBackGround">
+            android:background="@color/colorDarkBackGround"
+            app:tabGravity="fill"
+            app:tabSelectedTextColor="@android:color/holo_orange_light"
+            app:tabMode="scrollable">
         </android.support.design.widget.TabLayout>
+
 
         <android.support.v4.view.ViewPager
             android:id="@+id/vp_fragment_base_list"
@@ -31,8 +35,8 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
         android:src="@drawable/ic_add_black_24dp"
         app:backgroundTint="#30469b"
         app:borderWidth="0dp"

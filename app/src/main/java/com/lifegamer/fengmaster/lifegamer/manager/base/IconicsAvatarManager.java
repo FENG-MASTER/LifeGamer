@@ -29,8 +29,11 @@ public class IconicsAvatarManager implements IAvatarManager {
 
     private List<String> iconNames;
 
+    private Drawable emptyDrawable;
+
     public IconicsAvatarManager() {
         context=App.getContext();
+        emptyDrawable=context.getDrawable(R.drawable.ic_default);
         initIconNames();
     }
 
@@ -55,8 +58,7 @@ public class IconicsAvatarManager implements IAvatarManager {
     @Override
     public Drawable getDrawable(String name) {
         if (name==null||name.equals("无")){
-
-            return context.getDrawable(R.drawable.ic_default);
+            return emptyDrawable;
         }
 
         String[] avatarStrFormat = FormatUtil.avatarStrFormat(name);
@@ -71,12 +73,12 @@ public class IconicsAvatarManager implements IAvatarManager {
                 //存在对应的图标
                 return new IconicsDrawable(context).icon(icon);
             }else {
-                return context.getDrawable(R.drawable.ic_default);
+                return emptyDrawable;
             }
 
 
         }else {
-            return context.getDrawable(R.drawable.ic_default);
+            return emptyDrawable;
 
         }
 

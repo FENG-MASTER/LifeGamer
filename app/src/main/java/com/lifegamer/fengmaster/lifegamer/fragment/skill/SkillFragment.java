@@ -62,7 +62,6 @@ public class SkillFragment extends BaseTabListFragment implements OnItemSelectLi
     private void onSkillSelect(Skill skill){
         selectSkill=skill;
 
-        ViewUtil.showToast(skill.getName());
         SelectDialog selectDialog = new SelectDialog();
 
         selectDialog.addItemSelectListener(this);

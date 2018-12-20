@@ -60,6 +60,19 @@ public class UndoHandlers {
 
     }
 
+    @UndoHandler(type = Log.TYPE.HERO, action = Log.ACTION.ADD, property = Log.PROPERTY.XP)
+    public static void heroXpAddUndo(Log log) {
+        int xp = Game.getInstance().getHeroManager().getHero().getXp();
+        Game.getInstance().getHeroManager().getHero().setXp(xp-Integer.valueOf(log.getValue()));
+    }
+
+
+    @UndoHandler(type = Log.TYPE.HERO, action = Log.ACTION.SUB, property = Log.PROPERTY.XP)
+    public static void heroXpSubUndo(Log log) {
+        int xp = Game.getInstance().getHeroManager().getHero().getXp();
+        Game.getInstance().getHeroManager().getHero().setXp(xp+Integer.valueOf(log.getValue()));
+    }
+
 
 //--------------------------------------英雄相关-------------------------------------------//
 

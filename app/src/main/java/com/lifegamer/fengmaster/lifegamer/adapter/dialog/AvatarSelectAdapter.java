@@ -35,6 +35,11 @@ public class AvatarSelectAdapter extends AbsBaseRecyclerViewAdapter<AvatarSelect
         avatarNameList=Game.getInstance().getAvatarManager().getAllDrawableName();
     }
 
+    public void setAvatarNameList(List<String> avatarNameList) {
+        this.avatarNameList = avatarNameList;
+        notifyDataSetChanged();
+    }
+
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_select_avatar, parent, false);

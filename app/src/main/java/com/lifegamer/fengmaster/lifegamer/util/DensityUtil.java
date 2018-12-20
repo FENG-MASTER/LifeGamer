@@ -2,6 +2,8 @@ package com.lifegamer.fengmaster.lifegamer.util;
 
 import android.content.Context;
 
+import com.lifegamer.fengmaster.lifegamer.App;
+
 /**
  * Created by qianzise on 2017/10/4.
  */
@@ -50,4 +52,35 @@ public class DensityUtil {
         final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
         return (int) (pxValue / fontScale + 0.5f);
     }
+
+
+    public static int getPhoneWidthPx(){
+        return App.getContext().getResources().getDisplayMetrics().widthPixels;
+    }
+
+    public static int getPhoneHeightPx(){
+        return App.getContext().getResources().getDisplayMetrics().heightPixels;
+    }
+
+
+    /**
+     * 获取屏幕百分比高
+     * @param d
+     * @return
+     */
+    public static int getPhoneHeightPx(double d){
+        return (int)Math.floor(getPhoneHeightPx()*d);
+    }
+
+    /**
+     * 获取屏幕百分比宽
+     * @param d
+     * @return
+     */
+    public static int getPhoneWidthPx(double d){
+        return (int)Math.floor(getPhoneWidthPx()*d);
+
+    }
+
+
 }
