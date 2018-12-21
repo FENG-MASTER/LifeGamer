@@ -1,5 +1,6 @@
 package com.lifegamer.fengmaster.lifegamer;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -26,6 +27,8 @@ import com.lifegamer.fengmaster.lifegamer.fragment.StatisticsFragment;
 import com.lifegamer.fengmaster.lifegamer.fragment.task.TaskFragment;
 import com.lifegamer.fengmaster.lifegamer.fragment.TopInfoFragment;
 import com.lifegamer.fengmaster.lifegamer.util.ViewUtil;
+import com.mikepenz.iconics.IconicsDrawable;
+import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,13 +59,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         initInfo();
 
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_nav_task);
+        toolbar.setNavigationIcon(new IconicsDrawable(this).icon(MaterialDesignIconic.Icon.gmi_view_toc).color(Color.WHITE).sizeDp(30));
         //点击图标弹出导航栏
         toolbar.setNavigationOnClickListener(v -> drawerLayout.openDrawer(Gravity.LEFT));
         toolbar.setSubtitle("任务");
         initNav();
         //showInfo();
-
+        changeToFragment(0);
         ViewUtil.addCoopView(coordinatorLayout);
     }
 

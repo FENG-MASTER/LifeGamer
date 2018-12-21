@@ -3,7 +3,10 @@ package com.lifegamer.fengmaster.lifegamer.command;
 import android.support.design.widget.Snackbar;
 
 import com.lifegamer.fengmaster.lifegamer.command.command.ICommand;
+import com.lifegamer.fengmaster.lifegamer.event.CommandExec;
 import com.lifegamer.fengmaster.lifegamer.util.ViewUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by qianzise on 2017/10/15.
@@ -15,12 +18,6 @@ public class CommandManager {
      * 命令集头部
      */
     private boolean isHead=true;
-
-
-    /**
-     * 最近一条指令是否是父指令
-     */
-    private boolean lastestCommandIsHead=true;
 
     /**
      * 命令集中间的事件,不会提示
@@ -37,14 +34,13 @@ public class CommandManager {
              *          这里采用解决方案是:只显示命令集中第一个命令的提示
              *
              * */
+            EventBus.getDefault().post(new CommandExec());
             isHead=false;
-            lastestCommandIsHead=true;
             command.execute();
             isHead=true;
             hide=false;
         }else {
             hide=true;
-            lastestCommandIsHead=false;
             command.execute();
         }
 
@@ -61,12 +57,4 @@ public class CommandManager {
 
     }
 
-
-    /**
-     * 最近一条指令是否是父指令
-     * @return
-     */
-    public boolean isLastestCommandIsHead() {
-        return lastestCommandIsHead;
-    }
 }
