@@ -32,5 +32,42 @@
     <string name="about_text">\t\t这里是软件的作者峰少,感谢使用本软件.这个软件的创意来自于生活的灵感,但没想到已经有人先将这个想法实现了出来,类似的产品有LifeRPG,如果你有什么意见,可以在我的开源项目里提出,如果你觉得LifeRPG不错,你也可以去试试,确实是不错的APP \n  \t\tGithub开源地址:https://github.com/FENG-MASTER/LifeGamer </string>
     <string name="avator_query_text">搜索内容</string>
 
+    <!--默认数据库数据-->
+    <string name="db_default_fitness">体能</string>
+    <string name="db_default_leg_strength">腿部力量</string>
+    <string name="db_default_arm_strength">手臂力量</string>
+    <string name="db_default_waist_strength">腰部力量</string>
+    <string name="db_default_iq">智商</string>
+    <string name="db_default_eq">情商</string>
+    <string name="db_default_happiness">幸福感</string>
+    <string name="db_default_anxiety">焦虑感</string>
+    <string name="db_default_happy">开心</string>
+    <string name="db_default_sad">难过</string>
+    <string name="db_default_code_skill">开发能力</string>
+    <string name="db_default_communication_skill">沟通能力</string>
+    <string name="db_default_understanding_skill">理解能力</string>
+    <string name="db_default_think_skill">思考能力</string>
+    <string name="db_default_cooking_skill">厨艺</string>
+    <string name="db_default_physical_fitness">身体素质</string>
+    <string name="db_default_brain">大脑</string>
+    <string name="db_default_emotion">情绪</string>
+    <string name="db_default_skill">技能</string>
+    <string name="db_default_fitness_desc">一般通过锻炼可以增强</string>
+    <string name="db_default_leg_strength_desc">腿部锻炼可以增强</string>
+    <string name="db_default_arm_strength_desc">手臂锻炼可以增强</string>
+    <string name="db_default_waist_desc">腰部锻炼可以增强</string>
+    <string name="db_default_iq_desc">有的人天生就聪明</string>
+    <string name="db_default_eq_desc">处理人情世故的能力</string>
+    <string name="db_default_happiness_desc">生活幸福的程度</string>
+    <string name="db_default_anxiety_desc">焦虑</string>
+    <string name="db_default_happy_desc">开心</string>
+    <string name="db_default_sad_desc">难过</string>
+    <string name="db_default_code_skill_desc">改变世界的能力</string>
+    <string name="db_default_communication_skill_desc">与人沟通的能力</string>
+    <string name="db_default_understanding_skill_desc">理解事物的能力</string>
+    <string name="db_default_think_skill_desc">思考事情的能力</string>
+    <string name="db_default_cooking_skill_desc">生活中必不可少的技能</string>
+    <string name="avatar">头像</string>
+
 
 </resources>

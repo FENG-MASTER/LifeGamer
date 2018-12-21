@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">LifeGamer</string>
+
+    <string name="hero_name">Hero</string>
+    <string name="hero_title">Title</string>
+    <string name="hero_desc">Desc</string>
+    <string name="empty">empty</string>
+    <string name="nav_statistics">Statistics</string>
+    <string name="nav_achievement">Achievement</string>
+    <string name="nav_skill">Ability</string>
+    <string name="nav_item">Item</string>
+    <string name="nav_reward">Shop</string>
+    <string name="nav_task">Mission</string>
+    <string name="nav_info">Profiles</string>
+    <string name="nav_setting">Setting</string>
+    <string name="nav_help">Help</string>
+    <string name="level">Level</string>
+
+    <string name="no_sale">Non-sale</string>
+    <string name="item_num_infinite">infinite</string>
+    <string name="nav_exit">Exit</string>
+
+    <string name="urgency_num">Emergency coefficient:</string>
+    <string name="fear_num">Fear coefficient:</string>
+    <string name="difficulty_num">Difficulty coefficient:</string>
+    <string name="task_get_xp">XP of mission:</string>
+    <string name="progress_xp">XP</string>
+    <string name="progress_energy">energy</string>
+    <string name="nav_about">About</string>
+
+
+    <string name="about_text">\t\t这里是软件的作者峰少,感谢使用本软件.这个软件的创意来自于生活的灵感,但没想到已经有人先将这个想法实现了出来,类似的产品有LifeRPG,如果你有什么意见,可以在我的开源项目里提出,如果你觉得LifeRPG不错,你也可以去试试,确实是不错的APP \n  \t\tGithub开源地址:https://github.com/FENG-MASTER/LifeGamer </string>
+    <string name="avator_query_text"> Search content </string>
+
+    <!--默认数据库数据-->
+    <string name="db_default_fitness">Fitness</string>
+    <string name="db_default_leg_strength">Leg Strength</string>
+    <string name="db_default_arm_strength">Arm Strength</string>
+    <string name="db_default_waist_strength">Waist Strength</string>
+    <string name="db_default_iq">IQ</string>
+    <string name="db_default_eq">EQ</string>
+    <string name="db_default_happiness">Happiness</string>
+    <string name="db_default_anxiety">Anxiety</string>
+    <string name="db_default_happy">Happy</string>
+    <string name="db_default_sad">Sad</string>
+    <string name="db_default_code_skill">Code Ability</string>
+    <string name="db_default_communication_skill">communication Ability</string>
+    <string name="db_default_understanding_skill">understanding Ability</string>
+    <string name="db_default_think_skill">Thinking Ability</string>
+    <string name="db_default_cooking_skill">Cooking</string>
+    <string name="db_default_physical_fitness">Physical Fitness</string>
+    <string name="db_default_brain">Brain</string>
+    <string name="db_default_emotion">Emotion</string>
+    <string name="db_default_skill">Skill</string>
+    <string name="db_default_fitness_desc">Generally, it can be strengthened by exercise.</string>
+    <string name="db_default_leg_strength_desc">Leg exercises can be enhanced</string>
+    <string name="db_default_arm_strength_desc"> Arm exercises can be enhanced </string>
+    <string name="db_default_waist_desc"> Waist Exercise Can Enhance </string>
+    <string name="db_default_iq_desc"> Some people are naturally intelligent </string>
+    <string name="db_default_eq_desc"> The ability to deal with worldly affairs </string>
+    <string name="db_default_happiness_desc"> The degree of happiness in life </string>
+    <string name="db_default_anxiety_desc">anxious</string>
+    <string name="db_default_happy_desc">happy</string>
+    <string name="db_default_sad_desc">sad</string>
+    <string name="db_default_code_skill_desc"> The ability to change the world </string>
+    <string name="db_default_communication_skill_desc"> Ability to communicate with others </string>
+    <string name="db_default_understanding_skill_desc"> The ability to understand things </string>
+    <string name="db_default_think_skill_desc"> The ability to think about things </string>
+    <string name="db_default_cooking_skill_desc"> Essential Skills in Life </string>
+
+
+</resources>

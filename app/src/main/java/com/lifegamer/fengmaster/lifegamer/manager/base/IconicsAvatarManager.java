@@ -57,7 +57,7 @@ public class IconicsAvatarManager implements IAvatarManager {
 
     @Override
     public Drawable getDrawable(String name) {
-        if (name==null||name.equals("无")){
+        if (name==null||name.equals(context.getString(R.string.empty))){
             return emptyDrawable;
         }
 
@@ -91,7 +91,7 @@ public class IconicsAvatarManager implements IAvatarManager {
 
     @Override
     public Avatar getAvatar(String name) {
-        if (name==null||name.equals("无")){
+        if (name==null||name.equals(context.getString(R.string.empty))){
             Avatar avatar = new Avatar("", "default");
             return avatar;
         }

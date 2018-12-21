@@ -7,8 +7,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.lifegamer.fengmaster.lifegamer.App;
+import com.lifegamer.fengmaster.lifegamer.event.GameBaseInitFinish;
 import com.lifegamer.fengmaster.lifegamer.model.Hero;
 import com.lifegamer.fengmaster.lifegamer.model.Skill;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Created by qianzise on 2017/10/5.
@@ -181,18 +186,25 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private DBHelper(Context context){
         super(context,DB_NAME,null,1);
-
+        EventBus.getDefault().register(this);
     }
 
 
     private DBHelper(Context context, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DB_NAME, factory, version);
+        EventBus.getDefault().register(this);
 
     }
 
     private DBHelper(Context context, SQLiteDatabase.CursorFactory factory, int version, DatabaseErrorHandler errorHandler) {
         super(context, DB_NAME, factory, version, errorHandler);
+        EventBus.getDefault().register(this);
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void appInitFinish(GameBaseInitFinish gameBaseInitFinish){
+        DefaultDBData.try2InitDBData();
     }
 
 

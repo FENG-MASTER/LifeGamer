@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.lifegamer.fengmaster.lifegamer.App;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.AbsBaseRecyclerViewAdapter;
@@ -58,7 +59,7 @@ public class AvatarSelectAdapter extends AbsBaseRecyclerViewAdapter<AvatarSelect
 
     @Override
     public String getName() {
-        return "头像";
+        return App.getContext().getString(R.string.avatar);
     }
 
     @Override
