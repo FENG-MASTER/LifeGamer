@@ -57,7 +57,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:hint="物品名称"
+                            android:hint="@string/item_name"
                             android:maxLines="1"
                             android:singleLine="true"
                             android:text="@{item.name}"/>
@@ -74,7 +74,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:hint="分类"
+                            android:hint="@string/item_type"
                             android:maxLines="1"
                             android:singleLine="true"
                             android:text="@{item.type}"/>
@@ -95,7 +95,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:hint="简介"
+                    android:hint="@string/item_desc"
                     android:maxLines="1"
                     android:singleLine="true"
                     android:text="@{item.desc}"/>
@@ -129,7 +129,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:hint="数量"
+                        android:hint="@string/item_quantity"
                         android:inputType="number"
                         android:text="@{String.valueOf(item.quantity)}"/>
                 </android.support.design.widget.TextInputLayout>
@@ -143,7 +143,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:checked="@{item.expendable}"
-                android:text="物品是否为消耗品"/>
+                android:text="@string/item_consumable"/>
 
 
         </LinearLayout>

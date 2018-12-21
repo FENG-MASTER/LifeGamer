@@ -58,7 +58,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:hint="奖励名称"
+                            android:hint="@string/reward_name"
                             android:text="@{reward.name}"/>
                     </android.support.design.widget.TextInputLayout>
 
@@ -75,7 +75,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:hint="分类"
+                            android:hint="@string/reward_type"
                             android:text="@{reward.type}"/>
                     </android.support.design.widget.TextInputLayout>
 
@@ -96,7 +96,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:hint="简介"
+                    android:hint="@string/reward_desc"
                     android:text="@{reward.desc}"/>
             </android.support.design.widget.TextInputLayout>
 
@@ -128,7 +128,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:hint="购买消耗金币数"
+                        android:hint="@string/reward_price"
                         android:inputType="number"
                         android:text="@{String.valueOf(reward.costLP)}"/>
                 </android.support.design.widget.TextInputLayout>
@@ -138,7 +138,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="@{reward.costLP==-1}"
-                    android:text="不可购买"/>
+                    android:text="@string/reward_non_sale"/>
 
             </LinearLayout>
 
@@ -159,7 +159,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:hint="数量"
+                        android:hint="@string/reward_quantity"
                         android:inputType="number"
                         android:text="@{String.valueOf(reward.quantityAvailable)}"/>
                 </android.support.design.widget.TextInputLayout>
@@ -182,14 +182,14 @@
                     android:id="@+id/switch_dialog_edit_reward_add_to_item"
                     android:layout_weight="1"
                     android:checked="@{reward.addToItem}"
-                    android:text="获得后加入物品"
+                    android:text="@string/reward_add_item"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <Switch
                     android:id="@+id/switch_dialog_edit_reward_"
                     android:layout_weight="1"
                     android:checked="@{reward.expendable}"
-                    android:text="物品是否为消耗品"
+                    android:text="@string/reward_consumable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 

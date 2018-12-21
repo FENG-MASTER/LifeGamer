@@ -1,6 +1,8 @@
 package com.lifegamer.fengmaster.lifegamer.command.command.achievement;
 
+import com.lifegamer.fengmaster.lifegamer.App;
 import com.lifegamer.fengmaster.lifegamer.Game;
+import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.command.command.AbsNoCancelableCommand;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
 
@@ -28,6 +30,6 @@ public class UpdateAchievementCommand extends AbsNoCancelableCommand {
 
     @Override
     public String getName() {
-        return "更新成就"+achievement.getName();
+        return App.getContext().getString(R.string.achievement_update)+achievement.getName();
     }
 }

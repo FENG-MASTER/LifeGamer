@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar.setNavigationIcon(new IconicsDrawable(this).icon(MaterialDesignIconic.Icon.gmi_view_toc).color(Color.WHITE).sizeDp(30));
         //点击图标弹出导航栏
         toolbar.setNavigationOnClickListener(v -> drawerLayout.openDrawer(Gravity.LEFT));
-        toolbar.setSubtitle("任务");
+        toolbar.setSubtitle(R.string.task);
         initNav();
         //showInfo();
         changeToFragment(0);

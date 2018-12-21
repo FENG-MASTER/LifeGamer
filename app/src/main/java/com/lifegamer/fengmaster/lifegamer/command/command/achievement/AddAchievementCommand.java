@@ -1,6 +1,8 @@
 package com.lifegamer.fengmaster.lifegamer.command.command.achievement;
 
+import com.lifegamer.fengmaster.lifegamer.App;
 import com.lifegamer.fengmaster.lifegamer.Game;
+import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.command.command.AbsCancelableCommand;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
 
@@ -28,11 +30,8 @@ public class AddAchievementCommand extends AbsCancelableCommand {
 
     @Override
     public String getName() {
-        return "添加成就"+achievement.getName();
+        return App.getContext().getString(R.string.achievement_add)+achievement.getName();
     }
 
-    @Override
-    public String getUndoActionName() {
-        return "撤销";
-    }
+
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.lifegamer.fengmaster.lifegamer.App;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.AbsBaseRecyclerViewAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
@@ -51,7 +52,7 @@ public class SelectDialogItemAdapter extends AbsBaseRecyclerViewAdapter<SelectDi
 
     @Override
     public String getName() {
-        return "选择框";
+        return App.getContext().getString(R.string.select);
     }
 
     @Override

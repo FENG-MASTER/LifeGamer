@@ -54,7 +54,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:hint="任务名称"
+                            android:hint="@string/task_name"
                             android:text="@{task.name}"/>
                     </android.support.design.widget.TextInputLayout>
 
@@ -69,7 +69,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:hint="任务描述"
+                            android:hint="@string/task_desc"
                             android:text="@{task.desc}"/>
                     </android.support.design.widget.TextInputLayout>
 

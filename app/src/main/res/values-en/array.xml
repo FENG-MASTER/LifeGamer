@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="main_sp">
+        <item>mission</item>
+        <item>shop</item>
+        <item>item</item>
+        <item>ability</item>
+        <item>achievement</item>
+        <item>statistics</item>
+        <item>profiles</item>
+        <item>about</item>
+    </string-array>
+
+    <integer-array name="main_sp_r">
+        <item>@id/nav_task</item>
+        <item>@id/nav_task</item>
+        <item>@id/nav_task</item>
+        <item>@id/nav_task</item>
+        <item>@id/nav_task</item>
+        <item>@id/nav_task</item>
+        <item>@id/nav_task</item>
+
+    </integer-array>
+
+    <string-array name="task_req_type">
+        <item>单次任务</item>
+        <item>不限次数任务</item>
+        <item>小时任务</item>
+        <item>日任务</item>
+        <item>周任务</item>
+        <item>月任务</item>
+        <item>年任务</item>
+
+
+
+    </string-array>
+
+</resources>

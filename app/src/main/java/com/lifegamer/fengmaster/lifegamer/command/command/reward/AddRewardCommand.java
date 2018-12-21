@@ -1,6 +1,8 @@
 package com.lifegamer.fengmaster.lifegamer.command.command.reward;
 
+import com.lifegamer.fengmaster.lifegamer.App;
 import com.lifegamer.fengmaster.lifegamer.Game;
+import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.command.command.AbsCancelableCommand;
 import com.lifegamer.fengmaster.lifegamer.event.reward.NewRewardEvent;
 import com.lifegamer.fengmaster.lifegamer.model.RewardItem;
@@ -37,11 +39,8 @@ public class AddRewardCommand extends AbsCancelableCommand {
 
     @Override
     public String getName() {
-        return "新增奖励"+rewardItem.getName();
+        return App.getContext().getString(R.string.reward_add)+rewardItem.getName();
     }
 
-    @Override
-    public String getUndoActionName() {
-        return "撤销";
-    }
+
 }

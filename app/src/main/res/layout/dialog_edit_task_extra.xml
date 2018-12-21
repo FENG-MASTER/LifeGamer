@@ -102,7 +102,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableRight="@drawable/ic_add_black_24dp"
-                    android:text="添加前置任务"/>
+                    android:text="@string/task_pre_task"/>
 
             </LinearLayout>
 

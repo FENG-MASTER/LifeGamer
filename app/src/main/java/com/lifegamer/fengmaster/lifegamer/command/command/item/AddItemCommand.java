@@ -1,6 +1,8 @@
 package com.lifegamer.fengmaster.lifegamer.command.command.item;
 
+import com.lifegamer.fengmaster.lifegamer.App;
 import com.lifegamer.fengmaster.lifegamer.Game;
+import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.command.command.AbsCancelableCommand;
 import com.lifegamer.fengmaster.lifegamer.model.Item;
 
@@ -31,11 +33,8 @@ public class AddItemCommand extends AbsCancelableCommand{
 
     @Override
     public String getName() {
-        return "新增物品"+item.getName();
+        return App.getContext().getString(R.string.item_add)+item.getName();
     }
 
-    @Override
-    public String getUndoActionName() {
-        return "撤销";
-    }
+
 }

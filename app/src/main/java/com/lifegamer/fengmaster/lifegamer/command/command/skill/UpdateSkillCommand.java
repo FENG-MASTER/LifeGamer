@@ -1,6 +1,8 @@
 package com.lifegamer.fengmaster.lifegamer.command.command.skill;
 
+import com.lifegamer.fengmaster.lifegamer.App;
 import com.lifegamer.fengmaster.lifegamer.Game;
+import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.command.command.AbsNoCancelableCommand;
 import com.lifegamer.fengmaster.lifegamer.model.Skill;
 
@@ -24,6 +26,6 @@ public class UpdateSkillCommand extends AbsNoCancelableCommand{
 
     @Override
     public String getName() {
-        return "更新能力 "+skill.getName()+" 成功";
+        return App.getContext().getString(R.string.skill_update)+skill.getName()+App.getContext().getString(R.string.success);
     }
 }

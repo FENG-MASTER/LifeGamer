@@ -1,6 +1,8 @@
 package com.lifegamer.fengmaster.lifegamer.command.command.task;
 
+import com.lifegamer.fengmaster.lifegamer.App;
 import com.lifegamer.fengmaster.lifegamer.Game;
+import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.command.command.AbsCancelableCommand;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
 
@@ -23,11 +25,8 @@ public class FailTaskCommand extends AbsCancelableCommand {
 
     @Override
     public String getName() {
-        return "任务:"+task.getName()+"失败";
+        return App.getContext().getString(R.string.task)+task.getName()+App.getContext().getString(R.string.fail);
     }
 
-    @Override
-    public String getUndoActionName() {
-        return "撤销";
-    }
+
 }

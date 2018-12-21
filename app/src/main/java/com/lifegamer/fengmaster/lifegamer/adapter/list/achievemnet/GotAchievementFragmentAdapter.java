@@ -1,6 +1,8 @@
 package com.lifegamer.fengmaster.lifegamer.adapter.list.achievemnet;
 
+import com.lifegamer.fengmaster.lifegamer.App;
 import com.lifegamer.fengmaster.lifegamer.Game;
+import com.lifegamer.fengmaster.lifegamer.R;
 
 /**
  * 已获得成就fragment
@@ -14,6 +16,6 @@ public class GotAchievementFragmentAdapter extends BaseAchievementFragmentAdapte
 
     @Override
     public String getName() {
-        return "已获得成就";
+        return App.getContext().getString(R.string.got_achievements);
     }
 }

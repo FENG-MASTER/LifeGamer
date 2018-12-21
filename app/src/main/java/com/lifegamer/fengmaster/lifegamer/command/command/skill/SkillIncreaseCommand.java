@@ -1,6 +1,8 @@
 package com.lifegamer.fengmaster.lifegamer.command.command.skill;
 
+import com.lifegamer.fengmaster.lifegamer.App;
 import com.lifegamer.fengmaster.lifegamer.Game;
+import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.command.command.AbsCancelableCommand;
 import com.lifegamer.fengmaster.lifegamer.model.Skill;
 
@@ -33,13 +35,9 @@ public class SkillIncreaseCommand extends AbsCancelableCommand {
 
     @Override
     public String getName() {
-        return skill.getName()+"增加了" +incxp;
+        return skill.getName()+App.getContext().getString(R.string.increase) +incxp;
     }
 
-    @Override
-    public String getUndoActionName() {
-        return "撤销";
-    }
 
     /**
      * 不显示给用户

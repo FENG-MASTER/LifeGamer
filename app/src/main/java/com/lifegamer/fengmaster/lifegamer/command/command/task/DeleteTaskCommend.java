@@ -1,6 +1,8 @@
 package com.lifegamer.fengmaster.lifegamer.command.command.task;
 
+import com.lifegamer.fengmaster.lifegamer.App;
 import com.lifegamer.fengmaster.lifegamer.Game;
+import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.command.command.AbsCancelableCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.AbsNoCancelableCommand;
 import com.lifegamer.fengmaster.lifegamer.event.task.DeleteTaskEvent;
@@ -37,11 +39,8 @@ public class DeleteTaskCommend extends AbsCancelableCommand {
 
     @Override
     public String getName() {
-        return "删除任务"+task.getName()+"成功!";
+        return App.getContext().getString(R.string.task_del)+task.getName()+App.getContext().getString(R.string.success);
     }
 
-    @Override
-    public String getUndoActionName() {
-        return "撤销";
-    }
+
 }

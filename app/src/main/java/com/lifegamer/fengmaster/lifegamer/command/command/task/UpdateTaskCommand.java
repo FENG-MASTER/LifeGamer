@@ -1,6 +1,8 @@
 package com.lifegamer.fengmaster.lifegamer.command.command.task;
 
+import com.lifegamer.fengmaster.lifegamer.App;
 import com.lifegamer.fengmaster.lifegamer.Game;
+import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.command.command.AbsNoCancelableCommand;
 import com.lifegamer.fengmaster.lifegamer.event.task.UpdateTaskEvent;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
@@ -31,6 +33,6 @@ public class UpdateTaskCommand extends AbsNoCancelableCommand {
 
     @Override
     public String getName() {
-        return "更新任务"+task.getName();
+        return App.getContext().getString(R.string.task_update)+task.getName();
     }
 }

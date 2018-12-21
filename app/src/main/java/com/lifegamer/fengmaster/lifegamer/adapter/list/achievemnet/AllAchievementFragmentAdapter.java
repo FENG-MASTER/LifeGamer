@@ -1,6 +1,8 @@
 package com.lifegamer.fengmaster.lifegamer.adapter.list.achievemnet;
 
+import com.lifegamer.fengmaster.lifegamer.App;
 import com.lifegamer.fengmaster.lifegamer.Game;
+import com.lifegamer.fengmaster.lifegamer.R;
 
 /**
  * Created by qianzise on 2017/10/23.
@@ -9,7 +11,7 @@ import com.lifegamer.fengmaster.lifegamer.Game;
 public class AllAchievementFragmentAdapter extends BaseAchievementFragmentAdapter {
     @Override
     public String getName() {
-        return "所有";
+        return App.getContext().getString(R.string.all_achievements);
     }
 
     @Override

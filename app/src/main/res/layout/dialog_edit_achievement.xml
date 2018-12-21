@@ -52,7 +52,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:hint="成就名称"
+                            android:hint="@string/achievement_name"
                             android:text="@{achievement.name}"/>
                     </android.support.design.widget.TextInputLayout>
 
@@ -67,7 +67,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:hint="分类"
+                            android:hint="@string/achievement_type"
                             android:text="@{achievement.type}"/>
                     </android.support.design.widget.TextInputLayout>
 
@@ -85,7 +85,7 @@
                     android:id="@+id/et_dialog_edit_achievement_desc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="成就简介"
+                    android:hint="@string/achievement_desc"
                     android:text="@{achievement.desc}"/>
             </android.support.design.widget.TextInputLayout>
 

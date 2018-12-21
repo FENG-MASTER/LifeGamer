@@ -1,6 +1,8 @@
 package com.lifegamer.fengmaster.lifegamer.adapter.list.task;
 
+import com.lifegamer.fengmaster.lifegamer.App;
 import com.lifegamer.fengmaster.lifegamer.Game;
+import com.lifegamer.fengmaster.lifegamer.R;
 
 /**
  * 今日任务fragment
@@ -14,6 +16,6 @@ public class TodayTaskFragmentAdapter extends BaseTaskFragmentAdapter {
 
     @Override
     public String getName() {
-        return "今日任务";
+        return App.getContext().getString(R.string.task_today);
     }
 }

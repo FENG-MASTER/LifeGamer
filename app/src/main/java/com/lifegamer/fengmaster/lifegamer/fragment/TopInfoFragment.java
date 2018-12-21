@@ -43,16 +43,6 @@ public class TopInfoFragment extends Fragment {
         FragmentTopInfoBinding binding=FragmentTopInfoBinding.inflate(inflater);
         ButterKnife.bind(this,binding.getRoot());
         binding.setHero(Game.getInstance().getHeroManager().getHero());
-        binding.tvTopName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Skill skill=new Skill();
-                skill.setName("厨艺"+ new Random().nextInt(20));
-                skill.setXP(10);
-                Game.getInstance().getSkillManager().addSkill(skill);
-
-            }
-        });
         return  binding.getRoot();
     }
 
