@@ -117,8 +117,34 @@
     <string name="skill_name">name</string>
     <string name="skill_type">type</string>
     <string name="skill_desc">desc</string>
-    <string name="task_name">name</string>
-    <string name="task_desc">desc</string>
-    <string name="task_pre_task">add pre-mission</string>
+    <string name="task_name">mission name</string>
+    <string name="task_desc">mission desc</string>
+    <string name="task_add_pre_task">add pre-mission</string>
+    <string name="task_extra_tab">Extra</string>
+    <string name="task_time_tab">Time</string>
+    <string name="task_reward_tab">Reward</string>
+    <string name="task_punish_tab">Punish</string>
+    <string name="task_pre_task">pre-task</string>
+    <string name="task_repeat_type">repeat type</string>
+    <string name="task_interval">interval</string>
+    <string name="task_deadline">deadline</string>
+    <string name="task_available_time">available time</string>
+    <string name="task_time_infinite">limitless</string>
+    <string name="task_after_deadline">After Deadline</string>
+    <string name="task_auto_fail">auto fail</string>
+    <string name="task_earn_gold">earn gold</string>
+    <string name="task_add_ability_point">reward ability</string>
+    <string name="task_add_ability_reward">add ability</string>
+    <string name="task_earn_item">reward item</string>
+    <string name="task_add_item_reward">add item</string>
+    <string name="task_earn_achievement">reward achievemnet</string>
+    <string name="task_add_achievement_reward">add achievement</string>
+    <string name="task_lose_gold">lose gold</string>
+    <string name="task_lose_ability">reduce ability</string>
+    <string name="task_add_ability_punish">add ability</string>
+    <string name="task_lose_item">reduce item</string>
+    <string name="task_add_item_punish">add item</string>
+    <string name="task_lose_achievement">lose achievement</string>
+    <string name="task_add_achievement_punish">add achievement</string>
 
 </resources>

@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
+import com.lifegamer.fengmaster.lifegamer.App;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.databinding.DialogEditTaskTimeBinding;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
@@ -113,7 +114,7 @@ public class EditTaskTimeFragment extends EditTaskDialog.SaveableFragment implem
 
     @Override
     public String getName() {
-        return "时间";
+        return App.getContext().getString(R.string.task_time_tab);
     }
 
     @Override

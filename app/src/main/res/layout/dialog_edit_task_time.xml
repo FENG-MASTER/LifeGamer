@@ -38,7 +38,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left|top"
-                        android:text="重复类型"
+                        android:text="@string/task_repeat_type"
                         android:textSize="12sp"/>
 
                     <Spinner
@@ -66,7 +66,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
-                        android:text="重复间隔"
+                        android:text="@string/task_interval"
                         android:textSize="12sp"/>
 
                     <EditText
@@ -87,7 +87,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="到期时间"
+                android:text="@string/task_deadline"
                 android:textSize="12sp"/>
 
             <Button
@@ -100,7 +100,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="可完成次数"
+                android:text="@string/task_available_time"
                 android:textSize="12sp"/>
 
             <LinearLayout
@@ -125,7 +125,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:checked="@{task.repeatAvailableTime==-1}"
-                    android:text="无限"/>
+                    android:text="@string/task_time_infinite"/>
 
 
             </LinearLayout>
@@ -135,7 +135,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="过期相关"
+                android:text="@string/task_after_deadline"
                 android:textSize="12sp"/>
 
             <Switch
@@ -144,7 +144,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:checked="@{task.autoFail}"
-                android:text="过期自动失败"/>
+                android:text="@string/task_auto_fail"/>
 
 
         </LinearLayout>

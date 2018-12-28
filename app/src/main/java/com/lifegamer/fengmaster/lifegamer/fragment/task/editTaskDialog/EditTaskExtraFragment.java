@@ -14,6 +14,7 @@ import android.widget.SeekBar;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
+import com.lifegamer.fengmaster.lifegamer.App;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.databinding.DialogEditTaskExtraBinding;
@@ -197,7 +198,7 @@ public class EditTaskExtraFragment extends EditTaskDialog.SaveableFragment imple
 
     @Override
     public String getName() {
-        return "额外";
+        return App.getContext().getString(R.string.task_extra_tab);
     }
 
     @Override

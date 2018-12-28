@@ -25,7 +25,7 @@
                 <EditText
                     android:inputType="number"
                     android:id="@+id/et_dialog_edit_task_reward_earn_lp"
-                    android:hint="获得金币数量"
+                    android:hint="@string/task_earn_gold"
                     android:gravity="center"
                     android:text="@{String.valueOf(task.earnLP)}"
                     android:layout_width="match_parent"
@@ -42,7 +42,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="增加能力点"
+                    android:text="@string/task_add_ability_point"
                     android:textSize="12sp"/>
 
                 <LinearLayout
@@ -59,7 +59,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableRight="@drawable/ic_add_black_24dp"
-                    android:text="新增能力奖励"/>
+                    android:text="@string/task_add_ability_reward"/>
 
             </LinearLayout>
 
@@ -73,7 +73,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="获得物品"
+                    android:text="@string/task_earn_item"
                     android:textSize="12sp"/>
 
                 <Button
@@ -81,7 +81,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableRight="@drawable/ic_add_black_24dp"
-                    android:text="新增物品奖励"/>
+                    android:text="@string/task_add_item_reward"/>
 
             </LinearLayout>
 
@@ -95,7 +95,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="获得成就"
+                    android:text="@string/task_earn_achievement"
                     android:textSize="12sp"/>
 
                 <LinearLayout
@@ -111,7 +111,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableRight="@drawable/ic_add_black_24dp"
-                    android:text="新增成就奖励"/>
+                    android:text="@string/task_add_achievement_reward"/>
 
 
             </LinearLayout>

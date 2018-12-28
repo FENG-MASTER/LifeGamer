@@ -119,7 +119,33 @@
     <string name="skill_desc">能力简介</string>
     <string name="task_name">任务名称</string>
     <string name="task_desc">任务描述</string>
-    <string name="task_pre_task">添加前置任务</string>
+    <string name="task_add_pre_task">添加前置任务</string>
+    <string name="task_extra_tab">额外</string>
+    <string name="task_time_tab">时间</string>
+    <string name="task_reward_tab">奖励</string>
+    <string name="task_punish_tab">惩罚</string>
+    <string name="task_pre_task">前置任务</string>
+    <string name="task_repeat_type">重复类型</string>
+    <string name="task_interval">重复间隔</string>
+    <string name="task_deadline">到期时间</string>
+    <string name="task_available_time">可完成次数</string>
+    <string name="task_time_infinite">无限</string>
+    <string name="task_after_deadline">过期相关</string>
+    <string name="task_auto_fail">过期自动失败</string>
+    <string name="task_earn_gold">获得金币数量</string>
+    <string name="task_add_ability_point">增加能力</string>
+    <string name="task_add_ability_reward">新增能力奖励</string>
+    <string name="task_earn_item">获得物品</string>
+    <string name="task_add_item_reward">新增物品奖励</string>
+    <string name="task_earn_achievement">获得成就</string>
+    <string name="task_add_achievement_reward">新增成就奖励</string>
+    <string name="task_lose_gold">扣除金币数量</string>
+    <string name="task_lose_ability">扣除能力点</string>
+    <string name="task_add_ability_punish">新增能力惩罚</string>
+    <string name="task_lose_item">扣除物品</string>
+    <string name="task_add_item_punish">新增物品惩罚</string>
+    <string name="task_lose_achievement">失去成就</string>
+    <string name="task_add_achievement_punish">新增成就惩罚</string>
 
 
 </resources>

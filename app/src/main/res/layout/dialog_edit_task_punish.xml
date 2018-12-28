@@ -25,7 +25,7 @@
                 <EditText
                     android:inputType="number"
                     android:id="@+id/et_dialog_edit_task_punish_lost_lp"
-                    android:hint="扣除金币数量"
+                    android:hint="@string/task_lose_gold"
                     android:gravity="center"
                     android:text="@{String.valueOf(task.lostLP)}"
                     android:layout_width="match_parent"
@@ -42,7 +42,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="扣除能力点"
+                    android:text="@string/task_lose_ability"
                     android:textSize="12sp"/>
 
                 <LinearLayout
@@ -59,7 +59,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableRight="@drawable/ic_add_black_24dp"
-                    android:text="新增能力惩罚"/>
+                    android:text="@string/task_add_ability_punish"/>
 
             </LinearLayout>
 
@@ -73,7 +73,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="扣除物品"
+                    android:text="@string/task_lose_item"
                     android:textSize="12sp"/>
 
                 <Button
@@ -81,7 +81,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableRight="@drawable/ic_add_black_24dp"
-                    android:text="新增物品惩罚"/>
+                    android:text="@string/task_add_item_punish"/>
 
             </LinearLayout>
 
@@ -95,7 +95,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="失去成就"
+                    android:text="@string/task_lose_achievement"
                     android:textSize="12sp"/>
 
                 <LinearLayout
@@ -111,7 +111,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableRight="@drawable/ic_add_black_24dp"
-                    android:text="新增成就惩罚"/>
+                    android:text="@string/task_add_achievement_punish"/>
 
 
             </LinearLayout>

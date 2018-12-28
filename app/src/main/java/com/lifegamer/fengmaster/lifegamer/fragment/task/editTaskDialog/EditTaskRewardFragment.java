@@ -19,6 +19,7 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.annimon.stream.function.Function;
 import com.annimon.stream.function.Predicate;
+import com.lifegamer.fengmaster.lifegamer.App;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
@@ -325,7 +326,7 @@ public class EditTaskRewardFragment extends EditTaskDialog.SaveableFragment {
 
     @Override
     public String getName() {
-        return "奖励";
+        return App.getContext().getString(R.string.task_reward_tab);
     }
 
     @Override

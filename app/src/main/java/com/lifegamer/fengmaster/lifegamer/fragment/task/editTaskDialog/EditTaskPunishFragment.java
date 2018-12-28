@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
+import com.lifegamer.fengmaster.lifegamer.App;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.databinding.DialogEditTaskPunishBinding;
@@ -86,7 +87,7 @@ public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
 
     @Override
     public String getName() {
-        return "惩罚";
+        return App.getContext().getString(R.string.task_punish_tab);
     }
 
     /**
