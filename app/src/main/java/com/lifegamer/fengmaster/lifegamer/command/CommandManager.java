@@ -26,6 +26,9 @@ public class CommandManager {
 
     public void executeCommand(ICommand command){
         //如果是事件集的头部
+
+        boolean runflag=false;
+
         if (isHead){
             /**
              * 为了解决如下问题:
@@ -36,23 +39,34 @@ public class CommandManager {
              * */
             EventBus.getDefault().post(new CommandExec());
             isHead=false;
-            command.execute();
+            runflag=command.execute();
             isHead=true;
             hide=false;
         }else {
             hide=true;
-            command.execute();
+            runflag=command.execute();
         }
 
 
-        if (command.isShow()&&!hide){
-            if (command.isUndoable()){
-                //可取消
-                ViewUtil.showSnack(command.getName(), Snackbar.LENGTH_LONG, command.getUndoActionName(), view -> command.undo());
-            }else {
-                //不可取消
-                ViewUtil.showSnack(command.getName(),Snackbar.LENGTH_LONG);
+        if (!runflag){
+            //执行命令失败
+
+            ViewUtil.showSnack(command.getName()+" 失败",Snackbar.LENGTH_LONG);
+
+
+
+        }else {
+
+            if (command.isShow()&&!hide){
+                if (command.isUndoable()){
+                    //可取消
+                    ViewUtil.showSnack(command.getName(), Snackbar.LENGTH_LONG, command.getUndoActionName(), view -> command.undo());
+                }else {
+                    //不可取消
+                    ViewUtil.showSnack(command.getName(),Snackbar.LENGTH_LONG);
+                }
             }
+
         }
 
     }

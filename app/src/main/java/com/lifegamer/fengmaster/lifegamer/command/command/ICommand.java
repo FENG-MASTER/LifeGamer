@@ -13,7 +13,7 @@ public interface ICommand {
     /**
      * 执行
      */
-    void execute();
+    boolean execute();
 
     /**
      * 撤销

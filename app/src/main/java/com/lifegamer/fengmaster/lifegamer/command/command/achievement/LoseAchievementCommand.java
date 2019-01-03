@@ -23,9 +23,10 @@ public class LoseAchievementCommand extends AbsCancelableCommand {
     }
 
     @Override
-    public void execute() {
-        Game.getInstance().getAchievementManager().lostAchievement(achievement.getId());
+    public boolean execute() {
+        boolean b = Game.getInstance().getAchievementManager().lostAchievement(achievement.getId());
         EventBus.getDefault().post(new LostAchievementEvent(achievement));
+        return b;
 
     }
 

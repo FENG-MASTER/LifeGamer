@@ -20,8 +20,8 @@ public class UpdateSkillCommand extends AbsNoCancelableCommand{
     }
 
     @Override
-    public void execute() {
-        Game.getInstance().getSkillManager().updateSkill(skill);
+    public boolean execute() {
+        return Game.getInstance().getSkillManager().updateSkill(skill);
     }
 
     @Override

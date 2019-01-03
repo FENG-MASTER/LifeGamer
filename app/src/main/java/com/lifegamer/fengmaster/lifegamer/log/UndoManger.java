@@ -6,6 +6,7 @@ import com.lifegamer.fengmaster.lifegamer.log.undo.UndoHandler;
 import com.lifegamer.fengmaster.lifegamer.log.undo.UndoHandlers;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IUndoManager;
 import com.lifegamer.fengmaster.lifegamer.model.Log;
+import com.lifegamer.fengmaster.lifegamer.util.LogUtil;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -58,6 +59,8 @@ public class UndoManger implements IUndoManager {
         List<Log> eventLogs = Game.getInstance().getLogManager().getEventLogs(eventSequence);
 
         for (Log eventLog : eventLogs) {
+            LogUtil.i("撤销动作 type:"+eventLog.getType()+" action:"+eventLog.getAction()+" property:"+eventLog.getProperty());
+
             if (methodMap.containsKey(eventLog.getType()) &&
                     methodMap.get(eventLog.getType()).containsKey(eventLog.getAction()) &&
                     methodMap.get(eventLog.getType()).get(eventLog.getAction()).containsKey(eventLog.getProperty())) {

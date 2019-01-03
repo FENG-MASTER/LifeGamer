@@ -23,9 +23,10 @@ public class GotAchievementCommand extends AbsCancelableCommand {
     }
 
     @Override
-    public void execute() {
-        Game.getInstance().getAchievementManager().gainAchievement(achievement.getId());
+    public boolean execute() {
+        boolean b = Game.getInstance().getAchievementManager().gainAchievement(achievement.getId());
         EventBus.getDefault().post(new GotAchievementEvent(achievement));
+        return b;
     }
 
     @Override

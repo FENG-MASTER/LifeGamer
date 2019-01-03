@@ -24,9 +24,12 @@ public class DeleteTaskCommend extends AbsCancelableCommand {
     }
 
     @Override
-    public void execute() {
+    public boolean execute() {
         if (Game.getInstance().getTaskManager().removeTask((int) task.getId())){
             EventBus.getDefault().post(new DeleteTaskEvent((int) task.getId()));
+            return true;
+        }else {
+            return false;
         }
 
     }

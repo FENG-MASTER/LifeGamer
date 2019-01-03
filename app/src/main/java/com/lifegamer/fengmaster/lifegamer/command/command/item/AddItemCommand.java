@@ -22,8 +22,8 @@ public class AddItemCommand extends AbsCancelableCommand{
 
 
     @Override
-    public void execute() {
-        Game.getInstance().getItemManager().addItem(item);
+    public boolean execute() {
+        return Game.getInstance().getItemManager().addItem(item);
     }
 
     @Override

@@ -22,9 +22,9 @@ public class SkillIncreaseCommand extends AbsCancelableCommand {
     }
 
     @Override
-    public void execute() {
+    public boolean execute() {
         skill.addXP(incxp);
-        Game.getInstance().getSkillManager().updateSkill(skill);
+        return Game.getInstance().getSkillManager().updateSkill(skill);
     }
 
     @Override

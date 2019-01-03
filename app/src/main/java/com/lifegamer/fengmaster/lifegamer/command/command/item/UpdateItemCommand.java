@@ -22,8 +22,8 @@ public class UpdateItemCommand extends AbsNoCancelableCommand {
     }
 
     @Override
-    public void execute() {
-        Game.getInstance().getItemManager().updateItem(item);
+    public boolean execute() {
+        return Game.getInstance().getItemManager().updateItem(item);
     }
 
     @Override

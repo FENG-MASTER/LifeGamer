@@ -23,9 +23,12 @@ public class RemoveSkillCommand extends AbsCancelableCommand {
     }
 
     @Override
-    public void execute() {
+    public boolean execute() {
         if (Game.getInstance().getSkillManager().removeSkill(skill.getName())){
             EventBus.getDefault().post(new DelSkillEvent(skill.getName(),skill.getId()));
+            return true;
+        }else {
+            return false;
         }
     }
 

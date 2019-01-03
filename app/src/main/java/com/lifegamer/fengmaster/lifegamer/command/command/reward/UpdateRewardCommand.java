@@ -20,8 +20,8 @@ public class UpdateRewardCommand extends AbsNoCancelableCommand {
     }
 
     @Override
-    public void execute() {
-        Game.getInstance().getRewardManager().updateRewardItem(rewardItem);
+    public boolean execute() {
+        return Game.getInstance().getRewardManager().updateRewardItem(rewardItem);
     }
 
     @Override

@@ -23,10 +23,12 @@ public class AddTaskCommand extends AbsCancelableCommand {
     }
 
     @Override
-    public void execute() {
+    public boolean execute() {
         if (Game.getInstance().getTaskManager().addTask(task)){
             EventBus.getDefault().post(new NewTaskEvent(task));
-
+            return true;
+        }else {
+            return false;
         }
     }
 

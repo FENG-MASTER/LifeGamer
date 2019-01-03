@@ -23,9 +23,12 @@ public class UpdateTaskCommand extends AbsNoCancelableCommand {
     }
 
     @Override
-    public void execute() {
+    public boolean execute() {
         if (Game.getInstance().getTaskManager().updateTask(task)){
             EventBus.getDefault().post(new UpdateTaskEvent(task));
+            return true;
+        }else {
+            return false;
         }
 
 

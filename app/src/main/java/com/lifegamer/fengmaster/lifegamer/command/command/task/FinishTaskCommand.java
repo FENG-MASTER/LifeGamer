@@ -18,8 +18,8 @@ public class FinishTaskCommand extends AbsCancelableCommand {
     }
 
     @Override
-    public void execute() {
-        Game.getInstance().getTaskManager().finishTask(task.getId());
+    public boolean execute() {
+        return Game.getInstance().getTaskManager().finishTask(task.getId());
     }
 
     @Override

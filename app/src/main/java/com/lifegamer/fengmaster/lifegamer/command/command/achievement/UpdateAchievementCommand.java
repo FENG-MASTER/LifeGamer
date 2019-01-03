@@ -21,9 +21,12 @@ public class UpdateAchievementCommand extends AbsNoCancelableCommand {
     }
 
     @Override
-    public void execute() {
+    public boolean execute() {
         if (Game.getInstance().getAchievementManager().updateAchievement(achievement)){
             EventBus.getDefault().post(new UpdateAchievementCommand(achievement));
+            return true;
+        }else {
+            return false;
         }
 
     }

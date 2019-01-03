@@ -25,9 +25,12 @@ public class AddRewardCommand extends AbsCancelableCommand {
     }
 
     @Override
-    public void execute() {
+    public boolean execute() {
         if (Game.getInstance().getRewardManager().addRewardItem(rewardItem)){
             EventBus.getDefault().post(new NewRewardEvent(rewardItem));
+            return true;
+        }else {
+            return false;
         }
 
     }

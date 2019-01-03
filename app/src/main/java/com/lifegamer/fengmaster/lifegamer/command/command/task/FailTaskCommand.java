@@ -14,8 +14,8 @@ public class FailTaskCommand extends AbsCancelableCommand {
     }
 
     @Override
-    public void execute() {
-        Game.getInstance().getTaskManager().failTask(task.getId());
+    public boolean execute() {
+        return Game.getInstance().getTaskManager().failTask(task.getId());
     }
 
     @Override
