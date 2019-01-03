@@ -3,6 +3,7 @@ package com.lifegamer.fengmaster.lifegamer.log.log;
 import com.annimon.stream.function.Function;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
+import com.lifegamer.fengmaster.lifegamer.model.Hero;
 import com.lifegamer.fengmaster.lifegamer.model.Item;
 import com.lifegamer.fengmaster.lifegamer.model.LifePoint;
 import com.lifegamer.fengmaster.lifegamer.model.Log;
@@ -167,6 +168,26 @@ public class LogHandlers {
         log.setNewValue(String.valueOf(lifePoint.getLpPoint()));
     }
 
+    /**
+     * 经验日志
+     * @param joinPoint
+     * @param log
+     */
+    @LogHandler(type = Log.TYPE.HERO,action = {Log.ACTION.ADD,Log.ACTION.SUB},property = Log.PROPERTY.XP,order = Log.ORDER.BEFORE)
+    public static void heroXpLogB(JoinPoint joinPoint,Log log){
+        Hero hero = Game.getInstance().getHeroManager().getHero();
+        Object[] args = joinPoint.getArgs();
+        log.setValue(String.valueOf((int) args[0]));
+        log.setOperName(Log.PROPERTY.XP);
+        log.setOldValue(String.valueOf(hero.getXp()));
+    }
+
+
+    @LogHandler(type = Log.TYPE.HERO,action = {Log.ACTION.ADD,Log.ACTION.SUB},property = Log.PROPERTY.XP,order = Log.ORDER.AFTER)
+    public static void heroXpLogA(JoinPoint joinPoint,Log log){
+        Hero hero = Game.getInstance().getHeroManager().getHero();
+        log.setNewValue(String.valueOf(hero.getXp()));
+    }
 
 
 

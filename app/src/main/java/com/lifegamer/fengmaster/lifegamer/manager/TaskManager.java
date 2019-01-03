@@ -614,11 +614,11 @@ public class TaskManager implements ITaskManager {
     private boolean undoFinishTask(Task task) {
         if (task != null) {
             //完成次数-1
-            android.util.Log.e("qqqq",""+task.getCompleteTimes());
             task.setCompleteTimes(task.getCompleteTimes() - 1);
-            android.util.Log.e("qqqq",""+task.getCompleteTimes());
-            //可重复次数+1
-            task.setRepeatAvailableTime(task.getRepeatAvailableTime() + 1);
+            if (task.getRepeatAvailableTime()!=-1) {
+                //如果不是无限次任务,则可重复次数+1
+                task.setRepeatAvailableTime(task.getRepeatAvailableTime() + 1);
+            }
             //恢复之前过期时间
             undoScheduleTaskTime(task);
             return updateTask(task);
