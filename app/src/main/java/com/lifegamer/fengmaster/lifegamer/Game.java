@@ -13,6 +13,7 @@ import com.lifegamer.fengmaster.lifegamer.log.LogManager;
 import com.lifegamer.fengmaster.lifegamer.manager.RewardItemManager;
 import com.lifegamer.fengmaster.lifegamer.manager.SkillManager;
 import com.lifegamer.fengmaster.lifegamer.manager.TaskManager;
+import com.lifegamer.fengmaster.lifegamer.manager.TriggerManager;
 import com.lifegamer.fengmaster.lifegamer.manager.base.IconicsAvatarManager;
 import com.lifegamer.fengmaster.lifegamer.manager.base.itf.IAvatarManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IAchievementManager;
@@ -23,6 +24,7 @@ import com.lifegamer.fengmaster.lifegamer.manager.itf.INoteManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IRewardManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ISkillManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ITaskManager;
+import com.lifegamer.fengmaster.lifegamer.manager.itf.ITriggerManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IUndoManager;
 
 /**
@@ -89,6 +91,12 @@ public class Game {
      */
     private IUndoManager undoManager=new UndoManger();
 
+
+    /**
+     * 触发器管理器
+     */
+    private ITriggerManager triggerManager=new TriggerManager();
+
     private Game() {
         heroManager.getHero();
 
@@ -137,6 +145,10 @@ public class Game {
 
     public IUndoManager getUndoManager() {
         return undoManager;
+    }
+
+    public ITriggerManager getTriggerManager() {
+        return triggerManager;
     }
 
     public static boolean update(Updateable updateable){

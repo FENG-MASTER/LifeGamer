@@ -44,6 +44,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TABLE_REWARD="Rewards";
     public static final String TABLE_SKILL="Skills";
     public static final String TABLE_LOG="Logs";
+    public static final String TABLE_TRIGGER="Trigger";
 
 
 
@@ -183,6 +184,25 @@ public class DBHelper extends SQLiteOpenHelper {
             "logTime integer)";
 
 
+    /**
+     * 创建 触发器 表
+     */
+    private static final String CREATE_TABLE_TRIGGER="create table if not exists "+TABLE_TRIGGER+
+            "( _id integer primary key autoincrement," +
+            "type varchar," +
+            "mainObjId integer," +
+            "triggerCondition varchar," +
+            "triggerParameter varchar," +
+            "xp integer," +
+            "skills text," +
+            "items text," +
+            "achievements text," +
+            "saveInfo text," +
+            "earnLP integer," +
+            "createTime integer," +
+            "updateTime integer)";
+
+
 
     private DBHelper(Context context){
         super(context,DB_NAME,null,1);
@@ -219,6 +239,7 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_TABLE_REWARD);
         sqLiteDatabase.execSQL(CREATE_TABLE_TASK);
         sqLiteDatabase.execSQL(CREATE_TABLE_LOG);
+        sqLiteDatabase.execSQL(CREATE_TABLE_TRIGGER);
 
     }
 
