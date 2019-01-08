@@ -35,7 +35,7 @@
             android:id="@+id/et_item_dialog_edit_task_reward_achievement_rate"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:inputType="number"/>
+            android:inputType="numberSigned"/>
 
     </android.support.design.widget.TextInputLayout>
 

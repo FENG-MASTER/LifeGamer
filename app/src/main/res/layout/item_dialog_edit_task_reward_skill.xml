@@ -33,7 +33,7 @@
             android:id="@+id/et_item_dialog_edit_task_reward_skill_val"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:inputType="number"/>
+            android:inputType="numberSigned"/>
 
     </android.support.design.widget.TextInputLayout>
 

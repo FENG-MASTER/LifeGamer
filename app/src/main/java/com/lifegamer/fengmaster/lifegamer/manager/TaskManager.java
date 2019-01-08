@@ -13,6 +13,8 @@ import com.lifegamer.fengmaster.lifegamer.command.command.task.UpdateTaskCommand
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.event.GameBaseInitFinish;
 import com.lifegamer.fengmaster.lifegamer.event.skill.DelSkillEvent;
+import com.lifegamer.fengmaster.lifegamer.event.task.FailTaskEvent;
+import com.lifegamer.fengmaster.lifegamer.event.task.FinishTaskEvent;
 import com.lifegamer.fengmaster.lifegamer.event.task.UpdateTaskEvent;
 import com.lifegamer.fengmaster.lifegamer.log.LogPoint;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ITaskManager;
@@ -218,14 +220,16 @@ public class TaskManager implements ITaskManager {
             task.setFailureTimes(task.getFailureTimes() + 1);
 
 
-            //金币点数惩罚
-            handleLifePoint(task,false);
-            handleSkillReward(task,false);
-            handleItemReward(task,false);
-            handleAchievement(task,false);
+//            //金币点数惩罚
+//            handleLifePoint(task,false);
+//            handleSkillReward(task,false);
+//            handleItemReward(task,false);
+//            handleAchievement(task,false);
 
             //重新调度任务时间
             scheduleTaskTime(task);
+
+            EventBus.getDefault().post(new FailTaskEvent(task));
 
             return true;
 
@@ -341,6 +345,10 @@ public class TaskManager implements ITaskManager {
         return _finshTask(task);
     }
 
+    /**
+     * @param task
+     * @return
+     */
     @LogPoint(type = Log.TYPE.TASK,action = Log.ACTION.FINISH,property = Log.PROPERTY.TASK)
     private boolean _finshTask(Task task){
 
@@ -352,27 +360,22 @@ public class TaskManager implements ITaskManager {
         //完成次数+1
         task.setCompleteTimes(task.getCompleteTimes() + 1);
 
-        getReward(task);
+
 
         //调度任务时间
         boolean b = scheduleTaskTime(task);
         //更新数据库
         Game.update(task);
+
+        //发送任务完成事件,触发相关触发器,从而处理奖励相关
+        /***
+         * @see com.lifegamer.fengmaster.lifegamer.trigger.condition.TaskFinishTriggerCondition
+         * @see com.lifegamer.fengmaster.lifegamer.trigger.condition.TaskFinishTimesTriggerCondition
+         */
+        EventBus.getDefault().post(new FinishTaskEvent(task));
         return b;
     }
 
-    /**
-     * 获得任务奖励
-     */
-    private void getReward(Task task){
-        //获得经验奖励
-        handleXP(task,true);
-        //获得金币点数奖励
-        handleLifePoint(task,true);
-        handleSkillReward(task,true);
-        handleItemReward(task,true);
-        handleAchievement(task,true);
-    }
 
     /**
      * 处理物品奖励

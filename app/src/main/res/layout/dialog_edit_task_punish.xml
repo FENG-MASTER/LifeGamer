@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:inputType="number"
+                    android:inputType="numberSigned"
                     android:id="@+id/et_dialog_edit_task_punish_lost_lp"
                     android:hint="@string/task_lose_gold"
                     android:gravity="center"

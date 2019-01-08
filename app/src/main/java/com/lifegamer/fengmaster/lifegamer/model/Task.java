@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
+import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.BR;
@@ -22,6 +23,7 @@ import com.lifegamer.fengmaster.lifegamer.model.base.IdAble;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.RandomItemReward;
 import com.lifegamer.fengmaster.lifegamer.trigger.Trigger;
+import com.lifegamer.fengmaster.lifegamer.trigger.condition.TaskFailTriggerCondition;
 import com.lifegamer.fengmaster.lifegamer.trigger.condition.TaskFinishTriggerCondition;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 
@@ -161,12 +163,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
      */
     private List<Trigger> triggers=new ArrayList<>();
 
-    {
-        TriggerInfo successInfo=new TriggerInfo();
-        successInfo.setTriggerCondition(TaskFinishTriggerCondition.class.getName());
-        Trigger successTrigger=new Trigger(successInfo);
-        triggers.add(successTrigger);
-    }
+
 
 /***********************E奖励信息E**************************/
 
@@ -236,16 +233,6 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         }
         cv.put("triggers",FormatUtil.list2Str(triggerIDs));
 
-//        cv.put("xp",getXp());
-//        cv.put("successSkills", FormatUtil.skillMap2Str(getSuccessSkills()));
-//        cv.put("successItems", FormatUtil.itemRewardList2Str(getSuccessItems()));
-//        cv.put("successAchievements", FormatUtil.achievementRewardList2Str(getSuccessAchievements()));
-//        cv.put("earnLP", getEarnLP());
-//
-        cv.put("failureSkills", FormatUtil.skillMap2Str(getFailureSkills()));
-        cv.put("failureItems", FormatUtil.itemRewardList2Str(getFailureItems()));
-        cv.put("failureAchievements", FormatUtil.achievementRewardList2Str(getFailureAchievements()));
-        cv.put("lostLP", getLostLP());
         cv.put("repeatType", getRepeatType());
         cv.put("repeatInterval", getRepeatInterval());
         cv.put("repeatAvailableTime", getRepeatAvailableTime());
@@ -385,31 +372,37 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
 
     @Bindable
     public Map<Long, Integer> getFailureSkills() {
-        return failureSkills;
+        Trigger failTrigger = getFailTrigger();
+        return failTrigger.getTriggerInfo().getSkills();
     }
 
     public void setFailureSkills(Map<Long, Integer> failureSkills) {
-        this.failureSkills = failureSkills;
+        Trigger failTrigger = getFailTrigger();
+        failTrigger.getTriggerInfo().setSkills(failureSkills);
         notifyPropertyChanged(BR.failureSkills);
     }
 
     @Bindable
     public List<RandomItemReward> getFailureItems() {
-        return failureItems;
+        Trigger failTrigger = getFailTrigger();
+        return failTrigger.getTriggerInfo().getItems();
     }
 
     public void setFailureItems(List<RandomItemReward> failureItems) {
-        this.failureItems = failureItems;
+        Trigger failTrigger = getFailTrigger();
+        failTrigger.getTriggerInfo().setItems(failureItems);
         notifyPropertyChanged(BR.failureItems);
     }
 
     @Bindable
     public List<AchievementReward> getFailureAchievements() {
-        return failureAchievements;
+        Trigger failTrigger = getFailTrigger();
+        return failTrigger.getTriggerInfo().getAchievements();
     }
 
     public void setFailureAchievements(List<AchievementReward> failureAchievements) {
-        this.failureAchievements = failureAchievements;
+        Trigger failTrigger = getFailTrigger();
+        failTrigger.getTriggerInfo().setAchievements(failureAchievements);
         notifyPropertyChanged(BR.failureAchievements);
     }
 
@@ -421,12 +414,14 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
 
     @Bindable
     public int getLostLP() {
-        return lostLP;
+        Trigger failTrigger = getFailTrigger();
+        return failTrigger.getTriggerInfo().getEarnLP();
     }
 
 
     public void setLostLP(int lostLP) {
-        this.lostLP = lostLP;
+        Trigger failTrigger = getFailTrigger();
+        failTrigger.getTriggerInfo().setEarnLP(lostLP);
         notifyPropertyChanged(BR.lostLP);
     }
 
@@ -557,7 +552,39 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
     }
 
     public Trigger getSuccessTrigger(){
-        return Stream.of(triggers).filter(value -> value.getTriggerInfo().getTriggerCondition().equals(TaskFinishTriggerCondition.class.getName())).single();
+
+        Optional<Trigger> single = Stream.of(triggers).filter(value -> value.getTriggerInfo().getTriggerCondition().equals(TaskFinishTriggerCondition.class.getName())).findSingle();
+        Trigger successTrigger;
+        if (!single.isPresent()){
+            TriggerInfo successInfo=new TriggerInfo();
+            successInfo.setType(TriggerInfo.TYPE_TASK);
+            successInfo.setMainObjId(getId());
+            successInfo.setTriggerCondition(TaskFinishTriggerCondition.class.getName());
+            successTrigger=new Trigger(successInfo);
+            triggers.add(successTrigger);
+        }else {
+            successTrigger=single.get();
+        }
+
+        return successTrigger;
+    }
+
+    public Trigger getFailTrigger(){
+
+        Optional<Trigger> single = Stream.of(triggers).filter(value -> value.getTriggerInfo().getTriggerCondition().equals(TaskFailTriggerCondition.class.getName())).findSingle();
+        Trigger failTrigger;
+        if (!single.isPresent()){
+            TriggerInfo failInfo=new TriggerInfo();
+            failInfo.setType(TriggerInfo.TYPE_TASK);
+            failInfo.setMainObjId(getId());
+            failInfo.setTriggerCondition(TaskFailTriggerCondition.class.getName());
+            failTrigger=new Trigger(failInfo);
+            triggers.add(failTrigger);
+        }else {
+            failTrigger=single.get();
+        }
+
+        return failTrigger;
     }
 
     @Override
@@ -576,21 +603,18 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
 
         List<Integer> triggerIDs=new ArrayList<>();
         for (Trigger trigger : triggers) {
-            Game.getInstance().getTriggerManager().addTrigger(trigger.getTriggerInfo());
-            triggerIDs.add(Long.valueOf(trigger.getTriggerInfo().getId()).intValue());
+            TriggerInfo triggerInfo = trigger.getTriggerInfo();
+            triggerInfo.setMainObjId(getId());
+            triggerInfo.setType(TriggerInfo.TYPE_TASK);
+            Game.getInstance().getTriggerManager().addTrigger(triggerInfo);
+            triggerIDs.add(Long.valueOf(triggerInfo.getId()).intValue());
         }
         cv.put("triggers",FormatUtil.list2Str(triggerIDs));
-
-//        cv.put("xp",getXp());
-//        cv.put("successSkills", FormatUtil.skillMap2Str(getSuccessSkills()));
-//        cv.put("successItems", FormatUtil.itemRewardList2Str(getSuccessItems()));
-//        cv.put("successAchievements", FormatUtil.achievementRewardList2Str(getSuccessAchievements()));
-//        cv.put("earnLP", getEarnLP());
-
-        cv.put("failureSkills", FormatUtil.skillMap2Str(getFailureSkills()));
-        cv.put("failureItems", FormatUtil.itemRewardList2Str(getFailureItems()));
-        cv.put("failureAchievements", FormatUtil.achievementRewardList2Str(getFailureAchievements()));
-        cv.put("lostLP", getLostLP());
+//
+//        cv.put("failureSkills", FormatUtil.skillMap2Str(getFailureSkills()));
+//        cv.put("failureItems", FormatUtil.itemRewardList2Str(getFailureItems()));
+//        cv.put("failureAchievements", FormatUtil.achievementRewardList2Str(getFailureAchievements()));
+//        cv.put("lostLP", getLostLP());
         cv.put("repeatType", getRepeatType());
         cv.put("repeatInterval", getRepeatInterval());
         cv.put("repeatAvailableTime", getRepeatAvailableTime());
@@ -617,7 +641,15 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         cv.put("preTasks", FormatUtil.list2Str(getPreTasks()));
         cv.put("notes", FormatUtil.list2Str(getNotes()));
 
-        return sqLiteDatabase.insert(DBHelper.TABLE_TASK, null, cv);
+        long insertId = sqLiteDatabase.insert(DBHelper.TABLE_TASK, null, cv);
+
+        for (Trigger trigger : triggers) {
+            TriggerInfo triggerInfo = trigger.getTriggerInfo();
+            triggerInfo.setMainObjId(insertId);
+            Game.getInstance().getTriggerManager().updateTrigger(triggerInfo);
+        }
+
+        return insertId;
     }
 
     @Override
@@ -689,14 +721,14 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
 //        this.setSuccessSkills(FormatUtil.str2SkillMap(cursor.getString(cursor.getColumnIndex("successSkills"))));
 //        this.setSuccessItems(FormatUtil.str2ItemRewardList(cursor.getString(cursor.getColumnIndex("successItems"))));
 //        this.setSuccessAchievements(FormatUtil.str2achievementRewardList(cursor.getString(cursor.getColumnIndex("successAchievements"))));
-
-        this.setFailureSkills(FormatUtil.str2SkillMap(cursor.getString(cursor.getColumnIndex("failureSkills"))));
-        this.setFailureItems(FormatUtil.str2ItemRewardList(cursor.getString(cursor.getColumnIndex("failureItems"))));
-        this.setFailureAchievements(FormatUtil.str2achievementRewardList(cursor.getString(cursor.getColumnIndex("failureAchievements"))));
+//
+//        this.setFailureSkills(FormatUtil.str2SkillMap(cursor.getString(cursor.getColumnIndex("failureSkills"))));
+//        this.setFailureItems(FormatUtil.str2ItemRewardList(cursor.getString(cursor.getColumnIndex("failureItems"))));
+//        this.setFailureAchievements(FormatUtil.str2achievementRewardList(cursor.getString(cursor.getColumnIndex("failureAchievements"))));
 
 
 //        this.setEarnLP(cursor.getInt(cursor.getColumnIndex("earnLP")));
-        this.setLostLP(cursor.getInt(cursor.getColumnIndex("lostLP")));
+//        this.setLostLP(cursor.getInt(cursor.getColumnIndex("lostLP")));
 
         this.setRepeatType(cursor.getInt(cursor.getColumnIndex("repeatType")));
         this.setRepeatInterval(cursor.getInt(cursor.getColumnIndex("repeatInterval")));
