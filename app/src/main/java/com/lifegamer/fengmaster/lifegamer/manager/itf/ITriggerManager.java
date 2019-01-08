@@ -1,6 +1,6 @@
 package com.lifegamer.fengmaster.lifegamer.manager.itf;
 
-import com.lifegamer.fengmaster.lifegamer.model.Trigger;
+import com.lifegamer.fengmaster.lifegamer.model.TriggerInfo;
 
 /**
  * Created by FengMaster on 19/01/08.
@@ -13,30 +13,30 @@ public interface ITriggerManager {
      * @param id
      * @return
      */
-    Trigger getTrigger(long id);
+    TriggerInfo getTrigger(long id);
 
 
     /**
      * 新增触发器
-     * @param trigger
+     * @param triggerInfo
      * @return
      */
-    boolean addTrigger(Trigger trigger);
+    boolean addTrigger(TriggerInfo triggerInfo);
 
     /**
      * 更新触发器
-     * @param trigger
+     * @param triggerInfo
      * @return
              */
-    boolean updateTrigger(Trigger trigger);
+    boolean updateTrigger(TriggerInfo triggerInfo);
 
 
     /**
      * 删除触发器
-     * @param trigger
+     * @param triggerInfo
      * @return
      */
-    boolean removeTrigger(Trigger trigger);
+    boolean removeTrigger(TriggerInfo triggerInfo);
 
     /**
      * 删除触发器

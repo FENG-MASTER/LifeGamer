@@ -23,6 +23,7 @@ public class App extends Application {
         super.onCreate();
         mContext=getApplicationContext();
         game=Game.getInstance();
+        game.initTaskManager();
         EventBus.getDefault().post(new GameBaseInitFinish());
     }
 

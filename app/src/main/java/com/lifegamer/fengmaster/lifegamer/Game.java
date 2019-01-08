@@ -27,6 +27,8 @@ import com.lifegamer.fengmaster.lifegamer.manager.itf.ITaskManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ITriggerManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IUndoManager;
 
+import java.net.PortUnreachableException;
+
 /**
  * Created by qianzise on 2017/10/6.
  */
@@ -43,29 +45,29 @@ public class Game {
     /**
      * 物品管理器
      */
-    private IItemManager itemManager=new ItemManager();
+    private IItemManager itemManager;
 
 
     /**
      * 奖励物品管理器
      */
-    private IRewardManager rewardManager=new RewardItemManager();
+    private IRewardManager rewardManager;
     /**
      * 成就管理器
      */
-    private IAchievementManager achievementManager=new AchievementManager();
+    private IAchievementManager achievementManager;
     /**
      * 能力管理器
      */
-    private ISkillManager skillManager=new SkillManager();
+    private ISkillManager skillManager;
     /**
      * 英雄管理器
      */
-    private IHeroManager heroManager=new HeroManger();
+    private IHeroManager heroManager;
     /**
      * 任务管理器
      */
-    private ITaskManager taskManager=new TaskManager();
+    private ITaskManager taskManager;
     /**
      * 笔记管理器
      */
@@ -73,33 +75,86 @@ public class Game {
     /**
      * 图标管理器
      */
-    private IAvatarManager avatarManager=new IconicsAvatarManager();
+    private IAvatarManager avatarManager;
 
 
     /**
      * 命令管理器
      */
-    private CommandManager commandManager=new CommandManager();
+    private CommandManager commandManager;
 
     /**
      * 日志管理器
      */
-    private ILogManager logManager=new LogManager();
+    private ILogManager logManager;
 
     /**
      * 撤销管理器
      */
-    private IUndoManager undoManager=new UndoManger();
+    private IUndoManager undoManager;
 
 
     /**
      * 触发器管理器
      */
-    private ITriggerManager triggerManager=new TriggerManager();
+    private ITriggerManager triggerManager;
 
     private Game() {
+        /**
+         * 物品管理器
+         */
+        itemManager=new ItemManager();
+
+        /**
+         * 触发器管理器
+         */
+        triggerManager=new TriggerManager();
+
+        /**
+         * 奖励物品管理器
+         */
+        rewardManager=new RewardItemManager();
+        /**
+         * 成就管理器
+         */
+        achievementManager=new AchievementManager();
+        /**
+         * 能力管理器
+         */
+        skillManager=new SkillManager();
+        /**
+         * 英雄管理器
+         */
+        heroManager=new HeroManger();
+
+        /**
+         * 图标管理器
+         */
+        avatarManager=new IconicsAvatarManager();
+
+
+        /**
+         * 命令管理器
+         */
+        commandManager=new CommandManager();
+
+        /**
+         * 日志管理器
+         */
+        logManager=new LogManager();
+
+        /**
+         * 撤销管理器
+         */
+        undoManager=new UndoManger();
+
         heroManager.getHero();
 
+
+    }
+
+    public void initTaskManager(){
+        taskManager=new TaskManager();
     }
 
     public IRewardManager getRewardManager() {

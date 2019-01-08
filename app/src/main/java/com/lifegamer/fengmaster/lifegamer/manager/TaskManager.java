@@ -11,7 +11,9 @@ import com.lifegamer.fengmaster.lifegamer.command.command.achievement.LoseAchiev
 import com.lifegamer.fengmaster.lifegamer.command.command.skill.SkillIncreaseCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.task.UpdateTaskCommand;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
+import com.lifegamer.fengmaster.lifegamer.event.GameBaseInitFinish;
 import com.lifegamer.fengmaster.lifegamer.event.skill.DelSkillEvent;
+import com.lifegamer.fengmaster.lifegamer.event.task.UpdateTaskEvent;
 import com.lifegamer.fengmaster.lifegamer.log.LogPoint;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ITaskManager;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
@@ -643,6 +645,13 @@ public class TaskManager implements ITaskManager {
         }
 
     }
+
+//    @Subscribe(threadMode = ThreadMode.POSTING)
+//    public void gameInitFinsh(GameBaseInitFinish gameBaseInitFinish){
+//        loadTaskFromSQL();
+//        EventBus.getDefault().post(new UpdateTaskEvent(null));
+//    }
+
 
 
 }

@@ -145,14 +145,10 @@ public class DBHelper extends SQLiteOpenHelper {
             "difficulty integer," +
             "urgency integer," +
             "fear integer," +
-            "xp integer,"+
-            "successSkills text," +
-            "successItems text," +
-            "successAchievements text," +
+            "triggers varchar,"+
             "failureSkills text," +
             "failureItems text," +
             "failureAchievements text," +
-            "earnLP integer," +
             "lostLP integer," +
             "repeatType integer," +
             "repeatInterval integer," +

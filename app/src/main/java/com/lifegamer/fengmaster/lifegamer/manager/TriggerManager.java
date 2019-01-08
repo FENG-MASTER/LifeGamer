@@ -4,12 +4,10 @@ import android.database.Cursor;
 
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
-import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ITriggerManager;
-import com.lifegamer.fengmaster.lifegamer.model.Skill;
-import com.lifegamer.fengmaster.lifegamer.model.Trigger;
+import com.lifegamer.fengmaster.lifegamer.model.TriggerInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +18,7 @@ import java.util.List;
  */
 public class TriggerManager implements ITriggerManager {
 
-    private List<Trigger> triggerList=new ArrayList<>();
+    private List<TriggerInfo> triggerInfoList =new ArrayList<>();
 
     private DBHelper helper = DBHelper.getInstance();
 
@@ -35,49 +33,53 @@ public class TriggerManager implements ITriggerManager {
     private void getAllTriggerFromSQL() {
         Cursor cursor = helper.getReadableDatabase().query(DBHelper.TABLE_TRIGGER, null, null, null, null, null, null);
         while (cursor.moveToNext()) {
-            Trigger trigger=new Trigger();
-            trigger.getFromCursor(cursor);
-            triggerList.add(trigger);
+            TriggerInfo triggerInfo =new TriggerInfo();
+            triggerInfo.getFromCursor(cursor);
+            triggerInfoList.add(triggerInfo);
         }
         cursor.close();
     }
 
     @Override
-    public Trigger getTrigger(long id) {
-        Optional<Trigger> first = Stream.of(triggerList).filter(value -> value.getId() == id).findFirst();
-        return first.get();
+    public TriggerInfo getTrigger(long id) {
+        Optional<TriggerInfo> first = Stream.of(triggerInfoList).filter(value -> value.getId() == id).findSingle();
+        if (first.isPresent()){
+            return first.get();
+        }else {
+            return null;
+        }
     }
 
     @Override
-    public boolean addTrigger(Trigger trigger) {
-        if (getTrigger(trigger.getId())==null){
+    public boolean addTrigger(TriggerInfo triggerInfo) {
+        if (getTrigger(triggerInfo.getId())==null){
             //新的触发器
-            long l = Game.insert(trigger);
+            long l = Game.insert(triggerInfo);
             if (l!=0){
-                trigger.setId(l);
-                triggerList.add(trigger);
+                triggerInfo.setId(l);
+                triggerInfoList.add(triggerInfo);
                 return true;
             }else {
                 return false;
             }
 
         }else {
-            return updateTrigger(trigger);
+            return updateTrigger(triggerInfo);
         }
     }
 
     @Override
-    public boolean updateTrigger(Trigger trigger) {
+    public boolean updateTrigger(TriggerInfo triggerInfo) {
 
-        if (triggerList.contains(trigger)) {
+        if (triggerInfoList.contains(triggerInfo)) {
             //如果存在缓存里
-            return Game.update(trigger);
+            return Game.update(triggerInfo);
         } else {
-            Trigger t = getTrigger(trigger.getId());
+            TriggerInfo t = getTrigger(triggerInfo.getId());
             if (t != null) {
                 //存在相同id
                 //则更新缓存里的对象
-                t.copyFrom(trigger);
+                t.copyFrom(triggerInfo);
                 return Game.update(t);
             }else {
                 return false;
@@ -88,19 +90,19 @@ public class TriggerManager implements ITriggerManager {
 
 
     @Override
-    public boolean removeTrigger(Trigger trigger) {
-        if (trigger==null){
+    public boolean removeTrigger(TriggerInfo triggerInfo) {
+        if (triggerInfo ==null){
             return false;
         }
 
-        triggerList.remove(trigger);
-        return Game.delete(trigger);
+        triggerInfoList.remove(triggerInfo);
+        return Game.delete(triggerInfo);
 
     }
 
     @Override
     public boolean removeTrigger(long triggerId) {
-        Trigger trigger = getTrigger(triggerId);
-        return removeTrigger(trigger);
+        TriggerInfo triggerInfo = getTrigger(triggerId);
+        return removeTrigger(triggerInfo);
     }
 }

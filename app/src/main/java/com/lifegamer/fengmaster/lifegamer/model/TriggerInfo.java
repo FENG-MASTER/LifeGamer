@@ -14,6 +14,7 @@ import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
 import com.lifegamer.fengmaster.lifegamer.model.base.IdAble;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.RandomItemReward;
+import com.lifegamer.fengmaster.lifegamer.trigger.Trigger;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 
 import java.text.ParseException;
@@ -28,7 +29,7 @@ import java.util.Map;
  * 触发器,用于联系各个实体之间的关系
  * Created by FengMaster on 19/01/08.
  */
-public class Trigger extends BaseObservable implements Updateable, Insertable, Deleteable,ICopy<Trigger>,Getable,IdAble {
+public class TriggerInfo extends BaseObservable implements Updateable, Insertable, Deleteable,ICopy<TriggerInfo>,Getable,IdAble {
 
     /**
      * 触发器主体种类-任务
@@ -53,7 +54,7 @@ public class Trigger extends BaseObservable implements Updateable, Insertable, D
     /**
      * 触发条件
      * 对应触发器的class
-     * @see com.lifegamer.fengmaster.lifegamer.trigger.AbsTrigger 的实现类
+     * @see Trigger 的实现类
      */
     private String triggerCondition;
 
@@ -107,19 +108,19 @@ public class Trigger extends BaseObservable implements Updateable, Insertable, D
 
 
     @Override
-    public void copyFrom(Trigger trigger) {
-        this.setId(trigger.getId());
-        this.setType(trigger.getType());
-        this.setTriggerCondition(trigger.getTriggerCondition());
-        this.setTriggerParameter(trigger.getTriggerParameter());
-        this.setItems(trigger.getItems());
-        this.setAchievements(trigger.getAchievements());
-        this.setSkills(trigger.getSkills());
-        this.setEarnLP(trigger.getEarnLP());
-        this.setMainObjId(trigger.getMainObjId());
-        this.setXp(trigger.getXp());
-        this.setCreateTime(trigger.getCreateTime());
-        this.setUpdateTime(trigger.getUpdateTime());
+    public void copyFrom(TriggerInfo triggerInfo) {
+        this.setId(triggerInfo.getId());
+        this.setType(triggerInfo.getType());
+        this.setTriggerCondition(triggerInfo.getTriggerCondition());
+        this.setTriggerParameter(triggerInfo.getTriggerParameter());
+        this.setItems(triggerInfo.getItems());
+        this.setAchievements(triggerInfo.getAchievements());
+        this.setSkills(triggerInfo.getSkills());
+        this.setEarnLP(triggerInfo.getEarnLP());
+        this.setMainObjId(triggerInfo.getMainObjId());
+        this.setXp(triggerInfo.getXp());
+        this.setCreateTime(triggerInfo.getCreateTime());
+        this.setUpdateTime(triggerInfo.getUpdateTime());
     }
 
     @Override
@@ -333,6 +334,6 @@ public class Trigger extends BaseObservable implements Updateable, Insertable, D
 
     @Override
     public boolean equals(Object obj) {
-        return id==((Trigger)obj).id;
+        return id==((TriggerInfo)obj).id;
     }
 }

@@ -1,6 +1,6 @@
 package com.lifegamer.fengmaster.lifegamer.trigger.condition;
 
-import com.lifegamer.fengmaster.lifegamer.model.Trigger;
+import com.lifegamer.fengmaster.lifegamer.model.TriggerInfo;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -19,16 +19,16 @@ public abstract class AbsTriggerCondition {
     /**
      * 触发器信息实体
      */
-    protected Trigger trigger;
+    protected TriggerInfo triggerInfo;
 
     /**
      * 条件达成后,会回调这个函数通知触发器
      */
     protected OnTrigger onTriggerListener;
 
-    public AbsTriggerCondition(Trigger trigger, String params,OnTrigger onTrigger) {
+    public AbsTriggerCondition(TriggerInfo triggerInfo, String params, OnTrigger onTrigger) {
         this.params = params;
-        this.trigger=trigger;
+        this.triggerInfo = triggerInfo;
         this.onTriggerListener=onTrigger;
         EventBus.getDefault().register(this);
     }
