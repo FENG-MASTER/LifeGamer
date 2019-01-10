@@ -18,7 +18,7 @@ public abstract class AbsRandomReward {
     public boolean isHit(){
 
 
-        boolean hitFlag=random.nextInt(1000)<=getProbability();
+        boolean hitFlag=random.nextInt(1000)<=Math.abs(getProbability());
         return hitFlag;
 
     }

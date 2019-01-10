@@ -2,6 +2,8 @@ package com.lifegamer.fengmaster.lifegamer.trigger;
 
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.command.command.achievement.GotAchievementCommand;
+import com.lifegamer.fengmaster.lifegamer.command.command.achievement.LoseAchievementCommand;
+import com.lifegamer.fengmaster.lifegamer.command.command.skill.SkillDecreaseCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.skill.SkillIncreaseCommand;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
 import com.lifegamer.fengmaster.lifegamer.model.Hero;
@@ -69,7 +71,11 @@ public class Trigger implements AbsTriggerCondition.OnTrigger {
      */
     private void handleLifePoint(TriggerInfo triggerInfo) {
         int lp = triggerInfo.getEarnLP();
-        Game.getInstance().getHeroManager().getHero().getLifePoint().addPoint(lp);
+        if(lp>0){
+            Game.getInstance().getHeroManager().getHero().getLifePoint().addPoint(lp);
+        }else {
+            Game.getInstance().getHeroManager().getHero().getLifePoint().subPoint(-lp);
+        }
     }
 
 
@@ -85,8 +91,19 @@ public class Trigger implements AbsTriggerCondition.OnTrigger {
             for (AchievementReward achievement : achievements) {
                 if (achievement.isHit()) {
                     Achievement am = Game.getInstance().getAchievementManager().getAchievement(achievement.getAchievementID());
-                    if (am != null && !am.isGot()) {
-                        Game.getInstance().getCommandManager().executeCommand(new GotAchievementCommand(am));
+
+                    if (achievement.getProbability()>=0){
+                        //获得成就
+
+                        if (am != null && !am.isGot()) {
+                            Game.getInstance().getCommandManager().executeCommand(new GotAchievementCommand(am));
+                        }
+
+                    }else {
+                        //失去成就
+                        if (am != null && am.isGot()) {
+                            Game.getInstance().getCommandManager().executeCommand(new LoseAchievementCommand(am));
+                        }
                     }
                 }
             }
@@ -105,8 +122,13 @@ public class Trigger implements AbsTriggerCondition.OnTrigger {
         List<RandomItemReward> itemRewards = triggerInfo.getItems();
         for (RandomItemReward itemReward : itemRewards) {
             if (itemReward.isHit()) {
-                //获得相应物品
-                Game.getInstance().getRewardManager().gainRewardItem((int) itemReward.getRewardID(), itemReward.getNum());
+                if (itemReward.getNum()>=0){
+                    //获得相应物品
+                    Game.getInstance().getRewardManager().gainRewardItem((int) itemReward.getRewardID(), itemReward.getNum());
+                }else {
+                    //失去物品
+                    Game.getInstance().getRewardManager().lostRewardItem((int) itemReward.getRewardID(), -itemReward.getNum());
+                }
 
             }
         }
@@ -122,7 +144,12 @@ public class Trigger implements AbsTriggerCondition.OnTrigger {
 
         Map<Long, Integer> map = triggerInfo.getSkills();
         for (Map.Entry<Long, Integer> entry : map.entrySet()) {
-            Game.getInstance().getCommandManager().executeCommand(new SkillIncreaseCommand(entry.getKey(), entry.getValue()));
+            if (entry.getValue()>=0){
+                Game.getInstance().getCommandManager().executeCommand(new SkillIncreaseCommand(entry.getKey(), entry.getValue()));
+            }else {
+                Game.getInstance().getCommandManager().executeCommand(new SkillDecreaseCommand(entry.getKey(), entry.getValue()));
+
+            }
         }
 
     }
@@ -135,7 +162,13 @@ public class Trigger implements AbsTriggerCondition.OnTrigger {
     private void handleXP(TriggerInfo triggerInfo) {
         if (triggerInfo.getXp() != 0) {
             Hero hero = Game.getInstance().getHeroManager().getHero();
-            hero.addXp(triggerInfo.getXp());
+
+            if (triggerInfo.getXp()>=0){
+                hero.addXp(triggerInfo.getXp());
+            }else {
+                hero.reduceXp(-triggerInfo.getXp());
+            }
+
             Game.getInstance().getHeroManager().updateHero(hero);
         }
 

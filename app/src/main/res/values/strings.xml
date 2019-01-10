@@ -146,6 +146,7 @@
     <string name="task_add_item_punish">新增物品惩罚</string>
     <string name="task_lose_achievement">失去成就</string>
     <string name="task_add_achievement_punish">新增成就惩罚</string>
+    <string name="sub">减少</string>
 
 
 </resources>

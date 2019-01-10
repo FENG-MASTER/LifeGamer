@@ -7,35 +7,35 @@ import com.lifegamer.fengmaster.lifegamer.command.command.AbsCancelableCommand;
 import com.lifegamer.fengmaster.lifegamer.model.Skill;
 
 /**
- * 能力经验增加命令
+ * 能力经验减少命令
  * Created by FengMaster on 18/07/31.
  */
-public class SkillIncreaseCommand extends AbsCancelableCommand {
+public class SkillDecreaseCommand extends AbsCancelableCommand {
     private Skill skill;
     private long skillID;
-    private int incxp;
+    private int decxp;
 
-    public SkillIncreaseCommand(long skillID, int incxp) {
+    public SkillDecreaseCommand(long skillID, int decxp) {
         this.skillID = skillID;
-        this.incxp = incxp;
+        this.decxp = decxp;
         skill= Game.getInstance().getSkillManager().getSkill(skillID);
     }
 
     @Override
     public boolean execute() {
-        skill.addXP(incxp);
+        skill.reduceXP(decxp);
         return Game.getInstance().getSkillManager().updateSkill(skill);
     }
 
     @Override
     public void undo() {
-        skill.reduceXP(incxp);
+        skill.addXP(decxp);
         Game.getInstance().getSkillManager().updateSkill(skill);
     }
 
     @Override
     public String getName() {
-        return skill.getName()+App.getContext().getString(R.string.increase) +incxp;
+        return skill.getName()+App.getContext().getString(R.string.sub) + decxp;
     }
 
 

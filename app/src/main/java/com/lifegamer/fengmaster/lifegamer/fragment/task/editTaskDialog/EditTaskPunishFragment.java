@@ -204,13 +204,13 @@ public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
             public void afterTextChanged(Editable s) {
                 if (s == null || s.toString().equals("")) {
                     ratel.setErrorEnabled(true);
-                    ratel.setError("必须在1-1000之间");
+                    ratel.setError("必须在-1000到1000之间");
                     return;
                 }
                 Integer integer = Integer.valueOf(s.toString());
-                if (integer > 1000 || integer <= 0) {
+                if (integer > 1000 || integer < -1000) {
                     ratel.setErrorEnabled(true);
-                    ratel.setError("必须在1-1000之间");
+                    ratel.setError("必须在-1000到1000之间");
                 } else {
                     ratel.setErrorEnabled(false);
                 }

@@ -97,7 +97,6 @@ public class SkillFragment extends BaseTabListFragment implements OnItemSelectLi
 
         }
 
-        ViewUtil.showToast(item.getName());
 
     }
 }

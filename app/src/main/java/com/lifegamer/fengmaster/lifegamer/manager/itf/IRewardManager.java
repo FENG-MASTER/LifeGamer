@@ -111,7 +111,15 @@ public interface IRewardManager {
      * @param rewardItem 要取消的奖励
      * @return 是否成功
      */
-    boolean lostRewardItem(RewardItem rewardItem);
+    boolean lostRewardItem(RewardItem rewardItem,int num);
+
+    /**
+     * 取消获得奖励
+     *
+     * @param rewardItem 要取消的奖励
+     * @return 是否成功
+     */
+    boolean lostRewardItem(int rewardItemID,int num);
 
     /**
      * 购买奖励

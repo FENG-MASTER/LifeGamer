@@ -184,7 +184,12 @@ public class RewardItemManager implements IRewardManager {
     }
 
     @Override
-    public boolean lostRewardItem(RewardItem rewardItem) {
+    public boolean lostRewardItem(RewardItem rewardItem,int num) {
+        return false;
+    }
+
+    @Override
+    public boolean lostRewardItem(int rewardItemID, int num) {
         return false;
     }
 

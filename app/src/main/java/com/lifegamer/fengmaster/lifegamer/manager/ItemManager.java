@@ -7,9 +7,12 @@ import com.annimon.stream.Stream;
 import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
+import com.lifegamer.fengmaster.lifegamer.event.item.UpdateItemEvent;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IItemManager;
 import com.lifegamer.fengmaster.lifegamer.model.Item;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -232,6 +235,7 @@ public class ItemManager implements IItemManager {
      */
     @Override
     public boolean updateItem(Item item) {
+        EventBus.getDefault().post(new UpdateItemEvent(item));
         if (items.containsValue(item)){
             //缓存有
             return Game.update(item);

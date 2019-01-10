@@ -40,6 +40,13 @@ public class LifePoint extends BaseObservable implements Updateable {
         notifyPropertyChanged(BR.lpPoint);
     }
 
+    @LogPoint(type = Log.TYPE.HERO,action = Log.ACTION.SUB,property = Log.PROPERTY.LIFEPOINT)
+    public void subPoint(int point){
+        this.lpPoint -=point;
+        Game.update(this);
+        notifyPropertyChanged(BR.lpPoint);
+    }
+
 
     @Override
     public int update(SQLiteDatabase sqLiteDatabase) {
