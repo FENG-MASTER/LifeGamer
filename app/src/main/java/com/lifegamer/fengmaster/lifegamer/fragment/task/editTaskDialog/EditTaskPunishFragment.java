@@ -81,6 +81,7 @@ public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
         return view;
     }
 
+
     public EditTaskPunishFragment setTask(Task task) {
         this.task = task;
         return this;
@@ -179,7 +180,12 @@ public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
                 if (s == null || s.toString().equals("")) {
                     return;
                 }
-                reward.setNum(Integer.valueOf(s.toString()));
+                if (s.length()>1&&(s.subSequence(0,1).toString().equals("+")||s.subSequence(0,1).toString().equals("-"))){
+                    reward.setNum(Integer.valueOf(s.toString()));
+                }else if (TextUtils.isDigitsOnly(s.toString())){
+                    reward.setNum(Integer.valueOf(s.toString()));
+                }
+
             }
         });
 
@@ -253,8 +259,12 @@ public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!s.toString().equals("") && TextUtils.isDigitsOnly(s.toString())) {
-                    skills.put(skill.getId(), Integer.parseInt(s.toString()));
+                if (!s.toString().equals("") && s.length()!=0) {
+                    if (s.length()>1&&(s.subSequence(0,1).toString().equals("+")||s.subSequence(0,1).toString().equals("-"))){
+                        skills.put(skill.getId(), Integer.parseInt(s.toString()));
+                    }else if (TextUtils.isDigitsOnly(s.toString())){
+                        skills.put(skill.getId(), Integer.parseInt(s.toString()));
+                    }
                 }
             }
         });
