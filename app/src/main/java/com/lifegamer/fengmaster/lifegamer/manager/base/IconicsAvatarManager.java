@@ -2,6 +2,7 @@ package com.lifegamer.fengmaster.lifegamer.manager.base;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 
 import com.lifegamer.fengmaster.lifegamer.App;
@@ -71,7 +72,7 @@ public class IconicsAvatarManager implements IAvatarManager {
             IIcon icon = font.getIcon(iconName);
             if (icon!=null){
                 //存在对应的图标
-                return new IconicsDrawable(context).icon(icon);
+                return new IconicsDrawable(context).color(Color.WHITE).icon(icon);
             }else {
                 return emptyDrawable;
             }
