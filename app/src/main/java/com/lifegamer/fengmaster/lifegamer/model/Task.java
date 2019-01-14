@@ -542,7 +542,8 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
     }
 
     public void setSuccessAchievements(List<AchievementReward> successAchievements) {
-        this.successAchievements = successAchievements;
+        Trigger successTrigger = getSuccessTrigger();
+        successTrigger.getTriggerInfo().setAchievements(successAchievements);
         notifyPropertyChanged(BR.successAchievements);
     }
 
@@ -551,17 +552,22 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         notifyPropertyChanged(BR.desc);
     }
 
+    public Trigger addTrigger(TriggerInfo info){
+        info.setType(TriggerInfo.TYPE_TASK);
+        info.setMainObjId(getId());
+        Trigger t=new Trigger(info);
+        triggers.add(t);
+        return t;
+    }
+
     public Trigger getSuccessTrigger(){
 
         Optional<Trigger> single = Stream.of(triggers).filter(value -> value.getTriggerInfo().getTriggerCondition().equals(TaskFinishTriggerCondition.class.getName())).findSingle();
         Trigger successTrigger;
         if (!single.isPresent()){
             TriggerInfo successInfo=new TriggerInfo();
-            successInfo.setType(TriggerInfo.TYPE_TASK);
-            successInfo.setMainObjId(getId());
             successInfo.setTriggerCondition(TaskFinishTriggerCondition.class.getName());
-            successTrigger=new Trigger(successInfo);
-            triggers.add(successTrigger);
+            successTrigger=addTrigger(successInfo);
         }else {
             successTrigger=single.get();
         }
@@ -575,11 +581,8 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         Trigger failTrigger;
         if (!single.isPresent()){
             TriggerInfo failInfo=new TriggerInfo();
-            failInfo.setType(TriggerInfo.TYPE_TASK);
-            failInfo.setMainObjId(getId());
             failInfo.setTriggerCondition(TaskFailTriggerCondition.class.getName());
-            failTrigger=new Trigger(failInfo);
-            triggers.add(failTrigger);
+            failTrigger=addTrigger(failInfo);
         }else {
             failTrigger=single.get();
         }

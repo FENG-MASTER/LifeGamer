@@ -22,12 +22,15 @@ import com.lifegamer.fengmaster.lifegamer.App;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.databinding.DialogEditTaskPunishBinding;
+import com.lifegamer.fengmaster.lifegamer.fragment.trigger.EditTriggerDialog;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
 import com.lifegamer.fengmaster.lifegamer.model.RewardItem;
 import com.lifegamer.fengmaster.lifegamer.model.Skill;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
+import com.lifegamer.fengmaster.lifegamer.model.TriggerInfo;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.RandomItemReward;
+import com.lifegamer.fengmaster.lifegamer.trigger.Trigger;
 import com.lifegamer.fengmaster.lifegamer.util.ViewUtil;
 import com.lifegamer.fengmaster.lifegamer.wight.SearchAndSelectDialog;
 
@@ -369,18 +372,21 @@ public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
             return;
         }
 
-        SearchAndSelectDialog<Skill> dialog = new SearchAndSelectDialog<Skill>();
-        dialog.setItemList(allSkill).setItemKeyFunction(Skill::getName);
-        dialog.addItemSelectListener(selectSkills -> {
-            for (Skill s : selectSkills) {
-                newSkillView(s, 0);
-                skills.put(s.getId(), 0);
-            }
-            dialog.dismiss();
-        });
+//        SearchAndSelectDialog<Skill> dialog = new SearchAndSelectDialog<Skill>();
+//        dialog.setItemList(allSkill).setItemKeyFunction(Skill::getName);
+//        dialog.addItemSelectListener(selectSkills -> {
+//            for (Skill s : selectSkills) {
+//                newSkillView(s, 0);
+//                skills.put(s.getId(), 0);
+//            }
+//            dialog.dismiss();
+//        });
+//
+//        dialog.show(getFragmentManager(), "select");
 
-        dialog.show(getFragmentManager(), "select");
-
+        EditTriggerDialog dialog=new EditTriggerDialog();
+        dialog.setTrigger(new Trigger(new TriggerInfo()));
+        dialog.show(getFragmentManager(),"");
 
 
     }

@@ -19,7 +19,9 @@ import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -80,15 +82,15 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
      * <p>
      * key-能力ID val-增加的点数
      */
-    private Map<Long, Integer> skills;
+    private Map<Long, Integer> skills=new HashMap<>();
     /**
      * 触发后获得的物品列表
      */
-    private List<RandomItemReward> items;
+    private List<RandomItemReward> items=new ArrayList<>();
     /**
      * 触发后获得的成就列表
      */
-    private List<AchievementReward> achievements;
+    private List<AchievementReward> achievements=new ArrayList<>();
 
     /**
      * 触发后奖励的LP
