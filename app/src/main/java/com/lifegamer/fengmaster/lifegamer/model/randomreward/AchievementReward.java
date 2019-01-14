@@ -37,4 +37,9 @@ public class AchievementReward extends AbsRandomReward {
     public boolean equals(Object o) {
         return achievementID==(((AchievementReward)o).getAchievementID());
     }
+
+    @Override
+    public int hashCode() {
+        return Long.valueOf(achievementID).hashCode();
+    }
 }

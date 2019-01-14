@@ -23,7 +23,12 @@ public class SelectItem {
     //失去
     public static final int LOSE_ID=7;
 
-
+    //技能
+    public static final int SKILL_ID=8;
+    //成就
+    public static final int ACHIEVEMENT_ID=9;
+    //物品
+    public static final int ITEM_ID=10;
 
 
 
@@ -35,6 +40,10 @@ public class SelectItem {
     public static final SelectItem NOTES = new SelectItem(NOTES_ID, "笔记", R.drawable.ic_select_notes);
     public static final SelectItem GOT = new SelectItem(GOT_ID, "获得", R.drawable.ic_select_got);
     public static final SelectItem LOSE = new SelectItem(LOSE_ID, "失去", R.drawable.ic_select_lose);
+
+    public static final SelectItem SKILL = new SelectItem(SKILL_ID, "技能", R.drawable.ic_nav_skill);
+    public static final SelectItem ACHIEVEMENT = new SelectItem(ACHIEVEMENT_ID, "成就", R.drawable.ic_nav_achievement);
+    public static final SelectItem ITEM = new SelectItem(ITEM_ID, "物品", R.drawable.ic_nav_item);
 
 
     private int id;
