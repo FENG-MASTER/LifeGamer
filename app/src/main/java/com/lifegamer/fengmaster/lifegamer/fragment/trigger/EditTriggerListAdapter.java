@@ -144,7 +144,8 @@ public class EditTriggerListAdapter extends RecyclerView.Adapter<EditTriggerList
     /**
      * 技能holder
      */
-    public class SkillHolder extends Holder implements View.OnLongClickListener {
+    public class SkillHolder extends Holder implements TextWatcher {
+
 
         @BindView(R.id.tv_item_dialog_edit_task_reward_skill_name)
         public TextView skillName;
@@ -157,7 +158,6 @@ public class EditTriggerListAdapter extends RecyclerView.Adapter<EditTriggerList
         public SkillHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
-            itemView.setOnLongClickListener(this);
         }
 
 
@@ -165,44 +165,47 @@ public class EditTriggerListAdapter extends RecyclerView.Adapter<EditTriggerList
             this.skill=skill;
             skillName.setText(skill.getName());
             skillXp.setText(String.valueOf(val));
-            skillXp.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            skillXp.addTextChangedListener(this);
+        }
 
-                }
+        @OnClick(R.id.bt_dialog_edit_task_reward_skill_del)
+        public void del(View v) {
+            //长按表示删除
+            if (skill!=null){
+                skills.remove(skill.getId());
+            }
+            skill=null;
+            skillXp.removeTextChangedListener(this);
+            notifyItemRemoved(pos);
 
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    if (skill!=null&&!s.toString().equals("") && s.length()!=0) {
-                        if (s.length()>1&&(s.subSequence(0,1).toString().equals("+")||s.subSequence(0,1).toString().equals("-"))){
-                            skills.put(skill.getId(), Integer.parseInt(s.toString()));
-                        }else if (TextUtils.isDigitsOnly(s.toString())){
-                            skills.put(skill.getId(), Integer.parseInt(s.toString()));
-                        }
-                    }
-                }
-            });
         }
 
         @Override
-        public boolean onLongClick(View v) {
-            //长按表示删除
-            skills.remove(skill.getId());
-            skill=null;
-            notifyItemRemoved(pos);
-            return true;
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (skill!=null&&!s.toString().equals("") && s.length()!=0) {
+                if (s.length()>1&&(s.subSequence(0,1).toString().equals("+")||s.subSequence(0,1).toString().equals("-"))){
+                    skills.put(skill.getId(), Integer.parseInt(s.toString()));
+                }else if (TextUtils.isDigitsOnly(s.toString())){
+                    skills.put(skill.getId(), Integer.parseInt(s.toString()));
+                }
+            }
         }
     }
 
     /**
      * 物品holder
      */
-    public class ItemHolder extends Holder implements View.OnLongClickListener {
+    public class ItemHolder extends Holder {
 
         @BindView(R.id.tv_item_dialog_edit_task_reward_item_name)
         public TextView itemName;
@@ -216,12 +219,70 @@ public class EditTriggerListAdapter extends RecyclerView.Adapter<EditTriggerList
         @BindView(R.id.tl_dialog_edit_task_reward_item_rate)
         public TextInputLayout itemRateL;
 
+        private TextWatcher numWatcher=new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (randomItemReward==null||s == null || s.toString().equals("")) {
+                    return;
+                }
+                if (s.length()>1&&(s.subSequence(0,1).toString().equals("+")||s.subSequence(0,1).toString().equals("-"))){
+                    randomItemReward.setNum(Integer.valueOf(s.toString()));
+                }else if (TextUtils.isDigitsOnly(s.toString())){
+                    randomItemReward.setNum(Integer.valueOf(s.toString()));
+                }
+            }
+        };
+
+        private TextWatcher rateWatcher=new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (randomItemReward==null){
+                    return;
+                }
+                if (s == null || s.toString().equals("")) {
+                    itemRateL.setErrorEnabled(true);
+                    itemRateL.setError("必须在-1000到1000之间");
+                    return;
+                }
+                Integer integer = Integer.valueOf(s.toString());
+                if (integer > 1000 || integer < -1000) {
+                    itemRateL.setErrorEnabled(true);
+                    itemRateL.setError("必须在-1000到1000之间");
+                } else {
+                    itemRateL.setErrorEnabled(false);
+                }
+
+                randomItemReward.setProbability(integer);
+
+            }
+        };
+
         private RandomItemReward randomItemReward;
 
         public ItemHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
-            itemView.setOnLongClickListener(this);
+
         }
 
         public void setItem(RandomItemReward rewardItem){
@@ -231,74 +292,21 @@ public class EditTriggerListAdapter extends RecyclerView.Adapter<EditTriggerList
             itemRate.setText(String.valueOf(rewardItem.getProbability()));
             itemNum.setText(String.valueOf(rewardItem.getNum()));
 
-            itemNum.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            itemNum.addTextChangedListener(numWatcher);
 
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    if (randomItemReward==null||s == null || s.toString().equals("")) {
-                        return;
-                    }
-                    if (s.length()>1&&(s.subSequence(0,1).toString().equals("+")||s.subSequence(0,1).toString().equals("-"))){
-                        rewardItem.setNum(Integer.valueOf(s.toString()));
-                    }else if (TextUtils.isDigitsOnly(s.toString())){
-                        rewardItem.setNum(Integer.valueOf(s.toString()));
-                    }
-
-                }
-            });
-
-            itemRate.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    if (randomItemReward==null){
-                        return;
-                    }
-                    if (s == null || s.toString().equals("")) {
-                        itemRateL.setErrorEnabled(true);
-                        itemRateL.setError("必须在-1000到1000之间");
-                        return;
-                    }
-                    Integer integer = Integer.valueOf(s.toString());
-                    if (integer > 1000 || integer < -1000) {
-                        itemRateL.setErrorEnabled(true);
-                        itemRateL.setError("必须在-1000到1000之间");
-                    } else {
-                        itemRateL.setErrorEnabled(false);
-                    }
-
-                    rewardItem.setProbability(integer);
-
-                }
-            });
+            itemRate.addTextChangedListener(rateWatcher);
 
         }
 
-        @Override
-        public boolean onLongClick(View v) {
-            v.setEnabled(false);
-            items.remove(randomItemReward);
+        @OnClick(R.id.bt_dialog_edit_task_reward_item_del)
+        public void onLongClick(View v) {
+            if (randomItemReward!=null){
+                items.remove(randomItemReward);
+            }
             randomItemReward=null;
+            itemNum.removeTextChangedListener(numWatcher);
+            itemRate.removeTextChangedListener(rateWatcher);
             notifyItemRemoved(pos);
-            return true;
         }
     }
 
@@ -306,7 +314,7 @@ public class EditTriggerListAdapter extends RecyclerView.Adapter<EditTriggerList
     /**
      * 成就holder
      */
-    public class AchievementHolder extends Holder  {
+    public class AchievementHolder extends Holder implements TextWatcher {
 
         @BindView(R.id.bt_dialog_edit_task_reward_achievement_del)
         public ImageButton del;
@@ -332,53 +340,54 @@ public class EditTriggerListAdapter extends RecyclerView.Adapter<EditTriggerList
             achievementName.setText(achievement.getName());
             achievementRate.setText(String.valueOf(rate));
              //检测输入数字只能在1-1000之间
-            achievementRate.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    if (achievement==null){
-                        return;
-                    }
-                    if (s == null || s.toString().equals("")) {
-                        achievementRateL.setErrorEnabled(true);
-                        achievementRateL.setError("必须在1-1000之间");
-                        return;
-                    }
-                    Integer integer = Integer.valueOf(s.toString());
-                    if (integer > 1000 || integer <= 0) {
-                        achievementRateL.setErrorEnabled(true);
-                        achievementRateL.setError("必须在1-1000之间");
-                    } else {
-                        achievementRateL.setErrorEnabled(false);
-                    }
-                    achievements.add(new AchievementReward(achievement.getId(),integer));
-                }
-            });
+            achievementRate.addTextChangedListener(this);
 
         }
 
         @OnClick(R.id.bt_dialog_edit_task_reward_achievement_del)
-        public boolean del(View v) {
-            v.setEnabled(false);
+        public void del(View v) {
             AchievementReward rm = null;
-            for (AchievementReward achievement : achievements) {
-                if (achievement.getAchievementID()==this.achievement.getId()) {
-                    rm = achievement;
+            if (achievement!=null){
+                for (AchievementReward achievement : achievements) {
+                    if (achievement.getAchievementID()==this.achievement.getId()) {
+                        rm = achievement;
+                    }
                 }
+                achievements.remove(rm);
+                achievementRate.removeTextChangedListener(this);
             }
-            achievements.remove(rm);
             this.achievement=null;
             notifyItemRemoved(pos);
-            return true;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (achievement==null){
+                return;
+            }
+            if (s == null || s.toString().equals("")) {
+                achievementRateL.setErrorEnabled(true);
+                achievementRateL.setError("必须在1-1000之间");
+                return;
+            }
+            Integer integer = Integer.valueOf(s.toString());
+            if (integer > 1000 || integer <= 0) {
+                achievementRateL.setErrorEnabled(true);
+                achievementRateL.setError("必须在1-1000之间");
+            } else {
+                achievementRateL.setErrorEnabled(false);
+            }
+            achievements.add(new AchievementReward(achievement.getId(),integer));
         }
     }
 

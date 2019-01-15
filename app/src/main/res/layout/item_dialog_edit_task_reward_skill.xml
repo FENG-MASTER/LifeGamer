@@ -5,10 +5,13 @@
 
     <ImageButton
         android:id="@+id/bt_dialog_edit_task_reward_skill_del"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
-        android:src="@drawable/ic_clear_black_24dp"/>
+        android:scaleType="fitXY"
+        android:background="@null"
+        android:src="@drawable/ic_clear_red_24dp"/>
 
 
     <TextView
@@ -20,24 +23,21 @@
         android:paddingLeft="5dp"/>
 
 
-
     <android.support.design.widget.TextInputLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:layout_width="wrap_content"
-        android:gravity="center"
-        android:layout_height="wrap_content">
+        android:gravity="center">
 
         <EditText
-            android:hint="经验值"
             android:id="@+id/et_item_dialog_edit_task_reward_skill_val"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
+            android:hint="经验值"
             android:inputType="numberSigned"/>
 
     </android.support.design.widget.TextInputLayout>
-
-
 
 
 </RelativeLayout>
