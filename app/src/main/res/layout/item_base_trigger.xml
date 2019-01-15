@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="com.lifegamer.fengmaster.lifegamer.Game"/>
+        <import type="android.view.View"/>
+        <variable
+            name="triggerInfo"
+            type="com.lifegamer.fengmaster.lifegamer.model.TriggerInfo"/>
+
+    </data>
+
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_item_trigger_condition"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@{triggerInfo.triggerConditionDesc}"
+                        android:textSize="20sp"/>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:paddingRight="5dp"
+                            android:drawableStart="@drawable/ic_life_point_coin"
+                            android:id="@+id/tv_item_base_trigger_lp"
+                            android:layout_width="wrap_content"
+                            android:text="@{String.valueOf(triggerInfo.earnLP)}"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:paddingRight="5dp"
+                            android:drawableStart="@drawable/ic_item"
+                            android:id="@+id/tv_item_base_trigger_item"
+                            android:layout_width="wrap_content"
+                            android:text="@{String.valueOf(triggerInfo.items.size())}"
+                            android:visibility="@{triggerInfo.items.empty?View.INVISIBLE:View.VISIBLE}"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:paddingRight="5dp"
+                            android:drawableStart="@drawable/ic_skill"
+                            android:id="@+id/tv_item_base_trigger_skill"
+                            android:layout_width="wrap_content"
+                            android:text="@{String.valueOf(triggerInfo.skills.size())}"
+                            android:visibility="@{triggerInfo.skills.empty?View.INVISIBLE:View.VISIBLE}"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</layout>

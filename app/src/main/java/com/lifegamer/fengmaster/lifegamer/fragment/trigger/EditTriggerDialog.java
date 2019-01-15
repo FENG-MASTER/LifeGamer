@@ -5,11 +5,12 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import com.annimon.stream.Collectors;
@@ -20,11 +21,11 @@ import com.lifegamer.fengmaster.lifegamer.adapter.base.ItemSelectObservable;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseDialogFragment;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
+import com.lifegamer.fengmaster.lifegamer.model.RewardItem;
 import com.lifegamer.fengmaster.lifegamer.model.Skill;
-import com.lifegamer.fengmaster.lifegamer.model.TriggerInfo;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
+import com.lifegamer.fengmaster.lifegamer.model.randomreward.RandomItemReward;
 import com.lifegamer.fengmaster.lifegamer.trigger.Trigger;
-import com.lifegamer.fengmaster.lifegamer.trigger.condition.AbsTriggerCondition;
 import com.lifegamer.fengmaster.lifegamer.trigger.condition.TaskFailTriggerCondition;
 import com.lifegamer.fengmaster.lifegamer.trigger.condition.TaskFinishTimesTriggerCondition;
 import com.lifegamer.fengmaster.lifegamer.trigger.condition.TaskFinishTriggerCondition;
@@ -73,7 +74,18 @@ public class EditTriggerDialog extends BaseDialogFragment implements ItemSelectO
     @BindView(R.id.til_dialog_edit_trigger_parms)
     public TextInputLayout parmsLayout;
 
+    @BindView(R.id.til_dialog_edit_trigger_lp)
+    public TextInputLayout lpLayout;
+
+    @BindView(R.id.et_dialog_edit_trigger_lp)
+    public EditText lpEditText;
+
     private EditTriggerListAdapter editTriggerListAdapter;
+
+    /**
+     * 获取的金币数
+     */
+    private int earnLp;
 
     private static final String[] condtionList = {
             TaskFinishTriggerCondition.class.getName(),
@@ -95,10 +107,39 @@ public class EditTriggerDialog extends BaseDialogFragment implements ItemSelectO
     }
 
     private void initView() {
+        initLp(trigger.getTriggerInfo().getEarnLP());
         editTriggerListAdapter = new EditTriggerListAdapter(trigger);
         recyclerView.setAdapter(editTriggerListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new MyItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+    }
+
+    public void initLp(int lp){
+        if (lp>0){
+            lpLayout.setVisibility(View.VISIBLE);
+            lpEditText.setText(String.valueOf(lp));
+        }else {
+            lpLayout.setVisibility(View.GONE);
+        }
+
+        earnLp=lp;
+        lpEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                earnLp=Integer.valueOf(s.toString());
+            }
+        });
+
     }
 
     /**
@@ -146,6 +187,7 @@ public class EditTriggerDialog extends BaseDialogFragment implements ItemSelectO
         itemList.add(SelectItem.SKILL);
         itemList.add(SelectItem.ACHIEVEMENT);
         itemList.add(SelectItem.ITEM);
+        itemList.add(SelectItem.LP);
         dialog.setItems(itemList);
         dialog.addItemSelectListener(this);
         dialog.show(getFragmentManager(), "add");
@@ -172,8 +214,48 @@ public class EditTriggerDialog extends BaseDialogFragment implements ItemSelectO
                 //新增成就奖励
                 addAchievement();
                 break;
+            case SelectItem.ITEM_ID:
+                addItem();
+                break;
+            case SelectItem.LP_ID:
+                lpLayout.setVisibility(View.VISIBLE);
+                break;
         }
 
+    }
+
+    private void addItem() {
+        if (Game.getInstance().getRewardManager().getAllAvailableRewardItem() == null) {
+            //没有奖励可选
+
+            ViewUtil.showToast("没有奖励可供选择");
+            return;
+        }
+
+        List<RewardItem> rewardItems = Game.getInstance().getRewardManager().getAllAvailableRewardItem();
+
+
+        if (rewardItems == null || rewardItems.isEmpty()) {
+            //没有奖励可选
+
+            ViewUtil.showToast("没有奖励可供选择");
+            return;
+        }
+
+        //弹出选择框
+
+        SearchAndSelectDialog<RewardItem> dialog = new SearchAndSelectDialog<RewardItem>();
+        dialog.setItemList(rewardItems).setItemKeyFunction(rewardItem -> rewardItem.getName());
+        dialog.addItemSelectListener(rewardItems1 -> {
+            for (RewardItem rewardItem : rewardItems1) {
+                RandomItemReward reward=new RandomItemReward(rewardItem.getId(),1,1000);
+                editTriggerListAdapter.addItem(reward);
+                editTriggerListAdapter.notifyDataSetChanged();
+            }
+            dialog.dismiss();
+        });
+
+        dialog.show(getFragmentManager(), "select");
     }
 
     private void addAchievement() {

@@ -61,6 +61,11 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
     private String triggerCondition;
 
     /**
+     * 触发条件说明
+     */
+    private String triggerConditionDesc;
+
+    /**
      * 触发参数
      * 传递给触发器的参数
      */
@@ -114,6 +119,7 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
         this.setId(triggerInfo.getId());
         this.setType(triggerInfo.getType());
         this.setTriggerCondition(triggerInfo.getTriggerCondition());
+        this.setTriggerConditionDesc(triggerInfo.getTriggerConditionDesc());
         this.setTriggerParameter(triggerInfo.getTriggerParameter());
         this.setItems(triggerInfo.getItems());
         this.setAchievements(triggerInfo.getAchievements());
@@ -145,6 +151,7 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
         this.setMainObjId(cursor.getInt(cursor.getColumnIndex("mainObjId")));
         this.setEarnLP(cursor.getInt(cursor.getColumnIndex("earnLP")));
         this.setTriggerCondition(cursor.getString(cursor.getColumnIndex("triggerCondition")));
+        this.setTriggerConditionDesc(cursor.getString(cursor.getColumnIndex("triggerConditionDesc")));
         this.setTriggerParameter(cursor.getString(cursor.getColumnIndex("triggerParameter")));
 
         this.setSkills(FormatUtil.str2SkillMap(cursor.getString(cursor.getColumnIndex("skills"))));
@@ -170,6 +177,8 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
         cv.put("type", getType());
         cv.put("mainObjId", getMainObjId());
         cv.put("triggerCondition", getTriggerCondition());
+        cv.put("triggerConditionDesc", getTriggerConditionDesc());
+
         cv.put("triggerParameter", getTriggerParameter());
         cv.put("xp", getXp());
         cv.put("saveInfo", getSaveInfo());
@@ -199,6 +208,8 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
         cv.put("type", getType());
         cv.put("mainObjId", getMainObjId());
         cv.put("triggerCondition", getTriggerCondition());
+        cv.put("triggerConditionDesc", getTriggerConditionDesc());
+
         cv.put("triggerParameter", getTriggerParameter());
         cv.put("xp", getXp());
         cv.put("saveInfo", getSaveInfo());
@@ -327,6 +338,14 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
 
     public void setSaveInfo(String saveInfo) {
         this.saveInfo = saveInfo;
+    }
+
+    public String getTriggerConditionDesc() {
+        return triggerConditionDesc;
+    }
+
+    public void setTriggerConditionDesc(String triggerConditionDesc) {
+        this.triggerConditionDesc = triggerConditionDesc;
     }
 
     @Override

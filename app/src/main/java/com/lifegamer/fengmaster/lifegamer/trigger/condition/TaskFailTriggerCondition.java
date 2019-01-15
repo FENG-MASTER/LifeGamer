@@ -17,6 +17,11 @@ public class TaskFailTriggerCondition extends AbsTriggerCondition {
         super(triggerInfo, params, onTrigger);
     }
 
+    @Override
+    public String getConditionDesc() {
+        return "失败一次触发";
+    }
+
     @Subscribe(threadMode = ThreadMode.POSTING)
     public void taskFail(FailTaskEvent failTaskEvent){
         Task task = failTaskEvent.getTask();

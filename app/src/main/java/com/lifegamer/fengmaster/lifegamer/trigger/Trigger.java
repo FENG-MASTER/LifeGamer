@@ -49,6 +49,10 @@ public class Trigger implements AbsTriggerCondition.OnTrigger {
             e.printStackTrace();
         }
 
+        if (condition!=null){
+            triggerInfo.setTriggerConditionDesc(condition.getConditionDesc());
+        }
+
     }
 
 

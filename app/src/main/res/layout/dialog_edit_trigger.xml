@@ -67,6 +67,21 @@
 
         </LinearLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_dialog_edit_trigger_lp"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:inputType="numberSigned"
+                android:id="@+id/et_dialog_edit_trigger_lp"
+                android:hint="@string/task_earn_gold"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </android.support.design.widget.TextInputLayout>
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_dialog_edit_trigger_list"

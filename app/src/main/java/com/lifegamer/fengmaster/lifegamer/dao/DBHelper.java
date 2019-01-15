@@ -184,6 +184,7 @@ public class DBHelper extends SQLiteOpenHelper {
             "type varchar," +
             "mainObjId integer," +
             "triggerCondition varchar," +
+            "triggerConditionDesc varchar," +
             "triggerParameter varchar," +
             "xp integer," +
             "skills text," +

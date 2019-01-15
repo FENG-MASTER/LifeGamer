@@ -29,7 +29,8 @@ public class SelectItem {
     public static final int ACHIEVEMENT_ID=9;
     //物品
     public static final int ITEM_ID=10;
-
+    //金币
+    public static final int LP_ID=11;
 
 
 
@@ -44,6 +45,7 @@ public class SelectItem {
     public static final SelectItem SKILL = new SelectItem(SKILL_ID, "技能", R.drawable.ic_nav_skill);
     public static final SelectItem ACHIEVEMENT = new SelectItem(ACHIEVEMENT_ID, "成就", R.drawable.ic_nav_achievement);
     public static final SelectItem ITEM = new SelectItem(ITEM_ID, "物品", R.drawable.ic_nav_item);
+    public static final SelectItem LP = new SelectItem(LP_ID, "金币", R.drawable.ic_life_point_coin_black);
 
 
     private int id;

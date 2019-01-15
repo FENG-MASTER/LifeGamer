@@ -23,6 +23,11 @@ public class TaskFinishTimesTriggerCondition extends AbsTriggerCondition {
         triggerFinishTime=Integer.valueOf(params);
     }
 
+    @Override
+    public String getConditionDesc() {
+        return "完成指定次数触发";
+    }
+
 
     @Subscribe(threadMode = ThreadMode.POSTING)
     public void taskFinsh(FinishTaskEvent finishTaskEvent){

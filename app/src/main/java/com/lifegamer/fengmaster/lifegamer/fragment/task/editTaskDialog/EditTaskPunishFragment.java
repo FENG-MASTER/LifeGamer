@@ -77,9 +77,9 @@ public class EditTaskPunishFragment extends EditTaskDialog.SaveableFragment {
 
         ButterKnife.bind(this, view);
 
-        initSkills();
-        initAchievements();
-        initItems();
+//        initSkills();
+//        initAchievements();
+//        initItems();
 
         return view;
     }

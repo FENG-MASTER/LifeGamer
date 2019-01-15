@@ -53,4 +53,6 @@ public abstract class AbsTriggerCondition {
     public void setParams(String params) {
         this.params = params;
     }
+
+    public abstract String getConditionDesc();
 }

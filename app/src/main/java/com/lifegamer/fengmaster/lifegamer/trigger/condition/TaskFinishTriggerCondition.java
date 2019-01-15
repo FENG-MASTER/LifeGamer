@@ -16,6 +16,11 @@ public class TaskFinishTriggerCondition extends AbsTriggerCondition {
         super(triggerInfo, params, onTrigger);
     }
 
+    @Override
+    public String getConditionDesc() {
+        return "完成触发";
+    }
+
 
     @Subscribe(threadMode = ThreadMode.POSTING)
     public void taskFinsh(FinishTaskEvent finishTaskEvent){
