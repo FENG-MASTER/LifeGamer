@@ -568,6 +568,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
     }
 
     public void setTriggers(List<TriggerInfo> triggerInfos) {
+        //先将现有触发器失效
         for (Trigger trigger : this.triggers) {
             trigger.invalid();
         }
