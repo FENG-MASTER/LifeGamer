@@ -54,7 +54,9 @@ public class DefaultDBData {
                 {context.getString(R.string.db_default_communication_skill),context.getString(R.string.db_default_skill),context.getString(R.string.db_default_communication_skill_desc),"ion#ion_android_contacts"},
                 {context.getString(R.string.db_default_understanding_skill),context.getString(R.string.db_default_skill),context.getString(R.string.db_default_understanding_skill_desc),"gmi#gmi_quote"},
                 {context.getString(R.string.db_default_think_skill),context.getString(R.string.db_default_skill),context.getString(R.string.db_default_think_skill_desc),"oct#oct_question"},
-                {context.getString(R.string.db_default_cooking_skill),context.getString(R.string.db_default_skill),context.getString(R.string.db_default_cooking_skill_desc),"cmd#cmd_food_variant"}
+                {context.getString(R.string.db_default_cooking_skill),context.getString(R.string.db_default_skill),context.getString(R.string.db_default_cooking_skill_desc),"cmd#cmd_food_variant"},
+                {"颜值",context.getString(R.string.db_default_physical_fitness),"颜值即正义","cmd#cmd_face"}
+
         };
 
         for (String[] skillStr : skills) {
