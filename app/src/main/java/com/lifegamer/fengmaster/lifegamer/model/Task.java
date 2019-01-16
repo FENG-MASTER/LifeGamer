@@ -567,6 +567,13 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         notifyPropertyChanged(BR.desc);
     }
 
+    public void setTriggers(List<TriggerInfo> triggerInfos) {
+        this.triggers.clear();
+        for (TriggerInfo triggerInfo : triggerInfos) {
+            addTrigger(triggerInfo);
+        }
+    }
+
     public Trigger addTrigger(TriggerInfo info){
         info.setType(TriggerInfo.TYPE_TASK);
         info.setMainObjId(getId());

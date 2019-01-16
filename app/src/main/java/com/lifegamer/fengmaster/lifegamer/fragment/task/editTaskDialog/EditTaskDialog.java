@@ -2,6 +2,7 @@ package com.lifegamer.fengmaster.lifegamer.fragment.task.editTaskDialog;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,12 @@ import com.lifegamer.fengmaster.lifegamer.command.command.task.UpdateTaskCommand
 import com.lifegamer.fengmaster.lifegamer.databinding.DialogEditTaskBinding;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseDialogFragment;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseFragment;
+import com.lifegamer.fengmaster.lifegamer.fragment.task.editTaskDialog.event.AddButtonClick;
 import com.lifegamer.fengmaster.lifegamer.manager.base.itf.IAvatarManager;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
 import com.lifegamer.fengmaster.lifegamer.wight.AvatarSelectDialog;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +51,7 @@ public class EditTaskDialog extends BaseDialogFragment implements View.OnClickLi
         setCancelable(false);
     }
 
+
     public void setTask(Task task) {
         this.task = task;
     }
@@ -71,8 +76,30 @@ public class EditTaskDialog extends BaseDialogFragment implements View.OnClickLi
 
         binding.btDialogEditTaskNo.setOnClickListener(this);
         binding.btDialogEditTaskOk.setOnClickListener(this);
+        binding.btDialogEditTaskAdd.setOnClickListener(this);
 
         binding.sivDialogEditTaskIcon.setOnClickListener(this);
+
+        binding.tlDialogEditTask.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getPosition()==2){
+                    openTriggerEditFragment(true);
+                }else {
+                    openTriggerEditFragment(false);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         return binding.getRoot();
     }
@@ -94,6 +121,11 @@ public class EditTaskDialog extends BaseDialogFragment implements View.OnClickLi
             case R.id.bt_dialog_edit_task_no:
                 //取消
                 dismiss();
+                break;
+
+            case R.id.bt_dialog_edit_task_add:
+                //点击了新增按钮,意味新增触发器
+                EventBus.getDefault().post(new AddButtonClick());
                 break;
             case R.id.siv_dialog_edit_task_icon:
                 //选择图标
@@ -132,6 +164,14 @@ public class EditTaskDialog extends BaseDialogFragment implements View.OnClickLi
         }
 
 
+    }
+
+    private void openTriggerEditFragment(boolean flag){
+        if (flag){
+            binding.btDialogEditTaskAdd.setVisibility(View.VISIBLE);
+        }else {
+            binding.btDialogEditTaskAdd.setVisibility(View.GONE);
+        }
     }
 
     public static abstract class SaveableFragment extends BaseFragment {

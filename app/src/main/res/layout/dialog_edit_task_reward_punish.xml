@@ -6,13 +6,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <Button
-        android:text="新增触发奖励"
-        android:id="@+id/bt_dialog_edit_trigger_add_trigger"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_dialog_edit_triggers_list"
         android:layout_width="match_parent"

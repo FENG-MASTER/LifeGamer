@@ -103,6 +103,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+            <ImageButton
+                android:visibility="gone"
+                android:id="@+id/bt_dialog_edit_task_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/colorDarkBackGround"
+                android:padding="10dp"
+                android:src="@drawable/ic_add_circle_black_24dp"
+                />
+
+
+
+
             <!--确认取消按钮-->
 
             <ImageButton

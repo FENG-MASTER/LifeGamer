@@ -140,7 +140,7 @@ public class EditTriggerDialog extends BaseDialogFragment implements ItemSelectO
     }
 
     private void initLp(int lp) {
-        if (lp > 0) {
+        if (lp != 0) {
             lpLayout.setVisibility(View.VISIBLE);
             lpEditText.setText(String.valueOf(lp));
         } else {
@@ -161,6 +161,9 @@ public class EditTriggerDialog extends BaseDialogFragment implements ItemSelectO
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (s==null||s.toString().isEmpty()||s.toString().equals("-")||s.toString().equals("+")){
+                    return;
+                }
                 earnLp = Integer.valueOf(s.toString());
             }
         });

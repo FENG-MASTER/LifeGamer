@@ -7,20 +7,25 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.annimon.stream.function.Function;
-import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.App;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
+import com.lifegamer.fengmaster.lifegamer.fragment.task.editTaskDialog.event.AddButtonClick;
 import com.lifegamer.fengmaster.lifegamer.fragment.trigger.EditTriggerDialog;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
 import com.lifegamer.fengmaster.lifegamer.model.TriggerInfo;
 import com.lifegamer.fengmaster.lifegamer.trigger.Trigger;
 import com.lifegamer.fengmaster.lifegamer.wight.MyItemDecoration;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,11 +40,11 @@ public class EditTaskRewardPunishFragment extends EditTaskDialog.SaveableFragmen
     @BindView(R.id.rv_dialog_edit_triggers_list)
     RecyclerView triggerRecyclerView;
 
-    private TriggerInfo editTrigger;
-
     private EditTaskTriggerAdapter adapter;
 
     private Task task;
+
+    private List<TriggerInfo> triggerInfoList;
 
     @Nullable
     @Override
@@ -51,8 +56,23 @@ public class EditTaskRewardPunishFragment extends EditTaskDialog.SaveableFragmen
         return view;
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
     private void initView() {
-        adapter=new EditTaskTriggerAdapter(Stream.of(task.getTriggers()).map(trigger -> trigger.getTriggerInfo()).collect(Collectors.toList()));
+        adapter=new EditTaskTriggerAdapter(triggerInfoList);
         adapter.addItemSelectListener(this);
         triggerRecyclerView.setAdapter(adapter);
         triggerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -63,6 +83,7 @@ public class EditTaskRewardPunishFragment extends EditTaskDialog.SaveableFragmen
 
     public EditTaskRewardPunishFragment setTask(Task task) {
         this.task = task;
+        triggerInfoList=Stream.of(task.getTriggers()).map(Trigger::getTriggerInfo).collect(Collectors.toList());
         return this;
     }
 
@@ -74,29 +95,33 @@ public class EditTaskRewardPunishFragment extends EditTaskDialog.SaveableFragmen
 
     @Override
     boolean save() {
-        //是否当前编辑的触发器已经task中,如果不存在,需要和task关联
-        boolean match = Stream.of(task.getTriggers()).map(trigger -> trigger.getTriggerInfo()).anyMatch(value -> value.equals(editTrigger));
-        if (!match) {
-            task.addTrigger(editTrigger);
-        }
+        task.setTriggers(triggerInfoList);
         return true;
     }
 
     @Override
     public void onItemSelect(TriggerInfo triggerInfo) {
-        editTrigger=triggerInfo;
         EditTriggerDialog dialog=new EditTriggerDialog();
         dialog.setTriggerInfo(triggerInfo);
         dialog.show(getFragmentManager(),"");
     }
 
-    @OnClick(R.id.bt_dialog_edit_trigger_add_trigger)
-    public void addTrigger(View view){
+    private void addTrigger(){
         //新增触发器
         TriggerInfo triggerInfo=new TriggerInfo();
-        editTrigger=triggerInfo;
         EditTriggerDialog dialog=new EditTriggerDialog();
         dialog.setTriggerInfo(triggerInfo);
+        dialog.addItemSelectListener(ti -> {
+            triggerInfoList.add(ti);
+            adapter=new EditTaskTriggerAdapter(triggerInfoList);
+            triggerRecyclerView.setAdapter(adapter);
+
+        });
         dialog.show(getFragmentManager(),"");
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void addButtonClick(AddButtonClick addButtonClick){
+        addTrigger();
     }
 }
