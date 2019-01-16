@@ -1,5 +1,7 @@
 package com.lifegamer.fengmaster.lifegamer.trigger.condition;
 
+import com.lifegamer.fengmaster.lifegamer.App;
+import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.event.task.FailTaskEvent;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
 import com.lifegamer.fengmaster.lifegamer.model.TriggerInfo;
@@ -19,7 +21,7 @@ public class TaskFailTriggerCondition extends AbsTriggerCondition {
 
     @Override
     public String getConditionDesc() {
-        return "失败一次触发";
+        return App.getContext().getString(R.string.task_lose_once_get);
     }
 
     @Subscribe(threadMode = ThreadMode.POSTING)

@@ -163,6 +163,21 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
      */
     private List<Trigger> triggers=new ArrayList<>();
 
+    {
+        //默认初始化成功一次的奖励对象
+        TriggerInfo successInfo=new TriggerInfo();
+        successInfo.setTriggerCondition(TaskFinishTriggerCondition.class.getName());
+        Trigger successTrigger=addTrigger(successInfo);
+    }
+
+    {
+        //默认初始化失败一次的奖励对象
+        TriggerInfo failInfo=new TriggerInfo();
+        failInfo.setTriggerCondition(TaskFailTriggerCondition.class.getName());
+        Trigger failTrigger=addTrigger(failInfo);
+
+    }
+
 
 
 /***********************E奖励信息E**************************/
@@ -562,7 +577,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
 
     public Trigger getSuccessTrigger(){
 
-        Optional<Trigger> single = Stream.of(triggers).filter(value -> value.getTriggerInfo().getTriggerCondition().equals(TaskFinishTriggerCondition.class.getName())).findSingle();
+        Optional<Trigger> single = Stream.of(triggers).filter(value -> value.getTriggerInfo().getTriggerCondition().equals(TaskFinishTriggerCondition.class.getName())).findFirst();
         Trigger successTrigger;
         if (!single.isPresent()){
             TriggerInfo successInfo=new TriggerInfo();
@@ -577,7 +592,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
 
     public Trigger getFailTrigger(){
 
-        Optional<Trigger> single = Stream.of(triggers).filter(value -> value.getTriggerInfo().getTriggerCondition().equals(TaskFailTriggerCondition.class.getName())).findSingle();
+        Optional<Trigger> single = Stream.of(triggers).filter(value -> value.getTriggerInfo().getTriggerCondition().equals(TaskFailTriggerCondition.class.getName())).findFirst();
         Trigger failTrigger;
         if (!single.isPresent()){
             TriggerInfo failInfo=new TriggerInfo();
@@ -773,5 +788,9 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         this.setNotes(FormatUtil.str2List(cursor.getString(cursor.getColumnIndex("notes"))));
 
 
+    }
+
+    public List<Trigger> getTriggers() {
+        return triggers;
     }
 }

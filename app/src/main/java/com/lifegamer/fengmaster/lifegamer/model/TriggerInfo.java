@@ -4,6 +4,9 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
+import com.lifegamer.fengmaster.lifegamer.BR;
 
 import com.lifegamer.fengmaster.lifegamer.base.ICopy;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
@@ -244,12 +247,14 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
         this.id = id;
     }
 
+    @Bindable
     public String getType() {
         return type;
     }
 
     public void setType(String type) {
         this.type = type;
+        notifyPropertyChanged(BR.type);
     }
 
     public long getMainObjId() {
@@ -260,60 +265,69 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
         this.mainObjId = mainObjId;
     }
 
+    @Bindable
     public String getTriggerCondition() {
         return triggerCondition;
     }
 
     public void setTriggerCondition(String triggerCondition) {
         this.triggerCondition = triggerCondition;
+        notifyPropertyChanged(BR.triggerCondition);
     }
-
+    @Bindable
     public String getTriggerParameter() {
         return triggerParameter;
     }
 
     public void setTriggerParameter(String triggerParameter) {
         this.triggerParameter = triggerParameter;
+        notifyPropertyChanged(BR.triggerParameter);
     }
 
+    @Bindable
     public int getXp() {
         return xp;
     }
 
     public void setXp(int xp) {
         this.xp = xp;
+        notifyPropertyChanged(BR.xp);
     }
-
+    @Bindable
     public Map<Long, Integer> getSkills() {
         return skills;
     }
 
     public void setSkills(Map<Long, Integer> skills) {
         this.skills = skills;
+        notifyPropertyChanged(BR.skills);
     }
-
+    @Bindable
     public List<RandomItemReward> getItems() {
         return items;
     }
 
     public void setItems(List<RandomItemReward> items) {
         this.items = items;
+        notifyPropertyChanged(BR.items);
     }
-
+    @Bindable
     public List<AchievementReward> getAchievements() {
         return achievements;
     }
 
     public void setAchievements(List<AchievementReward> achievements) {
         this.achievements = achievements;
+        notifyPropertyChanged(BR.achievements);
     }
-
+    @Bindable
     public int getEarnLP() {
         return earnLP;
     }
 
     public void setEarnLP(int earnLP) {
         this.earnLP = earnLP;
+        notifyPropertyChanged(BR.earnLP);
     }
 
     public Date getCreateTime() {
@@ -331,30 +345,23 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
-
+    @Bindable
     public String getSaveInfo() {
         return saveInfo;
     }
 
     public void setSaveInfo(String saveInfo) {
         this.saveInfo = saveInfo;
+        notifyPropertyChanged(BR.saveInfo);
     }
-
+    @Bindable
     public String getTriggerConditionDesc() {
         return triggerConditionDesc;
     }
 
     public void setTriggerConditionDesc(String triggerConditionDesc) {
         this.triggerConditionDesc = triggerConditionDesc;
+        notifyPropertyChanged(BR.triggerConditionDesc);
     }
 
-    @Override
-    public int hashCode() {
-        return Long.valueOf(id).hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return id==((TriggerInfo)obj).id;
-    }
 }

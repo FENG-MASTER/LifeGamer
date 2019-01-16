@@ -23,12 +23,15 @@ import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseDialogFragment;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
 import com.lifegamer.fengmaster.lifegamer.model.RewardItem;
 import com.lifegamer.fengmaster.lifegamer.model.Skill;
+import com.lifegamer.fengmaster.lifegamer.model.TriggerInfo;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.RandomItemReward;
 import com.lifegamer.fengmaster.lifegamer.trigger.Trigger;
 import com.lifegamer.fengmaster.lifegamer.trigger.condition.TaskFailTriggerCondition;
 import com.lifegamer.fengmaster.lifegamer.trigger.condition.TaskFinishTimesTriggerCondition;
 import com.lifegamer.fengmaster.lifegamer.trigger.condition.TaskFinishTriggerCondition;
+import com.lifegamer.fengmaster.lifegamer.util.ArrayUtil;
+import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 import com.lifegamer.fengmaster.lifegamer.util.ViewUtil;
 import com.lifegamer.fengmaster.lifegamer.wight.MyItemDecoration;
 import com.lifegamer.fengmaster.lifegamer.wight.SearchAndSelectDialog;
@@ -47,14 +50,14 @@ import butterknife.OnItemSelected;
  * 触发器编辑页面
  * Created by FengMaster on 19/01/11.
  */
-public class EditTriggerDialog extends BaseDialogFragment implements ItemSelectObservable<Trigger>, OnItemSelectListener<SelectItem> {
+public class EditTriggerDialog extends BaseDialogFragment implements ItemSelectObservable<TriggerInfo>, OnItemSelectListener<SelectItem> {
 
     /**
      * 当前编辑的触发器对象
      */
-    private Trigger trigger;
+    private TriggerInfo triggerInfo;
 
-    private OnItemSelectListener<Trigger> listener;
+    private OnItemSelectListener<TriggerInfo> listener;
 
     @BindView(R.id.rv_dialog_edit_trigger_list)
     public RecyclerView recyclerView;
@@ -92,9 +95,14 @@ public class EditTriggerDialog extends BaseDialogFragment implements ItemSelectO
             TaskFailTriggerCondition.class.getName(),
             TaskFinishTimesTriggerCondition.class.getName()};
 
+    private static final int[] condtionDescResList = {
+            R.string.task_finish_once_get,
+            R.string.task_lose_once_get,
+            R.string.task_finish_times_get};
 
-    public void setTrigger(Trigger trigger) {
-        this.trigger = trigger;
+
+    public void setTriggerInfo(TriggerInfo triggerInfo) {
+        this.triggerInfo = triggerInfo;
     }
 
     @Nullable
@@ -107,22 +115,39 @@ public class EditTriggerDialog extends BaseDialogFragment implements ItemSelectO
     }
 
     private void initView() {
-        initLp(trigger.getTriggerInfo().getEarnLP());
-        editTriggerListAdapter = new EditTriggerListAdapter(trigger);
+        initLp(triggerInfo.getEarnLP());
+        setCondtion(triggerInfo.getTriggerCondition());
+        setParms(triggerInfo.getTriggerParameter());
+        editTriggerListAdapter = new EditTriggerListAdapter(triggerInfo);
         recyclerView.setAdapter(editTriggerListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new MyItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
     }
 
-    public void initLp(int lp){
-        if (lp>0){
+    private void setParms(String parms){
+        if (parms!=null){
+            parmsEditText.setText(parms);
+        }
+    }
+
+    private void setCondtion(String condtion){
+        if (condtion!=null){
+            //不是新建的
+
+            int i = ArrayUtil.getPostion(condtionList, condtion);
+            conditionSpinner.setSelection(i);
+        }
+    }
+
+    private void initLp(int lp) {
+        if (lp > 0) {
             lpLayout.setVisibility(View.VISIBLE);
             lpEditText.setText(String.valueOf(lp));
-        }else {
+        } else {
             lpLayout.setVisibility(View.GONE);
         }
 
-        earnLp=lp;
+        earnLp = lp;
         lpEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -136,7 +161,7 @@ public class EditTriggerDialog extends BaseDialogFragment implements ItemSelectO
 
             @Override
             public void afterTextChanged(Editable s) {
-                earnLp=Integer.valueOf(s.toString());
+                earnLp = Integer.valueOf(s.toString());
             }
         });
 
@@ -165,12 +190,17 @@ public class EditTriggerDialog extends BaseDialogFragment implements ItemSelectO
     @OnClick(R.id.bt_dialog_edit_trigger_ok)
     public void submit(View view) {
         //提交修改触发器
+        triggerInfo.setTriggerParameter(parmsEditText.getText().toString());
+        triggerInfo.setTriggerCondition(condtionList[conditionSpinner.getSelectedItemPosition()]);
+        triggerInfo.setTriggerConditionDesc(getString(condtionDescResList[conditionSpinner.getSelectedItemPosition()]));
+        triggerInfo.setAchievements(editTriggerListAdapter.getAchievements());
+        triggerInfo.setSkills(editTriggerListAdapter.getSkills());
+        triggerInfo.setItems(editTriggerListAdapter.getItems());
+        triggerInfo.setEarnLP(earnLp);
         if (listener != null) {
-            trigger.getTriggerInfo().setAchievements(editTriggerListAdapter.getAchievements());
-            trigger.getTriggerInfo().setSkills(editTriggerListAdapter.getSkills());
-            trigger.getTriggerInfo().setItems(editTriggerListAdapter.getItems());
-            listener.onItemSelect(trigger);
+            listener.onItemSelect(triggerInfo);
         }
+        dismiss();
     }
 
     @OnClick(R.id.bt_dialog_edit_trigger_no)
@@ -193,15 +223,6 @@ public class EditTriggerDialog extends BaseDialogFragment implements ItemSelectO
         dialog.show(getFragmentManager(), "add");
     }
 
-    @Override
-    public void addItemSelectListener(OnItemSelectListener<Trigger> listener) {
-        this.listener = listener;
-    }
-
-    @Override
-    public void removeItemSelectListener(OnItemSelectListener<Trigger> listener) {
-
-    }
 
     @Override
     public void onItemSelect(SelectItem selectItem) {
@@ -248,7 +269,7 @@ public class EditTriggerDialog extends BaseDialogFragment implements ItemSelectO
         dialog.setItemList(rewardItems).setItemKeyFunction(rewardItem -> rewardItem.getName());
         dialog.addItemSelectListener(rewardItems1 -> {
             for (RewardItem rewardItem : rewardItems1) {
-                RandomItemReward reward=new RandomItemReward(rewardItem.getId(),1,1000);
+                RandomItemReward reward = new RandomItemReward(rewardItem.getId(), 1, 1000);
                 editTriggerListAdapter.addItem(reward);
                 editTriggerListAdapter.notifyDataSetChanged();
             }
@@ -312,7 +333,7 @@ public class EditTriggerDialog extends BaseDialogFragment implements ItemSelectO
         dialog.setItemList(allSkill).setItemKeyFunction(Skill::getName);
         dialog.addItemSelectListener(selectSkills -> {
             for (Skill s : selectSkills) {
-                editTriggerListAdapter.addSkill(s.getId(),0);
+                editTriggerListAdapter.addSkill(s.getId(), 0);
             }
             editTriggerListAdapter.notifyDataSetChanged();
             dialog.dismiss();
@@ -323,4 +344,14 @@ public class EditTriggerDialog extends BaseDialogFragment implements ItemSelectO
 
     }
 
+    @Override
+    public void addItemSelectListener(OnItemSelectListener<TriggerInfo> listener) {
+        this.listener = listener;
+
+    }
+
+    @Override
+    public void removeItemSelectListener(OnItemSelectListener<TriggerInfo> listener) {
+
+    }
 }

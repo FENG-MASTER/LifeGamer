@@ -1,5 +1,7 @@
 package com.lifegamer.fengmaster.lifegamer.trigger.condition;
 
+import com.lifegamer.fengmaster.lifegamer.App;
+import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.event.task.FinishTaskEvent;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
 import com.lifegamer.fengmaster.lifegamer.model.TriggerInfo;
@@ -18,7 +20,7 @@ public class TaskFinishTriggerCondition extends AbsTriggerCondition {
 
     @Override
     public String getConditionDesc() {
-        return "完成触发";
+        return App.getContext().getString(R.string.task_finish_once_get);
     }
 
 

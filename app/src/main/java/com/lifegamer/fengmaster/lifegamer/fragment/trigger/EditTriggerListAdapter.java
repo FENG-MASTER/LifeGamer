@@ -55,8 +55,6 @@ public class EditTriggerListAdapter extends RecyclerView.Adapter<EditTriggerList
      */
     private static final int TYPE_ACHIEVEMENT = 3;
 
-    private Trigger trigger;
-
     private TriggerInfo triggerInfo;
 
     /**
@@ -74,9 +72,8 @@ public class EditTriggerListAdapter extends RecyclerView.Adapter<EditTriggerList
      */
     private Map<Long, Integer> skills = new HashMap<>();
 
-    public EditTriggerListAdapter(Trigger trigger) {
-        this.trigger = trigger;
-        triggerInfo = trigger.getTriggerInfo();
+    public EditTriggerListAdapter(TriggerInfo triggerInfo) {
+        this.triggerInfo = triggerInfo;
         skills.putAll(triggerInfo.getSkills());
         achievements.addAll(triggerInfo.getAchievements());
         items.addAll(triggerInfo.getItems());

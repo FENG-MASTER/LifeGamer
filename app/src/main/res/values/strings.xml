@@ -123,7 +123,7 @@
     <string name="task_extra_tab">额外</string>
     <string name="task_time_tab">时间</string>
     <string name="task_reward_tab">奖励</string>
-    <string name="task_punish_tab">惩罚</string>
+    <string name="task_reward_punish_tab">奖励与惩罚</string>
     <string name="task_pre_task">前置任务</string>
     <string name="task_repeat_type">重复类型</string>
     <string name="task_interval">重复间隔</string>
@@ -147,6 +147,9 @@
     <string name="task_lose_achievement">失去成就</string>
     <string name="task_add_achievement_punish">新增成就惩罚</string>
     <string name="sub">减少</string>
+    <string name="task_lose_once_get">失败一次后获得</string>
+    <string name="task_finish_times_get">完成指定次数后获得</string>
+    <string name="task_finish_once_get">完成一次后获得</string>
 
 
 </resources>

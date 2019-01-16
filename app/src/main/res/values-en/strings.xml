@@ -123,7 +123,7 @@
     <string name="task_extra_tab">Extra</string>
     <string name="task_time_tab">Time</string>
     <string name="task_reward_tab">Reward</string>
-    <string name="task_punish_tab">Punish</string>
+    <string name="task_reward_punish_tab">Punish</string>
     <string name="task_pre_task">pre-task</string>
     <string name="task_repeat_type">repeat type</string>
     <string name="task_interval">interval</string>
