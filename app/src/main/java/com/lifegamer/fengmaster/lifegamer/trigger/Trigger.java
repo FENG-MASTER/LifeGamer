@@ -67,6 +67,13 @@ public class Trigger implements AbsTriggerCondition.OnTrigger {
         handleXP(triggerInfo);
     }
 
+    /**
+     * 触发器失效,调用后本触发器将不再触发
+     */
+    public void invalid(){
+        condition.invalid();
+    }
+
 
     /**
      * 处理lp点数

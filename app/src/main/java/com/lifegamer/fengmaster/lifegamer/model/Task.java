@@ -568,6 +568,10 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
     }
 
     public void setTriggers(List<TriggerInfo> triggerInfos) {
+        for (Trigger trigger : this.triggers) {
+            trigger.invalid();
+        }
+
         this.triggers.clear();
         for (TriggerInfo triggerInfo : triggerInfos) {
             addTrigger(triggerInfo);

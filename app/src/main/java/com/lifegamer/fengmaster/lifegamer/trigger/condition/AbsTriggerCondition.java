@@ -34,6 +34,13 @@ public abstract class AbsTriggerCondition {
     }
 
     /**
+     * 触发器失效,调用后,本触发器将不再被触发
+     */
+    public void invalid(){
+        EventBus.getDefault().unregister(this);
+    }
+
+    /**
      * 触发回调接口
      */
     public interface OnTrigger{
