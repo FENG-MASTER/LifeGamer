@@ -92,7 +92,8 @@ variants.all { variant ->
         log.debug("Skipping non-debuggable build type '${variant.buildType.name}'.")
         return
     }
-    JavaCompile javaCompile = variant.javaCompile
+    TaskProvider tp = variant.javaCompileProvider
+    JavaCompile javaCompile= tp.get()
     javaCompile.doLast {
         String[] args = ["-showWeaveInfo",
                          "-1.5",
