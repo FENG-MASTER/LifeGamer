@@ -1,6 +1,8 @@
 package com.lifegamer.fengmaster.lifegamer.log.undo;
 
+import com.alibaba.fastjson.JSONObject;
 import com.lifegamer.fengmaster.lifegamer.Game;
+import com.lifegamer.fengmaster.lifegamer.command.command.skill.AddSkillCommand;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
 import com.lifegamer.fengmaster.lifegamer.model.Item;
 import com.lifegamer.fengmaster.lifegamer.model.LifePoint;
@@ -38,6 +40,29 @@ public class UndoHandlers {
     public static void skillLevelAddUndo(Log log) {
         //xp处理了,不需要处理level
     }
+
+
+    /**
+     * 回滚技能删除动作
+     * @param log
+     */
+    @UndoHandler(type = Log.TYPE.SKILL, action = Log.ACTION.DELETE, property = Log.PROPERTY.DEFAULT)
+    public static void skillDeleteUndo(Log log) {
+        Skill skill= JSONObject.parseObject(log.getOldValue(),Skill.class);
+        Game.getInstance().getSkillManager().addSkill(skill);
+    }
+
+    /**
+     * 回滚技能新建动作
+     * @param log
+     */
+    @UndoHandler(type = Log.TYPE.SKILL, action = Log.ACTION.CREATE, property = Log.PROPERTY.DEFAULT)
+    public static void skillCreateUndo(Log log) {
+        Skill skill= JSONObject.parseObject(log.getOldValue(),Skill.class);
+        Game.getInstance().getSkillManager().removeSkill(skill.getName());
+    }
+
+
 
 //--------------------------------------能力相关-------------------------------------------//
 

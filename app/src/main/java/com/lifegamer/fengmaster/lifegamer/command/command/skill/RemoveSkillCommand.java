@@ -33,11 +33,6 @@ public class RemoveSkillCommand extends AbsCancelableCommand {
     }
 
     @Override
-    public void undo() {
-        Game.getInstance().getSkillManager().addSkill(skill);
-    }
-
-    @Override
     public String getName() {
         return App.getContext().getString(R.string.skill_del)+skill.getName()+App.getContext().getString(R.string.success);
     }

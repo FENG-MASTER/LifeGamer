@@ -167,7 +167,7 @@ public class DBHelper extends SQLiteOpenHelper {
             "action varchar," +
             "operName varchar," +
             "operId varchar," +
-            "value varchar," +
+            "value text," +
             "newValue varchar," +
             "oldValue varchar," +
             "extMessage varchar," +

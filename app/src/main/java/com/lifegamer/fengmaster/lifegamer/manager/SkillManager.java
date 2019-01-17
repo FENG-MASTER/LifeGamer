@@ -13,7 +13,9 @@ import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.event.skill.DelSkillEvent;
 import com.lifegamer.fengmaster.lifegamer.event.skill.NewSkillEvent;
+import com.lifegamer.fengmaster.lifegamer.log.LogPoint;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ISkillManager;
+import com.lifegamer.fengmaster.lifegamer.model.Log;
 import com.lifegamer.fengmaster.lifegamer.model.Skill;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 
@@ -87,10 +89,17 @@ public class SkillManager implements ISkillManager {
      */
     @Override
     public boolean addSkill(Skill skill) {
+        return _addSkill(skill);
+    }
+
+    @LogPoint(type = Log.TYPE.SKILL,action = Log.ACTION.CREATE,property = Log.PROPERTY.DEFAULT)
+    private boolean _addSkill(Skill skill){
+
         long id = skill.insert(helper.getWritableDatabase());
         if (id != 0) {
             skill.setId(id);
             skillList.add(skill);
+            EventBus.getDefault().post(new NewSkillEvent(skill));
             return true;
         }
         return false;
@@ -148,12 +157,17 @@ public class SkillManager implements ISkillManager {
     public boolean removeSkill(String name) {
         Skill remove=getSkill(name);
         if (remove!=null){
-            skillList.remove(remove);
-            return Game.delete(remove);
+            return removeSkill(remove);
         }else {
             return false;
         }
 
+    }
+
+    @LogPoint(type = Log.TYPE.SKILL,action = Log.ACTION.DELETE,property = Log.PROPERTY.DEFAULT)
+    private boolean removeSkill(Skill skill){
+        skillList.remove(skill);
+        return Game.delete(skill);
     }
 
     /**

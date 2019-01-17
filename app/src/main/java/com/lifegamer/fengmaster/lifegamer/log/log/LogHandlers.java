@@ -1,5 +1,6 @@
 package com.lifegamer.fengmaster.lifegamer.log.log;
 
+import com.alibaba.fastjson.JSONObject;
 import com.annimon.stream.function.Function;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
@@ -18,14 +19,6 @@ import org.aspectj.lang.JoinPoint;
  * Created by FengMaster on 18/12/13.
  */
 public class LogHandlers {
-
-//    ------------------------------能力相关-------------------------------------
-
-    private static Skill skillLogCommon(JoinPoint joinPoint,Log log){
-        Skill skill = (Skill) joinPoint.getTarget();
-        log.setOperId(String.valueOf(skill.getId()));
-        return skill;
-    }
 
 
     /**
@@ -104,6 +97,41 @@ public class LogHandlers {
         T t = (T) args[0];
         log.setNewValue(valueFunction.apply(t));
         return t;
+    }
+
+//    ------------------------------能力相关-------------------------------------
+
+
+    /**
+     * 删除能力日志
+     * @param joinPoint
+     * @param log
+     */
+    @LogHandler(type = Log.TYPE.SKILL,action = Log.ACTION.DELETE,property = Log.PROPERTY.DEFAULT,order = Log.ORDER.BEFORE)
+    public static void skillDeleteLogB(JoinPoint joinPoint,Log log){
+        commonFuncLogB(Skill.class, joinPoint, log, skill -> skill.getName(), skill -> JSONObject.toJSONString(skill));
+    }
+
+
+    /**
+     * 新增能力日志
+     * @param joinPoint
+     * @param log
+     */
+    @LogHandler(type = Log.TYPE.SKILL,action = Log.ACTION.CREATE,property = Log.PROPERTY.DEFAULT,order = Log.ORDER.BEFORE)
+    public static void skillCreateLogA(JoinPoint joinPoint,Log log){
+        commonFuncLogB(Skill.class, joinPoint, log, skill -> skill.getName(), skill -> JSONObject.toJSONString(skill));
+    }
+
+
+    /**
+     * 编辑能力日志
+     * @param joinPoint
+     * @param log
+     */
+    @LogHandler(type = Log.TYPE.SKILL,action = Log.ACTION.CREATE,property = Log.PROPERTY.DEFAULT,order = Log.ORDER.BEFORE)
+    public static void skillEditLogA(JoinPoint joinPoint,Log log){
+        commonFuncLogB(Skill.class, joinPoint, log, skill -> skill.getName(), skill -> JSONObject.toJSONString(skill));
     }
 
 

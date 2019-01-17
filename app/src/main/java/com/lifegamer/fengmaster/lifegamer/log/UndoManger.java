@@ -73,15 +73,9 @@ public class UndoManger implements IUndoManager {
                 } catch (InvocationTargetException e) {
                     e.printStackTrace();
                 }
-
             }
-
-
         }
-
-        //撤销后,日志删除
-        Stream.of(eventLogs).forEach(log -> Game.getInstance().getLogManager().delteLog(log));
-    }
+      }
 
 
 

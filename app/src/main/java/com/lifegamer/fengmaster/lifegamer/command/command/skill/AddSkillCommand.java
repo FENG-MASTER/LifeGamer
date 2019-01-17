@@ -27,7 +27,6 @@ public class AddSkillCommand extends AbsCancelableCommand {
     @Override
     public boolean execute() {
         if (Game.getInstance().getSkillManager().addSkill(newSkill)){
-            EventBus.getDefault().post(new NewSkillEvent(newSkill));
             return true;
         }else {
             return false;
