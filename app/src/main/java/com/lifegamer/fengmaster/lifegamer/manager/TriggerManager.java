@@ -82,7 +82,7 @@ public class TriggerManager implements ITriggerManager {
                 t.copyFrom(triggerInfo);
                 return Game.update(t);
             }else {
-                return false;
+                return addTrigger(triggerInfo);
             }
 
         }

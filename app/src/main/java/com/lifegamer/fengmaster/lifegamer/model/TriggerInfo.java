@@ -364,4 +364,24 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
         notifyPropertyChanged(BR.triggerConditionDesc);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (id==0&&((TriggerInfo)obj).id==0){
+            return super.equals(obj);
+        }else if (id!=0&&((TriggerInfo)obj).id!=0){
+            return id==((TriggerInfo)obj).id;
+        }else {
+            return false;
+        }
+    }
+
+
+    @Override
+    public int hashCode() {
+        if (id==0){
+            return super.hashCode();
+        }else {
+            return Long.valueOf(id).hashCode();
+        }
+    }
 }
