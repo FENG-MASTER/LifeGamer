@@ -12,8 +12,10 @@ import com.lifegamer.fengmaster.lifegamer.command.CommandManager;
 import com.lifegamer.fengmaster.lifegamer.command.command.item.AddItemCommand;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.event.GameBaseInitFinish;
+import com.lifegamer.fengmaster.lifegamer.log.LogPoint;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IRewardManager;
 import com.lifegamer.fengmaster.lifegamer.model.Item;
+import com.lifegamer.fengmaster.lifegamer.model.Log;
 import com.lifegamer.fengmaster.lifegamer.model.RewardItem;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.RandomItemReward;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
@@ -75,6 +77,11 @@ public class RewardItemManager implements IRewardManager {
      */
     @Override
     public boolean addRewardItem(RewardItem rewardItem) {
+        return _addRewardItem(rewardItem);
+    }
+
+    @LogPoint(type = Log.TYPE.REWARDITEM,action = Log.ACTION.CREATE,property = Log.PROPERTY.DEFAULT)
+    private boolean _addRewardItem(RewardItem rewardItem){
         Item it = rewardItem.generateItem();
         if (!Game.getInstance().getItemManager().addItem(it)){
             //先添加物品,再添加奖励
@@ -97,6 +104,11 @@ public class RewardItemManager implements IRewardManager {
      */
     @Override
     public boolean updateRewardItem(RewardItem rewardItem) {
+        return _updateRewardItem(rewardItem);
+    }
+
+    @LogPoint(type = Log.TYPE.REWARDITEM,action = Log.ACTION.EDIT,property = Log.PROPERTY.DEFAULT)
+    private boolean _updateRewardItem(RewardItem rewardItem){
         if (rewardItems.contains(rewardItem)) {
             //缓存中有
             return Game.update(rewardItem);
@@ -122,6 +134,11 @@ public class RewardItemManager implements IRewardManager {
     @Override
     public boolean removeRewardItem(long id) {
         RewardItem rewardItem = getRewardItem(id);
+        return _removeRewardItem(rewardItem);
+    }
+
+    @LogPoint(type = Log.TYPE.REWARDITEM,action = Log.ACTION.DELETE,property = Log.PROPERTY.DEFAULT)
+    private boolean _removeRewardItem(RewardItem rewardItem){
         if (rewardItem != null) {
             if (Game.delete(rewardItem)) {
                 rewardItems.remove(rewardItem);
@@ -133,7 +150,6 @@ public class RewardItemManager implements IRewardManager {
         } else {
             return false;
         }
-
     }
 
 

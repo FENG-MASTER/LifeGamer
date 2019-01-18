@@ -112,6 +112,11 @@ public class SkillManager implements ISkillManager {
      */
     @Override
     public boolean updateSkill(Skill skill) {
+        return _updateSkill(skill);
+    }
+
+    @LogPoint(type = Log.TYPE.SKILL,action = Log.ACTION.EDIT,property = Log.PROPERTY.DEFAULT)
+    private boolean _updateSkill(Skill skill){
 
         if (skillList.contains(skill)) {
             //如果存在缓存里

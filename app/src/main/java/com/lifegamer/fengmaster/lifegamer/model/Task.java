@@ -6,8 +6,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.annimon.stream.Collectors;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
+import com.annimon.stream.function.Function;
 import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.BR;
 import com.lifegamer.fengmaster.lifegamer.Game;
@@ -121,42 +124,6 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
 /***********************E扩展信息E**************************/
 
 /***********************S奖励信息S**************************/
-
-    /**
-     * 任务完成后增加相应能力
-     * <p>
-     * key-能力ID val-增加的点数
-     */
-    private Map<Long, Integer> successSkills;
-    /**
-     * 任务完成后获得的物品列表
-     */
-    private List<RandomItemReward> successItems;
-    /**
-     * 任务完成后获得的成就列表
-     */
-    private List<AchievementReward> successAchievements;
-    /**
-     * 任务失败后减少相应能力
-     * <p>
-     * key-能力ID val-增加的点数
-     */
-    private Map<Long, Integer> failureSkills;
-    /**
-     * 任务失败后失去的物品列表
-     * <p>
-     */
-    private List<RandomItemReward> failureItems;
-    /**
-     * 任务失败后失去的成就列表
-     */
-    private List<AchievementReward> failureAchievements;
-
-
-    /**
-     * 任务失败后扣除的LP
-     */
-    private int lostLP;
 
     /**
      * 触发器列表
@@ -344,6 +311,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         notifyPropertyChanged(BR.fear);
     }
 
+    @JSONField(serialize = false)
     public int getXp() {
         Trigger successTrigger = getSuccessTrigger();
         return successTrigger.getTriggerInfo().getXp();
@@ -355,6 +323,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         notifyPropertyChanged(BR.xp);
     }
 
+    @JSONField(serialize = false)
     @Bindable
     public Map<Long, Integer> getSuccessSkills() {
         Trigger successTrigger = getSuccessTrigger();
@@ -367,6 +336,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         notifyPropertyChanged(BR.successSkills);
     }
 
+    @JSONField(serialize = false)
     @Bindable
     public List<RandomItemReward> getSuccessItems() {
         Trigger successTrigger = getSuccessTrigger();
@@ -379,12 +349,14 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         notifyPropertyChanged(BR.successItems);
     }
 
+    @JSONField(serialize = false)
     @Bindable
     public List<AchievementReward> getSuccessAchievements() {
         Trigger successTrigger = getSuccessTrigger();
         return successTrigger.getTriggerInfo().getAchievements();
     }
 
+    @JSONField(serialize = false)
     @Bindable
     public Map<Long, Integer> getFailureSkills() {
         Trigger failTrigger = getFailTrigger();
@@ -397,6 +369,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         notifyPropertyChanged(BR.failureSkills);
     }
 
+    @JSONField(serialize = false)
     @Bindable
     public List<RandomItemReward> getFailureItems() {
         Trigger failTrigger = getFailTrigger();
@@ -409,6 +382,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         notifyPropertyChanged(BR.failureItems);
     }
 
+    @JSONField(serialize = false)
     @Bindable
     public List<AchievementReward> getFailureAchievements() {
         Trigger failTrigger = getFailTrigger();
@@ -421,12 +395,14 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         notifyPropertyChanged(BR.failureAchievements);
     }
 
+    @JSONField(serialize = false)
     @Bindable
     public int getEarnLP() {
         Trigger successTrigger = getSuccessTrigger();
         return successTrigger.getTriggerInfo().getEarnLP();
     }
 
+    @JSONField(serialize = false)
     @Bindable
     public int getLostLP() {
         Trigger failTrigger = getFailTrigger();
@@ -567,6 +543,21 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         notifyPropertyChanged(BR.desc);
     }
 
+
+    public void setTriggerIDs(List<Integer> triggerIDs) {
+        //先将现有触发器失效
+        for (Trigger trigger : this.triggers) {
+            trigger.invalid();
+        }
+
+        this.triggers.clear();
+        for (Integer ids : triggerIDs) {
+            TriggerInfo triggerInfo = Game.getInstance().getTriggerManager().getTrigger(ids);
+            addTrigger(triggerInfo);
+        }
+    }
+
+    @JSONField(serialize = false)
     public void setTriggers(List<TriggerInfo> triggerInfos) {
         //先将现有触发器失效
         for (Trigger trigger : this.triggers) {
@@ -587,6 +578,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         return t;
     }
 
+    @JSONField(serialize = false)
     public Trigger getSuccessTrigger(){
 
         Optional<Trigger> single = Stream.of(triggers).filter(value -> value.getTriggerInfo().getTriggerCondition().equals(TaskFinishTriggerCondition.class.getName())).findFirst();
@@ -602,6 +594,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         return successTrigger;
     }
 
+    @JSONField(serialize = false)
     public Trigger getFailTrigger(){
 
         Optional<Trigger> single = Stream.of(triggers).filter(value -> value.getTriggerInfo().getTriggerCondition().equals(TaskFailTriggerCondition.class.getName())).findFirst();
@@ -802,7 +795,13 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
 
     }
 
+    @JSONField(serialize = false)
     public List<Trigger> getTriggers() {
         return triggers;
+    }
+
+
+    public List<Integer> getTriggerIDs() {
+        return Stream.of(triggers).map(trigger -> Long.valueOf(trigger.getTriggerInfo().getId()).intValue()).collect(Collectors.toList());
     }
 }

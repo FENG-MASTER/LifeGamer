@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.lifegamer.fengmaster.lifegamer.BR;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.base.ICopy;
@@ -121,7 +122,7 @@ public class RewardItem extends BaseObservable implements Insertable,Deleteable,
 
     }
 
-
+    @JSONField(serialize = false)
     public Item getItem2(){
         if (!addToItem){
             return null;

@@ -84,6 +84,11 @@ public class TaskManager implements ITaskManager {
      */
     @Override
     public boolean addTask(Task task) {
+        return _addTask(task);
+    }
+
+    @LogPoint(type = Log.TYPE.TASK,action = Log.ACTION.CREATE,property = Log.PROPERTY.DEFAULT)
+    private boolean _addTask(Task task){
 
         long id = Game.insert(task);
         if (id != 0) {
@@ -127,6 +132,11 @@ public class TaskManager implements ITaskManager {
      */
     @Override
     public boolean updateTask(Task task) {
+        return _updateTask(task);
+    }
+
+    @LogPoint(type = Log.TYPE.TASK,action = Log.ACTION.EDIT,property = Log.PROPERTY.DEFAULT)
+    private boolean _updateTask(Task task){
         if (taskList.contains(task)) {
             //缓存有
             return Game.update(task);
@@ -596,6 +606,7 @@ public class TaskManager implements ITaskManager {
      * @param task 任务
      * @return 是否成功
      */
+    @LogPoint(type = Log.TYPE.TASK,action = Log.ACTION.DELETE,property = Log.PROPERTY.DEFAULT)
     private boolean removeTask(Task task) {
         if (task != null) {
             if (Game.delete(task)) {
@@ -649,11 +660,6 @@ public class TaskManager implements ITaskManager {
 
     }
 
-//    @Subscribe(threadMode = ThreadMode.POSTING)
-//    public void gameInitFinsh(GameBaseInitFinish gameBaseInitFinish){
-//        loadTaskFromSQL();
-//        EventBus.getDefault().post(new UpdateTaskEvent(null));
-//    }
 
 
 

@@ -8,6 +8,7 @@ import com.lifegamer.fengmaster.lifegamer.model.Hero;
 import com.lifegamer.fengmaster.lifegamer.model.Item;
 import com.lifegamer.fengmaster.lifegamer.model.LifePoint;
 import com.lifegamer.fengmaster.lifegamer.model.Log;
+import com.lifegamer.fengmaster.lifegamer.model.RewardItem;
 import com.lifegamer.fengmaster.lifegamer.model.Skill;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
 import com.lifegamer.fengmaster.lifegamer.model.base.IdAble;
@@ -124,17 +125,16 @@ public class LogHandlers {
     }
 
 
+
     /**
-     * 编辑能力日志
+     * 编辑能力日志(编辑前
      * @param joinPoint
      * @param log
      */
-    @LogHandler(type = Log.TYPE.SKILL,action = Log.ACTION.CREATE,property = Log.PROPERTY.DEFAULT,order = Log.ORDER.BEFORE)
-    public static void skillEditLogA(JoinPoint joinPoint,Log log){
+    @LogHandler(type = Log.TYPE.SKILL,action = Log.ACTION.EDIT,property = Log.PROPERTY.DEFAULT,order = Log.ORDER.BEFORE)
+    public static void skillEditLogB(JoinPoint joinPoint,Log log){
         commonFuncLogB(Skill.class, joinPoint, log, skill -> skill.getName(), skill -> JSONObject.toJSONString(skill));
     }
-
-
 
 
     /**
@@ -242,12 +242,83 @@ public class LogHandlers {
     }
 
 
+    /**
+     * 删除任务日志
+     * @param joinPoint
+     * @param log
+     */
+    @LogHandler(type = Log.TYPE.TASK,action = Log.ACTION.DELETE,property = Log.PROPERTY.DEFAULT,order = Log.ORDER.BEFORE)
+    public static void taskDeleteLogB(JoinPoint joinPoint,Log log){
+        commonFuncLogB(Task.class, joinPoint, log, task -> task.getName(), task1 -> JSONObject.toJSONString(task1));
+    }
+
+
+    /**
+     * 新增任务日志
+     * @param joinPoint
+     * @param log
+     */
+    @LogHandler(type = Log.TYPE.TASK,action = Log.ACTION.CREATE,property = Log.PROPERTY.DEFAULT,order = Log.ORDER.AFTER)
+    public static void taskCreateLogA(JoinPoint joinPoint,Log log){
+        commonFuncLogB(Task.class, joinPoint, log, task -> task.getName(), task1 -> JSONObject.toJSONString(task1));
+    }
+
+
+
+    /**
+     * 编辑任务日志(编辑前
+     * @param joinPoint
+     * @param log
+     */
+    @LogHandler(type = Log.TYPE.TASK,action = Log.ACTION.EDIT,property = Log.PROPERTY.DEFAULT,order = Log.ORDER.BEFORE)
+    public static void taskEditLogB(JoinPoint joinPoint,Log log){
+        commonFuncLogB(Task.class, joinPoint, log, task -> task.getName(), task1 -> JSONObject.toJSONString(task1));
+    }
+
+
+
 
 
 //    ------------------------------任务相关-------------------------------------
 
 
 //    ------------------------------物品相关-------------------------------------
+
+
+    /**
+     * 删除商店物品日志
+     * @param joinPoint
+     * @param log
+     */
+    @LogHandler(type = Log.TYPE.REWARDITEM,action = Log.ACTION.DELETE,property = Log.PROPERTY.DEFAULT,order = Log.ORDER.BEFORE)
+    public static void rewardItemDeleteLogB(JoinPoint joinPoint,Log log){
+        commonFuncLogB(RewardItem.class, joinPoint, log, rewardItem -> rewardItem.getName(), item -> JSONObject.toJSONString(item));
+    }
+
+
+    /**
+     * 新增商店物品日志
+     * @param joinPoint
+     * @param log
+     */
+    @LogHandler(type = Log.TYPE.REWARDITEM,action = Log.ACTION.CREATE,property = Log.PROPERTY.DEFAULT,order = Log.ORDER.BEFORE)
+    public static void rewardItemCreateLogB(JoinPoint joinPoint,Log log){
+        commonFuncLogB(RewardItem.class, joinPoint, log, rewardItem -> rewardItem.getName(), item -> JSONObject.toJSONString(item));
+    }
+
+
+
+    /**
+     * 编辑商店物品日志(编辑前
+     * @param joinPoint
+     * @param log
+     */
+    @LogHandler(type = Log.TYPE.REWARDITEM,action = Log.ACTION.EDIT,property = Log.PROPERTY.DEFAULT,order = Log.ORDER.BEFORE)
+    public static void rewardItemEditLogB(JoinPoint joinPoint,Log log){
+        commonFuncLogB(RewardItem.class, joinPoint, log, rewardItem -> rewardItem.getName(), item -> JSONObject.toJSONString(item));
+    }
+
+
 
 
     /**
