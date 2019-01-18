@@ -311,6 +311,11 @@ public class RewardItem extends BaseObservable implements Insertable,Deleteable,
         notifyPropertyChanged(BR.notes);
     }
 
+    @JSONField(serialize = false)
+    public boolean isPurchasable(){
+        return getCostLP()!=-1&&(getQuantityAvailable()>0||getQuantityAvailable()==-1);
+    }
+
 
 
 
@@ -322,10 +327,6 @@ public class RewardItem extends BaseObservable implements Insertable,Deleteable,
     @Override
     public int update(SQLiteDatabase sqLiteDatabase) {
         ContentValues cv=new ContentValues();
-//        cv.put("name",getName());
-//        cv.put("type",getType());
-//        cv.put("desc",getDesc());
-//        cv.put("icon",getIcon());
 
         cv.put("itemId",item.getId());
         cv.put("costLP",getCostLP());
@@ -342,10 +343,6 @@ public class RewardItem extends BaseObservable implements Insertable,Deleteable,
     @Override
     public long insert(SQLiteDatabase sqLiteDatabase) {
         ContentValues cv=new ContentValues();
-//        cv.put("name",getName());
-//        cv.put("type",getType());
-//        cv.put("desc",getDesc());
-//        cv.put("icon",getIcon());
 
         cv.put("itemId",item.getId());
         cv.put("costLP",getCostLP());
@@ -391,10 +388,6 @@ public class RewardItem extends BaseObservable implements Insertable,Deleteable,
 
         this.setId(cursor.getLong(cursor.getColumnIndex("_id")));
         this.setItemId(cursor.getLong(cursor.getColumnIndex("itemId")));
-//        rewardItem.setName(cursor.getString(cursor.getColumnIndex("name")));
-//        rewardItem.setType(cursor.getString(cursor.getColumnIndex("type")));
-//        rewardItem.setIcon(cursor.getString(cursor.getColumnIndex("icon")));
-//        rewardItem.setDesc(cursor.getString(cursor.getColumnIndex("desc")));
         this.setCostLP(cursor.getInt(cursor.getColumnIndex("costLP")));
         this.setCostLPIncrement(cursor.getInt(cursor.getColumnIndex("costLPIncrement")));
         this.setGainTimes(cursor.getInt(cursor.getColumnIndex("gainTimes")));

@@ -31,7 +31,10 @@ public class SelectItem {
     public static final int ITEM_ID=10;
     //金币
     public static final int LP_ID=11;
-
+    //购买
+    public static final int BUY_ID=12;
+    //消耗,使用
+    public static final int CONSUME_ID=13;
 
 
     public static final SelectItem FINISH = new SelectItem(FINISH_ID, "完成", R.drawable.ic_select_finish);
@@ -47,6 +50,8 @@ public class SelectItem {
     public static final SelectItem ITEM = new SelectItem(ITEM_ID, "物品", R.drawable.ic_nav_item);
     public static final SelectItem LP = new SelectItem(LP_ID, "金币", R.drawable.ic_life_point_coin_black);
 
+    public static final SelectItem BUY = new SelectItem(BUY_ID, "购买", R.drawable.ic_buy);
+    public static final SelectItem CONSUME = new SelectItem(CONSUME_ID, "消耗", R.drawable.ic_consume);
 
     private int id;
     private String name;

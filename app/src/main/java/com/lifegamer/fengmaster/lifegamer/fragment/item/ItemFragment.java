@@ -11,6 +11,7 @@ import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.item.AllItemFragmentAdapter;
+import com.lifegamer.fengmaster.lifegamer.command.command.item.UseItemCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.skill.RemoveSkillCommand;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseTabListFragment;
 import com.lifegamer.fengmaster.lifegamer.fragment.skill.EditSkillDialog;
@@ -63,8 +64,11 @@ public class ItemFragment extends BaseTabListFragment implements OnItemSelectLis
         selectDialog.addItemSelectListener(this);
 
         List<SelectItem> list = new ArrayList<>();
+        if (item.isExpendable()&&item.getQuantity()>0){
+            //可消耗
+            list.add(SelectItem.CONSUME);
+        }
         list.add(SelectItem.EDIT);
-//        list.add(SelectItem.DELETE);
         list.add(SelectItem.NOTES);
 
         selectDialog.setItems(list).show(getFragmentManager(), "select");
@@ -80,6 +84,10 @@ public class ItemFragment extends BaseTabListFragment implements OnItemSelectLis
                     dialog.setItem(selectItem);
                     dialog.show(getFragmentManager(),"select");
                 }
+                break;
+            case SelectItem.CONSUME_ID:
+                //消耗物品
+                Game.getInstance().getCommandManager().executeCommand(new UseItemCommand(selectItem));
                 break;
 
             default:

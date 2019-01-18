@@ -7,10 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.reward.AllAvailableRewardFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.reward.AllRewardFragmentAdapter;
+import com.lifegamer.fengmaster.lifegamer.command.command.reward.BuyRewardCommand;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseTabListFragment;
 import com.lifegamer.fengmaster.lifegamer.model.RewardItem;
 import com.lifegamer.fengmaster.lifegamer.wight.SelectDialog;
@@ -63,6 +65,10 @@ public class RewardFragment extends BaseTabListFragment implements OnItemSelectL
                 dialog.setRewardItem(rewardItem);
                 dialog.show(getFragmentManager(),"editReward");
                 break;
+            case SelectItem.BUY_ID:
+                //购买物品
+                Game.getInstance().getCommandManager().executeCommand(new BuyRewardCommand(rewardItem));
+                break;
             default:
         }
     }
@@ -71,6 +77,9 @@ public class RewardFragment extends BaseTabListFragment implements OnItemSelectL
         this.rewardItem=rewardItem;
         SelectDialog dialog=new SelectDialog();
         List<SelectItem> list=new ArrayList<>();
+        if (rewardItem.isPurchasable()){
+            list.add(SelectItem.BUY);
+        }
         list.add(SelectItem.EDIT);
         list.add(SelectItem.DELETE);
         dialog.setItems(list);

@@ -147,7 +147,7 @@ public class Item extends BaseObservable implements Insertable, Deleteable, Upda
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-        notifyPropertyChanged(BR.quantityAvailable);
+        notifyPropertyChanged(BR.quantity);
     }
 
     /**
