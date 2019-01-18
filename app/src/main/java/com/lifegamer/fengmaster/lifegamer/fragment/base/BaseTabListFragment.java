@@ -58,13 +58,13 @@ public abstract class BaseTabListFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (container.getTag()!=null){
-            //防止多次调用出现白屏bug
-            container.removeView((View) container.getTag());
-            View view = (View) container.getTag();
-            container.setTag(null);
-            return view;
-        }
+//        if (container.getTag()!=null){
+//            //防止多次调用出现白屏bug
+//            container.removeView((View) container.getTag());
+//            View view = (View) container.getTag();
+//            container.setTag(null);
+//            return view;
+//        }
 
         View inflate = inflater.inflate(R.layout.fragment_base_tab_list, container, false);
         ButterKnife.bind(this,inflate);
