@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (item.getItemId()){
             case R.id.menu_setting:
+                changeToFragment(8);
                 return true;
             case R.id.menu_show_info:
                 topInfoFragment.toggle();
