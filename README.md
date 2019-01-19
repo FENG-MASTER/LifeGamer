@@ -19,6 +19,6 @@
 ## 截图 ##
 
 
-<img src="https://github.com/FENG-MASTER/Mr.Game/tree/master/img/Screenshot_1.jpg" width = "300" align=center />
+<img src="https://github.com/FENG-MASTER/Mr.Game/blob/master/img/Screenshot_1.jpg" width = "300" align=center />
 
-<img src="https://github.com/FENG-MASTER/Mr.Game/tree/master/img/Screenshot_2.jpg" width = "300" align=center />
+<img src="https://github.com/FENG-MASTER/Mr.Game/blob/master/img/Screenshot_2.jpg" width = "300" align=center />
