@@ -1,4 +1,4 @@
-# LifeGamer #
+# Mr.Game #
 
 ## 简介 ##
 模仿LifeRPG做的一款时间管理的APP
@@ -12,4 +12,13 @@
 
 ## 进度 ##
 
-基本功能已经可以使用,但存在大量bug,加速修复中
+以发布1.0测试版本.
+
+基本功能已经可以使用,但存在bug,加速修复中
+
+## 截图 ##
+
+
+<img src="https://github.com/FENG-MASTER/Mr.Game/img/Screenshot_1.jpg" width = "300" align=center />
+
+<img src="https://github.com/FENG-MASTER/Mr.Game/img/Screenshot_2.jpg" width = "300" align=center />
