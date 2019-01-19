@@ -9,6 +9,7 @@
         <item>统计</item>
         <item>个人简介</item>
         <item>关于</item>
+        <item>设置</item>
     </string-array>
 
     <integer-array name="main_sp_r">
@@ -43,5 +44,69 @@
         <item></item>
         <item>成功次数</item>
     </string-array>
+
+
+    <string-array name="show_fragment_task_type">
+        <item>全部任务</item>
+        <item>今日任务</item>
+    </string-array>
+
+
+    <string-array name="show_fragment_task_type_val">
+        <item>AllTaskFragmentAdapter</item>
+        <item>TodayTaskFragmentAdapter</item>
+    </string-array>
+
+
+    <string-array name="show_fragment_reward_type">
+        <item>全部奖励</item>
+        <item>按种类划分奖励</item>
+        <item>可获得奖励</item>
+        <item>可购买奖励</item>
+    </string-array>
+
+
+    <string-array name="show_fragment_reward_type_val">
+        <item>AllRewardFragmentAdapter</item>
+        <item>按种类划分奖励</item>
+        <item>AllAvailableRewardFragmentAdapter</item>
+        <item>PurchasableRewardFragmentAdapter</item>
+    </string-array>
+
+    <string-array name="show_fragment_item_type">
+        <item>全部物品</item>
+        <item>已获得物品</item>
+    </string-array>
+
+    <string-array name="show_fragment_item_type_val">
+        <item>AllItemFragmentAdapter</item>
+        <item>OwnItemFragmentAdapter</item>
+    </string-array>
+
+    <string-array name="show_fragment_skill_type">
+        <item>全部能力</item>
+        <item>按种类划分能力</item>
+    </string-array>
+
+    <string-array name="show_fragment_skill_type_val">
+        <item>AllSkillFragmentAdapter</item>
+        <item>TypeSkillFragmentAdapter</item>
+    </string-array>
+
+
+    <string-array name="show_fragment_achievement_type">
+        <item>全部成就</item>
+        <item>已获得成就</item>
+        <item>未获得成就</item>
+
+    </string-array>
+
+    <string-array name="show_fragment_achievement_type_val">
+        <item>AllAchievementFragmentAdapter</item>
+        <item>GotAchievementFragmentAdapter</item>
+        <item>NoGotAchievementFragmentAdapter</item>
+
+    </string-array>
+
 
 </resources>

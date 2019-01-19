@@ -18,8 +18,9 @@ public class AllSkillFragmentAdapter extends BaseSkillFragmentAdapter {
         return App.getContext().getString(R.string.skill_all);
     }
 
+
     @Override
-    public void updateList() {
-        showSkillList=Game.getInstance().getSkillManager().getAllSkill();
+    public void updateShowList() {
+        showList=Game.getInstance().getSkillManager().getAllSkill();
     }
 }

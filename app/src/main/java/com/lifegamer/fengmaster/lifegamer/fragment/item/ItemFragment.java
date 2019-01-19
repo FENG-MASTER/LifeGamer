@@ -11,6 +11,7 @@ import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.item.AllItemFragmentAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.list.item.OwnItemFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.command.command.item.UseItemCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.skill.RemoveSkillCommand;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseTabListFragment;
@@ -35,15 +36,18 @@ public class ItemFragment extends BaseTabListFragment implements OnItemSelectLis
     private Item selectItem;
 
     public ItemFragment() {
-        AllItemFragmentAdapter allItemFragmentAdapter = new AllItemFragmentAdapter();
-        allItemFragmentAdapter.addItemSelectListener(this);
-        addAdapter(allItemFragmentAdapter);
+        super();
     }
 
     @Override
     public void onActionButtonClick() {
         EditItemDialog dialog=new EditItemDialog();
         dialog.show(getChildFragmentManager(),"edit");
+    }
+
+    @Override
+    public Class[] getAdapterClasses() {
+        return new Class[]{AllItemFragmentAdapter.class,OwnItemFragmentAdapter.class};
     }
 
     @Override

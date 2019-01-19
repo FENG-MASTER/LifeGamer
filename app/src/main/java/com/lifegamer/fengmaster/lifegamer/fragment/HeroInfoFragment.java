@@ -4,6 +4,8 @@ package com.lifegamer.fengmaster.lifegamer.fragment;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class HeroInfoFragment extends Fragment implements CompoundButton.OnCheckedChangeListener, View.OnClickListener, OnItemSelectListener<IAvatarManager.Avatar> {
+public class HeroInfoFragment extends Fragment implements  View.OnClickListener, OnItemSelectListener<IAvatarManager.Avatar> {
 
 
     private FragmentHeroInfoBinding binding;
@@ -49,16 +51,68 @@ public class HeroInfoFragment extends Fragment implements CompoundButton.OnCheck
         return binding.getRoot();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        ViewUtil.showSnack("修改完后把复选框的勾勾去掉才能保存哦!");
-    }
-
     private void initView() {
-        binding.cbHeroInfoName.setOnCheckedChangeListener(this);
-        binding.cbHeronInfoTitle.setOnCheckedChangeListener(this);
-        binding.cbHeroInfoDesc.setOnCheckedChangeListener(this);
+        binding.etHeroInfoName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+          }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s==null||s.toString()==null||s.toString().isEmpty()){
+                    return;
+                }
+                hero.setName(binding.etHeroInfoName.getText().toString());
+
+            }
+        });
+
+        binding.etHeroInfoDesc.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s==null||s.toString()==null||s.toString().isEmpty()){
+                    return;
+                }
+                hero.setIntroduction(binding.etHeroInfoDesc.getText().toString());
+
+            }
+        });
+
+
+        binding.etHeroInfoTitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s==null||s.toString()==null||s.toString().isEmpty()){
+                    return;
+                }
+                hero.setIntroduction(binding.etHeroInfoDesc.getText().toString());
+            }
+        });
         binding.imHeroInfoAvatar.setOnClickListener(this);
 
 
@@ -68,39 +122,10 @@ public class HeroInfoFragment extends Fragment implements CompoundButton.OnCheck
     @Override
     public void onDestroy() {
         super.onDestroy();
-        binding.cbHeroInfoName.setOnCheckedChangeListener(null);
-        binding.cbHeronInfoTitle.setOnCheckedChangeListener(null);
-        binding.cbHeroInfoDesc.setOnCheckedChangeListener(null);
         binding.imHeroInfoAvatar.setOnClickListener(null);
     }
 
-    @Override
-    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        switch (compoundButton.getId()) {
-            case R.id.cb_hero_info_name:
-                binding.etHeroInfoName.setEnabled(b);
-                if (!b){
-                    hero.setName(binding.etHeroInfoName.getText().toString());
 
-                }
-                break;
-            case R.id.cb_heron_info_title:
-                binding.etHeroInfoTitle.setEnabled(b);
-                if (!b){
-                    hero.setTitle(binding.etHeroInfoTitle.getText().toString());
-                }
-                break;
-            case R.id.cb_hero_info_desc:
-                binding.etHeroInfoDesc.setEnabled(b);
-                if (!b){
-                    hero.setIntroduction(binding.etHeroInfoDesc.getText().toString());
-                }
-                break;
-        }
-        if (!b){
-            Game.getInstance().getHeroManager().updateHero(hero);
-        }
-    }
 
 
     @Override

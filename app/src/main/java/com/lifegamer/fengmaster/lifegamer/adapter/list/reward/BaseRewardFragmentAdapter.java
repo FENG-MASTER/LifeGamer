@@ -11,6 +11,7 @@ import com.lifegamer.fengmaster.lifegamer.adapter.base.AbsBaseRecyclerViewAdapte
 import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.BindingHolder;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
+import com.lifegamer.fengmaster.lifegamer.event.reward.DeleteRewardEvent;
 import com.lifegamer.fengmaster.lifegamer.event.reward.NewRewardEvent;
 import com.lifegamer.fengmaster.lifegamer.model.RewardItem;
 
@@ -45,6 +46,17 @@ public abstract class BaseRewardFragmentAdapter extends BaseRecyclerViewAdapter<
         updateShowList();
         notifyDataSetChanged();
     }
+
+    /**
+     * 有商品被删除,需要刷新显示
+     * @param deleteRewardEvent 事件
+     */
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void deleteEntityEvent(DeleteRewardEvent deleteRewardEvent) {
+        updateShowList();
+        notifyDataSetChanged();
+    }
+
 
 
     @Override

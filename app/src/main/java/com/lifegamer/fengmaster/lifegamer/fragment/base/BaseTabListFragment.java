@@ -13,8 +13,16 @@ import android.view.ViewGroup;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.adapter.BaseViewPagerFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.AbsBaseRecyclerViewAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
+import com.lifegamer.fengmaster.lifegamer.adapter.list.task.AllTaskFragmentAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.list.task.BaseTaskFragmentAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.list.task.TodayTaskFragmentAdapter;
+import com.lifegamer.fengmaster.lifegamer.util.PreferenceUtil;
 import com.lifegamer.fengmaster.lifegamer.util.ViewUtil;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +33,7 @@ import butterknife.ButterKnife;
  * Created by qianzise on 2017/10/10.
  */
 
-public abstract class BaseTabListFragment extends Fragment{
+public abstract class BaseTabListFragment extends Fragment implements OnItemSelectListener {
 
     @BindView(R.id.tl_fragment_base_list)
     TabLayout tabLayout;
@@ -40,7 +48,28 @@ public abstract class BaseTabListFragment extends Fragment{
 
     public BaseTabListFragment() {
         // Required empty public constructor
+        Class[] classes=getAdapterClasses();
 
+        for (Class aClass : classes) {
+            if (PreferenceUtil.checkIfShow(aClass.getSimpleName())){
+                try {
+                    Constructor constructor = aClass.getConstructor(null);
+                    BaseRecyclerViewAdapter adapter = (BaseRecyclerViewAdapter) constructor.newInstance(null);
+                    adapter.addItemSelectListener(this);
+                    addAdapter(adapter);
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (java.lang.InstantiationException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        }
     }
 
     @Override
@@ -82,6 +111,6 @@ public abstract class BaseTabListFragment extends Fragment{
 
     public abstract void onActionButtonClick();
 
-
+    public abstract Class[] getAdapterClasses();
 
 }

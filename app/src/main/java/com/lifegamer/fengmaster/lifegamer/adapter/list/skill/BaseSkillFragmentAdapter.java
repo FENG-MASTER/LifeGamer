@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.lifegamer.fengmaster.lifegamer.BR;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.AbsBaseRecyclerViewAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.BindingHolder;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.event.skill.DelSkillEvent;
@@ -29,15 +30,15 @@ import butterknife.ButterKnife;
  * 基础 能力实现适配器
  */
 
-public abstract class BaseSkillFragmentAdapter extends AbsBaseRecyclerViewAdapter<BaseSkillFragmentAdapter.Holder, Skill> {
-    protected List<Skill> showSkillList;
-
-    /**
-     * 选中能力 监听者
-     */
-    private List<OnItemSelectListener<Skill>> listeners = new LinkedList<>();
-
-    public abstract void updateList();
+public abstract class BaseSkillFragmentAdapter extends BaseRecyclerViewAdapter<Skill> {
+//    protected List<Skill> showSkillList;
+//
+//    /**
+//     * 选中能力 监听者
+//     */
+//    private List<OnItemSelectListener<Skill>> listeners = new LinkedList<>();
+//
+//    public abstract void updateList();
 
     public BaseSkillFragmentAdapter() {
         EventBus.getDefault().register(this);
@@ -46,26 +47,37 @@ public abstract class BaseSkillFragmentAdapter extends AbsBaseRecyclerViewAdapte
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-        if (showSkillList==null){
-            updateList();
+        if (showList==null){
+            updateShowList();
         }
     }
 
+
     @Override
-    public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_base_skill, parent, false);
-        return new Holder(inflate);
+    public int getItemLayoutID() {
+        return R.layout.item_base_skill;
     }
 
     @Override
-    public void onBindViewHolder(Holder holder, int position) {
-        holder.setSkill(showSkillList.get(position));
+    public int getBindingItemID() {
+        return BR.skill;
     }
 
-    @Override
-    public int getItemCount() {
-        return showSkillList.size();
-    }
+//    @Override
+//    public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
+//        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_base_skill, parent, false);
+//        return new Holder(inflate);
+//    }
+//
+//    @Override
+//    public void onBindViewHolder(Holder holder, int position) {
+//        holder.setSkill(showSkillList.get(position));
+//    }
+//
+//    @Override
+//    public int getItemCount() {
+//        return showSkillList.size();
+//    }
 
     /**
      * 从父RecyclerView中收回的时候调用
@@ -85,7 +97,7 @@ public abstract class BaseSkillFragmentAdapter extends AbsBaseRecyclerViewAdapte
      */
     @Subscribe(threadMode = ThreadMode.POSTING)
     public void newSkill(NewSkillEvent event) {
-        updateList();
+        updateShowList();
         notifyDataSetChanged();
     }
 
@@ -95,51 +107,51 @@ public abstract class BaseSkillFragmentAdapter extends AbsBaseRecyclerViewAdapte
      */
     @Subscribe(threadMode = ThreadMode.POSTING)
     public void delSkill(DelSkillEvent event){
-        updateList();
+        updateShowList();
         notifyDataSetChanged();
     }
-
-    @Override
-    public void addItemSelectListener(OnItemSelectListener<Skill> listener) {
-        listeners.add(listener);
-
-    }
-
-    @Override
-    public void removeItemSelectListener(OnItemSelectListener<Skill> listener) {
-        listeners.remove(listener);
-    }
-
-    private void notifyListener(Skill skill) {
-        for (OnItemSelectListener<Skill> listener : listeners) {
-            listener.onItemSelect(skill);
-        }
-    }
-
-    public class Holder extends BindingHolder implements View.OnClickListener {
-
-
-        private Skill skill;
-
-        public Holder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(this);
-        }
-
-        public Skill getSkill() {
-            return skill;
-        }
-
-        public void setSkill(Skill skill) {
-            this.skill = skill;
-            setBinding(BR.skill, skill);
-        }
-
-        @Override
-        public void onClick(View view) {
-            //请求显示选择框
-            notifyListener(skill);
-        }
-    }
+//
+//    @Override
+//    public void addItemSelectListener(OnItemSelectListener<Skill> listener) {
+//        listeners.add(listener);
+//
+//    }
+//
+//    @Override
+//    public void removeItemSelectListener(OnItemSelectListener<Skill> listener) {
+//        listeners.remove(listener);
+//    }
+//
+//    private void notifyListener(Skill skill) {
+//        for (OnItemSelectListener<Skill> listener : listeners) {
+//            listener.onItemSelect(skill);
+//        }
+//    }
+//
+//    public class Holder extends BindingHolder implements View.OnClickListener {
+//
+//
+//        private Skill skill;
+//
+//        public Holder(View itemView) {
+//            super(itemView);
+//            ButterKnife.bind(this, itemView);
+//            itemView.setOnClickListener(this);
+//        }
+//
+//        public Skill getSkill() {
+//            return skill;
+//        }
+//
+//        public void setSkill(Skill skill) {
+//            this.skill = skill;
+//            setBinding(BR.skill, skill);
+//        }
+//
+//        @Override
+//        public void onClick(View view) {
+//            //请求显示选择框
+//            notifyListener(skill);
+//        }
+//    }
 }

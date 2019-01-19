@@ -14,6 +14,7 @@ import com.lifegamer.fengmaster.lifegamer.adapter.list.skill.TypeSkillFragmentAd
 import com.lifegamer.fengmaster.lifegamer.command.command.skill.RemoveSkillCommand;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseTabListFragment;
 import com.lifegamer.fengmaster.lifegamer.model.Skill;
+import com.lifegamer.fengmaster.lifegamer.util.PreferenceUtil;
 import com.lifegamer.fengmaster.lifegamer.util.ViewUtil;
 import com.lifegamer.fengmaster.lifegamer.wight.SelectDialog;
 import com.lifegamer.fengmaster.lifegamer.wight.model.SelectItem;
@@ -30,20 +31,15 @@ public class SkillFragment extends BaseTabListFragment implements OnItemSelectLi
     private Skill selectSkill;
 
     public SkillFragment() {
-        // Required empty public constructor
-        AllSkillFragmentAdapter allSkillFragmentAdapter = new AllSkillFragmentAdapter();
-        allSkillFragmentAdapter.addItemSelectListener(this);
-        addAdapter(allSkillFragmentAdapter);
-
-        List<String> skillType = Game.getInstance().getSkillManager().getAllSkillType();
-        for (String type : skillType) {
-            TypeSkillFragmentAdapter typeSkillFragmentAdapter = new TypeSkillFragmentAdapter(type);
-            typeSkillFragmentAdapter.addItemSelectListener(this);
-            addAdapter(typeSkillFragmentAdapter);
+        super();
+        if (PreferenceUtil.checkIfShow(TypeSkillFragmentAdapter.class.getSimpleName())){
+            List<String> skillType = Game.getInstance().getSkillManager().getAllSkillType();
+            for (String type : skillType) {
+                TypeSkillFragmentAdapter typeSkillFragmentAdapter = new TypeSkillFragmentAdapter(type);
+                typeSkillFragmentAdapter.addItemSelectListener(this);
+                addAdapter(typeSkillFragmentAdapter);
+            }
         }
-
-
-
 
     }
 
@@ -82,6 +78,11 @@ public class SkillFragment extends BaseTabListFragment implements OnItemSelectLi
         //新建能力
         EditSkillDialog dialog=new EditSkillDialog();
         dialog.show(getChildFragmentManager(),"1");
+    }
+
+    @Override
+    public Class[] getAdapterClasses() {
+        return new Class[]{AllSkillFragmentAdapter.class};
     }
 
 

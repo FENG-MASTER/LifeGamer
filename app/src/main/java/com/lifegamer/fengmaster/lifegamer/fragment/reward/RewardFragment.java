@@ -8,11 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lifegamer.fengmaster.lifegamer.Game;
-import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.reward.AllAvailableRewardFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.reward.AllRewardFragmentAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.list.reward.PurchasableRewardFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.command.command.reward.BuyRewardCommand;
+import com.lifegamer.fengmaster.lifegamer.command.command.reward.DeleteRewardCommand;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseTabListFragment;
 import com.lifegamer.fengmaster.lifegamer.model.RewardItem;
 import com.lifegamer.fengmaster.lifegamer.wight.SelectDialog;
@@ -31,12 +32,7 @@ public class RewardFragment extends BaseTabListFragment implements OnItemSelectL
     private RewardItem rewardItem;
 
     public RewardFragment() {
-        AllRewardFragmentAdapter allRewardFragmentAdapter = new AllRewardFragmentAdapter();
-        AllAvailableRewardFragmentAdapter allAvailableRewardFragmentAdapter=new AllAvailableRewardFragmentAdapter();
-        allAvailableRewardFragmentAdapter.addItemSelectListener(this);
-        allRewardFragmentAdapter.addItemSelectListener(this);
-        addAdapter(allRewardFragmentAdapter);
-        addAdapter(allAvailableRewardFragmentAdapter);
+      super();
 
     }
 
@@ -45,6 +41,11 @@ public class RewardFragment extends BaseTabListFragment implements OnItemSelectL
         EditRewardDialog dialog=new EditRewardDialog();
         dialog.setRewardItem(new RewardItem());
         dialog.show(getChildFragmentManager(),"editReward");
+    }
+
+    @Override
+    public Class[] getAdapterClasses() {
+        return new Class[]{AllRewardFragmentAdapter.class,AllAvailableRewardFragmentAdapter.class,PurchasableRewardFragmentAdapter.class};
     }
 
     @Override
@@ -68,6 +69,10 @@ public class RewardFragment extends BaseTabListFragment implements OnItemSelectL
             case SelectItem.BUY_ID:
                 //购买物品
                 Game.getInstance().getCommandManager().executeCommand(new BuyRewardCommand(rewardItem));
+                break;
+            case SelectItem.DELETE_ID:
+                //删除
+                Game.getInstance().getCommandManager().executeCommand(new DeleteRewardCommand(rewardItem));
                 break;
             default:
         }

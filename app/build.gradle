@@ -93,7 +93,7 @@ variants.all { variant ->
         return
     }
     TaskProvider tp = variant.javaCompileProvider
-    JavaCompile javaCompile= tp.get()
+    JavaCompile javaCompile = tp.get()
     javaCompile.doLast {
         String[] args = ["-showWeaveInfo",
                          "-1.5",
@@ -103,7 +103,7 @@ variants.all { variant ->
                          "-d", javaCompile.destinationDir.toString(),
                          "-classpath", javaCompile.classpath.asPath,
                          "-bootclasspath", project.android.bootClasspath.join(File.pathSeparator)]
-        log.debug "ajc args: " +Arrays.toString(args)
+        log.debug "ajc args: " + Arrays.toString(args)
 
         MessageHandler handler = new MessageHandler(true)
         new Main().run(args, handler)

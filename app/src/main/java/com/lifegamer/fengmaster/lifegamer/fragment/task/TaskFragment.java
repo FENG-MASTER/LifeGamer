@@ -4,6 +4,7 @@ package com.lifegamer.fengmaster.lifegamer.fragment.task;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.task.AllTaskFragmentAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.list.task.BaseTaskFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.task.TodayTaskFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.command.command.task.DeleteTaskCommend;
 import com.lifegamer.fengmaster.lifegamer.command.command.task.FailTaskCommand;
@@ -11,9 +12,12 @@ import com.lifegamer.fengmaster.lifegamer.command.command.task.FinishTaskCommand
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseTabListFragment;
 import com.lifegamer.fengmaster.lifegamer.fragment.task.editTaskDialog.EditTaskDialog;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
+import com.lifegamer.fengmaster.lifegamer.util.PreferenceUtil;
 import com.lifegamer.fengmaster.lifegamer.wight.SelectDialog;
 import com.lifegamer.fengmaster.lifegamer.wight.model.SelectItem;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,18 +35,18 @@ public class TaskFragment extends BaseTabListFragment implements OnItemSelectLis
     private Task task;
 
     public TaskFragment() {
-        AllTaskFragmentAdapter allTaskFragmentAdapter = new AllTaskFragmentAdapter();
-        TodayTaskFragmentAdapter todayTaskFragmentAdapter = new TodayTaskFragmentAdapter();
-        allTaskFragmentAdapter.addItemSelectListener(this);
-        todayTaskFragmentAdapter.addItemSelectListener(this);
-        addAdapter(allTaskFragmentAdapter);
-        addAdapter(todayTaskFragmentAdapter);
+        super();
     }
 
     @Override
     public void onActionButtonClick() {
         EditTaskDialog dialog = new EditTaskDialog();
         dialog.show(getFragmentManager(), "taskEdit");
+    }
+
+    @Override
+    public Class[] getAdapterClasses() {
+        return new Class[]{AllTaskFragmentAdapter.class,TodayTaskFragmentAdapter.class};
     }
 
     @Override

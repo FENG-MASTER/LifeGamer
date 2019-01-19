@@ -56,16 +56,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/hero_name"
-                            android:enabled="false"
                             android:textSize="25sp"/>
                     </android.support.design.widget.TextInputLayout>
 
-
-                    <CheckBox
-                        android:id="@+id/cb_hero_info_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
 
                 </LinearLayout>
 
@@ -85,18 +78,12 @@
                             android:id="@+id/et_hero_info_title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:enabled="false"
                             android:hint="@string/hero_title"
 
                             android:textSize="16sp"/>
 
                     </android.support.design.widget.TextInputLayout>
 
-                    <CheckBox
-                        android:id="@+id/cb_heron_info_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
                 </LinearLayout>
 
 
@@ -118,7 +105,6 @@
                     android:text="@{hero.introduction}"
                     android:id="@+id/et_hero_info_desc"
                     android:hint="@string/hero_desc"
-                    android:enabled="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     />
@@ -126,12 +112,6 @@
             </android.support.design.widget.TextInputLayout>
 
 
-
-            <CheckBox
-                android:id="@+id/cb_hero_info_desc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
         </LinearLayout>
 
 

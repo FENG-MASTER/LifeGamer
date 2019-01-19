@@ -11,13 +11,14 @@ import com.lifegamer.fengmaster.lifegamer.R;
  */
 
 public class AllItemFragmentAdapter extends BaseItemFragmentAdapter {
-    @Override
-    public void updateItemsList() {
-        showItemList= Game.getInstance().getItemManager().getAllItem();
-    }
 
     @Override
     public String getName() {
         return App.getContext().getString(R.string.item_all);
+    }
+
+    @Override
+    public void updateShowList() {
+        showList= Game.getInstance().getItemManager().getAllItem();
     }
 }

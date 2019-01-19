@@ -21,7 +21,8 @@ public class TypeSkillFragmentAdapter extends BaseSkillFragmentAdapter{
     }
 
     @Override
-    public void updateList() {
-        showSkillList=Game.getInstance().getSkillManager().getAllSkill(type);
+    public void updateShowList() {
+        showList=Game.getInstance().getSkillManager().getAllSkill(type);
+
     }
 }

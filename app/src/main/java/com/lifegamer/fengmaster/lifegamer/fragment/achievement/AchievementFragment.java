@@ -14,6 +14,7 @@ import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.achievemnet.AllAchievementFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.achievemnet.BaseAchievementFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.achievemnet.GotAchievementFragmentAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.list.achievemnet.NoGotAchievementFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.command.command.achievement.GotAchievementCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.achievement.LoseAchievementCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.achievement.UpdateAchievementCommand;
@@ -40,13 +41,7 @@ public class AchievementFragment extends BaseTabListFragment implements OnItemSe
     private List<BaseAchievementFragmentAdapter> achievementFragmentAdapters = new ArrayList<>();
 
     public AchievementFragment() {
-        achievementFragmentAdapters.add(new AllAchievementFragmentAdapter());
-        achievementFragmentAdapters.add(new GotAchievementFragmentAdapter());
-
-        Stream.of(achievementFragmentAdapters).forEach(baseAchievementFragmentAdapter -> {
-            addAdapter(baseAchievementFragmentAdapter);
-            baseAchievementFragmentAdapter.addItemSelectListener(AchievementFragment.this);
-        });
+        super();
 
     }
 
@@ -55,6 +50,11 @@ public class AchievementFragment extends BaseTabListFragment implements OnItemSe
     public void onActionButtonClick() {
         EditAchievementDialog dialog = new EditAchievementDialog();
         dialog.show(getChildFragmentManager(), "editAchievement");
+    }
+
+    @Override
+    public Class[] getAdapterClasses() {
+        return new Class[]{AllAchievementFragmentAdapter.class, GotAchievementFragmentAdapter.class, NoGotAchievementFragmentAdapter.class};
     }
 
     @Override
