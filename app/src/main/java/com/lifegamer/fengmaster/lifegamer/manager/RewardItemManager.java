@@ -130,12 +130,20 @@ public class RewardItemManager implements IRewardManager {
     private boolean _updateRewardItem(RewardItem rewardItem){
         if (rewardItems.contains(rewardItem)) {
             //缓存中有
+            Item item = rewardItem.getItem2();
+            if (item!=null){
+                Game.getInstance().getItemManager().updateItem(item);
+            }
             return Game.update(rewardItem);
         } else {
             RewardItem ri = getRewardItem(rewardItem.getId());
             if (ri != null) {
                 //有相同id,更新
                 ri.copyFrom(rewardItem);
+                Item item = rewardItem.getItem2();
+                if (item!=null){
+                    Game.getInstance().getItemManager().updateItem(item);
+                }
                 return Game.update(ri);
             } else {
                 return false;

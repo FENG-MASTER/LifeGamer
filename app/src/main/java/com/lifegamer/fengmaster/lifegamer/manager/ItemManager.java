@@ -10,8 +10,10 @@ import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.event.item.AddItemEvent;
 import com.lifegamer.fengmaster.lifegamer.event.item.DeleteItemEvent;
 import com.lifegamer.fengmaster.lifegamer.event.item.UpdateItemEvent;
+import com.lifegamer.fengmaster.lifegamer.log.LogPoint;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IItemManager;
 import com.lifegamer.fengmaster.lifegamer.model.Item;
+import com.lifegamer.fengmaster.lifegamer.model.Log;
 import com.lifegamer.fengmaster.lifegamer.model.RewardItem;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 
@@ -53,29 +55,34 @@ public class ItemManager implements IItemManager {
     public boolean addItem(Item item) {
 
         if (items.containsKey(item.getName())){
-            //已经存在相同物品,需要做的是增加物品数量
-            Item mainItem=items.get(item.getName());
-            //更新数量
-            mainItem.addQuantity(item.getQuantity());
-            //更新更新时间
-            mainItem.setUpdateTime(new Date());
-
-            //同步更新
-            return updateItem(mainItem);
-
+           return _addItemNum(item);
         }else {
-
-            long l = Game.insert(item);
-            if (l != 0) {
-                item.setId(l);
-                items.put(item.getName(),item);
-            }
-            EventBus.getDefault().post(new AddItemEvent(item));
-            return l != 0;
-
+            return _addItem(item);
         }
+    }
 
+    @LogPoint(type = Log.TYPE.ITEM,action = Log.ACTION.ADD,property = Log.PROPERTY.DEFAULT)
+    private boolean _addItemNum(Item item){
+        //已经存在相同物品,需要做的是增加物品数量
+        Item mainItem=items.get(item.getName());
+        //更新数量
+        mainItem.addQuantity(item.getQuantity());
+        //更新更新时间
+        mainItem.setUpdateTime(new Date());
 
+        //同步更新
+        return updateItem(mainItem);
+    }
+
+    @LogPoint(type = Log.TYPE.ITEM,action = Log.ACTION.CREATE,property = Log.PROPERTY.DEFAULT)
+    private boolean _addItem(Item item){
+        long l = Game.insert(item);
+        if (l != 0) {
+            item.setId(l);
+            items.put(item.getName(),item);
+        }
+        EventBus.getDefault().post(new AddItemEvent(item));
+        return l != 0;
     }
 
     /**
@@ -102,6 +109,7 @@ public class ItemManager implements IItemManager {
         return _removeItem(item);
     }
 
+    @LogPoint(type = Log.TYPE.ITEM,action = Log.ACTION.DELETE,property = Log.PROPERTY.DEFAULT)
     private boolean _removeItem(Item item){
         if (item != null) {
             RewardItem rewardItem = Game.getInstance().getRewardManager().getRewardItemByItemId(item.getId());
@@ -239,6 +247,11 @@ public class ItemManager implements IItemManager {
      */
     @Override
     public boolean updateItem(Item item) {
+        return _updateItem(item);
+    }
+
+    @LogPoint(type = Log.TYPE.ITEM,action = Log.ACTION.EDIT,property = Log.PROPERTY.DEFAULT)
+    private boolean _updateItem(Item item){
         EventBus.getDefault().post(new UpdateItemEvent(item));
         if (items.containsValue(item)){
             //缓存有
@@ -256,6 +269,7 @@ public class ItemManager implements IItemManager {
 
         }
     }
+
 
     /**
      * 从数据库更新所有数据

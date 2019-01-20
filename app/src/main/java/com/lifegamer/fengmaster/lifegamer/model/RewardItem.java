@@ -159,11 +159,18 @@ public class RewardItem extends BaseObservable implements Insertable,Deleteable,
 
     @Bindable
     public boolean isExpendable() {
+        if (item!=null){
+            return item.isExpendable();
+        }
         return expendable;
     }
 
     public void setExpendable(boolean expendable) {
-        this.expendable = expendable;
+        if (item!=null){
+            item.setExpendable(expendable);
+        }else {
+            this.expendable = expendable;
+        }
         notifyPropertyChanged(BR.expendable);
     }
     @Bindable
@@ -279,11 +286,18 @@ public class RewardItem extends BaseObservable implements Insertable,Deleteable,
 
     @Bindable
     public String getIcon() {
+        if (item!=null){
+            return item.getIcon();
+        }
         return icon;
     }
 
     public void setIcon(String icon) {
-        this.icon = icon;
+        if (item!=null){
+            item.setIcon(icon);
+        }else {
+            this.icon = icon;
+        }
         notifyPropertyChanged(BR.icon);
     }
     @Bindable

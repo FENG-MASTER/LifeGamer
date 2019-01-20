@@ -301,8 +301,8 @@ public class LogHandlers {
      * @param joinPoint
      * @param log
      */
-    @LogHandler(type = Log.TYPE.REWARDITEM,action = Log.ACTION.CREATE,property = Log.PROPERTY.DEFAULT,order = Log.ORDER.BEFORE)
-    public static void rewardItemCreateLogB(JoinPoint joinPoint,Log log){
+    @LogHandler(type = Log.TYPE.REWARDITEM,action = Log.ACTION.CREATE,property = Log.PROPERTY.DEFAULT,order = Log.ORDER.AFTER)
+    public static void rewardItemCreateLogA(JoinPoint joinPoint,Log log){
         commonFuncLogB(RewardItem.class, joinPoint, log, rewardItem -> rewardItem.getName(), item -> JSONObject.toJSONString(item));
     }
 
@@ -318,6 +318,39 @@ public class LogHandlers {
         commonFuncLogB(RewardItem.class, joinPoint, log, rewardItem -> rewardItem.getName(), item -> JSONObject.toJSONString(item));
     }
 
+
+    /**
+     * 删除日志
+     * @param joinPoint
+     * @param log
+     */
+    @LogHandler(type = Log.TYPE.ITEM,action = Log.ACTION.DELETE,property = Log.PROPERTY.DEFAULT,order = Log.ORDER.BEFORE)
+    public static void itemDeleteLogB(JoinPoint joinPoint,Log log){
+        commonFuncLogB(Item.class, joinPoint, log, item -> item.getName(), item -> JSONObject.toJSONString(item));
+    }
+
+
+    /**
+     * 新增物品日志
+     * @param joinPoint
+     * @param log
+     */
+    @LogHandler(type = Log.TYPE.ITEM,action = Log.ACTION.CREATE,property = Log.PROPERTY.DEFAULT,order = Log.ORDER.AFTER)
+    public static void itemCreateLogA(JoinPoint joinPoint,Log log){
+        commonFuncLogB(Item.class, joinPoint, log, item -> item.getName(), item -> JSONObject.toJSONString(item));
+    }
+
+
+
+    /**
+     * 编辑物品日志(编辑前
+     * @param joinPoint
+     * @param log
+     */
+    @LogHandler(type = Log.TYPE.ITEM,action = Log.ACTION.EDIT,property = Log.PROPERTY.DEFAULT,order = Log.ORDER.BEFORE)
+    public static void itemEditLogB(JoinPoint joinPoint,Log log){
+        commonFuncLogB(Item.class, joinPoint, log, item -> item.getName(), item -> JSONObject.toJSONString(item));
+    }
 
 
 
@@ -346,6 +379,41 @@ public class LogHandlers {
 //    ------------------------------物品相关-------------------------------------
 
 //    ------------------------------成就相关-------------------------------------
+
+    /**
+     * 删除成就成就
+     * @param joinPoint
+     * @param log
+     */
+    @LogHandler(type = Log.TYPE.ACHIEVEMENT,action = Log.ACTION.DELETE,property = Log.PROPERTY.DEFAULT,order = Log.ORDER.BEFORE)
+    public static void achievementDeleteLogB(JoinPoint joinPoint,Log log){
+        commonFuncLogB(Achievement.class, joinPoint, log, achievement -> achievement.getName(), achievement -> JSONObject.toJSONString(achievement));
+    }
+
+
+    /**
+     * 新增成就日志
+     * @param joinPoint
+     * @param log
+     */
+    @LogHandler(type = Log.TYPE.ACHIEVEMENT,action = Log.ACTION.CREATE,property = Log.PROPERTY.DEFAULT,order = Log.ORDER.AFTER)
+    public static void achievementCreateLogA(JoinPoint joinPoint,Log log){
+        commonFuncLogB(Achievement.class, joinPoint, log, achievement -> achievement.getName(), achievement -> JSONObject.toJSONString(achievement));
+    }
+
+
+
+    /**
+     * 编辑成就日志(编辑前
+     * @param joinPoint
+     * @param log
+     */
+    @LogHandler(type = Log.TYPE.ACHIEVEMENT,action = Log.ACTION.EDIT,property = Log.PROPERTY.DEFAULT,order = Log.ORDER.BEFORE)
+    public static void achievementEditLogB(JoinPoint joinPoint,Log log){
+        commonFuncLogB(Achievement.class, joinPoint, log, achievement -> achievement.getName(), achievement -> JSONObject.toJSONString(achievement));
+    }
+
+
 
     /**
      * 获得或者失去成就日志

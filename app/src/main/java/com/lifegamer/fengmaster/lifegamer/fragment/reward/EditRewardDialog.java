@@ -11,11 +11,14 @@ import android.widget.CompoundButton;
 
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
+import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.command.command.reward.AddRewardCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.reward.UpdateRewardCommand;
 import com.lifegamer.fengmaster.lifegamer.databinding.DialogEditRewardBinding;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseDialogFragment;
+import com.lifegamer.fengmaster.lifegamer.manager.base.itf.IAvatarManager;
 import com.lifegamer.fengmaster.lifegamer.model.RewardItem;
+import com.lifegamer.fengmaster.lifegamer.wight.AvatarSelectDialog;
 
 /**
  * Created by qianzise on 2017/10/22.
@@ -23,7 +26,14 @@ import com.lifegamer.fengmaster.lifegamer.model.RewardItem;
  * 奖励编辑对话框
  */
 
-public class EditRewardDialog extends BaseDialogFragment implements View.OnClickListener {
+public class EditRewardDialog extends BaseDialogFragment implements View.OnClickListener, OnItemSelectListener<IAvatarManager.Avatar> {
+
+
+    /**
+     * 图标
+     */
+    private IAvatarManager.Avatar avatar;
+
 
     private RewardItem rewardItem;
 
@@ -67,6 +77,12 @@ public class EditRewardDialog extends BaseDialogFragment implements View.OnClick
             }
         });
 
+        binding.sivDialogEditRewardIcon.setOnClickListener(view -> {
+            AvatarSelectDialog dialog=new AvatarSelectDialog();
+            dialog.addItemSelectListener(EditRewardDialog.this);
+            dialog.show(getFragmentManager(),"avatarSelect");
+        });
+
 
         return binding.getRoot();
     }
@@ -91,6 +107,7 @@ public class EditRewardDialog extends BaseDialogFragment implements View.OnClick
         rewardItem.setName(binding.etDialogEditRewardName.getText().toString());
         rewardItem.setDesc(binding.etDialogEditSkillDesc.getText().toString());
         rewardItem.setAddToItem(binding.switchDialogEditRewardAddToItem.isChecked());
+        rewardItem.setExpendable(binding.switchDialogEditRewardExpendable.isChecked());
 
         Editable cost = binding.etDialogEditSkillCostLp.getText();
         if (cost!=null&&!cost.toString().equals("")){
@@ -101,6 +118,9 @@ public class EditRewardDialog extends BaseDialogFragment implements View.OnClick
         if (num!=null&&!num.toString().equals("")){
             rewardItem.setQuantityAvailable(Integer.valueOf(num.toString()));
         }
+        if (avatar!=null){
+            rewardItem.setIcon(avatar.toString());
+        }
 
         if (rewardItem.getId()!=0){
             //更新
@@ -109,5 +129,12 @@ public class EditRewardDialog extends BaseDialogFragment implements View.OnClick
             //新增
             Game.getInstance().getCommandManager().executeCommand(new AddRewardCommand(rewardItem));
         }
+    }
+
+    @Override
+    public void onItemSelect(IAvatarManager.Avatar avatar) {
+        //选择头像
+        this.avatar=avatar;
+        binding.sivDialogEditRewardIcon.setImageDrawable(avatar.getIcon());
     }
 }

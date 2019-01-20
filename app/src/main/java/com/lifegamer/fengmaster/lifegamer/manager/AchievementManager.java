@@ -43,6 +43,11 @@ public class AchievementManager implements IAchievementManager{
      */
     @Override
     public boolean addAchievement(Achievement achievement) {
+        return _addAchievement(achievement);
+    }
+
+    @LogPoint(type = Log.TYPE.ACHIEVEMENT,action = Log.ACTION.CREATE,property = Log.PROPERTY.DEFAULT)
+    private boolean _addAchievement(Achievement achievement){
         if (Stream.of(achievements).anyMatch(value -> value.getName().equals(achievement.getName()))){
             //已经存在相同名字的成就
             return updateAchievement(achievement);
@@ -55,7 +60,6 @@ public class AchievementManager implements IAchievementManager{
             }
             return l!=0;
         }
-
     }
 
     /**
@@ -80,6 +84,7 @@ public class AchievementManager implements IAchievementManager{
         return _removeAchievement(achievement);
     }
 
+    @LogPoint(type = Log.TYPE.ACHIEVEMENT,action = Log.ACTION.DELETE,property = Log.PROPERTY.DEFAULT)
     private boolean _removeAchievement(Achievement achievement){
         if (achievement!=null&&Game.delete(achievement)){
             achievements.remove(achievement);
@@ -97,6 +102,11 @@ public class AchievementManager implements IAchievementManager{
      */
     @Override
     public boolean updateAchievement(Achievement achievement) {
+       return _updateAchievement(achievement);
+    }
+
+    @LogPoint(type = Log.TYPE.ACHIEVEMENT,action = Log.ACTION.EDIT,property = Log.PROPERTY.DEFAULT)
+    private boolean _updateAchievement(Achievement achievement){
         if(achievements.contains(achievement)){
             return Game.update(achievement);
         }else {
@@ -111,7 +121,6 @@ public class AchievementManager implements IAchievementManager{
                 return false;
             }
         }
-
     }
 
     /**
