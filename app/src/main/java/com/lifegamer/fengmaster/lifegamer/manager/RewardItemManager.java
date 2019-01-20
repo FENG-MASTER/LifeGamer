@@ -256,12 +256,13 @@ public class RewardItemManager implements IRewardManager {
      * @param rewardItem 奖励对象
      * @return 是否购买成功
      */
+    @LogPoint(type = Log.TYPE.REWARDITEM,action = Log.ACTION.BUY,property = Log.PROPERTY.DEFAULT)
     private boolean buyRewardItem(RewardItem rewardItem,int num){
         int lpPoint = Game.getInstance().getHeroManager().getHero().getLifePoint().getLpPoint();
-        if (lpPoint>=0&&rewardItem.getCostLP()<lpPoint){
+        if (lpPoint>=0&&rewardItem.getCostLP()<=lpPoint){
             //有足够点数购买奖励
             if (gainRewardItem(rewardItem,num)){
-                Game.getInstance().getHeroManager().getHero().getLifePoint().addPoint(-rewardItem.getCostLP());
+                Game.getInstance().getHeroManager().getHero().getLifePoint().subPoint(rewardItem.getCostLP());
                 return true;
             }else {
                 return false;

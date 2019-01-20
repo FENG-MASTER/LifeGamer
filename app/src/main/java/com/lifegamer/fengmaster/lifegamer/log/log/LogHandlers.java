@@ -313,9 +313,30 @@ public class LogHandlers {
      * @param joinPoint
      * @param log
      */
-    @LogHandler(type = Log.TYPE.REWARDITEM,action = Log.ACTION.EDIT,property = Log.PROPERTY.DEFAULT,order = Log.ORDER.BEFORE)
+    @LogHandler(type = Log.TYPE.REWARDITEM,action = Log.ACTION.EDIT,property = Log.PROPERTY.DEFAULT,order = Log.ORDER.AFTER)
+    public static void rewardItemBuyLogB(JoinPoint joinPoint,Log log){
+        commonFuncLogB(RewardItem.class, joinPoint, log, rewardItem -> rewardItem.getName(), item -> JSONObject.toJSONString(item));
+    }
+
+
+    /**
+     * 购买商店物品日志
+     * @param joinPoint
+     * @param log
+     */
+    @LogHandler(type = Log.TYPE.REWARDITEM,action = Log.ACTION.BUY,property = Log.PROPERTY.DEFAULT,order = Log.ORDER.BEFORE)
     public static void rewardItemEditLogB(JoinPoint joinPoint,Log log){
         commonFuncLogB(RewardItem.class, joinPoint, log, rewardItem -> rewardItem.getName(), item -> JSONObject.toJSONString(item));
+    }
+
+    /**
+     * 购买商店物品日志(后
+     * @param joinPoint
+     * @param log
+     */
+    @LogHandler(type = Log.TYPE.REWARDITEM,action = Log.ACTION.BUY,property = Log.PROPERTY.DEFAULT,order = Log.ORDER.AFTER)
+    public static void rewardItemEditLogA(JoinPoint joinPoint,Log log){
+        commonFuncLogA(RewardItem.class, joinPoint, log, item -> JSONObject.toJSONString(item));
     }
 
 
