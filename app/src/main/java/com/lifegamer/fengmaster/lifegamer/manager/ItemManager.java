@@ -7,9 +7,12 @@ import com.annimon.stream.Stream;
 import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
+import com.lifegamer.fengmaster.lifegamer.event.item.AddItemEvent;
+import com.lifegamer.fengmaster.lifegamer.event.item.DeleteItemEvent;
 import com.lifegamer.fengmaster.lifegamer.event.item.UpdateItemEvent;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IItemManager;
 import com.lifegamer.fengmaster.lifegamer.model.Item;
+import com.lifegamer.fengmaster.lifegamer.model.RewardItem;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -67,7 +70,7 @@ public class ItemManager implements IItemManager {
                 item.setId(l);
                 items.put(item.getName(),item);
             }
-
+            EventBus.getDefault().post(new AddItemEvent(item));
             return l != 0;
 
         }
@@ -76,7 +79,7 @@ public class ItemManager implements IItemManager {
     }
 
     /**
-     * 失去物品
+     * 删除物品 连带删除商店中的物品
      *
      * @param name 物品名称
      * @return 是否成功
@@ -84,19 +87,11 @@ public class ItemManager implements IItemManager {
     @Override
     public boolean removeItem(String name) {
         Item item = Stream.of(items).filter(value -> value.getValue().getName().equals(name)).findFirst().get().getValue();
-        if (item != null) {
-            if (Game.delete(item)) {
-                items.remove(item.getName());
-                return true;
-            } else {
-                return false;
-            }
-        }
-        return false;
+       return _removeItem(item);
     }
 
     /**
-     * 失去物品
+     *  删除物品 连带删除商店中的物品
      *
      * @param id 物品id
      * @return 是否成功
@@ -104,9 +99,18 @@ public class ItemManager implements IItemManager {
     @Override
     public boolean removeItem(long id) {
         Item item = Stream.of(items).filter(value -> value.getValue().getId() == id).findFirst().get().getValue();
+        return _removeItem(item);
+    }
+
+    private boolean _removeItem(Item item){
         if (item != null) {
+            RewardItem rewardItem = Game.getInstance().getRewardManager().getRewardItemByItemId(item.getId());
+            if (rewardItem!=null){
+                Game.getInstance().getRewardManager().removeRewardItem(rewardItem.getId());
+            }
             if (Game.delete(item)) {
                 items.remove(item.getName());
+                EventBus.getDefault().post(new DeleteItemEvent(item));
                 return true;
             } else {
                 return false;

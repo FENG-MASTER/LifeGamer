@@ -12,6 +12,14 @@ import java.util.List;
 
 public interface IRewardManager {
 
+    /**
+     * 根据物品ID获取 奖励 详情
+     *
+     * @param id 物品id
+     * @return 详情
+     */
+    RewardItem getRewardItemByItemId(long id);
+
 
     /**
      * 获取 奖励 详情

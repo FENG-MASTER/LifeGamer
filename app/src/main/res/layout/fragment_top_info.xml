@@ -117,10 +117,10 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
                 app:finishColor="@color/colorRemainTime"
-                app:leftText='@{String.valueOf(DateUtil.getDateDistance(DateUtil.getEndOfToday().getTime(),DateUtil.getNowDate(),12))+"/3600"}'
-                app:progress="@{DateUtil.getDateDistance(DateUtil.getEndOfToday().getTime(),DateUtil.getNowDate(),12)}"
+                app:leftText='@{String.valueOf(hero.bodyPowerStr)+"/24"}'
+                app:progress="@{hero.bodyPower}"
                 app:centerText="@string/progress_energy"
-                app:max="3600"
+                app:max="@{hero.maxBodyPower}"
                 app:unFinishColor="@color/colorRemain"
                 />
 

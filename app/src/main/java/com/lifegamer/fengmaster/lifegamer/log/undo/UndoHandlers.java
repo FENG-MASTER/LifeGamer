@@ -114,9 +114,9 @@ public class UndoHandlers {
             item.setQuantity(item.getQuantity()-Integer.valueOf(log.getValue()));
             Game.getInstance().getItemManager().updateItem(item);
         }else if (item.getQuantity()<Integer.valueOf(log.getValue())){
-            //物品数量不够,直接归零,且删除仓库里该物品
+            //物品数量不够,直接归零
             item.setQuantity(0);
-            Game.getInstance().getItemManager().removeItem(item.getId());
+            Game.getInstance().getItemManager().updateItem(item);
         }else {
             item.setQuantity(0);
             Game.getInstance().getItemManager().updateItem(item);

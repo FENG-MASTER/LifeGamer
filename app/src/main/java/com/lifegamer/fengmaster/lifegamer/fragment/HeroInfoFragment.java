@@ -51,6 +51,12 @@ public class HeroInfoFragment extends Fragment implements  View.OnClickListener,
         return binding.getRoot();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        Game.getInstance().getHeroManager().updateHero(hero);
+    }
+
     private void initView() {
         binding.etHeroInfoName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -110,7 +116,7 @@ public class HeroInfoFragment extends Fragment implements  View.OnClickListener,
                 if (s==null||s.toString()==null||s.toString().isEmpty()){
                     return;
                 }
-                hero.setIntroduction(binding.etHeroInfoDesc.getText().toString());
+                hero.setTitle(binding.etHeroInfoTitle.getText().toString());
             }
         });
         binding.imHeroInfoAvatar.setOnClickListener(this);

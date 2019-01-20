@@ -3,6 +3,7 @@ package com.lifegamer.fengmaster.lifegamer.manager;
 import android.database.Cursor;
 
 import com.annimon.stream.Collectors;
+import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 import com.annimon.stream.function.Consumer;
 import com.annimon.stream.function.Function;
@@ -47,6 +48,16 @@ public class RewardItemManager implements IRewardManager {
         EventBus.getDefault().register(this);
     }
 
+    @Override
+    public RewardItem getRewardItemByItemId(long id) {
+        Optional<RewardItem> first = Stream.of(rewardItems).filter(value -> value.getItemId() == id).findFirst();
+        if (first.isPresent()){
+            return first.get();
+        }else {
+            return null;
+        }
+    }
+
     /**
      * 根据id获取奖励
      *
@@ -55,7 +66,12 @@ public class RewardItemManager implements IRewardManager {
      */
     @Override
     public RewardItem getRewardItem(long id) {
-        return Stream.of(rewardItems).filter(value -> value.getId() == id).findFirst().get();
+        Optional<RewardItem> first = Stream.of(rewardItems).filter(value -> value.getId() == id).findFirst();
+        if (first.isPresent()){
+            return first.get();
+        }else {
+            return null;
+        }
     }
 
     /**

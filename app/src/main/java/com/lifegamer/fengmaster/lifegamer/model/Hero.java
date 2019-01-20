@@ -8,6 +8,7 @@ import android.databinding.Bindable;
 import com.lifegamer.fengmaster.lifegamer.App;
 
 import com.lifegamer.fengmaster.lifegamer.BR;
+import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
@@ -15,6 +16,13 @@ import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
 import com.lifegamer.fengmaster.lifegamer.log.LogPoint;
 import com.lifegamer.fengmaster.lifegamer.strategy.xp.ILevelXP;
 import com.lifegamer.fengmaster.lifegamer.strategy.xp.NormalLevelXP;
+import com.lifegamer.fengmaster.lifegamer.util.DateUtil;
+
+import java.text.NumberFormat;
+import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ThreadPoolExecutor;
 
 
 /**
@@ -66,9 +74,55 @@ public class Hero extends BaseObservable implements Insertable, Updateable {
      */
     private int upGradeXP;
 
+    /**
+     * 体力
+     */
+    private int bodyPower;
+
+    private int maxBodyPower=24*60;
+
+
     private ILevelXP levelXP = new NormalLevelXP();
 
     private LifePoint lifePoint;
+
+
+    private Timer timer=new Timer();
+
+    {
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Game.getInstance().getHeroManager().getHero().notifyPropertyChanged(BR.bodyPower);
+                Game.getInstance().getHeroManager().getHero().notifyPropertyChanged(BR.bodyPowerStr);
+
+            }
+        },0,60000);
+    }
+
+    private NumberFormat nf = NumberFormat.getNumberInstance();
+    {
+        nf.setMaximumFractionDigits(2);
+    }
+
+    @Bindable
+    public int getBodyPower() {
+        return  DateUtil.getDateDistance(DateUtil.getEndOfToday().getTime(), DateUtil.getNowDate(), Calendar.MINUTE);
+    }
+
+    @Bindable
+    public String getBodyPowerStr() {
+        double v = DateUtil.getDateDistance(DateUtil.getEndOfToday().getTime(), DateUtil.getNowDate(), Calendar.MINUTE) / 60.0;
+        return nf.format(v);
+    }
+
+
+
+
+    public int getMaxBodyPower() {
+        return maxBodyPower;
+    }
+
 
     @Bindable
     public int getLevel() {

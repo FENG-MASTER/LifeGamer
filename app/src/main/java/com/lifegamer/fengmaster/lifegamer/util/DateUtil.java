@@ -1,5 +1,7 @@
 package com.lifegamer.fengmaster.lifegamer.util;
 
+import com.lifegamer.fengmaster.lifegamer.model.Log;
+
 import java.util.Calendar;
 import java.util.Date;
 

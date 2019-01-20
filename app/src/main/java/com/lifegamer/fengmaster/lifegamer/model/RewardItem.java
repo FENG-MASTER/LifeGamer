@@ -267,6 +267,9 @@ public class RewardItem extends BaseObservable implements Insertable,Deleteable,
     }
 
     public long getItemId() {
+        if (item!=null){
+            return item.getId();
+        }
         return itemId;
     }
 

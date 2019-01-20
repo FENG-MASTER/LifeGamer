@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 
 
+import com.lifegamer.fengmaster.lifegamer.BR;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.databinding.FragmentTopInfoBinding;
@@ -18,6 +19,8 @@ import com.lifegamer.fengmaster.lifegamer.model.Skill;
 
 
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,8 +35,10 @@ public class TopInfoFragment extends Fragment {
     ExpandableRelativeLayout expandableRelativeLayout;
 
 
+
     public TopInfoFragment() {
         // Required empty public constructor
+
     }
 
 

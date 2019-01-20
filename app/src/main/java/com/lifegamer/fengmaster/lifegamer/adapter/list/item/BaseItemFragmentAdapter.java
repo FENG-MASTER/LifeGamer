@@ -11,7 +11,11 @@ import com.lifegamer.fengmaster.lifegamer.adapter.base.AbsBaseRecyclerViewAdapte
 import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.BindingHolder;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
+import com.lifegamer.fengmaster.lifegamer.event.item.AddItemEvent;
+import com.lifegamer.fengmaster.lifegamer.event.item.DeleteItemEvent;
 import com.lifegamer.fengmaster.lifegamer.event.item.UpdateItemEvent;
+import com.lifegamer.fengmaster.lifegamer.event.reward.DeleteRewardEvent;
+import com.lifegamer.fengmaster.lifegamer.event.reward.NewRewardEvent;
 import com.lifegamer.fengmaster.lifegamer.model.Item;
 import com.lifegamer.fengmaster.lifegamer.model.Skill;
 
@@ -65,6 +69,27 @@ public abstract class BaseItemFragmentAdapter extends BaseRecyclerViewAdapter<It
     @Subscribe(threadMode = ThreadMode.POSTING)
     public void itemUpdate(UpdateItemEvent event){
         updateShowList();
+        notifyDataSetChanged();
+
     }
+
+    /**
+     * 有物品被删除,需要刷新显示
+     * @param deleteItemEvent 事件
+     */
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void deleteEntityEvent(DeleteItemEvent deleteItemEvent) {
+        updateShowList();
+        notifyDataSetChanged();
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void newEntityEvent(AddItemEvent addItemEvent) {
+        updateShowList();
+        notifyDataSetChanged();
+    }
+
+
 
 }
