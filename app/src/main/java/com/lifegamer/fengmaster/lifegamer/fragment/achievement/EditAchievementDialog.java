@@ -8,11 +8,15 @@ import android.view.ViewGroup;
 
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
+import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.command.command.achievement.AddAchievementCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.achievement.UpdateAchievementCommand;
 import com.lifegamer.fengmaster.lifegamer.databinding.DialogEditAchievementBinding;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseDialogFragment;
+import com.lifegamer.fengmaster.lifegamer.fragment.skill.EditSkillDialog;
+import com.lifegamer.fengmaster.lifegamer.manager.base.itf.IAvatarManager;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
+import com.lifegamer.fengmaster.lifegamer.wight.AvatarSelectDialog;
 
 import java.util.Date;
 
@@ -20,17 +24,30 @@ import java.util.Date;
  * Created by qianzise on 2017/10/22.
  */
 
-public class EditAchievementDialog extends BaseDialogFragment implements View.OnClickListener {
+public class EditAchievementDialog extends BaseDialogFragment implements View.OnClickListener, OnItemSelectListener<IAvatarManager.Avatar> {
 
     private DialogEditAchievementBinding binding;
 
     /**
+     * 图标
+     */
+    private IAvatarManager.Avatar avatar;
+
+    /**
      * 当前编辑的成就
      */
-    private Achievement achievement=new Achievement();
+    private Achievement achievement;
+
+    public EditAchievementDialog() {
+        setCancelable(false);
+    }
 
     public void setBinding(DialogEditAchievementBinding binding) {
         this.binding = binding;
+    }
+
+    public void setAchievement(Achievement achievement) {
+        this.achievement = achievement;
     }
 
     @Nullable
@@ -41,6 +58,12 @@ public class EditAchievementDialog extends BaseDialogFragment implements View.On
 
         binding.btDialogEditAchievementOk.setOnClickListener(this);
         binding.btDialogEditAchievementNo.setOnClickListener(this);
+
+        binding.sivDialogEditAchievementIcon.setOnClickListener(view -> {
+            AvatarSelectDialog dialog=new AvatarSelectDialog();
+            dialog.addItemSelectListener(EditAchievementDialog.this);
+            dialog.show(getFragmentManager(),"avatarSelect");
+        });
 
         return binding.getRoot();
     }
@@ -69,6 +92,10 @@ public class EditAchievementDialog extends BaseDialogFragment implements View.On
         achievement.setCreateTime(new Date());
         achievement.setUpdateTime(new Date());
         achievement.setGainTime(new Date());
+        if (avatar!=null){
+            achievement.setIcon(avatar.toString());
+        }
+
 
         if (achievement.getId()!=0){
             //更新
@@ -77,5 +104,12 @@ public class EditAchievementDialog extends BaseDialogFragment implements View.On
             //新建
             Game.getInstance().getCommandManager().executeCommand(new AddAchievementCommand(achievement));
         }
+    }
+
+    @Override
+    public void onItemSelect(IAvatarManager.Avatar avatar) {
+        //选择头像
+        this.avatar=avatar;
+        binding.sivDialogEditAchievementIcon.setImageDrawable(avatar.getIcon());
     }
 }

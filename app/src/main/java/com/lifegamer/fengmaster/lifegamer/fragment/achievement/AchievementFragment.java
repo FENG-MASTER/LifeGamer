@@ -15,12 +15,15 @@ import com.lifegamer.fengmaster.lifegamer.adapter.list.achievemnet.AllAchievemen
 import com.lifegamer.fengmaster.lifegamer.adapter.list.achievemnet.BaseAchievementFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.achievemnet.GotAchievementFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.achievemnet.NoGotAchievementFragmentAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.list.achievemnet.TypeAchievementFragmentAdapter;
+import com.lifegamer.fengmaster.lifegamer.command.command.achievement.DeleteAchievementCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.achievement.GotAchievementCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.achievement.LoseAchievementCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.achievement.UpdateAchievementCommand;
 import com.lifegamer.fengmaster.lifegamer.event.achievement.LostAchievementEvent;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseTabListFragment;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
+import com.lifegamer.fengmaster.lifegamer.util.PreferenceUtil;
 import com.lifegamer.fengmaster.lifegamer.wight.SelectDialog;
 import com.lifegamer.fengmaster.lifegamer.wight.model.SelectItem;
 
@@ -42,13 +45,21 @@ public class AchievementFragment extends BaseTabListFragment implements OnItemSe
 
     public AchievementFragment() {
         super();
-
+        if (PreferenceUtil.checkIfShow(TypeAchievementFragmentAdapter.class.getSimpleName())){
+            List<String> allType = Game.getInstance().getAchievementManager().getAllType();
+            for (String type : allType) {
+                TypeAchievementFragmentAdapter typeSkillFragmentAdapter = new TypeAchievementFragmentAdapter(type);
+                typeSkillFragmentAdapter.addItemSelectListener(this);
+                addAdapter(typeSkillFragmentAdapter);
+            }
+        }
     }
 
 
     @Override
     public void onActionButtonClick() {
         EditAchievementDialog dialog = new EditAchievementDialog();
+        dialog.setAchievement(new Achievement());
         dialog.show(getChildFragmentManager(), "editAchievement");
     }
 
@@ -82,6 +93,7 @@ public class AchievementFragment extends BaseTabListFragment implements OnItemSe
             itemList.add(SelectItem.GOT);
         }
         itemList.add(SelectItem.EDIT);
+        itemList.add(SelectItem.DELETE);
         dialog.setItems(itemList);
         dialog.addItemSelectListener(this);
         dialog.show(getFragmentManager(), "select");
@@ -103,6 +115,18 @@ public class AchievementFragment extends BaseTabListFragment implements OnItemSe
             case SelectItem.LOSE_ID:
                 loseAchievement();
                 break;
+            case SelectItem.EDIT_ID:
+                //编辑成就
+                if (selectAchievement!=null){
+                    EditAchievementDialog dialog=new EditAchievementDialog();
+                    dialog.setAchievement(selectAchievement);
+                    dialog.show(getFragmentManager(),"select");
+                }
+                break;
+            case SelectItem.DELETE_ID:
+                Game.getInstance().getCommandManager().executeCommand(new DeleteAchievementCommand(selectAchievement));
+                break;
+
             default:
 
         }

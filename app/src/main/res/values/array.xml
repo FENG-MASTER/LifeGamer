@@ -98,6 +98,8 @@
         <item>全部成就</item>
         <item>已获得成就</item>
         <item>未获得成就</item>
+        <item>按种类划分成就</item>
+
 
     </string-array>
 
@@ -105,6 +107,7 @@
         <item>AllAchievementFragmentAdapter</item>
         <item>GotAchievementFragmentAdapter</item>
         <item>NoGotAchievementFragmentAdapter</item>
+        <item>TypeAchievementFragmentAdapter</item>
 
     </string-array>
 

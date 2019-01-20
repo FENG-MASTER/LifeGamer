@@ -417,4 +417,22 @@ public class RewardItem extends BaseObservable implements Insertable,Deleteable,
         }
 
     }
+
+    @Override
+    public int hashCode() {
+        if (name!=null){
+            return name.hashCode();
+        }else {
+            return super.hashCode();
+        }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (name!=null){
+            return name.equals(((RewardItem)obj).name);
+        }else {
+            return super.equals(obj);
+        }
+    }
 }

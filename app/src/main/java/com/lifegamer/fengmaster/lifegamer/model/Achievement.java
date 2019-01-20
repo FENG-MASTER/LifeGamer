@@ -3,7 +3,10 @@ package com.lifegamer.fengmaster.lifegamer.model;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 
+import com.lifegamer.fengmaster.lifegamer.BR;
 import com.lifegamer.fengmaster.lifegamer.base.ICopy;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
@@ -28,7 +31,7 @@ import java.util.List;
  *
  */
 
-public class Achievement implements Insertable,Updateable,Deleteable,ICopy<Achievement>,Getable,IdAble {
+public class Achievement  extends BaseObservable implements Insertable,Updateable,Deleteable,ICopy<Achievement>,Getable,IdAble {
 
     /**
      * 成就ID
@@ -43,7 +46,7 @@ public class Achievement implements Insertable,Updateable,Deleteable,ICopy<Achie
     /**
      * 成就分类
      */
-    private String type;
+    private String type="未分类";
 
     /**
      * 成就图标
@@ -95,69 +98,90 @@ public class Achievement implements Insertable,Updateable,Deleteable,ICopy<Achie
     public void setId(long id) {
         this.id = id;
     }
-
+    @Bindable
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+        notifyPropertyChanged(BR.name);
     }
-
+    @Bindable
     public String getIcon() {
         return icon;
     }
 
     public void setIcon(String icon) {
         this.icon = icon;
+        notifyPropertyChanged(BR.icon);
+
     }
 
+    @Bindable
     public String getDesc() {
         return desc;
     }
 
     public void setDesc(String desc) {
         this.desc = desc;
+        notifyPropertyChanged(BR.desc);
+
     }
 
+    @Bindable
     public boolean isGot() {
         return isGot;
     }
 
     public void setGot(boolean got) {
         isGot = got;
+        notifyPropertyChanged(BR.got);
+
     }
 
+    @Bindable
     public Date getGainTime() {
         return gainTime;
     }
 
     public void setGainTime(Date gainTime) {
         this.gainTime = gainTime;
+        notifyPropertyChanged(BR.gainTimes);
+
     }
 
+    @Bindable
     public Date getCreateTime() {
         return createTime;
     }
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+        notifyPropertyChanged(BR.createTime);
+
     }
 
+    @Bindable
     public Date getUpdateTime() {
         return updateTime;
     }
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+        notifyPropertyChanged(BR.updateTime);
+
     }
 
+    @Bindable
     public String getType() {
         return type;
     }
 
     public void setType(String type) {
         this.type = type;
+        notifyPropertyChanged(BR.type);
+
     }
 
     @Override

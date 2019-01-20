@@ -12,6 +12,7 @@ import com.lifegamer.fengmaster.lifegamer.adapter.base.AbsBaseRecyclerViewAdapte
 import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.BindingHolder;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
+import com.lifegamer.fengmaster.lifegamer.event.achievement.DeleteAchievementEvent;
 import com.lifegamer.fengmaster.lifegamer.event.achievement.GotAchievementEvent;
 import com.lifegamer.fengmaster.lifegamer.event.achievement.LostAchievementEvent;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
@@ -58,6 +59,12 @@ public abstract class BaseAchievementFragmentAdapter extends BaseRecyclerViewAda
     }
     @Subscribe(threadMode = ThreadMode.POSTING)
     public void onLostAchievement(LostAchievementEvent lostAchievementEvent){
+        updateShowList();
+        notifyDataSetChanged();
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void onDeleteAchievement(DeleteAchievementEvent deleteAchievementEvent){
         updateShowList();
         notifyDataSetChanged();
     }

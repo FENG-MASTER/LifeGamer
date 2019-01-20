@@ -98,6 +98,9 @@ public class RewardItemManager implements IRewardManager {
 
     @LogPoint(type = Log.TYPE.REWARDITEM,action = Log.ACTION.CREATE,property = Log.PROPERTY.DEFAULT)
     private boolean _addRewardItem(RewardItem rewardItem){
+        if (rewardItems.contains(rewardItem)){
+            return false;
+        }
         Item it = rewardItem.generateItem();
         if (!Game.getInstance().getItemManager().addItem(it)){
             //先添加物品,再添加奖励

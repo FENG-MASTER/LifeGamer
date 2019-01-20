@@ -4,13 +4,17 @@ import android.database.Cursor;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
+import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
+import com.lifegamer.fengmaster.lifegamer.event.achievement.DeleteAchievementEvent;
 import com.lifegamer.fengmaster.lifegamer.log.LogPoint;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IAchievementManager;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
 import com.lifegamer.fengmaster.lifegamer.model.Log;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,12 +43,19 @@ public class AchievementManager implements IAchievementManager{
      */
     @Override
     public boolean addAchievement(Achievement achievement) {
-        long l = Game.insert(achievement);
-        if (l!=0){
-            achievement.setId((int) l);
-            achievements.add(achievement);
+        if (Stream.of(achievements).anyMatch(value -> value.getName().equals(achievement.getName()))){
+            //已经存在相同名字的成就
+            return updateAchievement(achievement);
+        }else {
+
+            long l = Game.insert(achievement);
+            if (l!=0){
+                achievement.setId((int) l);
+                achievements.add(achievement);
+            }
+            return l!=0;
         }
-        return l!=0;
+
     }
 
     /**
@@ -55,12 +66,7 @@ public class AchievementManager implements IAchievementManager{
     @Override
     public boolean removeAchievement(String name) {
         Achievement achievement = Stream.of(achievements).filter(value -> value.getName().equals(name)).findFirst().get();
-        if (achievement!=null&&Game.delete(achievement)){
-            achievements.remove(achievement);
-            return true;
-        }else {
-            return false;
-        }
+        return _removeAchievement(achievement);
     }
 
     /**
@@ -71,9 +77,13 @@ public class AchievementManager implements IAchievementManager{
     @Override
     public boolean removeAchievement(long id) {
         Achievement achievement = Stream.of(achievements).filter(value -> value.getId() == id).findFirst().get();
+        return _removeAchievement(achievement);
+    }
 
+    private boolean _removeAchievement(Achievement achievement){
         if (achievement!=null&&Game.delete(achievement)){
             achievements.remove(achievement);
+            EventBus.getDefault().post(new DeleteAchievementEvent(achievement));
             return true;
         }else {
             return false;
@@ -91,7 +101,7 @@ public class AchievementManager implements IAchievementManager{
             return Game.update(achievement);
         }else {
             Achievement t = Stream.of(achievements).
-                    filter(value -> value.getId() == achievement.getId()).
+                    filter(value -> value.getName().equals(achievement.getName())).
                     findFirst().get();
             if (t!=null){
                 //存在重复id,采用替换的方式

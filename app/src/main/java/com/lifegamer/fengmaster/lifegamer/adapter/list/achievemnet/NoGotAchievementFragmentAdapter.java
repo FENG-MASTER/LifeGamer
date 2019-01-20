@@ -16,6 +16,6 @@ public class NoGotAchievementFragmentAdapter extends BaseAchievementFragmentAdap
 
     @Override
     public String getName() {
-        return App.getContext().getString(R.string.got_achievements);
+        return "未获得";
     }
 }
