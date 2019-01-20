@@ -180,52 +180,6 @@ public class RewardItemManager implements IRewardManager {
     }
 
 
-
-    private boolean gainRewardItem(RewardItem item) {
-        return false;
-    }
-
-    @Override
-    public boolean gainRewardItem(String rewardItem, int num, int probability) {
-        return false;
-    }
-
-
-    @Override
-    public boolean gainRewardItem(int rewardItemID, int num, int probability) {
-        return false;
-    }
-
-    @Override
-    public boolean gainRewardItem(RandomItemReward randomItemReward) {
-        RewardItem rewardItem=getRewardItem(randomItemReward.getRewardID());
-        if (rewardItem != null) {
-            if (rewardItem.getQuantityAvailable() == -1) {
-                //无限次数
-
-                //更新价格
-                rewardItem.setCostLP(rewardItem.getCostLP()+rewardItem.getCostLPIncrement());
-                Item item = new Item();
-                item.setName(rewardItem.getName());
-                item.setQuantity(randomItemReward.getNum());
-                Game.getInstance().getCommandManager().executeCommand(new AddItemCommand(item));
-
-                return true;
-            } else if (rewardItem.getQuantityAvailable() > 0) {
-                //或者还有次数
-                rewardItem.setCostLP(rewardItem.getCostLP()+rewardItem.getCostLPIncrement());
-                rewardItem.setQuantityAvailable(rewardItem.getQuantityAvailable()-1);
-                return true;
-            }else {
-                return false;
-            }
-        }else {
-            return false;
-        }
-
-
-    }
-
     @Override
     public boolean lostRewardItem(RewardItem rewardItem,int num) {
         return false;
@@ -279,6 +233,17 @@ public class RewardItemManager implements IRewardManager {
      */
     @Override
     public boolean gainRewardItem(RewardItem rewardItem,int num) {
+       return _gainRewardItem(rewardItem,num);
+    }
+
+
+
+    /**
+     * 获得奖励
+     * @param rewardItem 奖励对象
+     * @return 是否成功
+     */
+    private boolean _gainRewardItem(RewardItem rewardItem,int num) {
         if (rewardItem != null) {
             if (rewardItem.getQuantityAvailable() == -1) {
                 //无限次数
@@ -294,7 +259,7 @@ public class RewardItemManager implements IRewardManager {
                     itemt.setQuantity(num);
                     Game.getInstance().getCommandManager().executeCommand(new AddItemCommand(itemt));
                 }
-
+                Game.getInstance().getRewardManager().updateRewardItem(rewardItem);
                 return true;
             } else if (rewardItem.getQuantityAvailable() > 0) {
                 //或者还有次数
@@ -310,7 +275,7 @@ public class RewardItemManager implements IRewardManager {
                     itemt.setQuantity(num);
                     Game.getInstance().getCommandManager().executeCommand(new AddItemCommand(itemt));
                 }
-
+                Game.getInstance().getRewardManager().updateRewardItem(rewardItem);
 
                 return true;
             }else {
@@ -328,6 +293,31 @@ public class RewardItemManager implements IRewardManager {
             return gainRewardItem(item,num);
         }
         return false;
+    }
+
+
+
+
+    private boolean gainRewardItem(RewardItem item) {
+        return false;
+    }
+
+    @Override
+    public boolean gainRewardItem(String rewardItem, int num, int probability) {
+        return false;
+    }
+
+
+    @Override
+    public boolean gainRewardItem(int rewardItemID, int num, int probability) {
+        return false;
+    }
+
+    @Override
+    public boolean gainRewardItem(RandomItemReward randomItemReward) {
+        RewardItem rewardItem=getRewardItem(randomItemReward.getRewardID());
+        return _gainRewardItem(rewardItem,randomItemReward.getNum());
+
     }
 
 
