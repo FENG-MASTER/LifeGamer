@@ -108,6 +108,7 @@ public class EditRewardDialog extends BaseDialogFragment implements View.OnClick
         rewardItem.setDesc(binding.etDialogEditSkillDesc.getText().toString());
         rewardItem.setAddToItem(binding.switchDialogEditRewardAddToItem.isChecked());
         rewardItem.setExpendable(binding.switchDialogEditRewardExpendable.isChecked());
+        rewardItem.setType(binding.etDialogEditRewardType.getText().toString());
 
         Editable cost = binding.etDialogEditSkillCostLp.getText();
         if (cost!=null&&!cost.toString().equals("")){

@@ -56,7 +56,7 @@ public class DateUtil {
     public static Calendar getEndOfTomorrow() {
         Calendar calendar = Calendar.getInstance();
         //天数+2
-        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) + 1);
+        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) + 2);
         //0点
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         //0分
@@ -92,6 +92,20 @@ public class DateUtil {
      */
     public static Date getNowDate(){
         return new Date();
+    }
+
+    /**
+     * 判断是否是今天
+     * @param date
+     * @return
+     */
+    public static boolean isToday(Date date){
+        return date.getTime() < getEndOfToday().getTime().getTime() && date.getTime() >= getStartOfToday().getTime().getTime();
+    }
+
+    public static boolean isTomorrow(Date date){
+        return date.getTime() <= getEndOfTomorrow().getTime().getTime() && date.getTime() >= getEndOfToday().getTime().getTime();
+
     }
 
 }

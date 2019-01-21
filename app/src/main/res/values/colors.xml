@@ -11,4 +11,5 @@
     <color name="colorXP">#1473e4</color>
     <color name="colorRemainTime">#f23d3d</color>
     <color name="colorRemain">#808080</color>
+    <color name="item_desc">#47b3b0b0</color>
 </resources>

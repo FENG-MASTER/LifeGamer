@@ -3,6 +3,9 @@
 
     <data>
         <import type="com.lifegamer.fengmaster.lifegamer.util.FormatUtil"/>
+        <import type="android.graphics.Color"/>
+        <import type="com.lifegamer.fengmaster.lifegamer.util.DateUtil"/>
+
         <import type="com.lifegamer.fengmaster.lifegamer.Game"/>
         <import type="android.view.View"/>
         <variable
@@ -46,6 +49,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:textColor="@{DateUtil.isToday(task.expirationTime)?Color.RED:(DateUtil.isTomorrow(task.expirationTime)?Color.GREEN:Color.WHITE)}"
                         android:id="@+id/tv_item_all_task_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -57,7 +61,7 @@
                         android:id="@+id/tv_item_all_task_desc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#47b3b0b0"
+                        android:textColor="@color/item_desc"
                         android:layout_weight="2"
                         android:text='@{task.desc}'
                         android:textSize="16sp"/>
