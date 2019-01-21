@@ -301,6 +301,8 @@ public class Hero extends BaseObservable implements Insertable, Updateable {
         emptyHero.setAvatarUrl(App.getContext().getString(R.string.empty));
         emptyHero.setUpGradeXP(DEF_UPGRADE_XP);
         emptyHero.setLevel(DEF_LEVEL);
+        LifePoint lifePoint1=new LifePoint();
+        emptyHero.setLifePoint(lifePoint1);
     }
 
 }

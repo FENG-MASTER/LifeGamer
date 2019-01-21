@@ -140,6 +140,7 @@ public class DBHelper extends SQLiteOpenHelper {
             "( _id integer primary key autoincrement," +
             "name varchar unique," +
             "desc varchar," +
+            "type varchar," +
             "isAutoFail boolean," +
             "icon varchar," +
             "difficulty integer," +

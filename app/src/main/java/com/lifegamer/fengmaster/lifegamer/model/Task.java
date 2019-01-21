@@ -91,6 +91,11 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
     private String name;
 
     /**
+     * 任务类型
+     */
+    private String type;
+
+    /**
      * 任务描述
      */
     private String desc;
@@ -202,6 +207,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         ContentValues cv = new ContentValues();
         cv.put("name", getName());
         cv.put("desc", getDesc());
+        cv.put("type", getType());
         cv.put("isAutoFail", isAutoFail());
         cv.put("icon", getIcon());
         cv.put("difficulty", getDifficulty());
@@ -512,6 +518,16 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
     }
 
     @Bindable
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+        notifyPropertyChanged(BR.type);
+    }
+
+    @Bindable
     public long getId() {
         return id;
     }
@@ -618,6 +634,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         }
         cv.put("name", getName());
         cv.put("desc", getDesc());
+        cv.put("type", getType());
         cv.put("isAutoFail", isAutoFail());
         cv.put("icon", getIcon());
         cv.put("difficulty", getDifficulty());
@@ -687,6 +704,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         this.setDesc(task.getDesc());
         this.setFear(task.getFear());
         this.setXp(task.getXp());
+        this.setType(task.getType());
         this.setDifficulty(task.getDifficulty());
         this.setUrgency(task.getUrgency());
         this.setEarnLP(task.getEarnLP());
@@ -727,7 +745,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         this.setDesc(cursor.getString(cursor.getColumnIndex("desc")));
         this.setAutoFail(cursor.getInt(cursor.getColumnIndex("isAutoFail")) == 1);
         this.setIcon(cursor.getString(cursor.getColumnIndex("icon")));
-
+        this.setType(cursor.getString(cursor.getColumnIndex("type")));
         this.setDifficulty(cursor.getInt(cursor.getColumnIndex("difficulty")));
         this.setFear(cursor.getInt(cursor.getColumnIndex("fear")));
         this.setUrgency(cursor.getInt(cursor.getColumnIndex("urgency")));
@@ -740,18 +758,6 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
             triggers.add(trigger);
         }
 
-//        this.setXp(cursor.getInt(cursor.getColumnIndex("xp")));
-//        this.setSuccessSkills(FormatUtil.str2SkillMap(cursor.getString(cursor.getColumnIndex("successSkills"))));
-//        this.setSuccessItems(FormatUtil.str2ItemRewardList(cursor.getString(cursor.getColumnIndex("successItems"))));
-//        this.setSuccessAchievements(FormatUtil.str2achievementRewardList(cursor.getString(cursor.getColumnIndex("successAchievements"))));
-//
-//        this.setFailureSkills(FormatUtil.str2SkillMap(cursor.getString(cursor.getColumnIndex("failureSkills"))));
-//        this.setFailureItems(FormatUtil.str2ItemRewardList(cursor.getString(cursor.getColumnIndex("failureItems"))));
-//        this.setFailureAchievements(FormatUtil.str2achievementRewardList(cursor.getString(cursor.getColumnIndex("failureAchievements"))));
-
-
-//        this.setEarnLP(cursor.getInt(cursor.getColumnIndex("earnLP")));
-//        this.setLostLP(cursor.getInt(cursor.getColumnIndex("lostLP")));
 
         this.setRepeatType(cursor.getInt(cursor.getColumnIndex("repeatType")));
         this.setRepeatInterval(cursor.getInt(cursor.getColumnIndex("repeatInterval")));

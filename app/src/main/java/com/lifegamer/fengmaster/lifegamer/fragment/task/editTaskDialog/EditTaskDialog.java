@@ -145,6 +145,7 @@ public class EditTaskDialog extends BaseDialogFragment implements View.OnClickLi
     private void save() {
         task.setName(binding.etDialogEditTaskName.getText().toString());
         task.setDesc(binding.etDialogEditTaskDesc.getText().toString());
+        task.setType(binding.etDialogEditTaskType.getText().toString());
 
         if (taskAvatar != null) {
             task.setIcon(taskAvatar.toString());
