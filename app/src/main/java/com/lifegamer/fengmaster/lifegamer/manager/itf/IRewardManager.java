@@ -199,4 +199,11 @@ public interface IRewardManager {
     List<String> getAllAvailableRewardItemName(String type);
 
 
+    /**
+     * 获取所有奖励分类
+     * @return
+     */
+    List<String> getAllType();
+
+
 }

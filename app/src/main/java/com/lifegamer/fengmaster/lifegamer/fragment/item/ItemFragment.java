@@ -12,12 +12,14 @@ import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.item.AllItemFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.item.OwnItemFragmentAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.list.item.TypeItemFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.command.command.item.DeleteItemCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.item.UseItemCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.skill.RemoveSkillCommand;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseTabListFragment;
 import com.lifegamer.fengmaster.lifegamer.fragment.skill.EditSkillDialog;
 import com.lifegamer.fengmaster.lifegamer.model.Item;
+import com.lifegamer.fengmaster.lifegamer.util.PreferenceUtil;
 import com.lifegamer.fengmaster.lifegamer.wight.SelectDialog;
 import com.lifegamer.fengmaster.lifegamer.wight.model.SelectItem;
 
@@ -38,6 +40,14 @@ public class ItemFragment extends BaseTabListFragment implements OnItemSelectLis
 
     public ItemFragment() {
         super();
+        if (PreferenceUtil.checkIfShow(TypeItemFragmentAdapter.class.getSimpleName())){
+            List<String> skillType = Game.getInstance().getItemManager().getAllType();
+            for (String type : skillType) {
+                TypeItemFragmentAdapter typeItemFragmentAdapter = new TypeItemFragmentAdapter(type);
+                typeItemFragmentAdapter.addItemSelectListener(this);
+                addAdapter(typeItemFragmentAdapter);
+            }
+        }
     }
 
     @Override

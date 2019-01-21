@@ -12,10 +12,12 @@ import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.reward.AllAvailableRewardFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.reward.AllRewardFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.reward.PurchasableRewardFragmentAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.list.reward.TypeRewardFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.command.command.reward.BuyRewardCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.reward.DeleteRewardCommand;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseTabListFragment;
 import com.lifegamer.fengmaster.lifegamer.model.RewardItem;
+import com.lifegamer.fengmaster.lifegamer.util.PreferenceUtil;
 import com.lifegamer.fengmaster.lifegamer.wight.SelectDialog;
 import com.lifegamer.fengmaster.lifegamer.wight.model.SelectItem;
 
@@ -33,7 +35,14 @@ public class RewardFragment extends BaseTabListFragment implements OnItemSelectL
 
     public RewardFragment() {
       super();
-
+        if (PreferenceUtil.checkIfShow(TypeRewardFragmentAdapter.class.getSimpleName())){
+            List<String> skillType = Game.getInstance().getRewardManager().getAllType();
+            for (String type : skillType) {
+                TypeRewardFragmentAdapter typeRewardFragmentAdapter = new TypeRewardFragmentAdapter(type);
+                typeRewardFragmentAdapter.addItemSelectListener(this);
+                addAdapter(typeRewardFragmentAdapter);
+            }
+        }
     }
 
     @Override

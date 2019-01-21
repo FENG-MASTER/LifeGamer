@@ -135,6 +135,18 @@ public interface ITaskManager {
      */
     List<Task> getTodayUnFinishTask();
 
+    /**
+     * 获取指定分类的任务
+     * @param type
+     * @return
+     */
+    List<Task> getTaskByType(String type);
+
+    /**
+     * 获取任务所有分类
+     * @return
+     */
+    List<String> getAllTaskType();
 
 
 }

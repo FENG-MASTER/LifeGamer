@@ -6,6 +6,7 @@ import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.task.AllTaskFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.task.BaseTaskFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.task.TodayTaskFragmentAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.list.task.TypeTaskFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.command.command.task.DeleteTaskCommend;
 import com.lifegamer.fengmaster.lifegamer.command.command.task.FailTaskCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.task.FinishTaskCommand;
@@ -36,6 +37,14 @@ public class TaskFragment extends BaseTabListFragment implements OnItemSelectLis
 
     public TaskFragment() {
         super();
+        if (PreferenceUtil.checkIfShow(TypeTaskFragmentAdapter.class.getSimpleName())){
+            List<String> skillType = Game.getInstance().getTaskManager().getAllTaskType();
+            for (String type : skillType) {
+                TypeTaskFragmentAdapter typeTaskFragmentAdapter = new TypeTaskFragmentAdapter(type);
+                typeTaskFragmentAdapter.addItemSelectListener(this);
+                addAdapter(typeTaskFragmentAdapter);
+            }
+        }
     }
 
     @Override

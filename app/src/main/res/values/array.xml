@@ -49,12 +49,16 @@
     <string-array name="show_fragment_task_type">
         <item>全部任务</item>
         <item>今日任务</item>
+        <item>按种类划分任务</item>
+
     </string-array>
 
 
     <string-array name="show_fragment_task_type_val">
         <item>AllTaskFragmentAdapter</item>
         <item>TodayTaskFragmentAdapter</item>
+        <item>TypeTaskFragmentAdapter</item>
+
     </string-array>
 
 
@@ -68,7 +72,7 @@
 
     <string-array name="show_fragment_reward_type_val">
         <item>AllRewardFragmentAdapter</item>
-        <item>按种类划分奖励</item>
+        <item>TypeRewardFragmentAdapter</item>
         <item>AllAvailableRewardFragmentAdapter</item>
         <item>PurchasableRewardFragmentAdapter</item>
     </string-array>
@@ -76,11 +80,15 @@
     <string-array name="show_fragment_item_type">
         <item>全部物品</item>
         <item>已获得物品</item>
+        <item>按种类划分物品</item>
+
     </string-array>
 
     <string-array name="show_fragment_item_type_val">
         <item>AllItemFragmentAdapter</item>
         <item>OwnItemFragmentAdapter</item>
+        <item>TypeItemFragmentAdapter</item>
+
     </string-array>
 
     <string-array name="show_fragment_skill_type">

@@ -5,6 +5,8 @@ import android.util.SparseArray;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
+import com.annimon.stream.function.Function;
+import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.command.command.achievement.GotAchievementCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.achievement.LoseAchievementCommand;
@@ -335,6 +337,16 @@ public class TaskManager implements ITaskManager {
     @Override
     public List<Task> getTodayUnFinishTask() {
         return Stream.of(getTodayTask()).filter(value -> value.getRepeatAvailableTime() != 0).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Task> getTaskByType(String type) {
+        return Stream.of(taskList).filter(value -> value.getType().equals(type)).toList();
+    }
+
+    @Override
+    public List<String> getAllTaskType() {
+        return Stream.of(taskList).map(task -> task.getType()).distinct().toList();
     }
 
     /**

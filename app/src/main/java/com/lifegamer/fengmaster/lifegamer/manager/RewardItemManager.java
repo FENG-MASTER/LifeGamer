@@ -379,6 +379,11 @@ public class RewardItemManager implements IRewardManager {
 
     }
 
+    @Override
+    public List<String> getAllType() {
+        return Stream.of(rewardItems).map(rewardItem -> rewardItem.getType()).distinct().toList();
+    }
+
     /**
      * 从数据库更新数据
      */
