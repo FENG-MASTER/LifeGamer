@@ -21,4 +21,9 @@ public class AllItemFragmentAdapter extends BaseItemFragmentAdapter {
     public void updateShowList() {
         showList= Game.getInstance().getItemManager().getAllItem();
     }
+
+    @Override
+    public boolean hasData() {
+        return true;
+    }
 }

@@ -20,4 +20,9 @@ public class AllRewardFragmentAdapter extends BaseRewardFragmentAdapter {
     public void updateShowList() {
         showList= Game.getInstance().getRewardManager().getAllRewardItem();
     }
+
+    @Override
+    public boolean hasData() {
+        return true;
+    }
 }

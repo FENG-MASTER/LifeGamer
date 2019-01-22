@@ -20,6 +20,9 @@ import com.lifegamer.fengmaster.lifegamer.adapter.list.task.BaseTaskFragmentAdap
 import com.lifegamer.fengmaster.lifegamer.adapter.list.task.TodayTaskFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.util.PreferenceUtil;
 import com.lifegamer.fengmaster.lifegamer.util.ViewUtil;
+import com.umeng.commonsdk.debug.E;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -44,19 +47,32 @@ public abstract class BaseTabListFragment extends Fragment implements OnItemSele
     @BindView(R.id.coordinatorLayout_fragment)
     CoordinatorLayout coordinatorLayout;
 
-    List<BaseFragment> fragments =new ArrayList<>();
+    protected List<BaseFragment> fragments = new ArrayList<>();
+
+    protected BaseViewPagerFragmentAdapter fragmentAdapter;
+
+    private List<BaseRecyclerViewAdapter> hiddenAdapters=new ArrayList<>();
 
     public BaseTabListFragment() {
         // Required empty public constructor
-        Class[] classes=getAdapterClasses();
+        createFragments();
+    }
+
+    protected void createFragments(){
+        fragments.clear();
+        Class[] classes = getAdapterClasses();
 
         for (Class aClass : classes) {
-            if (PreferenceUtil.checkIfShow(aClass.getSimpleName())){
+            if (PreferenceUtil.checkIfShow(aClass.getSimpleName())) {
                 try {
                     Constructor constructor = aClass.getConstructor(null);
                     BaseRecyclerViewAdapter adapter = (BaseRecyclerViewAdapter) constructor.newInstance(null);
-                    adapter.addItemSelectListener(this);
-                    addAdapter(adapter);
+                    if (adapter.hasData()) {
+                        adapter.addItemSelectListener(this);
+                        addAdapter(adapter);
+                    }else {
+                        hiddenAdapters.add(adapter);
+                    }
                 } catch (NoSuchMethodException e) {
                     e.printStackTrace();
                 } catch (IllegalAccessException e) {
@@ -96,21 +112,47 @@ public abstract class BaseTabListFragment extends Fragment implements OnItemSele
 //        }
 
         View inflate = inflater.inflate(R.layout.fragment_base_tab_list, container, false);
-        ButterKnife.bind(this,inflate);
+        ButterKnife.bind(this, inflate);
 
-        viewPager.setAdapter(new BaseViewPagerFragmentAdapter(getFragmentManager(), fragments));
+        fragmentAdapter = new BaseViewPagerFragmentAdapter(getFragmentManager(), fragments);
+        viewPager.setAdapter(fragmentAdapter);
         tabLayout.setupWithViewPager(viewPager);
         actionButton.setOnClickListener(view -> onActionButtonClick());
         container.setTag(inflate);
         return inflate;
     }
 
-    public void addAdapter(AbsBaseRecyclerViewAdapter adapter){
+    public void addAdapter(AbsBaseRecyclerViewAdapter adapter) {
         fragments.add(new BaseRecyclerViewFragment().setAdapter(adapter));
+        if (fragmentAdapter!=null){
+            fragmentAdapter.notifyDataSetChanged();
+        }
     }
 
     public abstract void onActionButtonClick();
 
     public abstract Class[] getAdapterClasses();
+
+
+    /**
+     * 通知tab可能有变化,比如新增了tab
+     */
+    protected void notifyTabChange(){
+        List<BaseRecyclerViewAdapter> remove=new ArrayList<>();
+        for (BaseRecyclerViewAdapter adapter : hiddenAdapters) {
+            if (adapter.hasData()) {
+                remove.add(adapter);
+                adapter.addItemSelectListener(this);
+                addAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+        }
+
+        if (!remove.isEmpty()){
+            hiddenAdapters.removeAll(remove);
+            fragmentAdapter.notifyDataSetChanged();
+        }
+
+    }
 
 }

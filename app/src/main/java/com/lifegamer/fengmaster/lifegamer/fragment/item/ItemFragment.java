@@ -1,27 +1,23 @@
 package com.lifegamer.fengmaster.lifegamer.fragment.item;
 
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.lifegamer.fengmaster.lifegamer.Game;
-import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.item.AllItemFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.item.OwnItemFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.item.TypeItemFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.command.command.item.DeleteItemCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.item.UseItemCommand;
-import com.lifegamer.fengmaster.lifegamer.command.command.skill.RemoveSkillCommand;
+import com.lifegamer.fengmaster.lifegamer.event.item.newItemEvent;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseTabListFragment;
-import com.lifegamer.fengmaster.lifegamer.fragment.skill.EditSkillDialog;
 import com.lifegamer.fengmaster.lifegamer.model.Item;
 import com.lifegamer.fengmaster.lifegamer.util.PreferenceUtil;
 import com.lifegamer.fengmaster.lifegamer.wight.SelectDialog;
 import com.lifegamer.fengmaster.lifegamer.wight.model.SelectItem;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,6 +114,24 @@ public class ItemFragment extends BaseTabListFragment implements OnItemSelectLis
 
 
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void tabChange(newItemEvent newItemEvent){
+        notifyTabChange();
+    }
+
 
 
 }

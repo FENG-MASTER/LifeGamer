@@ -1,30 +1,18 @@
 package com.lifegamer.fengmaster.lifegamer.adapter.list.item;
 
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.lifegamer.fengmaster.lifegamer.BR;
 import com.lifegamer.fengmaster.lifegamer.R;
-import com.lifegamer.fengmaster.lifegamer.adapter.base.AbsBaseRecyclerViewAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
-import com.lifegamer.fengmaster.lifegamer.adapter.base.BindingHolder;
-import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
-import com.lifegamer.fengmaster.lifegamer.event.item.AddItemEvent;
+import com.lifegamer.fengmaster.lifegamer.event.item.newItemEvent;
 import com.lifegamer.fengmaster.lifegamer.event.item.DeleteItemEvent;
 import com.lifegamer.fengmaster.lifegamer.event.item.UpdateItemEvent;
-import com.lifegamer.fengmaster.lifegamer.event.reward.DeleteRewardEvent;
-import com.lifegamer.fengmaster.lifegamer.event.reward.NewRewardEvent;
 import com.lifegamer.fengmaster.lifegamer.model.Item;
-import com.lifegamer.fengmaster.lifegamer.model.Skill;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by qianzise on 2017/10/22.
@@ -44,7 +32,7 @@ public abstract class BaseItemFragmentAdapter extends BaseRecyclerViewAdapter<It
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         if (showList==null){
-            updateShowList();
+            updateAdapterList();
         }
     }
 
@@ -68,7 +56,7 @@ public abstract class BaseItemFragmentAdapter extends BaseRecyclerViewAdapter<It
 
     @Subscribe(threadMode = ThreadMode.POSTING)
     public void itemUpdate(UpdateItemEvent event){
-        updateShowList();
+        updateAdapterList();
         notifyDataSetChanged();
 
     }
@@ -79,14 +67,14 @@ public abstract class BaseItemFragmentAdapter extends BaseRecyclerViewAdapter<It
      */
     @Subscribe(threadMode = ThreadMode.POSTING)
     public void deleteEntityEvent(DeleteItemEvent deleteItemEvent) {
-        updateShowList();
+        updateAdapterList();
         notifyDataSetChanged();
     }
 
 
     @Subscribe(threadMode = ThreadMode.POSTING)
-    public void newEntityEvent(AddItemEvent addItemEvent) {
-        updateShowList();
+    public void newEntityEvent(newItemEvent newItemEvent) {
+        updateAdapterList();
         notifyDataSetChanged();
     }
 

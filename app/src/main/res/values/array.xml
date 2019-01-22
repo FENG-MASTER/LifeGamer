@@ -49,6 +49,12 @@
     <string-array name="show_fragment_task_type">
         <item>全部任务</item>
         <item>今日任务</item>
+        <item>每小时</item>
+        <item>每日</item>
+        <item>每周</item>
+        <item>每月</item>
+        <item>每年</item>
+
         <item>按种类划分任务</item>
 
     </string-array>
@@ -57,6 +63,11 @@
     <string-array name="show_fragment_task_type_val">
         <item>AllTaskFragmentAdapter</item>
         <item>TodayTaskFragmentAdapter</item>
+        <item>HourlyTaskFragmentAdapter</item>
+        <item>DailyTaskFragmentAdapter</item>
+        <item>WeeklyTaskFragmentAdapter</item>
+        <item>MonthlyTaskFragmentAdapter</item>
+        <item>YearlyTaskFragmentAdapter</item>
         <item>TypeTaskFragmentAdapter</item>
 
     </string-array>

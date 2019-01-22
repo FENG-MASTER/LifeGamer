@@ -18,4 +18,9 @@ public class AllAchievementFragmentAdapter extends BaseAchievementFragmentAdapte
     public void updateShowList() {
         showList= Game.getInstance().getAchievementManager().getAllAchievement();
     }
+
+    @Override
+    public boolean hasData() {
+        return true;
+    }
 }

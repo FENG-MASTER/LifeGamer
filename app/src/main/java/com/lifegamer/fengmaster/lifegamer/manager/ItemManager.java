@@ -4,10 +4,9 @@ import android.database.Cursor;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
-import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
-import com.lifegamer.fengmaster.lifegamer.event.item.AddItemEvent;
+import com.lifegamer.fengmaster.lifegamer.event.item.newItemEvent;
 import com.lifegamer.fengmaster.lifegamer.event.item.DeleteItemEvent;
 import com.lifegamer.fengmaster.lifegamer.event.item.UpdateItemEvent;
 import com.lifegamer.fengmaster.lifegamer.log.LogPoint;
@@ -15,12 +14,9 @@ import com.lifegamer.fengmaster.lifegamer.manager.itf.IItemManager;
 import com.lifegamer.fengmaster.lifegamer.model.Item;
 import com.lifegamer.fengmaster.lifegamer.model.Log;
 import com.lifegamer.fengmaster.lifegamer.model.RewardItem;
-import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -81,7 +77,7 @@ public class ItemManager implements IItemManager {
             item.setId(l);
             items.put(item.getName(),item);
         }
-        EventBus.getDefault().post(new AddItemEvent(item));
+        EventBus.getDefault().post(new newItemEvent(item));
         return l != 0;
     }
 

@@ -22,4 +22,10 @@ public class AllTaskFragmentAdapter extends BaseTaskFragmentAdapter {
     public void updateShowList() {
         showList= Game.getInstance().getTaskManager().getAllTask();
     }
+
+
+    @Override
+    public boolean hasData() {
+        return true;
+    }
 }

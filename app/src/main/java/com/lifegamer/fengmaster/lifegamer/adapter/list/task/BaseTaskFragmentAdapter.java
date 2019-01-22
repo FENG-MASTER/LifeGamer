@@ -1,16 +1,10 @@
 package com.lifegamer.fengmaster.lifegamer.adapter.list.task;
 
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.lifegamer.fengmaster.lifegamer.BR;
 import com.lifegamer.fengmaster.lifegamer.R;
-import com.lifegamer.fengmaster.lifegamer.adapter.base.AbsBaseRecyclerViewAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.BaseRecyclerViewAdapter;
-import com.lifegamer.fengmaster.lifegamer.adapter.base.BindingHolder;
-import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.event.task.DeleteTaskEvent;
 import com.lifegamer.fengmaster.lifegamer.event.task.NewTaskEvent;
 import com.lifegamer.fengmaster.lifegamer.event.task.UpdateTaskEvent;
@@ -19,9 +13,6 @@ import com.lifegamer.fengmaster.lifegamer.model.Task;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by qianzise on 2017/10/15.
@@ -58,7 +49,7 @@ public abstract class BaseTaskFragmentAdapter extends BaseRecyclerViewAdapter<Ta
      */
     @Subscribe(threadMode = ThreadMode.POSTING)
     public void newTaskEvent(NewTaskEvent newTaskEvent) {
-        updateShowList();
+        updateAdapterList();
         notifyDataSetChanged();
     }
 
@@ -68,13 +59,13 @@ public abstract class BaseTaskFragmentAdapter extends BaseRecyclerViewAdapter<Ta
      */
     @Subscribe(threadMode = ThreadMode.POSTING)
     public void deleteEntityEvent(DeleteTaskEvent deleteTaskEvent) {
-        updateShowList();
+        updateAdapterList();
         notifyDataSetChanged();
     }
 
     @Subscribe(threadMode = ThreadMode.POSTING)
     public void updateEntityEvent(UpdateTaskEvent updateTaskEvent) {
-        updateShowList();
+        updateAdapterList();
         notifyDataSetChanged();
     }
 }

@@ -12,12 +12,18 @@ import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.skill.AllSkillFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.skill.TypeSkillFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.command.command.skill.RemoveSkillCommand;
+import com.lifegamer.fengmaster.lifegamer.event.skill.NewSkillEvent;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseTabListFragment;
 import com.lifegamer.fengmaster.lifegamer.model.Skill;
 import com.lifegamer.fengmaster.lifegamer.util.PreferenceUtil;
 import com.lifegamer.fengmaster.lifegamer.util.ViewUtil;
 import com.lifegamer.fengmaster.lifegamer.wight.SelectDialog;
 import com.lifegamer.fengmaster.lifegamer.wight.model.SelectItem;
+import com.umeng.commonsdk.debug.E;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,11 +72,13 @@ public class SkillFragment extends BaseTabListFragment implements OnItemSelectLi
     @Override
     public void onStart() {
         super.onStart();
+        EventBus.getDefault().register(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -135,5 +143,10 @@ public class SkillFragment extends BaseTabListFragment implements OnItemSelectLi
         }
 
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void tabChange(NewSkillEvent newSkillEvent){
+        notifyTabChange();
     }
 }

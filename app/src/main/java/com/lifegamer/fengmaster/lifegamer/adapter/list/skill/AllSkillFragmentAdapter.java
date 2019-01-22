@@ -23,4 +23,10 @@ public class AllSkillFragmentAdapter extends BaseSkillFragmentAdapter {
     public void updateShowList() {
         showList=Game.getInstance().getSkillManager().getAllSkill();
     }
+
+
+    @Override
+    public boolean hasData() {
+        return true;
+    }
 }

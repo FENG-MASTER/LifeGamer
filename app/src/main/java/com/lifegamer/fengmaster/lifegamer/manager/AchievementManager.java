@@ -8,6 +8,7 @@ import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.event.achievement.DeleteAchievementEvent;
+import com.lifegamer.fengmaster.lifegamer.event.achievement.NewAchievementEvent;
 import com.lifegamer.fengmaster.lifegamer.log.LogPoint;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IAchievementManager;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
@@ -57,6 +58,7 @@ public class AchievementManager implements IAchievementManager{
             if (l!=0){
                 achievement.setId((int) l);
                 achievements.add(achievement);
+                EventBus.getDefault().post(new NewAchievementEvent(achievement));
             }
             return l!=0;
         }

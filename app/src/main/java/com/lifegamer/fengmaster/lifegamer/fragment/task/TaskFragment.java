@@ -5,17 +5,27 @@ import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.task.AllTaskFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.task.BaseTaskFragmentAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.list.task.DailyTaskFragmentAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.list.task.HourlyTaskFragmentAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.list.task.MonthlyTaskFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.task.TodayTaskFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.task.TypeTaskFragmentAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.list.task.WeeklyTaskFragmentAdapter;
+import com.lifegamer.fengmaster.lifegamer.adapter.list.task.YearlyTaskFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.command.command.task.DeleteTaskCommend;
 import com.lifegamer.fengmaster.lifegamer.command.command.task.FailTaskCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.task.FinishTaskCommand;
+import com.lifegamer.fengmaster.lifegamer.event.task.NewTaskEvent;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseTabListFragment;
 import com.lifegamer.fengmaster.lifegamer.fragment.task.editTaskDialog.EditTaskDialog;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
 import com.lifegamer.fengmaster.lifegamer.util.PreferenceUtil;
 import com.lifegamer.fengmaster.lifegamer.wight.SelectDialog;
 import com.lifegamer.fengmaster.lifegamer.wight.model.SelectItem;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -37,6 +47,13 @@ public class TaskFragment extends BaseTabListFragment implements OnItemSelectLis
 
     public TaskFragment() {
         super();
+        createTypeFragments();
+    }
+
+    /**
+     * 生成按种类区分的任务fragment
+     */
+    private void createTypeFragments(){
         if (PreferenceUtil.checkIfShow(TypeTaskFragmentAdapter.class.getSimpleName())){
             List<String> skillType = Game.getInstance().getTaskManager().getAllTaskType();
             for (String type : skillType) {
@@ -55,7 +72,7 @@ public class TaskFragment extends BaseTabListFragment implements OnItemSelectLis
 
     @Override
     public Class[] getAdapterClasses() {
-        return new Class[]{AllTaskFragmentAdapter.class,TodayTaskFragmentAdapter.class};
+        return new Class[]{AllTaskFragmentAdapter.class,TodayTaskFragmentAdapter.class, DailyTaskFragmentAdapter.class, HourlyTaskFragmentAdapter.class, WeeklyTaskFragmentAdapter.class, MonthlyTaskFragmentAdapter.class, YearlyTaskFragmentAdapter.class};
     }
 
     @Override
@@ -128,5 +145,23 @@ public class TaskFragment extends BaseTabListFragment implements OnItemSelectLis
     private void deletTask(Task task) {
         //最终删除命令
         Game.getInstance().getCommandManager().executeCommand(new DeleteTaskCommend(task));
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void tabChange(NewTaskEvent newTaskEvent){
+        notifyTabChange();
     }
 }

@@ -46,7 +46,7 @@ public abstract class BaseRecyclerViewAdapter<R> extends AbsBaseRecyclerViewAdap
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         if (showList==null){
-            updateShowList();
+            updateAdapterList();
         }
     }
 
@@ -75,6 +75,15 @@ public abstract class BaseRecyclerViewAdapter<R> extends AbsBaseRecyclerViewAdap
      */
     public abstract void updateShowList();
 
+    public void updateAdapterList(){
+        updateShowList();
+        notifyDataSetChanged();
+    }
+
+    public boolean hasData(){
+        updateAdapterList();
+        return showList!=null&&!showList.isEmpty();
+    }
 
     /**
      * 获取显示每个item的layoutID

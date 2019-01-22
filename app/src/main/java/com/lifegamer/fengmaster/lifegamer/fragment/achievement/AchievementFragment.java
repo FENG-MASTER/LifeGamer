@@ -21,11 +21,17 @@ import com.lifegamer.fengmaster.lifegamer.command.command.achievement.GotAchieve
 import com.lifegamer.fengmaster.lifegamer.command.command.achievement.LoseAchievementCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.achievement.UpdateAchievementCommand;
 import com.lifegamer.fengmaster.lifegamer.event.achievement.LostAchievementEvent;
+import com.lifegamer.fengmaster.lifegamer.event.achievement.NewAchievementEvent;
+import com.lifegamer.fengmaster.lifegamer.event.item.newItemEvent;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseTabListFragment;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
 import com.lifegamer.fengmaster.lifegamer.util.PreferenceUtil;
 import com.lifegamer.fengmaster.lifegamer.wight.SelectDialog;
 import com.lifegamer.fengmaster.lifegamer.wight.model.SelectItem;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -141,5 +147,23 @@ public class AchievementFragment extends BaseTabListFragment implements OnItemSe
     private void loseAchievement() {
 
         Game.getInstance().getCommandManager().executeCommand(new LoseAchievementCommand(selectAchievement));
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void tabChange(NewAchievementEvent newAchievementEvent){
+        notifyTabChange();
     }
 }

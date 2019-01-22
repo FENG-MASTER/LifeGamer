@@ -15,11 +15,16 @@ import com.lifegamer.fengmaster.lifegamer.adapter.list.reward.PurchasableRewardF
 import com.lifegamer.fengmaster.lifegamer.adapter.list.reward.TypeRewardFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.command.command.reward.BuyRewardCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.reward.DeleteRewardCommand;
+import com.lifegamer.fengmaster.lifegamer.event.reward.NewRewardEvent;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseTabListFragment;
 import com.lifegamer.fengmaster.lifegamer.model.RewardItem;
 import com.lifegamer.fengmaster.lifegamer.util.PreferenceUtil;
 import com.lifegamer.fengmaster.lifegamer.wight.SelectDialog;
 import com.lifegamer.fengmaster.lifegamer.wight.model.SelectItem;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,5 +104,22 @@ public class RewardFragment extends BaseTabListFragment implements OnItemSelectL
         dialog.setItems(list);
         dialog.addItemSelectListener(this);
         dialog.show(getChildFragmentManager(),"select");
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void tabChange(NewRewardEvent newRewardEvent){
+        notifyTabChange();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 }
