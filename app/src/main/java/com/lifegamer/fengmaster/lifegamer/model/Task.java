@@ -131,9 +131,11 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
 /***********************S奖励信息S**************************/
 
     /**
-     * 触发器列表
+     * 可存储的触发器列表
      */
     private List<Trigger> triggers=new ArrayList<>();
+
+    private Trigger autoFailTrigger;
 
     {
         //默认初始化成功一次的奖励对象

@@ -122,15 +122,17 @@ public class EditTaskTimeFragment extends EditTaskDialog.SaveableFragment implem
         //可完成次数
         task.setRepeatAvailableTime(Integer.valueOf(binding.etDialogEditTaskRepTimes.getText().toString()));
 
+        //过期时间
+        task.setExpirationTime(taskTime.getTime());
+
+
         //重复类型
 
         task.setRepeatType(binding.spDialogEditTaskRepType.getSelectedItemPosition());
         task.setRepeatInterval(Integer.valueOf(binding.etDialogEditTaskRepInterval.getText().toString()));
         task.setAutoFail(binding.switchDialogEditTaskAutoFail.isChecked());
 
-        //过期时间
-        task.setExpirationTime(taskTime.getTime());
-        return true;
+         return true;
     }
 
     @Override

@@ -82,6 +82,9 @@ public class Trigger implements AbsTriggerCondition.OnTrigger {
      */
     private void handleLifePoint(TriggerInfo triggerInfo) {
         int lp = triggerInfo.getEarnLP();
+        if (lp==0){
+            return;
+        }
         if(lp>0){
             Game.getInstance().getHeroManager().getHero().getLifePoint().addPoint(lp);
         }else {
