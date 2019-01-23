@@ -4,10 +4,12 @@ import android.database.Cursor;
 
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
+import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ITriggerManager;
 import com.lifegamer.fengmaster.lifegamer.model.TriggerInfo;
+import com.lifegamer.fengmaster.lifegamer.trigger.Trigger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +20,7 @@ import java.util.List;
  */
 public class TriggerManager implements ITriggerManager {
 
-    private List<TriggerInfo> triggerInfoList =new ArrayList<>();
+    private List<Trigger> triggerList =new ArrayList<>();
 
     private DBHelper helper = DBHelper.getInstance();
 
@@ -35,74 +37,84 @@ public class TriggerManager implements ITriggerManager {
         while (cursor.moveToNext()) {
             TriggerInfo triggerInfo =new TriggerInfo();
             triggerInfo.getFromCursor(cursor);
-            triggerInfoList.add(triggerInfo);
+            Trigger trigger=new Trigger(triggerInfo);
+            triggerList.add(trigger);
         }
         cursor.close();
     }
 
     @Override
-    public TriggerInfo getTrigger(long id) {
-        Optional<TriggerInfo> first = Stream.of(triggerInfoList).filter(value -> value.getId() == id).findSingle();
-        if (first.isPresent()){
-            return first.get();
+    public Trigger getTrigger(long id) {
+        Optional<Trigger> optional = Stream.of(triggerList).filter(value -> value.getTriggerInfo().getId() == id).findSingle();
+        if (optional.isPresent()){
+            return optional.get();
         }else {
             return null;
         }
     }
 
     @Override
-    public boolean addTrigger(TriggerInfo triggerInfo) {
-        if (getTrigger(triggerInfo.getId())==null){
-            //新的触发器
-            long l = Game.insert(triggerInfo);
-            if (l!=0){
-                triggerInfo.setId(l);
-                triggerInfoList.add(triggerInfo);
+    public Trigger addTrigger(TriggerInfo triggerInfo) {
+        if (triggerInfo==null){
+            return null;
+        }
+
+        //已经存在的ID,不应该新建
+        if (triggerInfo.getId()!=0){
+            return getTrigger(triggerInfo.getId());
+        }
+
+        long l = Game.insert(triggerInfo);
+        if (l!=0){
+            triggerInfo.setId(l);
+        }
+
+        Trigger trigger=new Trigger(triggerInfo);
+        triggerList.add(trigger);
+        return trigger;
+
+    }
+
+    @Override
+    public boolean updateTrigger(Trigger trigger) {
+        boolean b = triggerList.contains(trigger);
+        if (b){
+            //已经存在的触发器,更新
+            return Game.update(trigger.getTriggerInfo());
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean removeTrigger(Trigger trigger) {
+        if (trigger==null){
+            return false;
+        }
+        boolean b = triggerList.contains(trigger);
+        if (b){
+            boolean delete = Game.delete(trigger.getTriggerInfo());
+            if (delete){
+                triggerList.remove(trigger);
                 return true;
             }else {
                 return false;
             }
 
         }else {
-            return updateTrigger(triggerInfo);
-        }
-    }
-
-    @Override
-    public boolean updateTrigger(TriggerInfo triggerInfo) {
-
-        if (triggerInfoList.contains(triggerInfo)) {
-            //如果存在缓存里
-            return Game.update(triggerInfo);
-        } else {
-            TriggerInfo t = getTrigger(triggerInfo.getId());
-            if (t != null) {
-                //存在相同id
-                //则更新缓存里的对象
-                t.copyFrom(triggerInfo);
-                return Game.update(t);
-            }else {
-                return addTrigger(triggerInfo);
-            }
-
-        }
-    }
-
-
-    @Override
-    public boolean removeTrigger(TriggerInfo triggerInfo) {
-        if (triggerInfo ==null){
             return false;
         }
-
-        triggerInfoList.remove(triggerInfo);
-        return Game.delete(triggerInfo);
 
     }
 
     @Override
     public boolean removeTrigger(long triggerId) {
-        TriggerInfo triggerInfo = getTrigger(triggerId);
-        return removeTrigger(triggerInfo);
+        Trigger trigger = getTrigger(triggerId);
+        return removeTrigger(trigger);
+    }
+
+    @Override
+    public List<Trigger> getTriggers(String type, String objId) {
+        return null;
     }
 }

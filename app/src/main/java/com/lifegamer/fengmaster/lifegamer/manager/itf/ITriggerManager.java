@@ -1,6 +1,9 @@
 package com.lifegamer.fengmaster.lifegamer.manager.itf;
 
 import com.lifegamer.fengmaster.lifegamer.model.TriggerInfo;
+import com.lifegamer.fengmaster.lifegamer.trigger.Trigger;
+
+import java.util.List;
 
 /**
  * Created by FengMaster on 19/01/08.
@@ -9,11 +12,11 @@ public interface ITriggerManager {
 
 
     /**
-     * 根据ID获取触发器列表
+     * 根据ID获取触发器
      * @param id
      * @return
      */
-    TriggerInfo getTrigger(long id);
+    Trigger getTrigger(long id);
 
 
     /**
@@ -21,22 +24,22 @@ public interface ITriggerManager {
      * @param triggerInfo
      * @return
      */
-    boolean addTrigger(TriggerInfo triggerInfo);
+    Trigger addTrigger(TriggerInfo triggerInfo);
 
     /**
      * 更新触发器
-     * @param triggerInfo
+     * @param trigger
      * @return
              */
-    boolean updateTrigger(TriggerInfo triggerInfo);
+    boolean updateTrigger(Trigger trigger);
 
 
     /**
      * 删除触发器
-     * @param triggerInfo
+     * @param trigger
      * @return
      */
-    boolean removeTrigger(TriggerInfo triggerInfo);
+    boolean removeTrigger(Trigger trigger);
 
     /**
      * 删除触发器
@@ -44,5 +47,14 @@ public interface ITriggerManager {
      * @return
      */
     boolean removeTrigger(long triggerId);
+
+
+    /**
+     * 获取指定种类的指定对象ID上的所有触发器
+     * @param type
+     * @param objId
+     * @return
+     */
+    List<Trigger> getTriggers(String type, String objId);
 
 }
