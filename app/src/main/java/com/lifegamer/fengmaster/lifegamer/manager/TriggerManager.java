@@ -37,14 +37,23 @@ public class TriggerManager implements ITriggerManager {
         while (cursor.moveToNext()) {
             TriggerInfo triggerInfo =new TriggerInfo();
             triggerInfo.getFromCursor(cursor);
-            Trigger trigger=new Trigger(triggerInfo);
-            triggerList.add(trigger);
+            Trigger trigger=newTrigger(triggerInfo);
         }
         cursor.close();
     }
 
     @Override
+    public Trigger newTrigger(TriggerInfo triggerInfo) {
+        Trigger trigger = new Trigger(triggerInfo);
+        triggerList.add(trigger);
+        return trigger;
+    }
+
+    @Override
     public Trigger getTrigger(long id) {
+        if (id==0){
+            return null;
+        }
         Optional<Trigger> optional = Stream.of(triggerList).filter(value -> value.getTriggerInfo().getId() == id).findSingle();
         if (optional.isPresent()){
             return optional.get();
@@ -69,8 +78,7 @@ public class TriggerManager implements ITriggerManager {
             triggerInfo.setId(l);
         }
 
-        Trigger trigger=new Trigger(triggerInfo);
-        triggerList.add(trigger);
+        Trigger trigger=newTrigger(triggerInfo);
         return trigger;
 
     }

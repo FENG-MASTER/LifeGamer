@@ -12,6 +12,14 @@ public interface ITriggerManager {
 
 
     /**
+     * 初始化一个触发器
+     * @param triggerInfo
+     * @return
+     */
+    Trigger newTrigger(TriggerInfo triggerInfo);
+
+
+    /**
      * 根据ID获取触发器
      * @param id
      * @return

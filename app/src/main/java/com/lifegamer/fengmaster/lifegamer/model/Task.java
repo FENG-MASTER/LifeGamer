@@ -218,7 +218,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
 
         List<Integer> triggerIDs=new ArrayList<>();
         for (Trigger trigger : triggers) {
-            Game.getInstance().getTriggerManager().updateTrigger(trigger.getTriggerInfo());
+            Game.getInstance().getTriggerManager().updateTrigger(trigger);
             triggerIDs.add(Long.valueOf(trigger.getTriggerInfo().getId()).intValue());
         }
         cv.put("triggers",FormatUtil.list2Str(triggerIDs));
@@ -570,8 +570,8 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
 
         this.triggers.clear();
         for (Integer ids : triggerIDs) {
-            TriggerInfo triggerInfo = Game.getInstance().getTriggerManager().getTrigger(ids);
-            addTrigger(triggerInfo);
+            Trigger trigger = Game.getInstance().getTriggerManager().getTrigger(ids);
+            triggers.add(trigger);
         }
     }
 
@@ -591,7 +591,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
     public Trigger addTrigger(TriggerInfo info){
         info.setType(TriggerInfo.TYPE_TASK);
         info.setMainObjId(getId());
-        Trigger t=new Trigger(info);
+        Trigger t=Game.getInstance().getTriggerManager().addTrigger(info);
         triggers.add(t);
         return t;
     }
@@ -688,7 +688,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         for (Trigger trigger : triggers) {
             TriggerInfo triggerInfo = trigger.getTriggerInfo();
             triggerInfo.setMainObjId(insertId);
-            Game.getInstance().getTriggerManager().updateTrigger(triggerInfo);
+            Game.getInstance().getTriggerManager().updateTrigger(trigger);
         }
 
         return insertId;
@@ -756,7 +756,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         triggers.clear();
         ITriggerManager triggerManager = Game.getInstance().getTriggerManager();
         for (Integer triggerID : triggerIDs) {
-            Trigger trigger=new Trigger(triggerManager.getTrigger(triggerID));
+            Trigger trigger=triggerManager.getTrigger(triggerID);
             triggers.add(trigger);
         }
 
