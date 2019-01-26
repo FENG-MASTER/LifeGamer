@@ -216,6 +216,10 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
      */
     private List<Integer> notes;
 
+    public TriggerInfo getAutoFailTriggerInfo() {
+        return autoFailTriggerInfo;
+    }
+
     @Override
     public int update(SQLiteDatabase sqLiteDatabase) {
         ContentValues cv = new ContentValues();

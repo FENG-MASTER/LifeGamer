@@ -25,6 +25,7 @@ import com.lifegamer.fengmaster.lifegamer.model.Achievement;
 import com.lifegamer.fengmaster.lifegamer.model.Hero;
 import com.lifegamer.fengmaster.lifegamer.model.Log;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
+import com.lifegamer.fengmaster.lifegamer.model.TriggerInfo;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.RandomItemReward;
 import com.lifegamer.fengmaster.lifegamer.util.DateUtil;
@@ -633,6 +634,13 @@ public class TaskManager implements ITaskManager {
     @LogPoint(type = Log.TYPE.TASK,action = Log.ACTION.DELETE,property = Log.PROPERTY.DEFAULT)
     private boolean removeTask(Task task) {
         if (task != null) {
+            List<TriggerInfo> triggerInfos = task.getTriggerInfos();
+            for (TriggerInfo triggerInfo : triggerInfos) {
+                //依次删除所有相关触发器
+                Game.getInstance().getTriggerManager().removeTrigger(triggerInfo.getId());
+            }
+            Game.getInstance().getTriggerManager().removeTrigger(task.getAutoFailTriggerInfo().getId());
+
             if (Game.delete(task)) {
                 taskList.remove(task);
                 return true;
