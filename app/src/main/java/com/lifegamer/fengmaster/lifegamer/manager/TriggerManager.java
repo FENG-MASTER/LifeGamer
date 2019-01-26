@@ -104,13 +104,14 @@ public class TriggerManager implements ITriggerManager {
 
     @Override
     public boolean updateTriggerInfo(TriggerInfo triggerInfo) {
-        Optional<TriggerInfo> first = Stream.of(triggerList).map(trigger -> trigger.getTriggerInfo()).filter(value -> value.equals(triggerInfo)).findFirst();
-        if (first.isPresent()){
-            //存在,则更新
-            return Game.update(triggerInfo);
-        }else {
-            return false;
-        }
+        return addOrUpdate(triggerInfo);
+//        Optional<TriggerInfo> first = Stream.of(triggerList).map(trigger -> trigger.getTriggerInfo()).filter(value -> value.equals(triggerInfo)).findFirst();
+//        if (first.isPresent()){
+//            //存在,则更新
+//            return Game.update(triggerInfo);
+//        }else {
+//            return false;
+//        }
 
     }
 

@@ -169,7 +169,7 @@ public class Trigger implements AbsTriggerCondition.OnTrigger {
             if (entry.getValue()>=0){
                 Game.getInstance().getCommandManager().executeCommand(new SkillIncreaseCommand(entry.getKey(), entry.getValue()));
             }else {
-                Game.getInstance().getCommandManager().executeCommand(new SkillDecreaseCommand(entry.getKey(), entry.getValue()));
+                Game.getInstance().getCommandManager().executeCommand(new SkillDecreaseCommand(entry.getKey(), -entry.getValue()));
 
             }
         }

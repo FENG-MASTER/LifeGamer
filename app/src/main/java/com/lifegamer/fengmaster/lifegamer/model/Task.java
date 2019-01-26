@@ -144,6 +144,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
 
     {
         autoFailTriggerInfo=new TriggerInfo();
+        autoFailTriggerInfo.setType(TriggerInfo.TYPE_TASK);
         autoFailTriggerInfo.setTriggerCondition(TaskExpireCondition.class.getName());
     }
 
@@ -232,11 +233,12 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
             Game.getInstance().getTriggerManager().updateTriggerInfo(triggerInfo);
         }
 
-        if (isAutoFail()){
-            //更新自动失败触发器
-            Game.getInstance().getTriggerManager().updateTriggerInfo(autoFailTriggerInfo);
 
-        }
+        //更新自动失败触发器
+        autoFailTriggerInfo.setMainObjId(getId());
+        Game.getInstance().getTriggerManager().updateTriggerInfo(autoFailTriggerInfo);
+
+
 
         cv.put("repeatType", getRepeatType());
         cv.put("repeatInterval", getRepeatInterval());
