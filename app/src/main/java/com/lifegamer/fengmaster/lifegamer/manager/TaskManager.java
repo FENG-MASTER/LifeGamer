@@ -550,6 +550,7 @@ public class TaskManager implements ITaskManager {
                 //重复的
 //                task.setExpirationTime(null);
                 task.setRepeatInterval(0);
+                task.setExpirationTime(Task.noDate);
                 break;
             case Task.REP_DAILY:
                 //X天

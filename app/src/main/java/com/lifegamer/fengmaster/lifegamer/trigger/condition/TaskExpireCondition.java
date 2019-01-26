@@ -53,7 +53,8 @@ public class TaskExpireCondition extends AbsTriggerCondition {
             lastExpireDate = new Date(Long.valueOf(triggerInfo.getSaveInfo()));
         }
 
-        if (task != null&&task.isAutoFail()) {
+        //不限次数任务无法自动失败,没有任何意义
+        if (task != null&&task.isAutoFail()&&task.getRepeatType()!=Task.REP_CONTINUOUS) {
 
             if (lastExpireDate != null) {
                 //没有历史触发时间,

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
@@ -61,6 +62,9 @@ public class EditTaskTimeFragment extends EditTaskDialog.SaveableFragment implem
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 binding.layoutTaskTimeRepInterval.setVisibility(View.GONE);
+                binding.btDialogEditTaskExpirationTime.setVisibility(View.VISIBLE);
+                binding.switchDialogEditTaskAutoFail.setEnabled(true);
+
                 switch (i) {
                     case ONCE:
                         //单次任务
@@ -69,9 +73,14 @@ public class EditTaskTimeFragment extends EditTaskDialog.SaveableFragment implem
                         binding.switchDialogEditTaskInfinite.setChecked(false);
                         break;
                     case NO_LIMIT:
+                        //如果选中了不限次数任务,不允许设置自动失败
+
                         binding.etDialogEditTaskRepTimes.setText("-1");
                         binding.etDialogEditTaskRepTimes.setEnabled(false);
+                        binding.switchDialogEditTaskAutoFail.setChecked(false);
+                        binding.switchDialogEditTaskAutoFail.setEnabled(false);
                         binding.switchDialogEditTaskInfinite.setChecked(true);
+                        binding.btDialogEditTaskExpirationTime.setVisibility(View.GONE);
                         break;
                     default:
                         binding.etDialogEditTaskRepTimes.setEnabled(true);
@@ -79,6 +88,8 @@ public class EditTaskTimeFragment extends EditTaskDialog.SaveableFragment implem
                         binding.layoutTaskTimeRepInterval.setVisibility(View.VISIBLE);
 
                 }
+
+
             }
 
             @Override
@@ -105,6 +116,17 @@ public class EditTaskTimeFragment extends EditTaskDialog.SaveableFragment implem
             }
         });
 
+
+
+        binding.switchDialogEditTaskAutoFail.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked&&binding.spDialogEditTaskRepType.getSelectedItemPosition()==NO_LIMIT){
+                    binding.spDialogEditTaskRepType.setSelection(0,true);
+                }
+            }
+        });
+
         binding.btDialogEditTaskExpirationTime.setOnClickListener(this);
 
 
@@ -121,14 +143,20 @@ public class EditTaskTimeFragment extends EditTaskDialog.SaveableFragment implem
     boolean save() {
         //可完成次数
         task.setRepeatAvailableTime(Integer.valueOf(binding.etDialogEditTaskRepTimes.getText().toString()));
+        task.setRepeatType(binding.spDialogEditTaskRepType.getSelectedItemPosition());
 
-        //过期时间
-        task.setExpirationTime(taskTime.getTime());
+        if (task.getRepeatType()==Task.REP_CONTINUOUS){
+            //无限次数任务,过期时间会设置为无效
+            task.setExpirationTime(Task.noDate);
+        }else {
+            //过期时间
+            task.setExpirationTime(taskTime.getTime());
+        }
+
 
 
         //重复类型
 
-        task.setRepeatType(binding.spDialogEditTaskRepType.getSelectedItemPosition());
         task.setRepeatInterval(Integer.valueOf(binding.etDialogEditTaskRepInterval.getText().toString()));
         task.setAutoFail(binding.switchDialogEditTaskAutoFail.isChecked());
 

@@ -2,6 +2,7 @@ package com.lifegamer.fengmaster.lifegamer.util;
 
 import android.text.format.DateFormat;
 
+import com.lifegamer.fengmaster.lifegamer.model.Task;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.RandomItemReward;
 
@@ -174,7 +175,11 @@ public class FormatUtil {
 
 
     public static String date2BriefDesc(Date date){
-        return DateFormat.format("dd号,kk:mm",date).toString();
+        if (date.getTime()==Task.noDate.getTime()){
+            return "不限时";
+        }else {
+            return DateFormat.format("dd号,kk:mm",date).toString();
+        }
     }
 
 }

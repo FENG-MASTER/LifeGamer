@@ -78,6 +78,12 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
      */
     public static final int REP_YEARLY = 6;
 
+
+    /**
+     * 表示无时间
+     */
+    public static final Date noDate=new Date(0);
+
 /***********************S基础信息S**************************/
     /**
      * 任务ID
@@ -286,6 +292,10 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
     public void setAutoFail(boolean autoFail) {
         isAutoFail = autoFail;
         notifyPropertyChanged(BR.autoFail);
+        if (autoFail&&getRepeatType()==Task.REP_CONTINUOUS){
+            //不限次数任务不允许自动失败
+            setRepeatType(Task.REP_ONCE);
+        }
 
     }
 
@@ -442,6 +452,10 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
     public void setRepeatType(int repeatType) {
         this.repeatType = repeatType;
         notifyPropertyChanged(BR.repeatType);
+        if (repeatType==Task.REP_CONTINUOUS&&isAutoFail()){
+            //不限次数任务类型,不允许自动失败
+            setAutoFail(false);
+        }
     }
 
     @Bindable
