@@ -146,7 +146,6 @@ public class DBHelper extends SQLiteOpenHelper {
             "difficulty integer," +
             "urgency integer," +
             "fear integer," +
-            "triggers varchar,"+
             "repeatType integer," +
             "repeatInterval integer," +
             "repeatAvailableTime integer," +

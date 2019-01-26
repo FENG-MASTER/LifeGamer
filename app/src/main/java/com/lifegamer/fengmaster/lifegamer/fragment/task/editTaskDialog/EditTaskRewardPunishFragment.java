@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
-import com.annimon.stream.function.Function;
 import com.lifegamer.fengmaster.lifegamer.App;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
@@ -29,7 +28,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by qianzise on 2017/10/19.
@@ -83,7 +81,7 @@ public class EditTaskRewardPunishFragment extends EditTaskDialog.SaveableFragmen
 
     public EditTaskRewardPunishFragment setTask(Task task) {
         this.task = task;
-        triggerInfoList=Stream.of(task.getTriggers()).map(Trigger::getTriggerInfo).collect(Collectors.toList());
+        triggerInfoList=Stream.of(task.getTriggerInfos()).collect(Collectors.toList());
         return this;
     }
 
@@ -95,7 +93,7 @@ public class EditTaskRewardPunishFragment extends EditTaskDialog.SaveableFragmen
 
     @Override
     boolean save() {
-        task.setTriggers(triggerInfoList);
+        task.setTriggerInfos(triggerInfoList);
         return true;
     }
 

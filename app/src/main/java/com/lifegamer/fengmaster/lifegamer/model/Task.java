@@ -10,8 +10,6 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
-import com.annimon.stream.function.Function;
-import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.BR;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.base.ICopy;
@@ -20,7 +18,6 @@ import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Getable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
-import com.lifegamer.fengmaster.lifegamer.manager.TriggerManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ITriggerManager;
 import com.lifegamer.fengmaster.lifegamer.model.base.IdAble;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
@@ -133,7 +130,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
     /**
      * 可存储的触发器列表
      */
-    private List<Trigger> triggers=new ArrayList<>();
+    private List<TriggerInfo> triggerInfos =new ArrayList<>();
 
     private Trigger autoFailTrigger;
 
@@ -141,14 +138,14 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         //默认初始化成功一次的奖励对象
         TriggerInfo successInfo=new TriggerInfo();
         successInfo.setTriggerCondition(TaskFinishTriggerCondition.class.getName());
-        Trigger successTrigger=addTrigger(successInfo);
+        addTrigger(successInfo);
     }
 
     {
         //默认初始化失败一次的奖励对象
         TriggerInfo failInfo=new TriggerInfo();
         failInfo.setTriggerCondition(TaskFailTriggerCondition.class.getName());
-        Trigger failTrigger=addTrigger(failInfo);
+        addTrigger(failInfo);
 
     }
 
@@ -216,12 +213,10 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         cv.put("urgency", getUrgency());
         cv.put("fear", getFear());
 
-        List<Integer> triggerIDs=new ArrayList<>();
-        for (Trigger trigger : triggers) {
-            Game.getInstance().getTriggerManager().updateTrigger(trigger);
-            triggerIDs.add(Long.valueOf(trigger.getTriggerInfo().getId()).intValue());
+
+        for (TriggerInfo triggerInfo : triggerInfos) {
+            Game.getInstance().getTriggerManager().updateTriggerInfo(triggerInfo);
         }
-        cv.put("triggers",FormatUtil.list2Str(triggerIDs));
 
         cv.put("repeatType", getRepeatType());
         cv.put("repeatInterval", getRepeatInterval());
@@ -321,106 +316,106 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
 
     @JSONField(serialize = false)
     public int getXp() {
-        Trigger successTrigger = getSuccessTrigger();
-        return successTrigger.getTriggerInfo().getXp();
+        TriggerInfo successTrigger = getSuccessTriggerInfo();
+        return successTrigger.getXp();
     }
 
     public void setXp(int xp) {
-        Trigger successTrigger = getSuccessTrigger();
-        successTrigger.getTriggerInfo().setXp(xp);
+        TriggerInfo successTrigger = getSuccessTriggerInfo();
+        successTrigger.setXp(xp);
         notifyPropertyChanged(BR.xp);
     }
 
     @JSONField(serialize = false)
     @Bindable
     public Map<Long, Integer> getSuccessSkills() {
-        Trigger successTrigger = getSuccessTrigger();
-        return successTrigger.getTriggerInfo().getSkills();
+        TriggerInfo successTrigger = getSuccessTriggerInfo();
+        return successTrigger.getSkills();
     }
 
     public void setSuccessSkills(Map<Long, Integer> successSkills) {
-        Trigger successTrigger = getSuccessTrigger();
-        successTrigger.getTriggerInfo().setSkills(successSkills);
+        TriggerInfo successTrigger = getSuccessTriggerInfo();
+        successTrigger.setSkills(successSkills);
         notifyPropertyChanged(BR.successSkills);
     }
 
     @JSONField(serialize = false)
     @Bindable
     public List<RandomItemReward> getSuccessItems() {
-        Trigger successTrigger = getSuccessTrigger();
-        return successTrigger.getTriggerInfo().getItems();
+        TriggerInfo successTrigger = getSuccessTriggerInfo();
+        return successTrigger.getItems();
     }
 
     public void setSuccessItems(List<RandomItemReward> successItems) {
-        Trigger successTrigger = getSuccessTrigger();
-        successTrigger.getTriggerInfo().setItems(successItems);
+        TriggerInfo successTrigger = getSuccessTriggerInfo();
+        successTrigger.setItems(successItems);
         notifyPropertyChanged(BR.successItems);
     }
 
     @JSONField(serialize = false)
     @Bindable
     public List<AchievementReward> getSuccessAchievements() {
-        Trigger successTrigger = getSuccessTrigger();
-        return successTrigger.getTriggerInfo().getAchievements();
+        TriggerInfo successTrigger = getSuccessTriggerInfo();
+        return successTrigger.getAchievements();
     }
 
     @JSONField(serialize = false)
     @Bindable
     public Map<Long, Integer> getFailureSkills() {
-        Trigger failTrigger = getFailTrigger();
-        return failTrigger.getTriggerInfo().getSkills();
+        TriggerInfo failTrigger = getFailTriggerInfo();
+        return failTrigger.getSkills();
     }
 
     public void setFailureSkills(Map<Long, Integer> failureSkills) {
-        Trigger failTrigger = getFailTrigger();
-        failTrigger.getTriggerInfo().setSkills(failureSkills);
+        TriggerInfo failTrigger = getFailTriggerInfo();
+        failTrigger.setSkills(failureSkills);
         notifyPropertyChanged(BR.failureSkills);
     }
 
     @JSONField(serialize = false)
     @Bindable
     public List<RandomItemReward> getFailureItems() {
-        Trigger failTrigger = getFailTrigger();
-        return failTrigger.getTriggerInfo().getItems();
+        TriggerInfo failTrigger = getFailTriggerInfo();
+        return failTrigger.getItems();
     }
 
     public void setFailureItems(List<RandomItemReward> failureItems) {
-        Trigger failTrigger = getFailTrigger();
-        failTrigger.getTriggerInfo().setItems(failureItems);
+        TriggerInfo failTrigger = getFailTriggerInfo();
+        failTrigger.setItems(failureItems);
         notifyPropertyChanged(BR.failureItems);
     }
 
     @JSONField(serialize = false)
     @Bindable
     public List<AchievementReward> getFailureAchievements() {
-        Trigger failTrigger = getFailTrigger();
-        return failTrigger.getTriggerInfo().getAchievements();
+        TriggerInfo failTrigger = getFailTriggerInfo();
+        return failTrigger.getAchievements();
     }
 
     public void setFailureAchievements(List<AchievementReward> failureAchievements) {
-        Trigger failTrigger = getFailTrigger();
-        failTrigger.getTriggerInfo().setAchievements(failureAchievements);
+        TriggerInfo failTrigger = getFailTriggerInfo();
+        failTrigger.setAchievements(failureAchievements);
         notifyPropertyChanged(BR.failureAchievements);
     }
 
     @JSONField(serialize = false)
     @Bindable
     public int getEarnLP() {
-        Trigger successTrigger = getSuccessTrigger();
-        return successTrigger.getTriggerInfo().getEarnLP();
+        TriggerInfo successTrigger = getSuccessTriggerInfo();
+        return successTrigger.getEarnLP();
     }
 
     @JSONField(serialize = false)
     @Bindable
     public int getLostLP() {
-        Trigger failTrigger = getFailTrigger();
-        return failTrigger.getTriggerInfo().getEarnLP();
+        TriggerInfo failTrigger = getFailTriggerInfo();
+        return failTrigger.getEarnLP();
     }
 
 
     public void setLostLP(int lostLP) {
-        Trigger failTrigger = getFailTrigger();
-        failTrigger.getTriggerInfo().setEarnLP(lostLP);
+        TriggerInfo failTrigger = getFailTriggerInfo();
+        failTrigger.setEarnLP(lostLP);
         notifyPropertyChanged(BR.lostLP);
     }
 
@@ -545,14 +540,14 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
     }
 
     public void setEarnLP(int earnLP) {
-        Trigger successTrigger = getSuccessTrigger();
-        successTrigger.getTriggerInfo().setEarnLP(earnLP);
+        TriggerInfo successTrigger = getSuccessTriggerInfo();
+        successTrigger.setEarnLP(earnLP);
         notifyPropertyChanged(BR.earnLP);
     }
 
     public void setSuccessAchievements(List<AchievementReward> successAchievements) {
-        Trigger successTrigger = getSuccessTrigger();
-        successTrigger.getTriggerInfo().setAchievements(successAchievements);
+        TriggerInfo successTrigger = getSuccessTriggerInfo();
+        successTrigger.setAchievements(successAchievements);
         notifyPropertyChanged(BR.successAchievements);
     }
 
@@ -564,47 +559,50 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
 
     public void setTriggerIDs(List<Integer> triggerIDs) {
         //先将现有触发器失效
-        for (Trigger trigger : this.triggers) {
-            trigger.invalid();
+        for (TriggerInfo triggerInfo : this.triggerInfos) {
+            Game.getInstance().getTriggerManager().getTrigger(triggerInfo.getId()).invalid();
         }
 
-        this.triggers.clear();
+        this.triggerInfos.clear();
         for (Integer ids : triggerIDs) {
-            Trigger trigger = Game.getInstance().getTriggerManager().getTrigger(ids);
-            triggers.add(trigger);
+            TriggerInfo trigger = Game.getInstance().getTriggerManager().getTriggerInfo(ids);
+            triggerInfos.add(trigger);
         }
     }
 
     @JSONField(serialize = false)
-    public void setTriggers(List<TriggerInfo> triggerInfos) {
+    public void setTriggerInfos(List<TriggerInfo> triggerInfos) {
         //先将现有触发器失效
-        for (Trigger trigger : this.triggers) {
-            trigger.invalid();
+        for (TriggerInfo triggerInfo : this.triggerInfos) {
+            if (triggerInfo.getId()!=0) {
+                Game.getInstance().getTriggerManager().getTrigger(triggerInfo.getId()).invalid();
+            }
         }
 
-        this.triggers.clear();
+        this.triggerInfos.clear();
         for (TriggerInfo triggerInfo : triggerInfos) {
             addTrigger(triggerInfo);
         }
     }
 
-    public Trigger addTrigger(TriggerInfo info){
+    public void addTrigger(TriggerInfo info){
         info.setType(TriggerInfo.TYPE_TASK);
         info.setMainObjId(getId());
-        Trigger t=Game.getInstance().getTriggerManager().addTrigger(info);
-        triggers.add(t);
-        return t;
+        triggerInfos.add(info);
+        if (info.getId()!=0){
+            Game.getInstance().getTriggerManager().getTrigger(info.getId()).valid();
+        }
+
     }
 
     @JSONField(serialize = false)
-    public Trigger getSuccessTrigger(){
+    public TriggerInfo getSuccessTriggerInfo(){
 
-        Optional<Trigger> single = Stream.of(triggers).filter(value -> value.getTriggerInfo().getTriggerCondition().equals(TaskFinishTriggerCondition.class.getName())).findFirst();
-        Trigger successTrigger;
+        Optional<TriggerInfo> single = Stream.of(triggerInfos).filter(value -> value.getTriggerCondition().equals(TaskFinishTriggerCondition.class.getName())).findFirst();
+        TriggerInfo successTrigger;
         if (!single.isPresent()){
-            TriggerInfo successInfo=new TriggerInfo();
-            successInfo.setTriggerCondition(TaskFinishTriggerCondition.class.getName());
-            successTrigger=addTrigger(successInfo);
+            successTrigger=new TriggerInfo();
+            successTrigger.setTriggerCondition(TaskFinishTriggerCondition.class.getName());
         }else {
             successTrigger=single.get();
         }
@@ -613,14 +611,13 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
     }
 
     @JSONField(serialize = false)
-    public Trigger getFailTrigger(){
+    public TriggerInfo getFailTriggerInfo(){
 
-        Optional<Trigger> single = Stream.of(triggers).filter(value -> value.getTriggerInfo().getTriggerCondition().equals(TaskFailTriggerCondition.class.getName())).findFirst();
-        Trigger failTrigger;
+        Optional<TriggerInfo> single = Stream.of(triggerInfos).filter(value -> value.getTriggerCondition().equals(TaskFailTriggerCondition.class.getName())).findFirst();
+        TriggerInfo failTrigger;
         if (!single.isPresent()){
-            TriggerInfo failInfo=new TriggerInfo();
-            failInfo.setTriggerCondition(TaskFailTriggerCondition.class.getName());
-            failTrigger=addTrigger(failInfo);
+            failTrigger=new TriggerInfo();
+            failTrigger.setTriggerCondition(TaskFailTriggerCondition.class.getName());
         }else {
             failTrigger=single.get();
         }
@@ -643,16 +640,13 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         cv.put("urgency", getUrgency());
         cv.put("fear", getFear());
 
-        List<Integer> triggerIDs=new ArrayList<>();
-        for (Trigger trigger : triggers) {
-            TriggerInfo triggerInfo = trigger.getTriggerInfo();
+
+        for (TriggerInfo triggerInfo : triggerInfos) {
             triggerInfo.setMainObjId(getId());
             triggerInfo.setType(TriggerInfo.TYPE_TASK);
             Game.getInstance().getTriggerManager().addTrigger(triggerInfo);
-            triggerIDs.add(Long.valueOf(triggerInfo.getId()).intValue());
         }
-        cv.put("triggers",FormatUtil.list2Str(triggerIDs));
-//
+
 //        cv.put("failureSkills", FormatUtil.skillMap2Str(getFailureSkills()));
 //        cv.put("failureItems", FormatUtil.itemRewardList2Str(getFailureItems()));
 //        cv.put("failureAchievements", FormatUtil.achievementRewardList2Str(getFailureAchievements()));
@@ -685,10 +679,9 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
 
         long insertId = sqLiteDatabase.insert(DBHelper.TABLE_TASK, null, cv);
 
-        for (Trigger trigger : triggers) {
-            TriggerInfo triggerInfo = trigger.getTriggerInfo();
+        for (TriggerInfo triggerInfo : triggerInfos) {
             triggerInfo.setMainObjId(insertId);
-            Game.getInstance().getTriggerManager().updateTrigger(trigger);
+            Game.getInstance().getTriggerManager().updateTriggerInfo(triggerInfo);
         }
 
         return insertId;
@@ -752,13 +745,10 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         this.setFear(cursor.getInt(cursor.getColumnIndex("fear")));
         this.setUrgency(cursor.getInt(cursor.getColumnIndex("urgency")));
 
-        List<Integer> triggerIDs = FormatUtil.str2List(cursor.getString(cursor.getColumnIndex("triggers")));
-        triggers.clear();
+        triggerInfos.clear();
         ITriggerManager triggerManager = Game.getInstance().getTriggerManager();
-        for (Integer triggerID : triggerIDs) {
-            Trigger trigger=triggerManager.getTrigger(triggerID);
-            triggers.add(trigger);
-        }
+        List<TriggerInfo> _triggers = triggerManager.getTriggerInfos(TriggerInfo.TYPE_TASK, getId());
+        this.triggerInfos.addAll(_triggers);
 
 
         this.setRepeatType(cursor.getInt(cursor.getColumnIndex("repeatType")));
@@ -804,12 +794,12 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
     }
 
     @JSONField(serialize = false)
-    public List<Trigger> getTriggers() {
-        return triggers;
+    public List<TriggerInfo> getTriggerInfos() {
+        return triggerInfos;
     }
 
 
     public List<Integer> getTriggerIDs() {
-        return Stream.of(triggers).map(trigger -> Long.valueOf(trigger.getTriggerInfo().getId()).intValue()).collect(Collectors.toList());
+        return Stream.of(triggerInfos).map(trigger -> Long.valueOf(trigger.getId()).intValue()).collect(Collectors.toList());
     }
 }

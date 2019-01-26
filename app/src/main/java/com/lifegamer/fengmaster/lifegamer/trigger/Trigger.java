@@ -76,6 +76,14 @@ public class Trigger implements AbsTriggerCondition.OnTrigger {
 
 
     /**
+     * 触发器生效
+     */
+    public void valid(){
+        condition.valid();
+    }
+
+
+    /**
      * 处理lp点数
      *
      * @param triggerInfo

@@ -19,6 +19,7 @@ import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.RandomItemReward;
 import com.lifegamer.fengmaster.lifegamer.trigger.Trigger;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
+import com.lifegamer.fengmaster.lifegamer.util.TriggerUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -272,6 +273,7 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
 
     public void setTriggerCondition(String triggerCondition) {
         this.triggerCondition = triggerCondition;
+        setTriggerConditionDesc(TriggerUtil.getTriggerDesc(triggerCondition));
         notifyPropertyChanged(BR.triggerCondition);
     }
     @Bindable

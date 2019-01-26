@@ -4,6 +4,7 @@ import android.database.Cursor;
 
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
+import com.annimon.stream.function.Function;
 import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
@@ -63,23 +64,27 @@ public class TriggerManager implements ITriggerManager {
     }
 
     @Override
+    public TriggerInfo getTriggerInfo(long id) {
+        Trigger trigger = getTrigger(id);
+        if (trigger!=null){
+            return trigger.getTriggerInfo();
+        }else {
+            return null;
+        }
+    }
+
+    @Override
     public Trigger addTrigger(TriggerInfo triggerInfo) {
         if (triggerInfo==null){
             return null;
         }
 
-        //已经存在的ID,不应该新建
-        if (triggerInfo.getId()!=0){
-            return getTrigger(triggerInfo.getId());
+        boolean b = addOrUpdate(triggerInfo);
+        if (b){
+            return Stream.of(triggerList).filter(value -> value.getTriggerInfo().getId()==triggerInfo.getId()).findFirst().get();
+        }else {
+            return null;
         }
-
-        long l = Game.insert(triggerInfo);
-        if (l!=0){
-            triggerInfo.setId(l);
-        }
-
-        Trigger trigger=newTrigger(triggerInfo);
-        return trigger;
 
     }
 
@@ -88,10 +93,42 @@ public class TriggerManager implements ITriggerManager {
         boolean b = triggerList.contains(trigger);
         if (b){
             //已经存在的触发器,更新
-            return Game.update(trigger.getTriggerInfo());
+            return addOrUpdate(trigger.getTriggerInfo());
         }else {
             return false;
         }
+    }
+
+    @Override
+    public boolean updateTriggerInfo(TriggerInfo triggerInfo) {
+        Optional<TriggerInfo> first = Stream.of(triggerList).map(trigger -> trigger.getTriggerInfo()).filter(value -> value.equals(triggerInfo)).findFirst();
+        if (first.isPresent()){
+            //存在,则更新
+            return Game.update(triggerInfo);
+        }else {
+            return false;
+        }
+
+    }
+
+    private boolean addOrUpdate(TriggerInfo triggerInfo){
+        //已经存在相同ID的触发器,认为是同一个触发器
+        Trigger trigger = getTrigger(triggerInfo.getId());
+        if (trigger!=null){
+            return Game.update(trigger.getTriggerInfo());
+        }else {
+            Trigger newTrigger = newTrigger(triggerInfo);
+
+            long l = Game.insert(triggerInfo);
+            if (l!=0){
+                triggerInfo.setId(l);
+                return true;
+            }else {
+                return false;
+            }
+        }
+
+
     }
 
     @Override
@@ -122,7 +159,12 @@ public class TriggerManager implements ITriggerManager {
     }
 
     @Override
-    public List<Trigger> getTriggers(String type, String objId) {
-        return null;
+    public List<Trigger> getTriggers(String type, long objId) {
+        return Stream.of(triggerList).filter(value -> value.getTriggerInfo().getType().equals(type)).filter(value -> value.getTriggerInfo().getMainObjId()==objId).toList();
+    }
+
+    @Override
+    public List<TriggerInfo> getTriggerInfos(String type, long objId) {
+        return Stream.of(triggerList).filter(value -> value.getTriggerInfo().getType().equals(type)).filter(value -> value.getTriggerInfo().getMainObjId()==objId).map(trigger -> trigger.getTriggerInfo()).toList();
     }
 }

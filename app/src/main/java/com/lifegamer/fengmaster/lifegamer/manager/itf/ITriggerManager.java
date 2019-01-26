@@ -28,6 +28,14 @@ public interface ITriggerManager {
 
 
     /**
+     * 根据ID获取触发器信息对象
+     * @param id
+     * @return
+     */
+    TriggerInfo getTriggerInfo(long id);
+
+
+    /**
      * 新增触发器
      * @param triggerInfo
      * @return
@@ -40,6 +48,13 @@ public interface ITriggerManager {
      * @return
              */
     boolean updateTrigger(Trigger trigger);
+
+    /**
+     * 更新触发器信息
+     * @param triggerInfo
+     * @return
+     */
+    boolean updateTriggerInfo(TriggerInfo triggerInfo);
 
 
     /**
@@ -63,6 +78,15 @@ public interface ITriggerManager {
      * @param objId
      * @return
      */
-    List<Trigger> getTriggers(String type, String objId);
+    List<Trigger> getTriggers(String type, long objId);
+
+
+    /**
+     * 获取指定种类的指定对象ID上的所有触发器
+     * @param type
+     * @param objId
+     * @return
+     */
+    List<TriggerInfo> getTriggerInfos(String type, long objId);
 
 }
