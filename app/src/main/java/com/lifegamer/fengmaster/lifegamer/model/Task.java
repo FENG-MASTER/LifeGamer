@@ -10,6 +10,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
+import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.BR;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.base.ICopy;
@@ -23,6 +24,7 @@ import com.lifegamer.fengmaster.lifegamer.model.base.IdAble;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.RandomItemReward;
 import com.lifegamer.fengmaster.lifegamer.trigger.Trigger;
+import com.lifegamer.fengmaster.lifegamer.trigger.condition.TaskExpireCondition;
 import com.lifegamer.fengmaster.lifegamer.trigger.condition.TaskFailTriggerCondition;
 import com.lifegamer.fengmaster.lifegamer.trigger.condition.TaskFinishTriggerCondition;
 import com.lifegamer.fengmaster.lifegamer.util.FormatUtil;
@@ -132,7 +134,12 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
      */
     private List<TriggerInfo> triggerInfos =new ArrayList<>();
 
-    private Trigger autoFailTrigger;
+    private TriggerInfo autoFailTriggerInfo;
+
+    {
+        autoFailTriggerInfo=new TriggerInfo();
+        autoFailTriggerInfo.setTriggerCondition(TaskExpireCondition.class.getName());
+    }
 
     {
         //默认初始化成功一次的奖励对象
@@ -193,6 +200,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
      * 任务过期后是否自动失败
      */
     private boolean isAutoFail;
+
 /***********************S时间信息S**************************/
 
 
@@ -216,6 +224,12 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
 
         for (TriggerInfo triggerInfo : triggerInfos) {
             Game.getInstance().getTriggerManager().updateTriggerInfo(triggerInfo);
+        }
+
+        if (isAutoFail()){
+            //更新自动失败触发器
+            Game.getInstance().getTriggerManager().updateTriggerInfo(autoFailTriggerInfo);
+
         }
 
         cv.put("repeatType", getRepeatType());
@@ -272,6 +286,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
     public void setAutoFail(boolean autoFail) {
         isAutoFail = autoFail;
         notifyPropertyChanged(BR.autoFail);
+
     }
 
     @Bindable
@@ -647,6 +662,13 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
             Game.getInstance().getTriggerManager().addTrigger(triggerInfo);
         }
 
+
+        autoFailTriggerInfo.setMainObjId(getId());
+        autoFailTriggerInfo.setType(TriggerInfo.TYPE_TASK);
+        Trigger trigger = Game.getInstance().getTriggerManager().addTrigger(autoFailTriggerInfo);
+        trigger.invalid();
+
+
 //        cv.put("failureSkills", FormatUtil.skillMap2Str(getFailureSkills()));
 //        cv.put("failureItems", FormatUtil.itemRewardList2Str(getFailureItems()));
 //        cv.put("failureAchievements", FormatUtil.achievementRewardList2Str(getFailureAchievements()));
@@ -678,11 +700,17 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         cv.put("notes", FormatUtil.list2Str(getNotes()));
 
         long insertId = sqLiteDatabase.insert(DBHelper.TABLE_TASK, null, cv);
+        setId(insertId);
 
         for (TriggerInfo triggerInfo : triggerInfos) {
             triggerInfo.setMainObjId(insertId);
             Game.getInstance().getTriggerManager().updateTriggerInfo(triggerInfo);
         }
+
+        autoFailTriggerInfo.setMainObjId(insertId);
+        Game.getInstance().getTriggerManager().updateTriggerInfo(autoFailTriggerInfo);
+        Trigger trigger1 = Game.getInstance().getTriggerManager().getTrigger(autoFailTriggerInfo.getId());
+        trigger1.valid();
 
         return insertId;
     }
@@ -745,10 +773,20 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
         this.setFear(cursor.getInt(cursor.getColumnIndex("fear")));
         this.setUrgency(cursor.getInt(cursor.getColumnIndex("urgency")));
 
+        //寻找相关触发器
         triggerInfos.clear();
         ITriggerManager triggerManager = Game.getInstance().getTriggerManager();
         List<TriggerInfo> _triggers = triggerManager.getTriggerInfos(TriggerInfo.TYPE_TASK, getId());
-        this.triggerInfos.addAll(_triggers);
+        this.triggerInfos.addAll(Stream.of(_triggers).filterNot(value -> value.getTriggerCondition().equals(TaskExpireCondition.class.getName())).toList());
+
+        //寻找任务自动失败触发器
+        Optional<TriggerInfo> autoOption = Stream.of(_triggers).filter(value -> value.getTriggerCondition().equals(TaskExpireCondition.class.getName())).findFirst();
+        if (autoOption.isPresent()){
+            autoFailTriggerInfo=autoOption.get();
+        }else {
+            setAutoFail(false);
+        }
+
 
 
         this.setRepeatType(cursor.getInt(cursor.getColumnIndex("repeatType")));

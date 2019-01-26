@@ -3,6 +3,8 @@ package com.lifegamer.fengmaster.lifegamer.trigger.condition;
 import com.lifegamer.fengmaster.lifegamer.model.TriggerInfo;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * 触发器 触发条件基类
@@ -75,4 +77,9 @@ public abstract class AbsTriggerCondition {
     }
 
     public abstract String getConditionDesc();
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void enpty(Object o){
+
+    }
 }

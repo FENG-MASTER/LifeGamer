@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.util.SparseArray;
 
 import com.annimon.stream.Collectors;
+import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 import com.annimon.stream.function.Function;
 import com.annimon.stream.function.Predicate;
@@ -91,13 +92,14 @@ public class TaskManager implements ITaskManager {
 
     @LogPoint(type = Log.TYPE.TASK,action = Log.ACTION.CREATE,property = Log.PROPERTY.DEFAULT)
     private boolean _addTask(Task task){
-
-        long id = Game.insert(task);
-        if (id != 0) {
-            task.setId(id);
+        if (getTask(task.getId())==null){
             taskList.add(task);
+            long id = Game.insert(task);
+            return id != 0;
+        }else {
+            return false;
         }
-        return id != 0;
+
     }
 
     /**
@@ -269,7 +271,16 @@ public class TaskManager implements ITaskManager {
      */
     @Override
     public Task getTask(long id) {
-        return Stream.of(taskList).filter(value -> value.getId() == id).findFirst().get();
+        if (id==0){
+            return null;
+        }else {
+            Optional<Task> taskOptional = Stream.of(taskList).filter(value -> value.getId() == id).findFirst();
+            if (taskOptional.isPresent()){
+                return taskOptional.get();
+            }else {
+                return null;
+            }
+        }
     }
 
     /**

@@ -66,7 +66,6 @@ public class EditTaskDialog extends BaseDialogFragment implements View.OnClickLi
         fragmentList = new ArrayList<>();
         fragmentList.add(new EditTaskExtraFragment().setTask(task));
         fragmentList.add(new EditTaskTimeFragment().setTask(task));
-//        fragmentList.add(new EditTaskRewardPunishFragment().setTask(task));
         fragmentList.add(new EditTaskRewardPunishFragment().setTask(task));
 
         //这里getChildFragmentManager 否则会报找不到id错误

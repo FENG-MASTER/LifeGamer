@@ -21,6 +21,9 @@ import java.util.List;
  */
 public class TriggerManager implements ITriggerManager {
 
+    /**
+     * 所有一般触发器列表
+     */
     private List<Trigger> triggerList =new ArrayList<>();
 
     private DBHelper helper = DBHelper.getInstance();
@@ -137,14 +140,23 @@ public class TriggerManager implements ITriggerManager {
             return false;
         }
         boolean b = triggerList.contains(trigger);
+        trigger.invalid();
         if (b){
-            boolean delete = Game.delete(trigger.getTriggerInfo());
-            if (delete){
+            if (trigger.getTriggerInfo().getId()==0){
+                //新增的触发器,还没存储到数据库
                 triggerList.remove(trigger);
                 return true;
             }else {
-                return false;
+                boolean delete = Game.delete(trigger.getTriggerInfo());
+                if (delete){
+                    triggerList.remove(trigger);
+                    return true;
+                }else {
+                    return false;
+                }
             }
+
+
 
         }else {
             return false;

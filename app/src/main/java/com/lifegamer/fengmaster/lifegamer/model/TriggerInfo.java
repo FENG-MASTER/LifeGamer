@@ -157,6 +157,7 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
         this.setTriggerCondition(cursor.getString(cursor.getColumnIndex("triggerCondition")));
         this.setTriggerConditionDesc(cursor.getString(cursor.getColumnIndex("triggerConditionDesc")));
         this.setTriggerParameter(cursor.getString(cursor.getColumnIndex("triggerParameter")));
+        this.setSaveInfo(cursor.getString(cursor.getColumnIndex("saveInfo")));
 
         this.setSkills(FormatUtil.str2SkillMap(cursor.getString(cursor.getColumnIndex("skills"))));
         this.setItems(FormatUtil.str2ItemRewardList(cursor.getString(cursor.getColumnIndex("items"))));

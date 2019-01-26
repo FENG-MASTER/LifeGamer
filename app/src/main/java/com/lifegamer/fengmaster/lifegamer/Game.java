@@ -5,6 +5,7 @@ import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Insertable;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Updateable;
+import com.lifegamer.fengmaster.lifegamer.event.trigger.MinuteEvent;
 import com.lifegamer.fengmaster.lifegamer.log.UndoManger;
 import com.lifegamer.fengmaster.lifegamer.manager.AchievementManager;
 import com.lifegamer.fengmaster.lifegamer.manager.HeroManger;
@@ -27,7 +28,12 @@ import com.lifegamer.fengmaster.lifegamer.manager.itf.ITaskManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ITriggerManager;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.IUndoManager;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.net.PortUnreachableException;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by qianzise on 2017/10/6.
@@ -99,6 +105,8 @@ public class Game {
      */
     private ITriggerManager triggerManager;
 
+    private Timer timer;
+
     private Game() {
         /**
          * 物品管理器
@@ -150,7 +158,19 @@ public class Game {
 
         heroManager.getHero();
 
+        timer=new Timer();
 
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                EventBus.getDefault().post(new MinuteEvent(new Date()));
+            }
+        },0,60000);
+
+    }
+
+    public Timer getTimer() {
+        return timer;
     }
 
     public void initTaskManager(){
