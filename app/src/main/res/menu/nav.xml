@@ -9,6 +9,7 @@
         <item android:id="@+id/nav_skill" android:icon="@drawable/ic_nav_skill" android:title="@string/nav_skill"/>
         <item android:id="@+id/nav_achievement" android:icon="@drawable/ic_nav_achievement" android:title="@string/nav_achievement"/>
         <item android:id="@+id/nav_statistics" android:icon="@drawable/ic_nav_statistics" android:title="@string/nav_statistics"/>
+        <item android:id="@+id/nav_log" android:icon="@drawable/ic_nav_hist" android:title="@string/nav_log"/>
         <item android:id="@+id/nav_hero" android:icon="@drawable/ic_nav_hero" android:title="@string/nav_info"/>
 
     </group>

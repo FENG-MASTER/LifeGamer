@@ -22,7 +22,20 @@ public interface ILogManager {
 
     void updateLog(Log log);
 
-    void delteLog(Log log);
+    void deleteLog(Log log);
+
+    /**
+     * 获取所有日志
+     * @return
+     */
+    List<Log> getAllLog();
+
+    /**
+     * 获取特定类型的日志
+     * @param type
+     * @return
+     */
+    List<Log> getAllLog(String type);
     /**
      * 获取指定事件序号的所有日志
      * @param eventSequence

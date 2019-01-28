@@ -3,6 +3,7 @@ package com.lifegamer.fengmaster.lifegamer.log;
 import android.database.Cursor;
 
 import com.annimon.stream.Stream;
+import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.event.CommandExec;
@@ -10,6 +11,8 @@ import com.lifegamer.fengmaster.lifegamer.log.log.LogHandler;
 import com.lifegamer.fengmaster.lifegamer.log.log.LogHandlers;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ILogManager;
 import com.lifegamer.fengmaster.lifegamer.model.Log;
+import com.lifegamer.fengmaster.lifegamer.model.TriggerInfo;
+import com.lifegamer.fengmaster.lifegamer.trigger.Trigger;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -105,7 +108,6 @@ public class LogManager implements ILogManager {
     /**
      * 所有注解了log的方法,都会写日志
      */
-//    @Pointcut("execution(* *(..)) && @annotation(com.lifegamer.fengmaster.lifegamer.log.LogPoint)")
     @Pointcut("call(@com.lifegamer.fengmaster.lifegamer.log.LogPoint * *(..))")
     public void logPointCut() {
     }
@@ -198,8 +200,26 @@ public class LogManager implements ILogManager {
     }
 
     @Override
-    public void delteLog(Log log) {
+    public void deleteLog(Log log) {
         Game.delete(log);
+    }
+
+    @Override
+    public List<Log> getAllLog() {
+        List<Log> logs=new ArrayList<>();
+        Cursor cursor = DBHelper.getInstance().getReadableDatabase().query(DBHelper.TABLE_LOG, null, null, null, null, null, null);
+        while (cursor.moveToNext()) {
+            Log log=new Log();
+            log.getFromCursor(cursor);
+            logs.add(log);
+        }
+        cursor.close();
+        return logs;
+    }
+
+    @Override
+    public List<Log> getAllLog(String type) {
+        return Stream.of(getAllLog()).filter(value -> value.getType().equals(type)).toList();
     }
 
     @Override
