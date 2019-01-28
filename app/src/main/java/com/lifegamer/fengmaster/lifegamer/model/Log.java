@@ -318,6 +318,7 @@ public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getab
         public static final String ACHIEVEMENT = "成就";
         public static final String ITEM = "物品";
         public static final String REWARDITEM = "奖励";
+        public static final String TRIGGER = "触发器";
 
     }
 

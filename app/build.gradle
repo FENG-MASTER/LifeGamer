@@ -72,8 +72,8 @@ dependencies {
     api 'com.github.aakira:expandable-layout:1.6.0@aar'
     api 'org.aspectj:aspectjrt:1.8.13'
     testImplementation 'junit:junit:4.12'
-    implementation files('D:/github/code/LifeGamer/libs/umeng-analytics-8.0.0.jar')
-    implementation files('D:/github/code/LifeGamer/libs/umeng-common-2.0.1.jar')
+    implementation files('E:/opensource/LifeGamer/code/LifeGamer/libs/umeng-analytics-8.0.0.jar')
+    implementation files('E:/opensource/LifeGamer/code/LifeGamer/libs/umeng-common-2.0.1.jar')
 }
 
 

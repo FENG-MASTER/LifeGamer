@@ -8,7 +8,9 @@ import com.annimon.stream.function.Function;
 import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
+import com.lifegamer.fengmaster.lifegamer.log.LogPoint;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ITriggerManager;
+import com.lifegamer.fengmaster.lifegamer.model.Log;
 import com.lifegamer.fengmaster.lifegamer.model.TriggerInfo;
 import com.lifegamer.fengmaster.lifegamer.trigger.Trigger;
 
@@ -105,13 +107,6 @@ public class TriggerManager implements ITriggerManager {
     @Override
     public boolean updateTriggerInfo(TriggerInfo triggerInfo) {
         return addOrUpdate(triggerInfo);
-//        Optional<TriggerInfo> first = Stream.of(triggerList).map(trigger -> trigger.getTriggerInfo()).filter(value -> value.equals(triggerInfo)).findFirst();
-//        if (first.isPresent()){
-//            //存在,则更新
-//            return Game.update(triggerInfo);
-//        }else {
-//            return false;
-//        }
 
     }
 
@@ -119,21 +114,40 @@ public class TriggerManager implements ITriggerManager {
         //已经存在相同ID的触发器,认为是同一个触发器
         Trigger trigger = getTrigger(triggerInfo.getId());
         if (trigger!=null){
-            return Game.update(trigger.getTriggerInfo());
+            return  _updteTrigger(trigger.getTriggerInfo());
         }else {
-            Trigger newTrigger = newTrigger(triggerInfo);
-
-            long l = Game.insert(triggerInfo);
-            if (l!=0){
-                triggerInfo.setId(l);
-                return true;
-            }else {
-                return false;
-            }
+            return _addTrigger(triggerInfo);
         }
-
-
     }
+
+    /**
+     * 写新增触发器日志
+     * @param triggerInfo
+     */
+    @LogPoint(type = Log.TYPE.TRIGGER,action = Log.ACTION.CREATE,property = Log.PROPERTY.DEFAULT)
+    private boolean _addTrigger(TriggerInfo triggerInfo){
+        Trigger newTrigger = newTrigger(triggerInfo);
+
+        long l = Game.insert(triggerInfo);
+        if (l!=0){
+            triggerInfo.setId(l);
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    /**
+     * 写更新触发器日志
+     * @param triggerInfo
+     */
+    @LogPoint(type = Log.TYPE.TRIGGER,action = Log.ACTION.EDIT,property = Log.PROPERTY.DEFAULT)
+    private boolean _updteTrigger(TriggerInfo triggerInfo){
+        return Game.update(triggerInfo);
+    }
+
+
+
 
     @Override
     public boolean removeTrigger(Trigger trigger) {
@@ -148,7 +162,7 @@ public class TriggerManager implements ITriggerManager {
                 triggerList.remove(trigger);
                 return true;
             }else {
-                boolean delete = Game.delete(trigger.getTriggerInfo());
+                boolean delete = _removeDBTrigger(trigger.getTriggerInfo());
                 if (delete){
                     triggerList.remove(trigger);
                     return true;
@@ -163,6 +177,11 @@ public class TriggerManager implements ITriggerManager {
             return false;
         }
 
+    }
+
+    @LogPoint(type = Log.TYPE.TRIGGER,action = Log.ACTION.DELETE,property = Log.PROPERTY.DEFAULT)
+    public boolean _removeDBTrigger(TriggerInfo triggerInfo){
+        return Game.delete(triggerInfo);
     }
 
     @Override

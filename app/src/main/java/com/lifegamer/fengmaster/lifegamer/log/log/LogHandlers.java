@@ -11,6 +11,7 @@ import com.lifegamer.fengmaster.lifegamer.model.Log;
 import com.lifegamer.fengmaster.lifegamer.model.RewardItem;
 import com.lifegamer.fengmaster.lifegamer.model.Skill;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
+import com.lifegamer.fengmaster.lifegamer.model.TriggerInfo;
 import com.lifegamer.fengmaster.lifegamer.model.base.IdAble;
 
 import org.aspectj.lang.JoinPoint;
@@ -280,6 +281,46 @@ public class LogHandlers {
 
 
 //    ------------------------------任务相关-------------------------------------
+
+//    ------------------------------触发器相关-------------------------------------
+
+    /**
+     * 删除触发器日志
+     * @param joinPoint
+     * @param log
+     */
+    @LogHandler(type = Log.TYPE.TRIGGER,action = Log.ACTION.DELETE,property = Log.PROPERTY.DEFAULT,order = Log.ORDER.BEFORE)
+    public static void triggerDeleteLogB(JoinPoint joinPoint,Log log){
+        commonFuncLogB(TriggerInfo.class, joinPoint, log, triggerInfo -> Long.toString(triggerInfo.getId()), triggerInfo1 -> JSONObject.toJSONString(triggerInfo1));
+    }
+
+
+    /**
+     * 新增触发器日志
+     * @param joinPoint
+     * @param log
+     */
+    @LogHandler(type = Log.TYPE.TRIGGER,action = Log.ACTION.CREATE,property = Log.PROPERTY.DEFAULT,order = Log.ORDER.AFTER)
+    public static void triggerCreateLogA(JoinPoint joinPoint,Log log){
+        commonFuncLogB(TriggerInfo.class, joinPoint, log, triggerInfo -> Long.toString(triggerInfo.getId()), triggerInfo1 -> JSONObject.toJSONString(triggerInfo1));
+    }
+
+
+
+    /**
+     * 编辑触发器日志
+     * @param joinPoint
+     * @param log
+     */
+    @LogHandler(type = Log.TYPE.TRIGGER,action = Log.ACTION.EDIT,property = Log.PROPERTY.DEFAULT,order = Log.ORDER.BEFORE)
+    public static void triggerEditLogB(JoinPoint joinPoint,Log log){
+        commonFuncLogB(TriggerInfo.class, joinPoint, log, triggerInfo -> Long.toString(triggerInfo.getId()), triggerInfo1 -> JSONObject.toJSONString(triggerInfo1));
+    }
+
+
+
+
+//    ------------------------------触发器相关-------------------------------------
 
 
 //    ------------------------------物品相关-------------------------------------

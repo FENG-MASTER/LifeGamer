@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.lifegamer.fengmaster.lifegamer.BR;
 
 import com.lifegamer.fengmaster.lifegamer.base.ICopy;
@@ -296,6 +297,7 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
         this.xp = xp;
         notifyPropertyChanged(BR.xp);
     }
+    @JSONField(serialize = false)
     @Bindable
     public Map<Long, Integer> getSkills() {
         return skills;
@@ -305,6 +307,20 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
         this.skills = skills;
         notifyPropertyChanged(BR.skills);
     }
+
+    @JSONField(name = "skills")
+    public String getSkillsStr(){
+        return FormatUtil.skillMap2Str(getSkills());
+    }
+
+    @JSONField(name = "skills")
+    public void setSkillsStr(String str){
+        setSkills(FormatUtil.str2SkillMap(str));
+    }
+
+
+
+    @JSONField(serialize = false)
     @Bindable
     public List<RandomItemReward> getItems() {
         return items;
@@ -314,6 +330,21 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
         this.items = items;
         notifyPropertyChanged(BR.items);
     }
+
+    @JSONField(name = "items")
+    public String getItemsStr(){
+        return FormatUtil.itemRewardList2Str(getItems());
+    }
+
+    @JSONField(name = "items")
+    public void setItemsStr(String str){
+        setItems(FormatUtil.str2ItemRewardList(str));
+    }
+
+
+
+
+    @JSONField(serialize = false)
     @Bindable
     public List<AchievementReward> getAchievements() {
         return achievements;
@@ -323,6 +354,18 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
         this.achievements = achievements;
         notifyPropertyChanged(BR.achievements);
     }
+
+
+    @JSONField(name = "achievements")
+    public String getAchievementsStr(){
+        return FormatUtil.achievementRewardList2Str(getAchievements());
+    }
+
+    @JSONField(name = "achievements")
+    public void setAchievementsStr(String str){
+        setAchievements(FormatUtil.str2achievementRewardList(str));
+    }
+
     @Bindable
     public int getEarnLP() {
         return earnLP;
