@@ -3,6 +3,7 @@ package com.lifegamer.fengmaster.lifegamer.wight;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -34,6 +35,9 @@ public class MyItemDecoration extends RecyclerView.ItemDecoration {
             throw new IllegalArgumentException("请输入正确的参数！");
         }
         mOrientation = orientation;
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaint.setColor(Color.WHITE);
+        mPaint.setStyle(Paint.Style.FILL);
 
         final TypedArray a = context.obtainStyledAttributes(ATTRS);
         mDivider = a.getDrawable(0);

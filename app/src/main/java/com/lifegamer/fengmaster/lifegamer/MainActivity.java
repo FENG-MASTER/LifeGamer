@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import com.lifegamer.fengmaster.lifegamer.fragment.AboutFragment;
 import com.lifegamer.fengmaster.lifegamer.fragment.SettingFragment;
 import com.lifegamer.fengmaster.lifegamer.fragment.achievement.AchievementFragment;
+import com.lifegamer.fengmaster.lifegamer.fragment.log.LogFragment;
 import com.lifegamer.fengmaster.lifegamer.fragment.reward.RewardFragment;
 import com.lifegamer.fengmaster.lifegamer.fragment.HeroInfoFragment;
 import com.lifegamer.fengmaster.lifegamer.fragment.item.ItemFragment;
@@ -148,6 +149,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_setting:
                 changeToFragment(8);
                 break;
+
+            case R.id.nav_log:
+                changeToFragment(9);
+                break;
+
             case R.id.nav_exit:
                 //退出
                 finish();
@@ -206,6 +212,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case 8:
                 changeFragment(new SettingFragment());
                 break;
+            case 9:
+                changeFragment(new LogFragment());
+                break;
+
             default:
 
         }

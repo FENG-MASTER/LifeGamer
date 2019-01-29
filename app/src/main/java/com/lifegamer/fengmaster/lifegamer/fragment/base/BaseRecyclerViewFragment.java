@@ -1,6 +1,7 @@
 package com.lifegamer.fengmaster.lifegamer.fragment.base;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -57,9 +58,9 @@ public class BaseRecyclerViewFragment extends BaseFragment {
         }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        recyclerView.addItemDecoration(new MyItemDecoration(getContext(),LinearLayoutManager.VERTICAL));
+        recyclerView.addItemDecoration(new MyItemDecoration(getContext(),LinearLayoutManager.VERTICAL,10, Color.WHITE));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.invalidateItemDecorations();
+//        recyclerView.invalidateItemDecorations();
         return view;
     }
 

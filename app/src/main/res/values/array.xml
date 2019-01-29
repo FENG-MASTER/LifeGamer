@@ -10,6 +10,7 @@
         <item>个人简介</item>
         <item>关于</item>
         <item>设置</item>
+        <item>足迹</item>
     </string-array>
 
     <integer-array name="main_sp_r">
