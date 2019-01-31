@@ -58,7 +58,7 @@ public class BaseRecyclerViewFragment extends BaseFragment {
         }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        recyclerView.addItemDecoration(new MyItemDecoration(getContext(),LinearLayoutManager.VERTICAL,10, Color.WHITE));
+        recyclerView.addItemDecoration(new MyItemDecoration(getContext(),LinearLayoutManager.VERTICAL,2, Color.GRAY));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 //        recyclerView.invalidateItemDecorations();
         return view;

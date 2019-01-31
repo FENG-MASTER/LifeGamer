@@ -1,5 +1,7 @@
 package com.lifegamer.fengmaster.lifegamer.manager.itf;
 
+import android.graphics.drawable.Drawable;
+
 import com.lifegamer.fengmaster.lifegamer.model.Log;
 
 import java.util.List;
@@ -42,4 +44,11 @@ public interface ILogManager {
      * @return
      */
     List<Log> getEventLogs(int eventSequence);
+
+    /**
+     * 获取相应种类对应的图标
+     * @param type
+     * @return
+     */
+    Drawable getTypeDrawable(String type);
 }

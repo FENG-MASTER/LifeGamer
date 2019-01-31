@@ -120,7 +120,7 @@ public class LogHandlers {
      * @param joinPoint
      * @param log
      */
-    @LogHandler(type = Log.TYPE.SKILL,action = Log.ACTION.CREATE,property = Log.PROPERTY.DEFAULT,order = Log.ORDER.BEFORE)
+    @LogHandler(type = Log.TYPE.SKILL,action = Log.ACTION.CREATE,property = Log.PROPERTY.DEFAULT,order = Log.ORDER.AFTER)
     public static void skillCreateLogA(JoinPoint joinPoint,Log log){
         commonFuncLogB(Skill.class, joinPoint, log, skill -> skill.getName(), skill -> JSONObject.toJSONString(skill));
     }

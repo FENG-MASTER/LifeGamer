@@ -4,7 +4,12 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.databinding.BaseObservable;
+import android.graphics.drawable.Drawable;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.lifegamer.fengmaster.lifegamer.App;
+import com.lifegamer.fengmaster.lifegamer.Game;
+import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.base.ICopy;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.dao.itf.Deleteable;
@@ -277,6 +282,56 @@ public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getab
 
     public void setOperId(String operId) {
         this.operId = operId;
+    }
+
+    @JSONField(serialize = false)
+    public Drawable getIcon(){
+        if (getOperId()==null||getOperId().equals("0")){
+            return null;
+        }
+        switch (getType()){
+            case TYPE.TASK:
+                Task task = Game.getInstance().getTaskManager().getTask(Long.valueOf(getOperId()));
+                if (task!=null){
+                    return Game.getInstance().getAvatarManager().getDrawable(task.getIcon());
+                }
+                break;
+            case TYPE.ACHIEVEMENT:
+                Achievement achievement = Game.getInstance().getAchievementManager().getAchievement(Long.valueOf(getOperId()));
+                if (achievement!=null){
+                    return Game.getInstance().getAvatarManager().getDrawable(achievement.getIcon());
+                }
+                break;
+            case TYPE.ITEM:
+                Item item = Game.getInstance().getItemManager().getItem(Long.valueOf(getOperId()));
+                if (item!=null){
+                    return Game.getInstance().getAvatarManager().getDrawable(item.getIcon());
+                }
+                break;
+            case TYPE.REWARDITEM:
+                RewardItem rewardItem = Game.getInstance().getRewardManager().getRewardItem(Long.valueOf(getOperId()));
+                if (rewardItem!=null){
+                    return Game.getInstance().getAvatarManager().getDrawable(rewardItem.getIcon());
+                }
+                break;
+            case TYPE.SKILL:
+                Skill skill = Game.getInstance().getSkillManager().getSkill(Long.valueOf(getOperId()));
+                if (skill!=null){
+                    return Game.getInstance().getAvatarManager().getDrawable(skill.getIcon());
+                }
+                break;
+            case TYPE.HERO:
+                switch (getProperty()){
+                    case PROPERTY.LEVEL:
+                        return App.getContext().getDrawable(R.drawable.ic_exp);
+                    case PROPERTY.XP:
+                        return App.getContext().getDrawable(R.drawable.ic_exp);
+                    case PROPERTY.LIFEPOINT:
+                        return App.getContext().getDrawable(R.drawable.ic_life_point_coin);
+
+                }
+        }
+        return null;
     }
 
     @Override

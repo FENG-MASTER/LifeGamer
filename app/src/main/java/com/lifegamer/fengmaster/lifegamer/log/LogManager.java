@@ -1,10 +1,13 @@
 package com.lifegamer.fengmaster.lifegamer.log;
 
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 
 import com.annimon.stream.Stream;
 import com.annimon.stream.function.Predicate;
+import com.lifegamer.fengmaster.lifegamer.App;
 import com.lifegamer.fengmaster.lifegamer.Game;
+import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.event.CommandExec;
 import com.lifegamer.fengmaster.lifegamer.log.log.LogHandler;
@@ -233,6 +236,25 @@ public class LogManager implements ILogManager {
             logs.add(log);
         }
         return logs;
+    }
+
+    @Override
+    public Drawable getTypeDrawable(String type) {
+        switch (type){
+            case Log.TYPE.TASK:
+                return App.getContext().getResources().getDrawable(R.drawable.ic_nav_task,null);
+            case Log.TYPE.ACHIEVEMENT:
+                return App.getContext().getResources().getDrawable(R.drawable.ic_nav_achievement,null);
+            case Log.TYPE.HERO:
+                return App.getContext().getResources().getDrawable(R.drawable.ic_nav_hero,null);
+            case Log.TYPE.ITEM:
+                return App.getContext().getResources().getDrawable(R.drawable.ic_nav_item,null);
+            case Log.TYPE.REWARDITEM:
+                return App.getContext().getResources().getDrawable(R.drawable.ic_nav_reward,null);
+            case Log.TYPE.SKILL:
+                return App.getContext().getResources().getDrawable(R.drawable.ic_nav_skill,null);
+        }
+        return App.getContext().getResources().getDrawable(R.drawable.ic_default,null);
     }
 
 

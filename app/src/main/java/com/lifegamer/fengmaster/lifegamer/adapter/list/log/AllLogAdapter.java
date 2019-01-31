@@ -15,6 +15,6 @@ public class AllLogAdapter extends BaseLogAdapter{
 
     @Override
     public String getName() {
-        return null;
+        return "足迹";
     }
 }

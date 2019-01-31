@@ -3,6 +3,7 @@ package com.lifegamer.fengmaster.lifegamer.manager;
 import android.database.Cursor;
 
 import com.annimon.stream.Collectors;
+import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
@@ -186,7 +187,12 @@ public class AchievementManager implements IAchievementManager{
      */
     @Override
     public Achievement getAchievement(long id) {
-        return Stream.of(achievements).filter(value -> value.getId() == id).findFirst().get();
+        Optional<Achievement> achievementOptional = Stream.of(achievements).filter(value -> value.getId() == id).findFirst();
+        if (achievementOptional.isPresent()){
+            return achievementOptional.get();
+        }else {
+            return null;
+        }
     }
 
     /**

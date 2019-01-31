@@ -217,8 +217,9 @@ public class Achievement  extends BaseObservable implements Insertable,Updateabl
         cv.put("notes", FormatUtil.list2Str(getNotes()));
         cv.put("createTime",SimpleDateFormat.getInstance().format(getCreateTime()));
         cv.put("updateTime",SimpleDateFormat.getInstance().format(getUpdateTime()));
-
-        return sqLiteDatabase.insert(DBHelper.TABLE_ACHIEVEMENT,null,cv);
+        long insert = sqLiteDatabase.insert(DBHelper.TABLE_ACHIEVEMENT, null, cv);
+        setId(insert);
+        return insert;
     }
 
     @Override

@@ -3,7 +3,6 @@
 
     <data>
 
-        <import type="com.lifegamer.fengmaster.lifegamer.util.FormatUtil"/>
 
         <import type="com.lifegamer.fengmaster.lifegamer.Game"/>
 
@@ -26,13 +25,29 @@
         android:weightSum="3"
         android:padding="5dp">
 
-
-        <TextView
-            android:gravity="bottom"
-            android:id="@+id/tv_log_event_seq"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{String.valueOf(log.eventSequence)}"/>
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:gravity="bottom"
+                android:id="@+id/tv_log_event_seq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(log.eventSequence)}"/>
+
+            <com.lifegamer.fengmaster.lifegamer.wight.SqureImageView
+                android:id="@+id/tv_log_type_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@{Game.instance.logManager.getTypeDrawable(log.type)}"/>
+
+
+        </LinearLayout>
+
+
 
         <LinearLayout
             android:layout_weight="1"
@@ -69,15 +84,12 @@
             android:text="@{String.valueOf(log.operName)}"
             android:textSize="20sp"/>
 
+        <com.lifegamer.fengmaster.lifegamer.wight.SqureImageView
+            android:id="@+id/tv_log_obj_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@{log.icon}"/>
 
-
-        <TextView
-            android:id="@+id/tv_log_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="@{String.valueOf(log.type)}"
-            android:textSize="20sp"/>
 
 
     </LinearLayout>

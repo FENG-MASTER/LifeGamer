@@ -354,7 +354,9 @@ public class Skill extends BaseObservable implements Insertable, Updateable, Del
             cv.put("updateTime","");
         }
 
-        return sqLiteDatabase.insert(DBHelper.TABLE_SKILL, null, cv);
+        long insert = sqLiteDatabase.insert(DBHelper.TABLE_SKILL, null, cv);
+        setId(insert);
+        return insert;
     }
 
     @Override

@@ -233,7 +233,9 @@ public class Item extends BaseObservable implements Insertable, Deleteable, Upda
         cv.put("createTime", SimpleDateFormat.getInstance().format(getCreateTime()));
         cv.put("updateTime", SimpleDateFormat.getInstance().format(getUpdateTime()));
 
-        return sqLiteDatabase.insert(DBHelper.TABLE_ITEM, null, cv);
+        long insert = sqLiteDatabase.insert(DBHelper.TABLE_ITEM, null, cv);
+        setId(insert);
+        return insert;
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.databinding.Observable;
 import android.os.Build;
 
 import com.annimon.stream.Collectors;
+import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 import com.annimon.stream.function.Function;
 import com.annimon.stream.function.Predicate;
@@ -150,7 +151,12 @@ public class SkillManager implements ISkillManager {
      */
     @Override
     public Skill getSkill(long id) {
-        return Stream.of(skillList).filter(value -> value.getId() == id).findFirst().get();
+        Optional<Skill> first = Stream.of(skillList).filter(value -> value.getId() == id).findFirst();
+        if (first.isPresent()){
+            return first.get();
+        }else {
+            return null;
+        }
     }
 
     /**

@@ -371,8 +371,9 @@ public class RewardItem extends BaseObservable implements Insertable,Deleteable,
         cv.put("createTime", SimpleDateFormat.getInstance().format(getCreateTime()));
         cv.put("updateTime",SimpleDateFormat.getInstance().format(getUpdateTime()));
 
-
-        return sqLiteDatabase.insert(DBHelper.TABLE_REWARD,null,cv);
+        long insert = sqLiteDatabase.insert(DBHelper.TABLE_REWARD, null, cv);
+        setId(insert);
+        return insert;
     }
 
     @Override

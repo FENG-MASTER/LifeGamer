@@ -3,6 +3,7 @@ package com.lifegamer.fengmaster.lifegamer.manager;
 import android.database.Cursor;
 
 import com.annimon.stream.Collectors;
+import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
@@ -181,7 +182,12 @@ public class ItemManager implements IItemManager {
      */
     @Override
     public Item getItem(String itemName) {
-        return Stream.of(items).filter(value -> value.getValue().getName().equals(itemName)).findFirst().get().getValue();
+        Optional<Map.Entry<String, Item>> optional = Stream.of(items).filter(value -> value.getValue().getName().equals(itemName)).findFirst();
+        if (optional.isPresent()){
+            return optional.get().getValue();
+        }else {
+            return null;
+        }
     }
 
     /**
@@ -192,8 +198,12 @@ public class ItemManager implements IItemManager {
      */
     @Override
     public Item getItem(long id) {
-        return Stream.of(items).filter(value -> value.getValue().getId() == id).findFirst().get().getValue();
-
+        Optional<Map.Entry<String, Item>> first = Stream.of(items).filter(value -> value.getValue().getId() == id).findFirst();
+        if (first.isPresent()){
+            return first.get().getValue();
+        }else {
+            return null;
+        }
     }
 
     /**
