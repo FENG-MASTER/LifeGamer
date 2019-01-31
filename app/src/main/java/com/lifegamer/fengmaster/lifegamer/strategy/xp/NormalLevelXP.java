@@ -9,6 +9,10 @@ package com.lifegamer.fengmaster.lifegamer.strategy.xp;
 public class NormalLevelXP implements ILevelXP {
     @Override
     public int getXP(int level) {
-        return level*1000;
+        if (level<=0){
+            return level*-1*1000;
+        }else {
+            return level*1000;
+        }
     }
 }

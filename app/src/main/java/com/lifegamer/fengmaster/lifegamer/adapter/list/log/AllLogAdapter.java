@@ -1,6 +1,9 @@
 package com.lifegamer.fengmaster.lifegamer.adapter.list.log;
 
+import com.annimon.stream.Stream;
 import com.lifegamer.fengmaster.lifegamer.Game;
+import com.lifegamer.fengmaster.lifegamer.model.Log;
+
 
 /**
  * 所有日志足迹列表
@@ -9,7 +12,9 @@ import com.lifegamer.fengmaster.lifegamer.Game;
 public class AllLogAdapter extends BaseLogAdapter{
     @Override
     public void updateShowList() {
-        showList= Game.getInstance().getLogManager().getAllLog();
+        showList= Stream.of(Game.getInstance().getLogManager().getAllLog()).
+                filterNot(value -> value.getType().equals(Log.TYPE.TRIGGER)).
+                sorted((o1, o2) -> Long.compare(o2.getId(),o1.getId())).toList();
     }
 
 

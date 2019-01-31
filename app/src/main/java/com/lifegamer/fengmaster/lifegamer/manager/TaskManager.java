@@ -230,28 +230,27 @@ public class TaskManager implements ITaskManager {
 
     private boolean failTask(Task task) {
         if (task != null) {
-
-            //失败次数+1
-            task.setFailureTimes(task.getFailureTimes() + 1);
-
-
-//            //金币点数惩罚
-//            handleLifePoint(task,false);
-//            handleSkillReward(task,false);
-//            handleItemReward(task,false);
-//            handleAchievement(task,false);
-
-            //重新调度任务时间
-            scheduleTaskTime(task);
-
-            EventBus.getDefault().post(new FailTaskEvent(task));
-
-            return true;
-
+            return  _failTask(task);
         } else {
             //null失败
             return false;
         }
+    }
+
+    @LogPoint(type = Log.TYPE.TASK,action = Log.ACTION.FAIL,property = Log.PROPERTY.TASK)
+    private boolean _failTask(Task task){
+
+        //失败次数+1
+        task.setFailureTimes(task.getFailureTimes() + 1);
+
+        //重新调度任务时间
+        scheduleTaskTime(task);
+
+        EventBus.getDefault().post(new FailTaskEvent(task));
+        Game.update(task);
+
+        return true;
+
     }
 
     @Override

@@ -92,7 +92,7 @@ public class Skill extends BaseObservable implements Insertable, Updateable, Del
         if (this.XP >= getUpGradeXP()) {
             //升级
             this.XP -= getUpGradeXP();
-            levelUp();
+            levelUp(1);
         }
         notifyPropertyChanged(BR.xp);
         updateUpdateTime();
@@ -104,7 +104,7 @@ public class Skill extends BaseObservable implements Insertable, Updateable, Del
         this.XP -= XP;
         if (this.XP < 0) {
             //降级
-            levelDown();
+            levelDown(1);
             this.XP += getUpGradeXP();
         }
         notifyPropertyChanged(BR.xp);
@@ -122,8 +122,8 @@ public class Skill extends BaseObservable implements Insertable, Updateable, Del
      * 升级
      */
     @LogPoint(type = Log.TYPE.SKILL,action = Log.ACTION.ADD,property = Log.PROPERTY.LEVEL)
-    public void levelUp() {
-        this.level++;
+    public void levelUp(int i) {
+        this.level+=i;
         setUpGradeXP(levelXP.getXP(getLevel()));
         notifyPropertyChanged(BR.level);
     }
@@ -132,8 +132,8 @@ public class Skill extends BaseObservable implements Insertable, Updateable, Del
      * 降级
      */
     @LogPoint(type = Log.TYPE.SKILL,action = Log.ACTION.SUB,property = Log.PROPERTY.LEVEL)
-    public void levelDown() {
-        this.level--;
+    public void levelDown(int i) {
+        this.level-=i;
         setUpGradeXP(levelXP.getXP(getLevel()));
         notifyPropertyChanged(BR.level);
     }

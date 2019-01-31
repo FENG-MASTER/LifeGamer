@@ -58,13 +58,13 @@ public class TaskExpireCondition extends AbsTriggerCondition {
 
             if (lastExpireDate != null) {
                 //没有历史触发时间,
-                if (lastExpireDate.after(task.getExpirationTime())) {
+                if (lastExpireDate.equals(task.getExpirationTime())) {
                     return;
                 }
             }
 
             while (minuteEvent.getDate().after(task.getExpirationTime())) {
-                triggerInfo.setSaveInfo(String.valueOf(task.getExpirationTime().getTime()+1000));
+                triggerInfo.setSaveInfo(String.valueOf(task.getExpirationTime().getTime()));
                 Game.getInstance().getCommandManager().executeCommand(new FailTaskCommand(task));
                 Game.getInstance().getTriggerManager().updateTriggerInfo(triggerInfo);
             }
