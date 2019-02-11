@@ -9,6 +9,9 @@ import com.lifegamer.fengmaster.lifegamer.App;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * 设置相关工具包
+ */
 public class PreferenceUtil {
 
 
@@ -20,6 +23,10 @@ public class PreferenceUtil {
     private static final String show_fragment_skill_type="show_fragment_skill_type";
     private static final String show_fragment_achievement_type="show_fragment_achievement_type";
 
+    /**
+     * 是否开启TTS播报
+     */
+    private static final String enable_tts="enable_tts";
 
     private static SharedPreferences sharedPreferences=App.getContext().getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
 
@@ -75,5 +82,13 @@ public class PreferenceUtil {
 
     }
 
+
+    /**
+     * 是否开启TTS播报
+     * @return
+     */
+    public static boolean enableTTS(){
+        return sharedPreferences.getBoolean(enable_tts,false);
+    }
 
 }

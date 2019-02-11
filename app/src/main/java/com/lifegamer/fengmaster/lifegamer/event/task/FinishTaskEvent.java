@@ -1,6 +1,7 @@
 package com.lifegamer.fengmaster.lifegamer.event.task;
 
 import com.lifegamer.fengmaster.lifegamer.model.Task;
+import com.lifegamer.fengmaster.lifegamer.util.TTSUtil;
 
 /**
  * 任务完成事件
@@ -12,6 +13,7 @@ public class FinishTaskEvent {
 
     public FinishTaskEvent(Task task) {
         this.task = task;
+        TTSUtil.getInstance().speak(task.getName()+"任务完成");
     }
 
     public Task getTask() {

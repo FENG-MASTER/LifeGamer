@@ -7,33 +7,46 @@
             android:entries="@array/show_fragment_task_type"
             android:entryValues="@array/show_fragment_task_type_val"
             android:key="show_fragment_task_type"
-            android:title="要显示的任务页面" />
+            android:title="要显示的任务页面"/>
         <MultiSelectListPreference
             android:defaultValue="@array/show_fragment_reward_type_val"
             android:entries="@array/show_fragment_reward_type"
             android:entryValues="@array/show_fragment_reward_type_val"
             android:key="show_fragment_reward_type"
-            android:title="要显示的商店页面" />
+            android:title="要显示的商店页面"/>
 
         <MultiSelectListPreference
             android:defaultValue="@array/show_fragment_item_type_val"
             android:entries="@array/show_fragment_item_type"
             android:entryValues="@array/show_fragment_item_type_val"
             android:key="show_fragment_item_type"
-            android:title="要显示的物品页面" />
+            android:title="要显示的物品页面"/>
 
         <MultiSelectListPreference
             android:defaultValue="@array/show_fragment_skill_type_val"
             android:entries="@array/show_fragment_skill_type"
             android:entryValues="@array/show_fragment_skill_type_val"
             android:key="show_fragment_skill_type"
-            android:title="要显示的能力页面" />
+            android:title="要显示的能力页面"/>
 
         <MultiSelectListPreference
             android:defaultValue="@array/show_fragment_achievement_type_val"
             android:entries="@array/show_fragment_achievement_type"
             android:entryValues="@array/show_fragment_achievement_type_val"
             android:key="show_fragment_achievement_type"
-            android:title="要显示的成就页面" />
+            android:title="要显示的成就页面"/>
+
     </PreferenceCategory>
+
+    <PreferenceCategory android:title="语音相关">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="enable_tts"
+            android:title="开启语音播报"
+            />
+
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

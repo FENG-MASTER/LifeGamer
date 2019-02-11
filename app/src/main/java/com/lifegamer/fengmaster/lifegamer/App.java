@@ -5,6 +5,8 @@ import android.content.Context;
 import android.support.design.widget.Snackbar;
 import android.widget.Toast;
 
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechUtility;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.event.GameBaseInitFinish;
 import com.umeng.analytics.MobclickAgent;
@@ -30,6 +32,7 @@ public class App extends Application {
         UMConfigure.init(getApplicationContext(),"58d6268e07fe65548a0011a6", "test",UMConfigure.DEVICE_TYPE_PHONE, null);
         // 选用AUTO页面采集模式
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
+        SpeechUtility.createUtility(mContext, SpeechConstant.APPID +"=5c54f405");
     }
 
 
