@@ -33,6 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
+ * 基础fragment,自带一个tab,并且里面的所有fragment全是列表形式
  * Created by qianzise on 2017/10/10.
  */
 

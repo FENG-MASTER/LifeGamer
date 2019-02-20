@@ -8,14 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-//import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BaseDataSet;
+import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.lifegamer.fengmaster.lifegamer.Game;
@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Stream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,8 +37,14 @@ import butterknife.ButterKnife;
 public class StatisticsFragment extends Fragment {
 
 
+    /**
+     * 起始时间
+     */
     private Date startDate;
 
+    /**
+     * 结束时间
+     */
     private Date endDate=new Date();
 
 
@@ -47,7 +52,6 @@ public class StatisticsFragment extends Fragment {
     public LineChart lineChart;
 
     public StatisticsFragment() {
-        // Required empty public constructor
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_YEAR,-30);
         startDate=calendar.getTime();
@@ -66,11 +70,15 @@ public class StatisticsFragment extends Fragment {
     }
 
 
+    /**
+     * 初始化页面
+     */
     private void initView(){
         //不显示网格线
         lineChart.setDrawGridBackground(false);
         //可拖动
         lineChart.setDragEnabled(true);
+        lineChart.setDoubleTapToZoomEnabled(true);
         //可触摸
         lineChart.setTouchEnabled(true);
 
@@ -78,14 +86,18 @@ public class StatisticsFragment extends Fragment {
         XAxis xAxis = lineChart.getXAxis();
         //底部显示x轴
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-
+        xAxis.setTextColor(Color.WHITE);
+        xAxis.setDrawGridLines(false);
+        Description desc = new Description();
+        desc.setText("");
+        lineChart.setDescription(desc);
         lineChart.getAxisLeft().setAxisMinimum(0f);
+        lineChart.getAxisLeft().setTextColor(Color.WHITE);
 
         lineChart.animateX(1500);
         lineChart.animateX(2500);
 
-        lineChart.getAxisRight().setAxisMinimum(0f);
-        lineChart.getAxisRight().setAxisMaximum(20f);
+        lineChart.getAxisRight().setEnabled(false);
 
 //        lineChart.getAxisRight().setAxisLineWidth(500f);
 
@@ -97,6 +109,9 @@ public class StatisticsFragment extends Fragment {
     }
 
 
+    /**
+     * 初始化表格相关数据
+     */
     private void initDataSet(){
 
         List<Log> taskLogs = Game.getInstance().getLogManager().getAllLog(Log.TYPE.TASK);
@@ -133,23 +148,40 @@ public class StatisticsFragment extends Fragment {
         }
 
         LineDataSet lineDataSetSuccess=new LineDataSet(successTask,"任务完成情况");
-        lineDataSetSuccess.setColor(Color.BLUE);
+        lineDataSetSuccess.setColor(getContext().getResources().getColor(R.color.colorLightBlue));
         lineDataSetSuccess.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         lineDataSetSuccess.setValueTextColor(Color.WHITE);
+        lineDataSetSuccess.setValueTextSize(16);
+        lineDataSetSuccess.setCircleColor(getContext().getResources().getColor(R.color.colorLightGreen));
+        lineDataSetSuccess.setCircleHoleColor(Color.alpha(0));
         lineDataSetSuccess.setValueFormatter(new IValueFormatter() {
             @Override
             public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-                return Double.valueOf(value).intValue()+"";
+                if (Double.valueOf(value).intValue()==0){
+                    return "";
+                }else {
+                    return Double.valueOf(value).intValue()+"";
+                }
+
             }
         });
         LineDataSet lineDataSetFail=new LineDataSet(failTask,"任务失败情况");
         lineDataSetFail.setColor(Color.RED);
         lineDataSetFail.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         lineDataSetFail.setValueTextColor(Color.WHITE);
+        lineDataSetFail.setValueTextSize(16);
+
+        lineDataSetFail.setCircleColor(getContext().getResources().getColor(R.color.colorLightGreen));
+        lineDataSetFail.setCircleHoleColor(Color.alpha(0));
+
         lineDataSetFail.setValueFormatter(new IValueFormatter() {
             @Override
             public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-                return Double.valueOf(value).intValue()+"";
+                if (Double.valueOf(value).intValue()==0){
+                    return "";
+                }else {
+                    return Double.valueOf(value).intValue()+"";
+                }
             }
         });
 
@@ -161,6 +193,7 @@ public class StatisticsFragment extends Fragment {
         lineData.addDataSet(lineDataSetSuccess);
 //        lineChart.setExtraTopOffset(100f);
         lineChart.setData(lineData);
+        lineChart.getLegend().setTextColor(Color.WHITE);
     }
 
 
