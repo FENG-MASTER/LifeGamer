@@ -78,6 +78,11 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
      */
     public static final int REP_YEARLY = 6;
 
+    /**
+     * 抽奖池任务
+     */
+    public static final int REP_LOTTERY_DRAW = -1;
+
 
     /**
      * 表示无时间

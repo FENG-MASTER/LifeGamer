@@ -1,6 +1,8 @@
 package com.lifegamer.fengmaster.lifegamer.fragment.task;
 
 
+import android.view.View;
+
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.task.AllTaskFragmentAdapter;
@@ -18,6 +20,7 @@ import com.lifegamer.fengmaster.lifegamer.command.command.task.FinishTaskCommand
 import com.lifegamer.fengmaster.lifegamer.event.task.NewTaskEvent;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseTabListFragment;
 import com.lifegamer.fengmaster.lifegamer.fragment.task.editTaskDialog.EditTaskDialog;
+import com.lifegamer.fengmaster.lifegamer.fragment.task.lotteryDraw.LotteryDrawTaskDialog;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
 import com.lifegamer.fengmaster.lifegamer.util.PreferenceUtil;
 import com.lifegamer.fengmaster.lifegamer.wight.SelectDialog;
@@ -68,6 +71,14 @@ public class TaskFragment extends BaseTabListFragment implements OnItemSelectLis
     public void onActionButtonClick() {
         EditTaskDialog dialog = new EditTaskDialog();
         dialog.show(getFragmentManager(), "taskEdit");
+    }
+
+    @Override
+    public boolean onActionButtonLongClick(View view) {
+        LotteryDrawTaskDialog drawTaskDialog=new LotteryDrawTaskDialog();
+        drawTaskDialog.show(getFragmentManager(),"lotteryDraw");
+
+        return true;
     }
 
     @Override

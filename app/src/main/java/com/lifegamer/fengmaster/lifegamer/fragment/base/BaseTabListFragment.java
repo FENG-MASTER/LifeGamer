@@ -119,6 +119,7 @@ public abstract class BaseTabListFragment extends Fragment implements OnItemSele
         viewPager.setAdapter(fragmentAdapter);
         tabLayout.setupWithViewPager(viewPager);
         actionButton.setOnClickListener(view -> onActionButtonClick());
+        actionButton.setOnLongClickListener(this::onActionButtonLongClick);
         container.setTag(inflate);
         return inflate;
     }
@@ -130,7 +131,17 @@ public abstract class BaseTabListFragment extends Fragment implements OnItemSele
         }
     }
 
+    /**
+     * 左下角按钮点击回调
+     */
     public abstract void onActionButtonClick();
+
+    /**
+     * 左下角按钮长按回调
+     */
+    public boolean onActionButtonLongClick(View view){
+        return false;
+    }
 
     public abstract Class[] getAdapterClasses();
 
