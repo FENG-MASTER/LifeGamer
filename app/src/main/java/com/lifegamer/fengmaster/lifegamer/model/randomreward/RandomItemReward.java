@@ -1,6 +1,5 @@
 package com.lifegamer.fengmaster.lifegamer.model.randomreward;
 
-import java.util.Random;
 
 /**
  * Created by qianzise on 2017/10/5.
@@ -57,7 +56,7 @@ public class RandomItemReward extends AbsRandomReward {
 
     @Override
     public boolean equals(Object obj) {
-        return ((RandomItemReward)obj).rewardID==rewardID;
+        return obj!=null&&((RandomItemReward)obj).rewardID==rewardID;
     }
 
     @Override

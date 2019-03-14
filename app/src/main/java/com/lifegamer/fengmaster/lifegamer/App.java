@@ -2,12 +2,9 @@ package com.lifegamer.fengmaster.lifegamer;
 
 import android.app.Application;
 import android.content.Context;
-import android.support.design.widget.Snackbar;
-import android.widget.Toast;
 
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
-import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
 import com.lifegamer.fengmaster.lifegamer.event.GameBaseInitFinish;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;

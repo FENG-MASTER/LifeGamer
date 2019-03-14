@@ -26,7 +26,7 @@ public abstract class AbsCancelableCommand implements ICommand {
 
     @Override
     public boolean isShow() {
-        return true;
+        return show;
     }
 
 

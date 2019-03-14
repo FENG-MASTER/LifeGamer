@@ -61,7 +61,7 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
     /**
      * 触发条件
      * 对应触发器的class
-     * @see Trigger 的实现类
+     * @see com.lifegamer.fengmaster.lifegamer.trigger.condition.AbsTriggerCondition 的实现类
      */
     private String triggerCondition;
 
@@ -75,6 +75,14 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
      * 传递给触发器的参数
      */
     private String triggerParameter;
+
+
+    /**
+     * 触发动作
+     * 对应触发动作的class
+     *
+     */
+    private String triggerAction;
 
     /**
      * 触发器 保存的信息

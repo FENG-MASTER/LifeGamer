@@ -24,6 +24,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
+
 /**
  * Created by qianzise on 2017/10/4.
  * <p>
@@ -171,7 +174,7 @@ public class Skill extends BaseObservable implements Insertable, Updateable, Del
 
     @Override
     public boolean equals(Object obj) {
-        return name.equals(((Skill) obj).getName());
+        return obj != null && name.equals(((Skill) obj).getName());
     }
 
     @Bindable

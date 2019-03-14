@@ -23,6 +23,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Created by qianzise on 2017/10/4.
  *
@@ -443,7 +445,11 @@ public class RewardItem extends BaseObservable implements Insertable,Deleteable,
     }
 
     @Override
+    @SuppressFBWarnings({"BC_EQUALS_METHOD_SHOULD_WORK_FOR_ALL_OBJECTS", "BC_EQUALS_METHOD_SHOULD_WORK_FOR_ALL_OBJECTS"})
     public boolean equals(Object obj) {
+        if (null==obj||!(obj instanceof RewardItem)){
+            return false;
+        }
         if (name!=null){
             return name.equals(((RewardItem)obj).name);
         }else {
