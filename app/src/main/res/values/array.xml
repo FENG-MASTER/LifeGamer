@@ -32,7 +32,11 @@
         <item>周任务</item>
         <item>月任务</item>
         <item>年任务</item>
+        <item>抽卡池任务</item>
+
     </string-array>
+
+
 
     <string-array name="trigger_type">
         <item>每次成功</item>

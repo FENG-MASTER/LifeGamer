@@ -81,7 +81,7 @@ public class Task extends BaseObservable implements Updateable, Insertable, Dele
     /**
      * 抽奖池任务
      */
-    public static final int REP_LOTTERY_DRAW = -1;
+    public static final int REP_LOTTERY_DRAW = 7;
 
 
     /**

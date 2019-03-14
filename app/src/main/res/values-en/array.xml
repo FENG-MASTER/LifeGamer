@@ -30,9 +30,8 @@
         <item>weekly</item>
         <item>monthly</item>
         <item>yearly</item>
-
-
-
+        <item>lottery draw</item>
     </string-array>
+
 
 </resources>

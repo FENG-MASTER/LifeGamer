@@ -101,8 +101,12 @@ public class TaskFragment extends BaseTabListFragment implements OnItemSelectLis
         this.task = task;
         SelectDialog dialog = new SelectDialog();
         List<SelectItem> itemList = new ArrayList<>();
-        itemList.add(SelectItem.FINISH);
-        itemList.add(SelectItem.FAIL);
+        if (task.getRepeatType()!=Task.REP_LOTTERY_DRAW||task.getRepeatAvailableTime()==0){
+            //抽奖池任务无法完成
+            //没有完成次数的任务也无法完成
+            itemList.add(SelectItem.FINISH);
+            itemList.add(SelectItem.FAIL);
+        }
         itemList.add(SelectItem.EDIT);
         itemList.add(SelectItem.DELETE);
         dialog.setItems(itemList);

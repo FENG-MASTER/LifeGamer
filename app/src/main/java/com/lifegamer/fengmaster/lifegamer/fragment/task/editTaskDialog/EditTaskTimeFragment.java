@@ -30,7 +30,8 @@ public class EditTaskTimeFragment extends EditTaskDialog.SaveableFragment implem
 
     private final static int ONCE = 0;
     private final static int NO_LIMIT = 1;
-    private final static int DAYILY=3;
+    private final static int LOTTERYDRAW = 7;
+    private final static int DAYILY = 3;
 
     private DialogEditTaskTimeBinding binding;
 
@@ -72,6 +73,7 @@ public class EditTaskTimeFragment extends EditTaskDialog.SaveableFragment implem
                         binding.etDialogEditTaskRepTimes.setEnabled(false);
                         binding.switchDialogEditTaskInfinite.setChecked(false);
                         break;
+
                     case NO_LIMIT:
                         //如果选中了不限次数任务,不允许设置自动失败
 
@@ -80,6 +82,14 @@ public class EditTaskTimeFragment extends EditTaskDialog.SaveableFragment implem
                         binding.switchDialogEditTaskAutoFail.setChecked(false);
                         binding.switchDialogEditTaskAutoFail.setEnabled(false);
                         binding.switchDialogEditTaskInfinite.setChecked(true);
+                        binding.btDialogEditTaskExpirationTime.setVisibility(View.GONE);
+                        break;
+                    case LOTTERYDRAW:
+                        //如果选中抽奖池任务,不允许设置自动失败
+                        binding.etDialogEditTaskRepTimes.setEnabled(true);
+                        binding.switchDialogEditTaskAutoFail.setChecked(false);
+                        binding.switchDialogEditTaskAutoFail.setEnabled(false);
+
                         binding.btDialogEditTaskExpirationTime.setVisibility(View.GONE);
                         break;
                     default:
@@ -99,30 +109,28 @@ public class EditTaskTimeFragment extends EditTaskDialog.SaveableFragment implem
         });
 
 
-
         binding.switchDialogEditTaskInfinite.setOnCheckedChangeListener((compoundButton, b) -> {
             //无限完成次数
             if (b) {
                 binding.etDialogEditTaskRepTimes.setText("-1");
                 binding.etDialogEditTaskRepTimes.setEnabled(false);
-                if (binding.spDialogEditTaskRepType.getSelectedItemId()==ONCE){
+                if (binding.spDialogEditTaskRepType.getSelectedItemId() == ONCE) {
                     //如果在单次任务下切换无限,则为不限次数任务模式
-                    binding.spDialogEditTaskRepType.setSelection(NO_LIMIT,true);
+                    binding.spDialogEditTaskRepType.setSelection(NO_LIMIT, true);
                 }
             } else {
                 binding.etDialogEditTaskRepTimes.setText("1");
                 binding.etDialogEditTaskRepTimes.setEnabled(false);
-                binding.spDialogEditTaskRepType.setSelection(DAYILY,true);
+                binding.spDialogEditTaskRepType.setSelection(DAYILY, true);
             }
         });
-
 
 
         binding.switchDialogEditTaskAutoFail.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked&&binding.spDialogEditTaskRepType.getSelectedItemPosition()==NO_LIMIT){
-                    binding.spDialogEditTaskRepType.setSelection(0,true);
+                if (isChecked && binding.spDialogEditTaskRepType.getSelectedItemPosition() == NO_LIMIT) {
+                    binding.spDialogEditTaskRepType.setSelection(0, true);
                 }
             }
         });
@@ -145,14 +153,13 @@ public class EditTaskTimeFragment extends EditTaskDialog.SaveableFragment implem
         task.setRepeatAvailableTime(Integer.valueOf(binding.etDialogEditTaskRepTimes.getText().toString()));
         task.setRepeatType(binding.spDialogEditTaskRepType.getSelectedItemPosition());
 
-        if (task.getRepeatType()==Task.REP_CONTINUOUS){
-            //无限次数任务,过期时间会设置为无效
+        if (task.getRepeatType() == Task.REP_CONTINUOUS||task.getRepeatType()==Task.REP_LOTTERY_DRAW) {
+            //无限次数任务 或者 抽奖池任务 ,过期时间会设置为无效
             task.setExpirationTime(Task.noDate);
-        }else {
+        } else {
             //过期时间
             task.setExpirationTime(taskTime.getTime());
         }
-
 
 
         //重复类型
@@ -160,7 +167,7 @@ public class EditTaskTimeFragment extends EditTaskDialog.SaveableFragment implem
         task.setRepeatInterval(Integer.valueOf(binding.etDialogEditTaskRepInterval.getText().toString()));
         task.setAutoFail(binding.switchDialogEditTaskAutoFail.isChecked());
 
-         return true;
+        return true;
     }
 
     @Override
