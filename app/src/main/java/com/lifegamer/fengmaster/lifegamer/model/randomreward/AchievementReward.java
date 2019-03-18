@@ -1,6 +1,5 @@
 package com.lifegamer.fengmaster.lifegamer.model.randomreward;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Created by qianzise on 2017/10/5.
@@ -35,7 +34,6 @@ public class AchievementReward extends AbsRandomReward {
         this.probability = probability;
     }
 
-    @SuppressFBWarnings("BC_EQUALS_METHOD_SHOULD_WORK_FOR_ALL_OBJECTS")
     @Override
     public boolean equals(Object o) {
         return o != null && achievementID == (((AchievementReward) o).getAchievementID());
