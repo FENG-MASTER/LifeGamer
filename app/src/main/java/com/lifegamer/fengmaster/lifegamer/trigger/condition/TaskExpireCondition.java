@@ -49,8 +49,8 @@ public class TaskExpireCondition extends AbsTriggerCondition {
         }
         task = Game.getInstance().getTaskManager().getTask(triggerInfo.getMainObjId());
         Date lastExpireDate = null;
-        if (triggerInfo.getSaveInfo() != null && !triggerInfo.getSaveInfo().isEmpty()) {
-            lastExpireDate = new Date(Long.valueOf(triggerInfo.getSaveInfo()));
+        if (triggerInfo.getSaveInfo() != null && !triggerInfo.getSaveInfo().isEmpty()&&triggerInfo.getSaveInfo().get(TaskExpireCondition.class.getSimpleName())!=null) {
+            lastExpireDate = new Date(Long.valueOf(triggerInfo.getSaveInfo().get(TaskExpireCondition.class.getSimpleName())));
         }
 
         //不限次数任务无法自动失败,没有任何意义
@@ -64,7 +64,7 @@ public class TaskExpireCondition extends AbsTriggerCondition {
             }
 
             while (minuteEvent.getDate().after(task.getExpirationTime())) {
-                triggerInfo.setSaveInfo(String.valueOf(task.getExpirationTime().getTime()));
+                triggerInfo.setSaveInfo(TaskExpireCondition.class.getSimpleName(),String.valueOf(task.getExpirationTime().getTime()));
                 Game.getInstance().getCommandManager().executeCommand(new FailTaskCommand(task));
                 Game.getInstance().getTriggerManager().updateTriggerInfo(triggerInfo);
             }

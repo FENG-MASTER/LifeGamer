@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.lifegamer.fengmaster.lifegamer.BR;
 
@@ -87,7 +88,7 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
     /**
      * 触发器 保存的信息
      */
-    private String saveInfo;
+    private Map<String,String> saveInfo;
 
 
     /**
@@ -166,7 +167,7 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
         this.setTriggerCondition(cursor.getString(cursor.getColumnIndex("triggerCondition")));
         this.setTriggerConditionDesc(cursor.getString(cursor.getColumnIndex("triggerConditionDesc")));
         this.setTriggerParameter(cursor.getString(cursor.getColumnIndex("triggerParameter")));
-        this.setSaveInfo(cursor.getString(cursor.getColumnIndex("saveInfo")));
+        saveInfo=JSONObject.parseObject(cursor.getString(cursor.getColumnIndex("saveInfo")),Map.class);
 
         this.setSkills(FormatUtil.str2SkillMap(cursor.getString(cursor.getColumnIndex("skills"))));
         this.setItems(FormatUtil.str2ItemRewardList(cursor.getString(cursor.getColumnIndex("items"))));
@@ -195,7 +196,7 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
 
         cv.put("triggerParameter", getTriggerParameter());
         cv.put("xp", getXp());
-        cv.put("saveInfo", getSaveInfo());
+        cv.put("saveInfo", JSONObject.toJSONString(getSaveInfo()));
         cv.put("earnLP", getEarnLP());
 
         cv.put("skills", FormatUtil.skillMap2Str(getSkills()));
@@ -226,7 +227,7 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
 
         cv.put("triggerParameter", getTriggerParameter());
         cv.put("xp", getXp());
-        cv.put("saveInfo", getSaveInfo());
+        cv.put("saveInfo", JSONObject.toJSONString(getSaveInfo()));
         cv.put("earnLP", getEarnLP());
 
         cv.put("skills", FormatUtil.skillMap2Str(getSkills()));
@@ -400,12 +401,12 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
         this.updateTime = updateTime;
     }
     @Bindable
-    public String getSaveInfo() {
+    public Map<String,String> getSaveInfo() {
         return saveInfo;
     }
 
-    public void setSaveInfo(String saveInfo) {
-        this.saveInfo = saveInfo;
+    public void setSaveInfo(String key,String saveInfo) {
+        this.saveInfo.put(key,saveInfo);
         notifyPropertyChanged(BR.saveInfo);
     }
     @Bindable
