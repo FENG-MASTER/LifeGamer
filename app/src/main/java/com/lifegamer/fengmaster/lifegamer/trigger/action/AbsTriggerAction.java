@@ -8,7 +8,7 @@ import com.lifegamer.fengmaster.lifegamer.model.TriggerInfo;
  */
 public abstract class AbsTriggerAction {
 
-    public AbsTriggerAction(String params, TriggerInfo triggerInfo) {
+    public AbsTriggerAction( TriggerInfo triggerInfo,String params) {
         this.params = params;
         this.triggerInfo=triggerInfo;
     }
@@ -23,6 +23,6 @@ public abstract class AbsTriggerAction {
     /**
      * 满足触发条件后,正式触发触发器动作
      */
-   abstract void trigger();
+   public abstract boolean trigger();
 
 }

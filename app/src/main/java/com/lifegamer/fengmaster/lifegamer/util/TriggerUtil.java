@@ -1,6 +1,8 @@
 package com.lifegamer.fengmaster.lifegamer.util;
 
+import com.lifegamer.fengmaster.lifegamer.trigger.action.LotteryDrawTriggerAction;
 import com.lifegamer.fengmaster.lifegamer.trigger.condition.TaskFailTriggerCondition;
+import com.lifegamer.fengmaster.lifegamer.trigger.condition.TaskFinishOrFailTriggerCondition;
 import com.lifegamer.fengmaster.lifegamer.trigger.condition.TaskFinishTimesTriggerCondition;
 import com.lifegamer.fengmaster.lifegamer.trigger.condition.TaskFinishTriggerCondition;
 
@@ -15,6 +17,9 @@ public class TriggerUtil {
         conditions.put(TaskFailTriggerCondition.class.getName(),"每次失败");
         conditions.put(TaskFinishTimesTriggerCondition.class.getName(),"累计完成");
         conditions.put(TaskFinishTriggerCondition.class.getName(),"每次完成");
+        conditions.put(LotteryDrawTriggerAction.class.getName(),"返回奖池");
+        conditions.put(TaskFinishOrFailTriggerCondition.class.getName(),"任务完成");
+
     }
 
 

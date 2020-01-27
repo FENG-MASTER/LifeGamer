@@ -85,6 +85,19 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
      */
     private String triggerAction;
 
+
+    /**
+     * 触发动作的描述
+     *
+     */
+    private String triggerActionDesc;
+
+    /**
+     * 触发动作的额外参数
+     *
+     */
+    private String triggerActionParameter;
+
     /**
      * 触发器 保存的信息
      */
@@ -135,6 +148,9 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
         this.setTriggerCondition(triggerInfo.getTriggerCondition());
         this.setTriggerConditionDesc(triggerInfo.getTriggerConditionDesc());
         this.setTriggerParameter(triggerInfo.getTriggerParameter());
+        this.setTriggerAction(triggerInfo.triggerAction);
+        this.setTriggerActionDesc(triggerInfo.triggerActionDesc);
+        this.setTriggerActionParameter(triggerInfo.triggerActionParameter);
         this.setItems(triggerInfo.getItems());
         this.setAchievements(triggerInfo.getAchievements());
         this.setSkills(triggerInfo.getSkills());
@@ -167,6 +183,12 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
         this.setTriggerCondition(cursor.getString(cursor.getColumnIndex("triggerCondition")));
         this.setTriggerConditionDesc(cursor.getString(cursor.getColumnIndex("triggerConditionDesc")));
         this.setTriggerParameter(cursor.getString(cursor.getColumnIndex("triggerParameter")));
+
+        this.setTriggerAction(cursor.getString(cursor.getColumnIndex("triggerAction")));
+        this.setTriggerActionParameter(cursor.getString(cursor.getColumnIndex("triggerActionParameter")));
+        this.setTriggerActionDesc(cursor.getString(cursor.getColumnIndex("triggerActionDesc")));
+
+
         saveInfo=JSONObject.parseObject(cursor.getString(cursor.getColumnIndex("saveInfo")),Map.class);
 
         this.setSkills(FormatUtil.str2SkillMap(cursor.getString(cursor.getColumnIndex("skills"))));
@@ -193,6 +215,10 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
         cv.put("mainObjId", getMainObjId());
         cv.put("triggerCondition", getTriggerCondition());
         cv.put("triggerConditionDesc", getTriggerConditionDesc());
+
+        cv.put("triggerAction",getTriggerAction());
+        cv.put("triggerActionDesc",getTriggerActionDesc());
+        cv.put("triggerActionParameter",getTriggerActionParameter());
 
         cv.put("triggerParameter", getTriggerParameter());
         cv.put("xp", getXp());
@@ -224,6 +250,12 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
         cv.put("mainObjId", getMainObjId());
         cv.put("triggerCondition", getTriggerCondition());
         cv.put("triggerConditionDesc", getTriggerConditionDesc());
+
+
+        cv.put("triggerAction",getTriggerAction());
+        cv.put("triggerActionDesc",getTriggerActionDesc());
+        cv.put("triggerActionParameter",getTriggerActionParameter());
+
 
         cv.put("triggerParameter", getTriggerParameter());
         cv.put("xp", getXp());
@@ -287,6 +319,18 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
         setTriggerConditionDesc(TriggerUtil.getTriggerDesc(triggerCondition));
         notifyPropertyChanged(BR.triggerCondition);
     }
+
+    @Bindable
+    public String getTriggerAction() {
+        return triggerAction;
+    }
+
+    public void setTriggerAction(String triggerAction) {
+        this.triggerAction = triggerAction;
+        setTriggerActionDesc(TriggerUtil.getTriggerDesc(triggerCondition));
+        notifyPropertyChanged(BR.triggerAction);
+    }
+
     @Bindable
     public String getTriggerParameter() {
         return triggerParameter;
@@ -296,6 +340,17 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
         this.triggerParameter = triggerParameter;
         notifyPropertyChanged(BR.triggerParameter);
     }
+
+    @Bindable
+    public String getTriggerActionParameter() {
+        return triggerActionParameter;
+    }
+
+    public void setTriggerActionParameter(String triggerActionParameter) {
+        this.triggerActionParameter = triggerActionParameter;
+        notifyPropertyChanged(BR.triggerActionParameter);
+    }
+
 
     @Bindable
     public int getXp() {
@@ -417,6 +472,16 @@ public class TriggerInfo extends BaseObservable implements Updateable, Insertabl
     public void setTriggerConditionDesc(String triggerConditionDesc) {
         this.triggerConditionDesc = triggerConditionDesc;
         notifyPropertyChanged(BR.triggerConditionDesc);
+    }
+
+    @Bindable
+    public String getTriggerActionDesc() {
+        return triggerActionDesc;
+    }
+
+    public void setTriggerActionDesc(String triggerActionDesc) {
+        this.triggerActionDesc = triggerActionDesc;
+        notifyPropertyChanged(BR.triggerActionDesc);
     }
 
     @Override

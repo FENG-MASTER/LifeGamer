@@ -22,6 +22,7 @@ import com.annimon.stream.Stream;
 import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
+import com.lifegamer.fengmaster.lifegamer.command.command.task.LotteryDrawTaskHitCommand;
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseDialogFragment;
 import com.lifegamer.fengmaster.lifegamer.model.Skill;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
@@ -61,6 +62,11 @@ public class LotteryDrawTaskDialog extends BaseDialogFragment {
     RecyclerView rvTaskList;
 
     private LotteryDrawTaskAdapter lotteryDrawTaskAdapter;
+
+    /**
+     * 默认当前抽取的是当天需要完成的任务
+     */
+    private int deadLineDays=1;
 
     public LotteryDrawTaskDialog() {
 
@@ -117,19 +123,22 @@ public class LotteryDrawTaskDialog extends BaseDialogFragment {
                 }
 
                 if (num>0&&num<taskList.size()){
-                    List<Integer> candysList=new ArrayList<>();
+                    List<Long> candysList=new ArrayList<>();
                     //开始抽奖
                     Random random=new Random();
                     for (int i = 0; i < num; i++) {
                         int r=random.nextInt(taskList.size());
-                        candysList.add(r);
+                        candysList.add(taskList.get(r).getId());
 
                     }
 
-                    ViewUtil.showToast("抽中"+candysList.get(0));
-
+//                    ViewUtil.showToast("抽中"+candysList.get(0));
+                    for (Long taskId : candysList) {
+                        Game.getInstance().getCommandManager().executeCommand(new LotteryDrawTaskHitCommand(Game.getInstance().getTaskManager().getTask(taskId),deadLineDays));
+                    }
 
                     dialog.dismiss();
+                    LotteryDrawTaskDialog.this.dismiss();
                 }else {
                     ViewUtil.showToast("您输入的数字必须小于奖池任务数");
 
@@ -153,7 +162,7 @@ public class LotteryDrawTaskDialog extends BaseDialogFragment {
     @OnClick(R.id.bt_dialog_lottery_draw_task_add)
     public void addLotteryDrawTask(){
         List<Task> allLotteryDrawTask = Stream.of(Game.getInstance().getTaskManager().getAllTask()).
-                filter(value -> value.getRepeatType()==Task.REP_LOTTERY_DRAW).filterNot(value -> Stream.of(lotteryDrawTaskAdapter.getTaskList()).anyMatch(t1 -> t1.getId()==value.getId())).
+                filter(value -> value.getRepeatType()==Task.REP_LOTTERY_DRAW).filter(value -> value.getRepeatAvailableTime()>0).filterNot(value -> Stream.of(lotteryDrawTaskAdapter.getTaskList()).anyMatch(t1 -> t1.getId()==value.getId())).
                 collect(Collectors.toList());
 
 

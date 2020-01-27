@@ -48,7 +48,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
 
-
     /**
      * 创建 英雄 表
      */
@@ -186,6 +185,9 @@ public class DBHelper extends SQLiteOpenHelper {
             "triggerCondition varchar," +
             "triggerConditionDesc varchar," +
             "triggerParameter varchar," +
+            "triggerAction varchar," +
+            "triggerActionDesc varchar," +
+            "triggerActionParameter varchar," +
             "xp integer," +
             "skills text," +
             "items text," +

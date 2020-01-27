@@ -11,6 +11,7 @@ import com.lifegamer.fengmaster.lifegamer.model.Task;
 import com.lifegamer.fengmaster.lifegamer.model.TriggerInfo;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.RandomItemReward;
+import com.lifegamer.fengmaster.lifegamer.trigger.action.AbsTriggerAction;
 import com.lifegamer.fengmaster.lifegamer.trigger.condition.AbsTriggerCondition;
 
 import java.lang.reflect.Constructor;
@@ -28,30 +29,55 @@ public class Trigger implements AbsTriggerCondition.OnTrigger {
 
     private AbsTriggerCondition condition;
 
+    private AbsTriggerAction triggerAction;
+
     public Trigger(TriggerInfo triggerInfo) {
         this.triggerInfo = triggerInfo;
-        if (triggerInfo.getTriggerCondition()==null||triggerInfo.getTriggerCondition().isEmpty()){
-            return;
-        }
-        try {
-            Constructor<?> constructor = Class.forName(triggerInfo.getTriggerCondition()).
-                    getConstructor(TriggerInfo.class, String.class, AbsTriggerCondition.OnTrigger.class);
-            condition = (AbsTriggerCondition) constructor.newInstance(triggerInfo, triggerInfo.getTriggerParameter(), this);
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
+        if (triggerInfo.getTriggerCondition() != null && !triggerInfo.getTriggerCondition().isEmpty()) {
+            try {
+                Constructor<?> constructor = Class.forName(triggerInfo.getTriggerCondition()).
+                        getConstructor(TriggerInfo.class, String.class, AbsTriggerCondition.OnTrigger.class);
+                condition = (AbsTriggerCondition) constructor.newInstance(triggerInfo, triggerInfo.getTriggerParameter(), this);
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+
+            if (condition != null) {
+                triggerInfo.setTriggerConditionDesc(condition.getConditionDesc());
+            }
+
         }
 
-        if (condition!=null){
-            triggerInfo.setTriggerConditionDesc(condition.getConditionDesc());
+
+        if (triggerInfo.getTriggerAction() != null && !triggerInfo.getTriggerAction().isEmpty()) {
+            //额外触发动作
+
+            try {
+                Constructor<?> constructor = Class.forName(triggerInfo.getTriggerAction()).getConstructor(TriggerInfo.class, String.class);
+                triggerAction = (AbsTriggerAction) constructor.newInstance(triggerInfo, triggerInfo.getTriggerParameter());
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+
+
         }
+
 
     }
 
@@ -60,17 +86,38 @@ public class Trigger implements AbsTriggerCondition.OnTrigger {
     public void trigger(AbsTriggerCondition condition) {
         //触发条件了
         //获取相应的奖励
-        handleLifePoint(triggerInfo);
-        handleAchievement(triggerInfo);
-        handleItemReward(triggerInfo);
-        handleSkillReward(triggerInfo);
-        handleXP(triggerInfo);
+        if (triggerAction!=null){
+            boolean next = triggerAction.trigger();
+
+            if (next){
+                handleLifePoint(triggerInfo);
+                handleAchievement(triggerInfo);
+                handleItemReward(triggerInfo);
+                handleSkillReward(triggerInfo);
+                handleXP(triggerInfo);
+
+            }
+
+        }else {
+
+            handleLifePoint(triggerInfo);
+            handleAchievement(triggerInfo);
+            handleItemReward(triggerInfo);
+            handleSkillReward(triggerInfo);
+            handleXP(triggerInfo);
+
+        }
+
+
+
+
+
     }
 
     /**
      * 触发器失效,调用后本触发器将不再触发
      */
-    public void invalid(){
+    public void invalid() {
         condition.invalid();
     }
 
@@ -78,7 +125,7 @@ public class Trigger implements AbsTriggerCondition.OnTrigger {
     /**
      * 触发器生效
      */
-    public void valid(){
+    public void valid() {
         condition.valid();
     }
 
@@ -90,12 +137,12 @@ public class Trigger implements AbsTriggerCondition.OnTrigger {
      */
     private void handleLifePoint(TriggerInfo triggerInfo) {
         int lp = triggerInfo.getEarnLP();
-        if (lp==0){
+        if (lp == 0) {
             return;
         }
-        if(lp>0){
+        if (lp > 0) {
             Game.getInstance().getHeroManager().getHero().getLifePoint().addPoint(lp);
-        }else {
+        } else {
             Game.getInstance().getHeroManager().getHero().getLifePoint().subPoint(-lp);
         }
     }
@@ -114,14 +161,14 @@ public class Trigger implements AbsTriggerCondition.OnTrigger {
                 if (achievement.isHit()) {
                     Achievement am = Game.getInstance().getAchievementManager().getAchievement(achievement.getAchievementID());
 
-                    if (achievement.getProbability()>=0){
+                    if (achievement.getProbability() >= 0) {
                         //获得成就
 
                         if (am != null && !am.isGot()) {
                             Game.getInstance().getCommandManager().executeCommand(new GotAchievementCommand(am));
                         }
 
-                    }else {
+                    } else {
                         //失去成就
                         if (am != null && am.isGot()) {
                             Game.getInstance().getCommandManager().executeCommand(new LoseAchievementCommand(am));
@@ -144,10 +191,10 @@ public class Trigger implements AbsTriggerCondition.OnTrigger {
         List<RandomItemReward> itemRewards = triggerInfo.getItems();
         for (RandomItemReward itemReward : itemRewards) {
             if (itemReward.isHit()) {
-                if (itemReward.getNum()>=0){
+                if (itemReward.getNum() >= 0) {
                     //获得相应物品
                     Game.getInstance().getRewardManager().gainRewardItem((int) itemReward.getRewardID(), itemReward.getNum());
-                }else {
+                } else {
                     //失去物品
                     Game.getInstance().getRewardManager().lostRewardItem((int) itemReward.getRewardID(), -itemReward.getNum());
                 }
@@ -166,9 +213,9 @@ public class Trigger implements AbsTriggerCondition.OnTrigger {
 
         Map<Long, Integer> map = triggerInfo.getSkills();
         for (Map.Entry<Long, Integer> entry : map.entrySet()) {
-            if (entry.getValue()>=0){
+            if (entry.getValue() >= 0) {
                 Game.getInstance().getCommandManager().executeCommand(new SkillIncreaseCommand(entry.getKey(), entry.getValue()));
-            }else {
+            } else {
                 Game.getInstance().getCommandManager().executeCommand(new SkillDecreaseCommand(entry.getKey(), -entry.getValue()));
 
             }
@@ -185,9 +232,9 @@ public class Trigger implements AbsTriggerCondition.OnTrigger {
         if (triggerInfo.getXp() != 0) {
             Hero hero = Game.getInstance().getHeroManager().getHero();
 
-            if (triggerInfo.getXp()>=0){
+            if (triggerInfo.getXp() >= 0) {
                 hero.addXp(triggerInfo.getXp());
-            }else {
+            } else {
                 hero.reduceXp(-triggerInfo.getXp());
             }
 
