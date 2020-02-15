@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -26,10 +27,13 @@ import com.lifegamer.fengmaster.lifegamer.command.command.task.LotteryDrawTaskHi
 import com.lifegamer.fengmaster.lifegamer.fragment.base.BaseDialogFragment;
 import com.lifegamer.fengmaster.lifegamer.model.Skill;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
+import com.lifegamer.fengmaster.lifegamer.util.DateUtil;
 import com.lifegamer.fengmaster.lifegamer.util.ViewUtil;
 import com.lifegamer.fengmaster.lifegamer.wight.SearchAndSelectDialog;
+import com.umeng.commonsdk.debug.D;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -49,6 +53,9 @@ public class LotteryDrawTaskDialog extends BaseDialogFragment {
     @BindView(R.id.bt_dialog_lottery_draw_task_add)
     ImageButton btAddTask;
 
+    @BindView(R.id.tv_dialog_lottery_draw_task_deadline2)
+    TextView tvDeadLine;
+
     /**
      * 开始抽奖按钮
      */
@@ -66,7 +73,12 @@ public class LotteryDrawTaskDialog extends BaseDialogFragment {
     /**
      * 默认当前抽取的是当天需要完成的任务
      */
-    private int deadLineDays=1;
+    private Date deadLineDays[]={DateUtil.getEndOfToday().getTime(),DateUtil.getEndOfTomorrow().getTime(),
+            DateUtil.getEndOfWeek().getTime(),DateUtil.getEndOfMonth().getTime()};
+
+    private String deadLineDaysText[]={"今天","明天","本周","本月"};
+
+    private int deadLineIndex=0;
 
     public LotteryDrawTaskDialog() {
 
@@ -96,6 +108,16 @@ public class LotteryDrawTaskDialog extends BaseDialogFragment {
     public void cancel(){
         //关闭对话框
        dismiss();
+    }
+
+    @OnClick(R.id.tv_dialog_lottery_draw_task_deadline2)
+    public void changeDeadLine(){
+        if (deadLineIndex>=deadLineDays.length-1){
+            deadLineIndex=0;
+        }else {
+            deadLineIndex++;
+        }
+        tvDeadLine.setText(deadLineDaysText[deadLineIndex]);
     }
 
 
@@ -134,7 +156,7 @@ public class LotteryDrawTaskDialog extends BaseDialogFragment {
 
 //                    ViewUtil.showToast("抽中"+candysList.get(0));
                     for (Long taskId : candysList) {
-                        Game.getInstance().getCommandManager().executeCommand(new LotteryDrawTaskHitCommand(Game.getInstance().getTaskManager().getTask(taskId),deadLineDays));
+                        Game.getInstance().getCommandManager().executeCommand(new LotteryDrawTaskHitCommand(Game.getInstance().getTaskManager().getTask(taskId),deadLineDays[deadLineIndex]));
                     }
 
                     dialog.dismiss();
@@ -162,7 +184,7 @@ public class LotteryDrawTaskDialog extends BaseDialogFragment {
     @OnClick(R.id.bt_dialog_lottery_draw_task_add)
     public void addLotteryDrawTask(){
         List<Task> allLotteryDrawTask = Stream.of(Game.getInstance().getTaskManager().getAllTask()).
-                filter(value -> value.getRepeatType()==Task.REP_LOTTERY_DRAW).filter(value -> value.getRepeatAvailableTime()>0).filterNot(value -> Stream.of(lotteryDrawTaskAdapter.getTaskList()).anyMatch(t1 -> t1.getId()==value.getId())).
+                filter(value -> value.getRepeatType()==Task.REP_LOTTERY_DRAW).filter(value -> value.getRepeatAvailableTime()>0||value.getRepeatAvailableTime()==-1).filterNot(value -> Stream.of(lotteryDrawTaskAdapter.getTaskList()).anyMatch(t1 -> t1.getId()==value.getId())).
                 collect(Collectors.toList());
 
 

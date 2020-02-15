@@ -6,19 +6,15 @@ import android.util.SparseArray;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
-import com.annimon.stream.function.Function;
-import com.annimon.stream.function.Predicate;
 import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.command.command.achievement.GotAchievementCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.achievement.LoseAchievementCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.skill.SkillIncreaseCommand;
 import com.lifegamer.fengmaster.lifegamer.command.command.task.UpdateTaskCommand;
 import com.lifegamer.fengmaster.lifegamer.dao.DBHelper;
-import com.lifegamer.fengmaster.lifegamer.event.GameBaseInitFinish;
 import com.lifegamer.fengmaster.lifegamer.event.skill.DelSkillEvent;
 import com.lifegamer.fengmaster.lifegamer.event.task.FailTaskEvent;
 import com.lifegamer.fengmaster.lifegamer.event.task.FinishTaskEvent;
-import com.lifegamer.fengmaster.lifegamer.event.task.UpdateTaskEvent;
 import com.lifegamer.fengmaster.lifegamer.log.LogPoint;
 import com.lifegamer.fengmaster.lifegamer.manager.itf.ITaskManager;
 import com.lifegamer.fengmaster.lifegamer.model.Achievement;
@@ -375,7 +371,7 @@ public class TaskManager implements ITaskManager {
             return false;
         }
 
-        return _finshTask(task);
+        return _finishTask(task);
     }
 
     /**
@@ -383,7 +379,7 @@ public class TaskManager implements ITaskManager {
      * @return
      */
     @LogPoint(type = Log.TYPE.TASK,action = Log.ACTION.FINISH,property = Log.PROPERTY.TASK)
-    private boolean _finshTask(Task task){
+    private boolean _finishTask(Task task){
 
         if (task.getRepeatAvailableTime() != -1) {
             //可重复次数-1
@@ -597,7 +593,7 @@ public class TaskManager implements ITaskManager {
             default:
                 //一次性
                 task.setRepeatInterval(0);
-                task.setRepeatAvailableTime(0);
+//                task.setRepeatAvailableTime(0);
                 break;
 
         }

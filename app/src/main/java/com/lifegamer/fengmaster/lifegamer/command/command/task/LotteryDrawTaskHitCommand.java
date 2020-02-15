@@ -16,6 +16,7 @@ import com.lifegamer.fengmaster.lifegamer.util.TriggerUtil;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,11 +26,11 @@ import java.util.List;
 public class LotteryDrawTaskHitCommand extends AbsNoCancelableCommand {
 
     private Task task;
-    private int deadLineDays;
+    private Date deadLineDate;
 
-    public LotteryDrawTaskHitCommand(Task task,int deadLineDays) {
+    public LotteryDrawTaskHitCommand(Task task, Date deadLineDate) {
         this.task = task;
-        this.deadLineDays=deadLineDays;
+        this.deadLineDate=deadLineDate;
     }
 
     @Override
@@ -42,11 +43,11 @@ public class LotteryDrawTaskHitCommand extends AbsNoCancelableCommand {
             //1. 设置抽中的任务为一次性任务
             task.setRepeatType(Task.REP_ONCE);
 
+
             //2.设置任务截止日
 
-            Calendar calendar=Calendar.getInstance();
-            calendar.add(Calendar.DAY_OF_YEAR,deadLineDays);
-            task.setExpirationTime(calendar.getTime());
+
+            task.setExpirationTime(deadLineDate);
 
             //3. 设置任务完成(失败)奖励为 修改当前任务为抽奖任务
             TriggerInfo triggerInfo1 = generateBaseTriggerInfo();

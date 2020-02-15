@@ -108,4 +108,42 @@ public class DateUtil {
 
     }
 
+    /**
+     * 获取本月最后一天
+     * @return
+     */
+    public static Calendar getEndOfMonth(){
+        Calendar calendar = Calendar.getInstance();
+        //月+1
+        calendar.set(Calendar.MONTH,calendar.get(Calendar.MONTH)+1);
+        calendar.set(Calendar.DAY_OF_MONTH,1);
+        //0点
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        //0分
+        calendar.set(Calendar.MINUTE, 0);
+        //0秒
+        calendar.set(Calendar.SECOND, 0);
+        return calendar;
+    }
+
+    /**
+     * 获取本周最后一天
+     * @return
+     */
+    public static Calendar getEndOfWeek(){
+        Calendar calendar = Calendar.getInstance();
+        //星期+1
+        calendar.set(Calendar.WEEK_OF_YEAR,calendar.get(Calendar.WEEK_OF_YEAR)+1);
+        calendar.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
+        //0点
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        //0分
+        calendar.set(Calendar.MINUTE, 0);
+        //0秒
+        calendar.set(Calendar.SECOND, 0);
+        return calendar;
+    }
+
+
+
 }
