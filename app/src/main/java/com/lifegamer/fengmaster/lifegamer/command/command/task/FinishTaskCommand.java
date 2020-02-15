@@ -5,6 +5,7 @@ import com.lifegamer.fengmaster.lifegamer.Game;
 import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.command.command.AbsCancelableCommand;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
+import com.lifegamer.fengmaster.lifegamer.model.task.EachTimeTaskEndInfo;
 
 /**
  * Created by FengMaster on 18/07/12.
@@ -13,13 +14,16 @@ public class FinishTaskCommand extends AbsCancelableCommand {
 
     private Task task;
 
-    public FinishTaskCommand(Task task) {
+    private EachTimeTaskEndInfo eachTimeTaskEndInfo;
+
+    public FinishTaskCommand(Task task,EachTimeTaskEndInfo eachTimeTaskEndInfo) {
         this.task = task;
+        this.eachTimeTaskEndInfo=eachTimeTaskEndInfo;
     }
 
     @Override
     public boolean execute() {
-        return Game.getInstance().getTaskManager().finishTask(task.getId());
+        return Game.getInstance().getTaskManager().finishTaskWithExtInfo(task.getId(),eachTimeTaskEndInfo);
     }
 
     @Override

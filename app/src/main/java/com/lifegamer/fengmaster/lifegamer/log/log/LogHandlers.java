@@ -13,6 +13,7 @@ import com.lifegamer.fengmaster.lifegamer.model.Skill;
 import com.lifegamer.fengmaster.lifegamer.model.Task;
 import com.lifegamer.fengmaster.lifegamer.model.TriggerInfo;
 import com.lifegamer.fengmaster.lifegamer.model.base.IdAble;
+import com.lifegamer.fengmaster.lifegamer.model.task.EachTimeTaskEndInfo;
 
 import org.aspectj.lang.JoinPoint;
 
@@ -240,6 +241,11 @@ public class LogHandlers {
     @LogHandler(type = Log.TYPE.TASK,action = {Log.ACTION.FINISH,Log.ACTION.FAIL},property = Log.PROPERTY.TASK,order = Log.ORDER.AFTER)
     public static void taskLogA(JoinPoint joinPoint,Log log){
         commonFuncLogA(Task.class, joinPoint, log, task -> String.valueOf(task.getCompleteTimes()));
+        Object[] args = joinPoint.getArgs();
+        if (args[1]!=null){
+            EachTimeTaskEndInfo timeTaskEndInfo= (EachTimeTaskEndInfo) args[1];
+            log.setDesc(timeTaskEndInfo.getDesc());
+        }
     }
 
 

@@ -1,6 +1,7 @@
 package com.lifegamer.fengmaster.lifegamer.manager.itf;
 
 import com.lifegamer.fengmaster.lifegamer.model.Task;
+import com.lifegamer.fengmaster.lifegamer.model.task.EachTimeTaskEndInfo;
 
 import java.util.List;
 
@@ -53,6 +54,13 @@ public interface ITaskManager {
     boolean finishTask(long taskID);
 
     /**
+     *完成任务
+     * @param taskID 任务ID
+     */
+    boolean finishTaskWithExtInfo(long taskID, EachTimeTaskEndInfo eachTimeTaskEndInfo);
+
+
+    /**
      * 撤销完成任务
      * @param task 任务名称
      */
@@ -76,6 +84,12 @@ public interface ITaskManager {
      * @param taskID 任务ID
      */
     boolean failTask(long taskID);
+
+    /**
+     * 任务失败
+     * @param taskID 任务ID
+     */
+    boolean failTaskWithExtInfo(long taskID,EachTimeTaskEndInfo eachTimeTaskEndInfo);
 
     /**
      * 撤销 任务失败

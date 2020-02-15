@@ -139,7 +139,7 @@ public class TaskFragment extends BaseTabListFragment implements OnItemSelectLis
     }
 
     private void finishTask(Task task) {
-        Game.getInstance().getCommandManager().executeCommand(new FinishTaskCommand(task));
+        Game.getInstance().getCommandManager().executeCommand(new FinishTaskCommand(task,null));
     }
 
     /**
@@ -148,7 +148,7 @@ public class TaskFragment extends BaseTabListFragment implements OnItemSelectLis
      * @param task
      */
     private void failTask(Task task) {
-        Game.getInstance().getCommandManager().executeCommand(new FailTaskCommand(task));
+        Game.getInstance().getCommandManager().executeCommand(new FailTaskCommand(task,null));
     }
 
 

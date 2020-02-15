@@ -24,6 +24,7 @@ import com.lifegamer.fengmaster.lifegamer.model.Task;
 import com.lifegamer.fengmaster.lifegamer.model.TriggerInfo;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.AchievementReward;
 import com.lifegamer.fengmaster.lifegamer.model.randomreward.RandomItemReward;
+import com.lifegamer.fengmaster.lifegamer.model.task.EachTimeTaskEndInfo;
 import com.lifegamer.fengmaster.lifegamer.util.DateUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -163,7 +164,7 @@ public class TaskManager implements ITaskManager {
     @Override
     public boolean finishTask(String taskName) {
         Task task = Stream.of(taskList).filter(value -> value.getName().equals(taskName)).findFirst().get();
-        return _prefinishTask(task);
+        return _prefinishTask(task,null);
     }
 
     /**
@@ -175,7 +176,13 @@ public class TaskManager implements ITaskManager {
     @Override
     public boolean finishTask(long taskID) {
         Task task = Stream.of(taskList).filter(value -> value.getId() == taskID).findFirst().get();
-        return _prefinishTask(task);
+        return _prefinishTask(task,null);
+    }
+
+    @Override
+    public boolean finishTaskWithExtInfo(long taskID, EachTimeTaskEndInfo eachTimeTaskEndInfo) {
+        Task task = Stream.of(taskList).filter(value -> value.getId() == taskID).findFirst().get();
+        return _prefinishTask(task,eachTimeTaskEndInfo);
     }
 
     /**
@@ -210,7 +217,7 @@ public class TaskManager implements ITaskManager {
      */
     @Override
     public boolean failTask(String task) {
-        return failTask(getTask(task));
+        return failTask(getTask(task),null);
     }
 
     /**
@@ -221,12 +228,17 @@ public class TaskManager implements ITaskManager {
      */
     @Override
     public boolean failTask(long taskID) {
-        return failTask(getTask(taskID));
+        return failTask(getTask(taskID),null);
     }
 
-    private boolean failTask(Task task) {
+    @Override
+    public boolean failTaskWithExtInfo(long taskID, EachTimeTaskEndInfo eachTimeTaskEndInfo) {
+        return false;
+    }
+
+    private boolean failTask(Task task,EachTimeTaskEndInfo eachTimeTaskEndInfo) {
         if (task != null) {
-            return  _failTask(task);
+            return  _failTask(task,eachTimeTaskEndInfo);
         } else {
             //null失败
             return false;
@@ -234,7 +246,7 @@ public class TaskManager implements ITaskManager {
     }
 
     @LogPoint(type = Log.TYPE.TASK,action = Log.ACTION.FAIL,property = Log.PROPERTY.TASK)
-    private boolean _failTask(Task task){
+    private boolean _failTask(Task task,EachTimeTaskEndInfo eachTimeTaskEndInfo){
 
         //失败次数+1
         task.setFailureTimes(task.getFailureTimes() + 1);
@@ -362,7 +374,7 @@ public class TaskManager implements ITaskManager {
      * @param task 任务
      * @return 是否成功
      */
-    private boolean _prefinishTask(Task task) {
+    private boolean _prefinishTask(Task task, EachTimeTaskEndInfo eachTimeTaskEndInfo) {
         if (task == null) {
             return false;
         }
@@ -371,7 +383,7 @@ public class TaskManager implements ITaskManager {
             return false;
         }
 
-        return _finishTask(task);
+        return _finishTask(task, eachTimeTaskEndInfo);
     }
 
     /**
@@ -379,7 +391,7 @@ public class TaskManager implements ITaskManager {
      * @return
      */
     @LogPoint(type = Log.TYPE.TASK,action = Log.ACTION.FINISH,property = Log.PROPERTY.TASK)
-    private boolean _finishTask(Task task){
+    private boolean _finishTask(Task task, EachTimeTaskEndInfo eachTimeTaskEndInfo){
 
         if (task.getRepeatAvailableTime() != -1) {
             //可重复次数-1

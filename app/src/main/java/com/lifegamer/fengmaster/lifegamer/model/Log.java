@@ -109,6 +109,11 @@ public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getab
      */
     private Date logTime;
 
+    /**
+     * 日志描述
+     */
+    private String desc;
+
     @Override
     public void copyFrom(Log log) {
         this.action=log.action;
@@ -123,6 +128,8 @@ public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getab
         this.property=log.property;
         this.eventSequence=log.eventSequence;
         this.type=log.type;
+        this.desc=log.desc;
+
     }
 
     @Override
@@ -146,7 +153,10 @@ public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getab
         this.setExtMessage(cursor.getString(cursor.getColumnIndex("extMessage")));
         this.setExtValue(cursor.getString(cursor.getColumnIndex("extValue")));
         this.setEventSequence(cursor.getInt(cursor.getColumnIndex("eventSequence")));
+        this.setDesc(cursor.getString(cursor.getColumnIndex("desc")));
+
         String logTime = cursor.getString(cursor.getColumnIndex("logTime"));
+
         if (logTime != null && !logTime.equals("")) {
             try {
                 this.setLogTime(SimpleDateFormat.getInstance().parse(cursor.getString(cursor.getColumnIndex("logTime"))));
@@ -172,6 +182,8 @@ public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getab
         cv.put("extMessage", getExtMessage());
         cv.put("extValue", getExtValue());
         cv.put("eventSequence", getEventSequence());
+        cv.put("desc", getDesc());
+
         if (getLogTime()==null){
             cv.put("logTime", SimpleDateFormat.getInstance().format(new Date()));
         }else {
@@ -280,6 +292,14 @@ public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getab
         return operId;
     }
 
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
     public void setOperId(String operId) {
         this.operId = operId;
     }
@@ -348,6 +368,7 @@ public class Log extends BaseObservable implements Insertable, ICopy<Log>, Getab
         cv.put("newValue", getNewValue());
         cv.put("extValue", getExtValue());
         cv.put("extMessage", getExtMessage());
+        cv.put("desc", getDesc());
 
         if (logTime!=null){
             cv.put("logTime", SimpleDateFormat.getInstance().format(getLogTime()));

@@ -65,7 +65,7 @@ public class TaskExpireCondition extends AbsTriggerCondition {
 
             while (minuteEvent.getDate().after(task.getExpirationTime())) {
                 triggerInfo.setSaveInfo(TaskExpireCondition.class.getSimpleName(),String.valueOf(task.getExpirationTime().getTime()));
-                Game.getInstance().getCommandManager().executeCommand(new FailTaskCommand(task));
+                Game.getInstance().getCommandManager().executeCommand(new FailTaskCommand(task,null));
                 Game.getInstance().getTriggerManager().updateTriggerInfo(triggerInfo);
             }
 
