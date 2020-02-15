@@ -1,9 +1,14 @@
 package com.lifegamer.fengmaster.lifegamer.fragment.task;
 
 
+import android.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 
 import com.lifegamer.fengmaster.lifegamer.Game;
+import com.lifegamer.fengmaster.lifegamer.R;
 import com.lifegamer.fengmaster.lifegamer.adapter.base.OnItemSelectListener;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.task.AllTaskFragmentAdapter;
 import com.lifegamer.fengmaster.lifegamer.adapter.list.task.BaseTaskFragmentAdapter;
@@ -34,6 +39,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 
 /**
@@ -136,6 +142,19 @@ public class TaskFragment extends BaseTabListFragment implements OnItemSelectLis
             default:
 
         }
+    }
+
+    /**
+     * 打开填写额外信息对话框
+     */
+    private void openExtInfoDialog(Consumer<Task> consumer){
+        AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
+
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_task_each_time_end_extinfo, null);
+        EditText descEditText=view.findViewById(R.id.et_dialog_task_each_time_end_extinfo_desc);
+
+        builder.setCancelable(false).setView(view).setPositiveButton("",);
+
     }
 
     private void finishTask(Task task) {

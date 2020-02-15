@@ -233,7 +233,7 @@ public class TaskManager implements ITaskManager {
 
     @Override
     public boolean failTaskWithExtInfo(long taskID, EachTimeTaskEndInfo eachTimeTaskEndInfo) {
-        return false;
+        return failTask(getTask(taskID),eachTimeTaskEndInfo);
     }
 
     private boolean failTask(Task task,EachTimeTaskEndInfo eachTimeTaskEndInfo) {
